@@ -16,12 +16,24 @@
     import {mapState, mapActions} from 'vuex';
 
     import {SIDEBAR_TOGGLE_WIDTH} from '../constants/config';
-    import {setTitle} from '../common/helpers';
+    import mixins from '../common/mixins';
     import Breadcrumbs from './Breadcrumbs';
     import Sidebar from './Sidebar';
 
+    import locale from 'element-ui/lib/locale';
+    import elementLocaleRU from 'element-ui/lib/locale/lang/ru-RU';
+    import elementLocaleEN from 'element-ui/lib/locale/lang/en';
+    import elementLocaleZH from 'element-ui/lib/locale/lang/zh-CN';
+
+    const elementLocalesMap = {
+        ru_RU: elementLocaleRU,
+        en_US: elementLocaleEN,
+        zh_CN: elementLocaleZH,
+    };
+
     export default {
         name: 'App',
+        mixins: [mixins],
         components: {Breadcrumbs, Sidebar},
         data () {
             return {
@@ -46,16 +58,15 @@
 
             // Установка <title> страницы
             setTimeout(() => {
-                const m = this.$router.history.current.matched;
-                setTitle(this.$t(m[m.length - 1].name));
+                this.setPageTitle(this.getRoutePageName());
             }, 250);
-            this.$router.afterEach(to => setTitle(this.$t(to.name)));
+            this.$router.afterEach(to => this.setPageTitle(this.getRoutePageName(to)));
 
             // Изменение состояния сайдбара при изменении размеров окна браузера
-            window.onresize = () => {
+            window.addEventListener('resize', () => {
                 this.sidebarCollapsed = document.body.clientWidth < SIDEBAR_TOGGLE_WIDTH;
                 this.asideWidth = this.sidebarCollapsed ? '65px' : '240px';
-            };
+            });
             window.dispatchEvent(new Event('resize'));
         },
         watch: {
@@ -64,6 +75,8 @@
                     // Установка локали и скрытие прелоадера после получения данных пользователя
                     this.$i18n.locale = user.locale;
                     if (this.loader) this.loader.close();
+
+                    locale.use(elementLocalesMap[user.locale]);
                 }
             },
         }

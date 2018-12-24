@@ -35,10 +35,10 @@
                     <i class="fas fa-file-alt"></i>
                     <span slot="title">{{ $t('orders') }}</span>
                 </template>
-                <el-menu-item index="1-1" :route="{name: 'courierOrders'}" v-is-route="'courierOrders'">
+                <el-menu-item index="1-1" :route="{name: 'ordersList', params: {page: 'courier'}}" v-is-route="{name: 'ordersList', params: {page: 'courier'}}">
                     <span slot="title">{{ $t('courierOrders') }}</span>
                 </el-menu-item>
-                <el-menu-item index="1-2" :route="{name: 'pointOrders'}" v-is-route="'pointOrders'">
+                <el-menu-item index="1-2" :route="{name: 'ordersList', params: {page: 'point'}}" v-is-route="{name: 'ordersList', params: {page: 'point'}}">
                     <span slot="title">{{ $t('pointOrders') }}</span>
                 </el-menu-item>
             </el-submenu>
@@ -79,8 +79,9 @@
 
     import isRoute from '../directives/is-route';
 
-    const SEARCH_ROUTE_NAME = 'ordersSearchResult';
     const SIDEBAR_STATE_COOKIE_NAME = 'sidebarSubmenu';
+
+    const isSearchRoute = route => route.name === 'ordersList' && route.params.page === 'search';
 
     export default {
         name: 'Sidebar',
@@ -113,7 +114,7 @@
             searchChange (q) {
                 q = trim(q);
                 if (q)
-                    this.$router.push({ name: SEARCH_ROUTE_NAME, query: { q } });
+                    this.$router.push({ name: 'ordersList', params: { page: 'search' }, query: { q } });
                 else
                     this.$router.push({ name: 'home' });
             },
@@ -131,10 +132,10 @@
         },
         mounted () {
             this.$router.afterEach(to =>
-                this.searchQuery = (to.name === SEARCH_ROUTE_NAME) ? to.query.q : ''
+                this.searchQuery = (isSearchRoute(to)) ? to.query.q : ''
             );
 
-            if (this.$router.currentRoute.name === SEARCH_ROUTE_NAME)
+            if (isSearchRoute(this.$router.currentRoute))
                 this.searchQuery = this.$router.currentRoute.query.q;
         },
     }
@@ -164,7 +165,7 @@
         .logo {
             display: block;
             text-align: center;
-            margin: .5em 0;
+            margin: .75em 0 .5em;
 
             img {
                 width: 70%;

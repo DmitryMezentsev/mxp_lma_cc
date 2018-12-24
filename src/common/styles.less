@@ -1,5 +1,122 @@
+@import "colors";
+
+
 body {
     font-family: 'Open Sans', sans-serif;
     margin: 0;
     padding: 0;
+    color: @primary-text-color;
 }
+
+::selection {
+    background: @blue-color;
+    color: white;
+}
+
+.clearfix {
+    clear: both;
+    float: none;
+}
+
+.filters {
+    margin-bottom: 1em;
+
+    &:after {
+        content: '';
+        clear: both;
+        display: block;
+    }
+
+    h4 {
+        font-size: .9em;
+        margin: 0;
+    }
+
+    .filter {
+        @margin: .5em;
+
+        float: left;
+        margin-top: @margin;
+
+        &:not(:last-child) {
+            margin-right: @margin;
+        }
+    }
+}
+
+.values-section {
+    &:not(:first-child) { margin-top: .75em; }
+    &:not(:last-child) { margin-bottom: .75em; }
+
+    .value {
+        &:not(:first-child) { margin-top: .2em; }
+        &:not(:last-child) { margin-bottom: .2em; }
+    }
+}
+
+.value {
+    .value-label {
+        color: @secondary-text-color;
+    }
+}
+
+.text-right { text-align: right }
+
+
+
+.el-dialog {
+    .dialog-footer {
+        font-size: 0; // Исправление косяка с пробелами между кнопками
+
+        .el-button {
+            margin-top: .25em;
+            margin-bottom: .25em;
+        }
+    }
+}
+
+.el-select-dropdown {
+    .el-select-dropdown__wrap {
+        user-select: none;
+    }
+}
+
+// For FireFox
+@supports (-moz-appearance:meterbar) and (cursor:zoom-in) {
+    .el-select-dropdown__wrap { overflow: auto; }
+}
+
+.el-table {
+    .cell {
+        word-break: normal !important;
+    }
+
+    .el-table__footer-wrapper {
+        font-weight: bold;
+    }
+}
+
+.el-input-number {
+    &.compact {
+        @width: 100px;
+
+        width: @width;
+
+        input.el-input__inner {
+            padding-left: 5px;
+            padding-right: 35px;
+            width: @width;
+        }
+    }
+}
+
+.el-dropdown-link {
+    cursor: pointer;
+    color: @blue-color;
+    user-select: none;
+}
+
+.el-message {
+    @media (max-width: 400px) { min-width: 320px; }
+}
+

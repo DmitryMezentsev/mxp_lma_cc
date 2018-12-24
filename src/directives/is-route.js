@@ -9,16 +9,33 @@ export default (() => {
 
     return {
         bind (el, binding) {
+            function testRoute (route) {
+                if (typeof binding.value === 'string')
+                    return route.name === binding.value;
+
+                if (route.name === binding.value.name) {
+                    let match = true;
+
+                    Object.keys(binding.value.params).forEach(param => {
+                        if (route.params[param] !== binding.value.params[param]) match = false;
+                    });
+
+                    return match;
+                }
+
+                return false;
+            }
+
             removeAfterEach = router.afterEach(to => {
                 setTimeout(() => {
-                    if (to.name === binding.value)
+                    if (testRoute(to))
                         el.classList.add(CLASS_NAME);
                     else
                         el.classList.remove(CLASS_NAME);
                 }, 0);
             });
 
-            if (router.currentRoute.name === binding.value)
+            if (testRoute(router.currentRoute))
                 el.classList.add(CLASS_NAME);
         },
         unbind () {

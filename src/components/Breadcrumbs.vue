@@ -1,20 +1,23 @@
 <template>
     <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ name: homeRoute.name }">
-            {{ $t(homeRoute.name) }}
+            {{ getRoutePageName(homeRoute) }}
         </el-breadcrumb-item>
         <el-breadcrumb-item v-for="(route, i) in path"
                             v-if="!route.meta.isHome"
                             :to="!route.redirect ? { name: route.name } : null"
                             :key="i">
-            {{ $t(route.name) }}
+            {{ getRoutePageName(route) }}
         </el-breadcrumb-item>
     </el-breadcrumb>
 </template>
 
 <script>
+    import mixins from '../common/mixins';
+
     export default {
         name: 'Breadcrumbs',
+        mixins: [mixins],
         data () {
             return {
                 path: [],
@@ -33,5 +36,7 @@
 </script>
 
 <style lang="less" scoped>
-
+    .el-breadcrumb__item {
+        line-height: 1.5em;
+    }
 </style>

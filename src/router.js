@@ -5,9 +5,6 @@ import HomePage from './components/pages/HomePage';
 import AccountPage from './components/pages/AccountPage';
 import AccountSettingsPage from './components/pages/AccountSettingsPage';
 import OrdersPage from './components/pages/OrdersPage';
-import CourierOrdersPage from './components/pages/CourierOrdersPage';
-import PointOrdersPage from './components/pages/PointOrdersPage';
-import OrdersSearchResultPage from './components/pages/OrdersSearchResultPage';
 import ClientsPage from './components/pages/ClientsPage';
 import ClientPage from './components/pages/ClientPage';
 import CouriersPage from './components/pages/CouriersPage';
@@ -40,17 +37,14 @@ export default new VueRouter({
         component: OrdersPage,
         redirect: '/orders/courier',
         children: [{
-            name: 'courierOrders',
-            path: 'courier',
-            component: CourierOrdersPage,
-        }, {
-            name: 'pointOrders',
-            path: 'point',
-            component: PointOrdersPage,
-        }, {
-            name: 'ordersSearchResult',
-            path: 'search',
-            component: OrdersSearchResultPage,
+            name: 'ordersList',
+            path: ':page(courier|point|search)',
+            meta: {
+                pageName: {
+                    param: 'page',
+                    values: { courier: 'courierOrders', point: 'pointOrders', search: 'ordersSearchResult' },
+                },
+            },
         }],
     }, {
         name: 'clients',
