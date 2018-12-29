@@ -8,7 +8,7 @@
                     type="daterange"
                     range-separator="—"
                     :value-format="dateValueFormat"
-                    :picker-options="pickerOptions"
+                    :picker-options="{firstDayOfWeek: 1}"
                     :start-placeholder="$tc('from', 1) + '...'"
                     :end-placeholder="$tc('to', 1) + '...'">
             </el-date-picker>
@@ -44,20 +44,11 @@
                     status: null,
                 },
 
-                pickerOptions: {
-                    firstDayOfWeek: 1,
-                },
                 dateValueFormat: DATE_API_FORMAT,
 
                 removeAfterEach: null,
 
-                statuses: [{
-                    id: '1',
-                    name: 'Статус 1',
-                }, {
-                    id: '2',
-                    name: 'Статус 2',
-                }],
+                statuses: [{ id: '1', name: 'Статус 1' }, { id: '2', name: 'Статус 2' }],
             }
         },
         methods: {

@@ -91,5 +91,21 @@ export default {
     selectDocumentReceiptDate: 'Select document receipt date',
     dateNotSelected: 'Date not selected',
     done: 'Done',
-
+    selectCourierAndDate: 'Select courier and date',
+    noSelect: '[No select] | [No select]',
+    courier: 'Courier',
+    noCouriers: 'No couriers',
+    login: 'Login',
+    password: 'Password',
+    rememberMe: 'Remember me',
+    signIn: 'Sing in',
+    incorrectLoginOrPassword: 'Incorrect login or password',
+    fieldIsRequired: 'Field is required',
+    language: 'Language',
+    languages: {
+        ru_RU: 'Russian',
+        en_US: 'English',
+        zh_CN: 'Chinese',
+    },
+    authorizationRequired: 'Authorization required',
 }
