@@ -10,7 +10,6 @@
             </div>
         </el-main>
     </el-container>
-    <LoginForm v-else />
 </template>
 
 <script>
@@ -20,7 +19,6 @@
     import mixins from '../common/mixins';
     import Breadcrumbs from './Breadcrumbs';
     import Sidebar from './Sidebar';
-    import LoginForm from './LoginForm';
 
     import locale from 'element-ui/lib/locale';
     import elementLocaleRU from 'element-ui/lib/locale/lang/ru-RU';
@@ -36,7 +34,7 @@
     export default {
         name: 'App',
         mixins: [mixins],
-        components: {LoginForm, Breadcrumbs, Sidebar},
+        components: {Breadcrumbs, Sidebar},
         data () {
             return {
                 loader: null,

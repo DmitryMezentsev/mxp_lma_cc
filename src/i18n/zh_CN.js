@@ -95,17 +95,4 @@ export default {
     noSelect: '',
     courier: '',
     noCouriers: '',
-    login: '',
-    password: '',
-    rememberMe: '',
-    signIn: '',
-    incorrectLoginOrPassword: '',
-    fieldIsRequired: '',
-    language: '',
-    languages: {
-        ru_RU: '',
-        en_US: '',
-        zh_CN: '',
-    },
-    authorizationRequired: '',
 }

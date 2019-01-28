@@ -96,17 +96,4 @@ export default {
     noSelect: '[Не выбран] | [Не выбрано]',
     courier: 'Курьер',
     noCouriers: 'Нет курьеров',
-    login: 'Логин',
-    password: 'Пароль',
-    rememberMe: 'Запомнить меня',
-    signIn: 'Войти',
-    incorrectLoginOrPassword: 'Неправильный логин или пароль',
-    fieldIsRequired: 'Заполните это поле',
-    language: 'Язык',
-    languages: {
-        ru_RU: 'Русский',
-        en_US: 'Английский',
-        zh_CN: 'Китайский',
-    },
-    authorizationRequired: 'Требуется авторизация',
 }
