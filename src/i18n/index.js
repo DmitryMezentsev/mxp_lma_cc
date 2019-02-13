@@ -1,10 +1,5 @@
-import ru_RU from './ru_RU';
-import en_US from './en_US';
-import zh_CN from './zh_CN';
+import RU from './RU';
+import EN from './EN';
+import ZH from './ZH';
 
-
-export default {
-    ru_RU,
-    en_US,
-    zh_CN,
-};
+export default { RU, EN, ZH };

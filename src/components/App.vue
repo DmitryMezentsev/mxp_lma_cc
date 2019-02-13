@@ -26,9 +26,9 @@
     import elementLocaleZH from 'element-ui/lib/locale/lang/zh-CN';
 
     const elementLocalesMap = {
-        ru_RU: elementLocaleRU,
-        en_US: elementLocaleEN,
-        zh_CN: elementLocaleZH,
+        RU: elementLocaleRU,
+        EN: elementLocaleEN,
+        ZH: elementLocaleZH,
     };
 
     export default {
@@ -43,15 +43,15 @@
             }
         },
         methods: {
-            ...mapActions({
-                getToken: 'getToken',
-                getCurrentUser: 'getCurrentUser',
-            }),
+            ...mapActions([
+                'getToken',
+                'getCurrentUser',
+            ]),
         },
         computed: {
-            ...mapState({
-                currentUser: 'currentUser',
-            }),
+            ...mapState([
+                'currentUser',
+            ]),
         },
         mounted () {
             this.getToken();
@@ -75,10 +75,10 @@
             currentUser (user) {
                 if (user) {
                     // Установка локали и скрытие прелоадера после получения данных пользователя
-                    this.$i18n.locale = user.locale;
+                    this.$i18n.locale = user().locale;
                     if (this.loader) this.loader.close();
 
-                    locale.use(elementLocalesMap[user.locale]);
+                    locale.use(elementLocalesMap[user().locale]);
                 }
             },
         }

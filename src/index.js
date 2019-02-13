@@ -24,5 +24,5 @@ new Vue({
     render: h => h(App),
     router,
     store: getStore(),
-    i18n: new VueI18n({ messages: i18n, locale: 'en_US' }),
+    i18n: new VueI18n({ messages: i18n, locale: 'EN' }),
 });

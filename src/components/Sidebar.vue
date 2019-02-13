@@ -106,9 +106,9 @@
             },
         },
         methods: {
-            ...mapActions({
-                clearToken: 'clearToken',
-            }),
+            ...mapActions([
+                'clearToken',
+            ]),
             toWarehouse () {
                 // todo: изменить на URL админки склада
                 window.open('https://google.com');
