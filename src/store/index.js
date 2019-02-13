@@ -54,13 +54,11 @@ export default () =>
             },
             getCurrentUser (context) {
                 axios.post('token/decode')
-                    .then(({data}) => {
-                        context.commit('setCurrentUser', (() => {
-                            return {
-                                locale: data.data.locale.language,
-                                timezone: data.data.locale.timezone,
-                            }
-                        }));
+                    .then(({data:{data}}) => {
+                        context.commit('setCurrentUser', {
+                            locale: data.locale.language,
+                            timezone: data.locale.timezone,
+                        });
                     });
             },
         },

@@ -75,10 +75,10 @@
             currentUser (user) {
                 if (user) {
                     // Установка локали и скрытие прелоадера после получения данных пользователя
-                    this.$i18n.locale = user().locale;
+                    this.$i18n.locale = user.locale;
                     if (this.loader) this.loader.close();
 
-                    locale.use(elementLocalesMap[user().locale]);
+                    locale.use(elementLocalesMap[user.locale]);
                 }
             },
         }
