@@ -44,7 +44,8 @@
         },
         methods: {
             ...mapActions({
-                loadUser: 'loadCurrentUser',
+                getToken: 'getToken',
+                getCurrentUser: 'getCurrentUser',
             }),
         },
         computed: {
@@ -53,13 +54,14 @@
             }),
         },
         mounted () {
+            this.getToken();
+
+            // Получение данных текущего юзера
             this.loader = this.$loading();
-            this.loadUser();
+            this.getCurrentUser();
 
             // Установка <title> страницы
-            setTimeout(() => {
-                this.setPageTitle(this.getRoutePageName());
-            }, 250);
+            setTimeout(() => this.setPageTitle(this.getRoutePageName()), 250);
             this.$router.afterEach(to => this.setPageTitle(this.getRoutePageName(to)));
 
             // Изменение состояния сайдбара при изменении размеров окна браузера

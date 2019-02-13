@@ -1,5 +1,8 @@
 // Путь к API
-export const API_PATH = 'http://localhost/mxp_partner_interface_api';
+export const API_PATH = 'http://api.lma.mxpdev.com/';
+
+// Путь к странице авторизации
+export const SSO_AUTH_URL = 'http://sso.dev.maxitechcore.ru/auth';
 
 // Название приложения
 export const APP_TITLE = 'MXP';
@@ -12,4 +15,7 @@ export const DATE_API_FORMAT = 'yyyy-MM-dd';
 
 // Формат даты со временем для отправки в API
 export const DATETIME_API_FORMAT = 'yyyy-MM-dd HH:mm:ss';
+
+// Время хранения Cookies
+export const COOKIES_EXP_DAYS = 365;
 

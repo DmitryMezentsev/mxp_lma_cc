@@ -1,27 +1,66 @@
 import Vuex from 'vuex';
 import axios from 'axios';
+import queryString from 'query-string';
+import Cookies from 'js-cookie';
+import get from 'lodash/get';
 
-import {API_PATH} from '../constants/config';
+import {API_PATH, COOKIES_EXP_DAYS, SSO_AUTH_URL} from '../constants/config';
+
+
+// Редиректит на страницу авторизации
+function redirectToAuth () {
+    let redirect = `${location.protocol}//${location.host}`;
+    location.href = `${SSO_AUTH_URL}?client_id=${BUILD_AUTH_CLIENT_ID}&redirect_uri=${redirect}`;
+}
+
+
+const TOKEN_COOKIE_NAME = 'token';
+
+
+axios.defaults.baseURL = API_PATH;
+axios.interceptors.response.use(res => res, err => {
+    // Если по API был получен статус 401
+    if (get(err, 'response.status') === 401)
+        return redirectToAuth();
+
+    return Promise.reject(err);
+});
 
 
 export default () =>
     new Vuex.Store({
         state: {
+            token: null,
             currentUser: null,
         },
         mutations: {
-            setCurrentUser (state, payload) {
-                state.currentUser = payload;
+            setToken (state, payload) {
+                state.token = payload;
+                axios.defaults.headers.common['Authorization'] = `Bearer ${payload}`;
+                Cookies.set(TOKEN_COOKIE_NAME, payload, { expires: COOKIES_EXP_DAYS });
             },
+            setCurrentUser: (state, payload) => state.currentUser = payload,
         },
         actions: {
-            loadCurrentUser ({commit}) {
-                axios
-                    .get(`${API_PATH}/current_user.json`).then(({data}) => {
-                        commit('setCurrentUser', data);
-                    })
-                    .catch(err => {
-                        console.error(err);
+            getToken ({commit}) {
+                let token = get(queryString.parse(location.search), 'access_token', Cookies.get(TOKEN_COOKIE_NAME));
+
+                if (token) commit('setToken', token); // Если токен есть, задействуем его
+                else redirectToAuth(); // Если нет, кидаем на авторизацию
+            },
+            clearToken () {
+                Cookies.remove('token');
+                redirectToAuth();
+            },
+            getCurrentUser (context) {
+                axios.post('token/decode')
+                    .then(({data}) => {
+                        context.commit('setCurrentUser', (() => {
+                            return {
+                                locale: data.data.locale.language,
+                                timezone: data.data.locale.timezone,
+                            }
+                        }));
                     });
             },
         },

@@ -26,7 +26,7 @@
                 <el-menu-item index="0-1" :route="{name: 'accountSettings'}" v-is-route="'accountSettings'">
                     <span slot="title">{{ $t('settings') }}</span>
                 </el-menu-item>
-                <el-menu-item index="0-2" @click="logout">
+                <el-menu-item index="0-2" @click="clearToken">
                     <span slot="title">{{ $t('logout') }}</span>
                 </el-menu-item>
             </el-submenu>
@@ -76,8 +76,10 @@
 <script>
     import trim from 'lodash/trim';
     import Cookies from 'js-cookie';
+    import {mapActions} from 'vuex';
 
     import isRoute from '../directives/is-route';
+    import {COOKIES_EXP_DAYS} from '../constants/config';
 
     const SIDEBAR_STATE_COOKIE_NAME = 'sidebarSubmenu';
 
@@ -104,9 +106,9 @@
             },
         },
         methods: {
-            logout () {
-
-            },
+            ...mapActions({
+                clearToken: 'clearToken',
+            }),
             toWarehouse () {
                 // todo: изменить на URL админки склада
                 window.open('https://google.com');
@@ -121,7 +123,7 @@
             submenuStateSave (index, opened) {
                 let sidebarSubmenu = Cookies.getJSON(SIDEBAR_STATE_COOKIE_NAME) || {};
                 sidebarSubmenu[index] = opened;
-                Cookies.set(SIDEBAR_STATE_COOKIE_NAME, sidebarSubmenu, { expires: 365 });
+                Cookies.set(SIDEBAR_STATE_COOKIE_NAME, sidebarSubmenu, { expires: COOKIES_EXP_DAYS });
             },
             submenuOpen (i) {
                 this.submenuStateSave(i, true);
