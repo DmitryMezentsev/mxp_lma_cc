@@ -106,7 +106,7 @@
             },
         },
         methods: {
-            ...mapActions([
+            ...mapActions('auth', [
                 'clearToken',
             ]),
             toWarehouse () {

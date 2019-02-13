@@ -43,13 +43,13 @@
             }
         },
         methods: {
-            ...mapActions([
+            ...mapActions('auth', [
                 'getToken',
                 'getCurrentUser',
             ]),
         },
         computed: {
-            ...mapState([
+            ...mapState('auth', [
                 'currentUser',
             ]),
         },
@@ -74,10 +74,11 @@
         watch: {
             currentUser (user) {
                 if (user) {
-                    // Установка локали и скрытие прелоадера после получения данных пользователя
-                    this.$i18n.locale = user.locale;
+                    // Скрытие прелоадера после получения данных пользователя
                     if (this.loader) this.loader.close();
-
+                    
+                    // Установка локали
+                    this.$i18n.locale = user.locale;
                     locale.use(elementLocalesMap[user.locale]);
                 }
             },
