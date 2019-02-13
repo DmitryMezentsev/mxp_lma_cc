@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --env.development --env.watch --env.client_id=`3ba7b492-6bbc-4a60-ab07-65c11afd5f95`",
-    "build-dev": "webpack --env.development --env.client_id=`ce95a469-61bf-4935-9388-490795aba85d`",
-    "build": "webpack --env.client_id=`ce95a469-61bf-4935-9388-490795aba85d`"
+    "dev": "webpack-dev-server --env.development --env.watch",
+    "build-dev": "webpack --env.development",
+    "build": "webpack"
   },
   "keywords": [
     "MXP"

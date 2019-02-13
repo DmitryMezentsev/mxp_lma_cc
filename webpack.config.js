@@ -61,7 +61,6 @@ module.exports = (env = {}) => {
             new VueLoaderPlugin(),
             new webpack.DefinePlugin({
                 BUILD_IS_DEV: isDev,
-                BUILD_AUTH_CLIENT_ID: env.client_id,
             }),
         ],
         module: {
