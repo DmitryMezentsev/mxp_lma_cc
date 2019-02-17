@@ -1,8 +1,8 @@
 import axios from 'axios';
-import queryString from 'query-string';
 import Cookies from 'js-cookie';
 import get from 'lodash/get';
 
+import {getParam} from '../../common/helpers';
 import {API_PATH, SSO_AUTH_URL, COOKIES_EXP_DAYS} from '../../constants/config';
 import {CLIENT_ID} from '../../common/env';
 
@@ -43,7 +43,7 @@ export default {
     },
     actions: {
         getToken ({commit}) {
-            let token = get(queryString.parse(location.search), 'access_token', Cookies.get(TOKEN_COOKIE_NAME));
+            let token = getParam( 'access_token', Cookies.get(TOKEN_COOKIE_NAME));
 
             if (token) commit('setToken', token); // Если токен есть, задействуем его
             else redirectToAuth(); // Если нет, кидаем на авторизацию
@@ -52,12 +52,14 @@ export default {
             Cookies.remove('token');
             redirectToAuth();
         },
-        getCurrentUser (context) {
+        getCurrentUser ({commit}) {
             axios.post('token/decode')
                 .then(({data:{data}}) => {
-                    context.commit('setCurrentUser', {
+                    commit('setCurrentUser', {
                         locale: data.locale.language,
-                        timezone: data.locale.timezone,
+                        currency: data.locale.currency,
+                        timezone: data.locale.timeZone,
+                        role: data.credentials.lma,
                     });
                 });
         },

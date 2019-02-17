@@ -21,7 +21,6 @@ export default {
     settings: 'Настройки',
     accountSettings: 'Настройки',
     logout: 'Выйти',
-    filters: 'Фильтры',
     from: 'От | от',
     to: 'До | до',
     all: 'Все',
@@ -96,4 +95,8 @@ export default {
     noSelect: '[Не выбран] | [Не выбрано]',
     courier: 'Курьер',
     noCouriers: 'Нет курьеров',
+    pleaseWait: 'Пожалуйста, подождите...',
+    totalOrders: 'Всего заказов',
+    totalPriceDeclared: 'Общий наложенный платеж',
+    totalRevenues: 'Общая выручка',
 }

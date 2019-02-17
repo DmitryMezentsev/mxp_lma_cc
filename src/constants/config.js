@@ -19,3 +19,6 @@ export const DATETIME_API_FORMAT = 'yyyy-MM-dd HH:mm:ss';
 // Время хранения Cookies
 export const COOKIES_EXP_DAYS = 365;
 
+// Число результатов на странице по умолчанию
+export const PER_PAGE_DEFAULT = 10;
+

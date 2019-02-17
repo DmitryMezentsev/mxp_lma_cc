@@ -21,7 +21,6 @@ export default {
     settings: '',
     accountSettings: '',
     logout: '',
-    filters: '',
     from: '',
     to: '',
     all: '',
@@ -95,4 +94,8 @@ export default {
     noSelect: '',
     courier: '',
     noCouriers: '',
+    pleaseWait: '',
+    totalOrders: '',
+    totalPriceDeclared: '',
+    totalRevenues: '',
 }

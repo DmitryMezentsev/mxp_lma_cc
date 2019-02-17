@@ -1,5 +1,5 @@
 <template>
-    <div class="pagination-wrap" v-if="total > pageSize">
+    <div class="pagination-wrap" v-if="total && total > pageSize">
         <el-pagination
                 background
                 layout="prev, pager, next"
@@ -14,6 +14,7 @@
 
 <script>
     import mixins from '../common/mixins';
+    import {PER_PAGE_DEFAULT} from '../constants/config';
 
     const QUERY_PARAM_NAME = 'page';
 
@@ -21,12 +22,13 @@
         name: 'Pagination',
         mixins: [mixins],
         props: {
-            pageSize: { type: Number, default: 10 },
-            total: { type: Number, required: true },
+            pageSize: { type: Number, default: PER_PAGE_DEFAULT },
+            total: { type: Number },
+            maxPage: { type: Number },
         },
         data () {
             return {
-                page: Number(this.$router.currentRoute.query[QUERY_PARAM_NAME]) || 1,
+                page: Number(this.$route.query[QUERY_PARAM_NAME]) || 1,
                 removeAfterEach: null,
             }
         },
@@ -36,6 +38,12 @@
                     [QUERY_PARAM_NAME]: page
                 });
             },
+            validatePage () {
+                if (this.maxPage && this.page > this.maxPage)
+                    this.change(this.maxPage);
+                else if (this.page < 1)
+                    this.change(1);
+            },
         },
         mounted () {
             this.removeAfterEach = this.$router.afterEach(to => {
@@ -44,6 +52,20 @@
         },
         destroyed () {
             if (this.removeAfterEach) this.removeAfterEach();
+        },
+        watch: {
+            page: {
+                handler () {
+                    this.validatePage();
+                },
+                immediate: true,
+            },
+            maxPage: {
+                handler () {
+                    this.validatePage();
+                },
+                immediate: true,
+            },
         },
     }
 </script>

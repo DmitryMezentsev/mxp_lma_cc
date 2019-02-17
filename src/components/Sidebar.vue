@@ -35,10 +35,10 @@
                     <i class="fas fa-file-alt"></i>
                     <span slot="title">{{ $t('orders') }}</span>
                 </template>
-                <el-menu-item index="1-1" :route="{name: 'ordersList', params: {page: 'courier'}}" v-is-route="{name: 'ordersList', params: {page: 'courier'}}">
+                <el-menu-item index="1-1" :route="{name: 'ordersList', params: {type: 'courier'}}" v-is-route="{name: 'ordersList', params: {type: 'courier'}}">
                     <span slot="title">{{ $t('courierOrders') }}</span>
                 </el-menu-item>
-                <el-menu-item index="1-2" :route="{name: 'ordersList', params: {page: 'point'}}" v-is-route="{name: 'ordersList', params: {page: 'point'}}">
+                <el-menu-item index="1-2" :route="{name: 'ordersList', params: {type: 'point'}}" v-is-route="{name: 'ordersList', params: {type: 'point'}}">
                     <span slot="title">{{ $t('pointOrders') }}</span>
                 </el-menu-item>
             </el-submenu>
@@ -116,7 +116,7 @@
             searchChange (q) {
                 q = trim(q);
                 if (q)
-                    this.$router.push({ name: 'ordersList', params: { page: 'search' }, query: { q } });
+                    this.$router.push({ name: 'ordersList', params: { type: 'search' }, query: { q } });
                 else
                     this.$router.push({ name: 'home' });
             },

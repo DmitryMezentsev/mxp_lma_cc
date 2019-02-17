@@ -1,41 +1,47 @@
 <template>
     <el-table v-loading="loading"
               :data="data"
-              :empty-text="$t('noOrders')"
+              :empty-text="$t(loading ? 'pleaseWait' : 'noOrders')"
               :class="`orders-table-${mode}`"
               class="orders-table">
         <el-table-column :label="$t('orderNumberInCompanyOrShop')">
             <template slot-scope="scope">
                 <el-button type="text" @click="open(scope.row)">
-
+                    {{ scope.row.sender.providerNumber }} / {{ scope.row.sender.internalNumber }}
                 </el-button>
             </template>
         </el-table-column>
         <el-table-column
                 v-if="width > 719"
-                prop=""
                 :label="$t('recipient')">
+            <template slot-scope="scope">
+                {{ scope.row.recipient.contacts.name }}<br>
+                <small>{{ scope.row.recipient.contacts.phone }}</small>
+            </template>
         </el-table-column>
         <el-table-column
                 v-if="width > 579"
                 prop=""
                 :label="$t('cod')">
+            <template slot-scope="scope">
+                <Currency :val="scope.row.cashOnDelivery.priceDeclared" />
+            </template>
         </el-table-column>
         <el-table-column
                 v-if="width > 879"
-                prop=""
+                prop="sender.brandName"
                 :label="$t('shop')">
         </el-table-column>
         <el-table-column
                 v-if="width > 479"
-                prop=""
+                prop="status.name"
                 :label="$t('status')">
         </el-table-column>
 
         <!-- Только курьерка -->
         <el-table-column
                 v-if="mode === 'courier' && width > 1279"
-                prop=""
+                prop="recipient.address.value"
                 :label="$t('deliveryAddress')">
         </el-table-column>
         <el-table-column
@@ -84,18 +90,23 @@
 <script>
     import mixins from '../../common/mixins';
 
+    import Currency from '../Currency';
+
     export default {
         name: 'OrdersTable',
         mixins: [mixins],
+        components: {Currency},
         props: {
-            loading: { type: Boolean },
-            data: { type: Array, required: true },
+            data: { type: Array },
             mode: { type: String, required: true },
         },
         data () {
             return {
                 width: 0,
             }
+        },
+        computed: {
+            loading () { return this.data === null; },
         },
         methods: {
             open (order) {

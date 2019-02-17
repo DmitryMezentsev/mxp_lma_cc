@@ -51,13 +51,15 @@
         name: 'ServiceActsTable',
         mixins: [mixins],
         props: {
-            loading: { type: Boolean },
-            data: { type: Array, required: true },
+            data: { type: Array },
         },
         data () {
             return {
                 width: 0,
             }
+        },
+        computed: {
+            loading () { return this.data === null; },
         },
         methods: {
             setDate (act) {

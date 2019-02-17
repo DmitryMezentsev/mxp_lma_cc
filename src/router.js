@@ -38,10 +38,10 @@ export default new VueRouter({
         redirect: '/orders/courier',
         children: [{
             name: 'ordersList',
-            path: ':page(courier|point|search)',
+            path: ':type(courier|point|search)',
             meta: {
                 pageName: {
-                    param: 'page',
+                    param: 'type',
                     values: { courier: 'courierOrders', point: 'pointOrders', search: 'ordersSearchResult' },
                 },
             },

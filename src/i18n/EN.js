@@ -21,7 +21,6 @@ export default {
     settings: 'Settings',
     accountSettings: 'Settings',
     logout: 'Logout',
-    filters: 'Filters',
     from: 'From | from',
     to: 'To | to',
     all: 'All',
@@ -95,4 +94,8 @@ export default {
     noSelect: '[No select] | [No select]',
     courier: 'Courier',
     noCouriers: 'No couriers',
+    pleaseWait: 'Please, wait...',
+    totalOrders: 'Total orders',
+    totalPriceDeclared: 'Total price declared',
+    totalRevenues: 'Total revenues',
 }
