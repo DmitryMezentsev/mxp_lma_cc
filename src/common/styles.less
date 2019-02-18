@@ -13,6 +13,10 @@ body {
     color: white;
 }
 
+input, textarea {
+    font-family: inherit;
+}
+
 .clearfix {
     clear: both;
     float: none;
@@ -51,12 +55,6 @@ body {
     .value {
         &:not(:first-child) { margin-top: .2em; }
         &:not(:last-child) { margin-bottom: .2em; }
-    }
-}
-
-.value {
-    .value-label {
-        color: @secondary-text-color;
     }
 }
 
@@ -106,6 +104,30 @@ body {
 
     .el-table__footer-wrapper {
         font-weight: bold;
+    }
+}
+
+.el-form {
+    &.compact-form {
+        .el-form-item {
+            margin-bottom: 12px;
+
+            .el-form-item__label {
+                line-height: 30px;
+            }
+        }
+    }
+}
+
+.el-input {
+    &.custom-readonly {
+        input[readonly],
+        .el-input-group__append,
+        .el-input-group__prepend {
+            background-color: lighten(@extra-light-border-color, 1%);
+            border-color: @lighter-border-color;
+            cursor: default;
+        }
     }
 }
 

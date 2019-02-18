@@ -6,7 +6,7 @@
               class="orders-table">
         <el-table-column :label="$t('orderNumberInCompanyOrShop')">
             <template slot-scope="scope">
-                <el-button type="text" @click="open(scope.row)">
+                <el-button type="text" @click="open(scope.$index)">
                     {{ scope.row.sender.providerNumber }} / {{ scope.row.sender.internalNumber }}
                 </el-button>
             </template>
@@ -88,8 +88,9 @@
 </template>
 
 <script>
-    import mixins from '../../common/mixins';
+    import {mapActions} from 'vuex';
 
+    import mixins from '../../common/mixins';
     import Currency from '../Currency';
 
     export default {
@@ -109,9 +110,9 @@
             loading () { return this.data === null; },
         },
         methods: {
-            open (order) {
-                this.$emit('openOrder', order);
-            },
+            ...mapActions('orders', [
+                'open',
+            ]),
         },
         created () {
             this.bindClientWidth('width');

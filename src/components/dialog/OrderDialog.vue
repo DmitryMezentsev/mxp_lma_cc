@@ -1,143 +1,132 @@
 <template>
-    <el-dialog :title="$t('order') + ' ' + ' [' + $t('numInShop') + ': ' + ']'"
+    <el-dialog :title="$t('viewOrder')"
                :visible.sync="visible"
                :width="width > 719 ? '700px' : '100%'"
                top="5vh">
-        <el-row>
-            <el-col :span="12" :xs="24">
-                <div class="values-section">
-                    <div class="value">
-                        <span class="value-label">{{ $t('shop') }}: </span> 11.
+        <el-form v-if="order" :model="order" class="compact-form">
+            <el-row :gutter="10">
+                <el-col :span="12" :xs="24">
+                    <div class="values-section">
+                        <Value name="providerNumber" :value="order.sender.providerNumber" />
+                        <Value name="shopNumber" :value="order.sender.internalNumber" />
                     </div>
-                </div>
-                <div class="values-section">
-                    <div class="value">
-                        <span class="value-label">{{ $t('recipient') }}: </span> 11.
+                    <div class="values-section">
+                        <Value name="shop" :value="order.sender.brandName" />
+                        <Value name="issuePoint" :value="order.deliveryOrder.orderServicePointId" v-if="order.serviceType === 1" />
                     </div>
-                    <div class="value">
-                        <span class="value-label">{{ $t('phone') }}: </span> 11.
-                    </div>
-                </div>
-                <div class="values-section">
-                    <div class="value">
-                        <span class="value-label">{{ $t('city') }}: </span> 11.
-                    </div>
-                    <div class="value">
-                        <span class="value-label">{{ $t('issuePoint') }}: </span> 11.
-                    </div>
-                    <div class="value">
-                        <span class="value-label">{{ $t('storageTime') }}: </span> {{ $tc('to', 2) }} 11.
-                    </div>
-                    <div class="value">
-                        <span class="value-label">{{ $t('arrivalDate') }}: </span> 11.
-                    </div>
-                </div>
-            </el-col>
-            <el-col :span="12" :xs="24">
-                <div class="values-section">
-                    <div class="value">
-                        <span class="value-label">{{ $t('weight') }}: </span> 11{{ $t('kg') }}.
-                    </div>
-                    <div class="value">
-                        <span class="value-label">{{ $t('dimensions') }}: </span> <Dimensions :values="{}" />.
-                    </div>
-                </div>
-                <div class="values-section">
-                    <div class="value">
-                        <span class="value-label">{{ $t('assessedValue') }}: </span> 11.
-                    </div>
-                </div>
-            </el-col>
-        </el-row>
-        <div class="comment" v-show="true">
-            <h4>{{ $t('comment') }}:</h4>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-            when an unknown printer took a galley of type and scrambled it to make a type
-            specimen book.
-        </div>
-        <div class="services">
-            <h4>{{ $t('services') }}:</h4>
-            <div class="services-list">
-                <div class="tags-wrap">
-                    <TagChecked label="opening" :checked="true" />
-                    <TagChecked label="fitting" :checked="false" />
-                    <TagChecked label="partialIssue" :checked="false" />
-                    <TagChecked label="attachedDocuments" :checked="true" v-show="false" />
-                    <TagChecked label="printDocument" :checked="true" active @click="printDocument()" />
-                </div>
-            </div>
-        </div>
-        <div class="products">
-            <h4>{{ $t('products') }}:</h4>
-            <el-table :data="[]"
-                      :empty-text="$t('noProducts')">
-                <el-table-column
-                        v-if="width > 639"
-                        type="index"
-                        label="#"
-                        width="40">
-                </el-table-column>
-                <el-table-column
-                        prop=""
-                        :label="$tc('name', 3)">
-                </el-table-column>
-                <el-table-column
-                        prop=""
-                        :label="$tc('quantity', 2)"
-                        width="120">
-                    <template slot-scope="scope">
-                        <el-input-number v-model="order.id"
-                                         controls-position="right"
-                                         size="mini"
-                                         placeholder="1"
-                                         class="compact"
-                                         @change="productAmountOnChange"
-                                         :min="1"
-                                         :max="10" />
-                    </template>
-                </el-table-column>
-                <el-table-column
-                        v-if="width > 479"
-                        prop=""
-                        :label="$t('price')">
-                </el-table-column>
-                <el-table-column
-                        v-if="width > 579"
-                        prop=""
-                        :label="$t('sum')">
-                </el-table-column>
-                <el-table-column fixed="right" width="65">
-                    <template slot-scope="scope">
-                        <el-tooltip :content="$t('remove')" placement="left">
-                            <el-button @click="removeProduct(scope.$index)"
-                                       type="danger"
-                                       size="mini">
-                                <i class="fas fa-trash"></i>
-                            </el-button>
-                        </el-tooltip>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <br>
-            <el-row>
-                <el-col :span="12">
-                    <div class="value">
-                        <span class="value-label">{{ $t('totalProductsPrice') }}: </span> {{ productsSum }}.
+                    <div class="values-section">
+                        <Value name="estimatedCost" inner>
+                            <Currency :val="order.cashOnDelivery.estimatedCost" />
+                        </Value>
                     </div>
                 </el-col>
-                <el-col :span="12" class="text-right">
-                    <el-button @click="saveProductsList"
-                               size="mini"
-                               type="warning"
-                               v-show="productsChanged"
-                               plain>
-                        {{ $t('saveProducts') }}
-                    </el-button>
+                <el-col :span="12" :xs="24">
+                    <div class="values-section" v-if="order.serviceType === 1">
+                        <Value name="storageTime" :value="''" :suffix="$t('days')" :dot="false" />
+                        <Value name="arrivalDate" :value="''" />
+                    </div>
+                    <div class="values-section">
+                        <Value name="weight" :value="order.dimensions.weight / 1000" :suffix="$t('kg')" />
+                        <Value name="dimensions" inner>
+                            <Dimensions :values="order.dimensions" />
+                        </Value>
+                    </div>
                 </el-col>
             </el-row>
-        </div>
-        <span slot="footer" class="dialog-footer">
+            <div class="block-border">
+                <el-row :gutter="10">
+                    <el-col :span="12" :xs="24">
+                        <el-form-item :label="$t('recipient')">
+                            <el-input class="custom-readonly" v-model="order.recipient.contacts.name" :readonly="!isAdmin"></el-input>
+                        </el-form-item>
+                        <el-form-item :label="$t('city')" v-if="order.serviceType === 1">
+                            <el-input class="custom-readonly" v-model="order.recipient.address.city" :readonly="!isAdmin"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12" :xs="24">
+                        <el-form-item :label="$t('phone')">
+                            <el-input type="tel" class="custom-readonly" v-model="order.recipient.contacts.phone" :readonly="!isAdmin"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </div>
+            <div class="block-border">
+                <el-form-item :label="$t('comment')">
+                    <el-input type="textarea" class="custom-readonly" v-model="order.recipient.notes" :readonly="!isAdmin"></el-input>
+                </el-form-item>
+            </div>
+            <div class="services">
+                <h4>{{ $t('services') }}:</h4>
+                <div class="services-list">
+                    <div class="tags-wrap">
+                        <TagChecked label="opening" :checked="false" />
+                        <TagChecked label="fitting" :checked="false" />
+                        <TagChecked label="partialIssue" :checked="false" />
+                        <TagChecked label="attachedDocuments" :checked="true" v-show="false" />
+                        <TagChecked label="printDocument" :checked="false" :active="false" @click="printDocument()" />
+                    </div>
+                </div>
+            </div>
+            <div class="goods">
+                <h4>{{ $t('goods') }}:</h4>
+                <el-table :data="order.goods"
+                          :empty-text="$t('noGoods')">
+                    <el-table-column
+                            v-if="width > 639"
+                            type="index"
+                            label="#"
+                            width="40">
+                    </el-table-column>
+                    <el-table-column
+                            prop="name"
+                            :label="$tc('name', 3)">
+                    </el-table-column>
+                    <el-table-column
+                            :label="$tc('quantity', 2)"
+                            width="120">
+                        <template slot-scope="scope">
+                            <el-input-number v-model="scope.row.counting.count"
+                                             controls-position="right"
+                                             size="mini"
+                                             placeholder="1"
+                                             class="compact"
+                                             :min="1"
+                                             :max="9999" />
+                        </template>
+                    </el-table-column>
+                    <el-table-column
+                            v-if="width > 479"
+                            :label="$t('price')">
+                        <template slot-scope="scope">
+                            <Currency :val="scope.row.price" />
+                        </template>
+                    </el-table-column>
+                    <el-table-column
+                            v-if="width > 579"
+                            :label="$t('sum')">
+                        <template slot-scope="scope">
+                            <Currency :val="scope.row.price * scope.row.counting.count" />
+                        </template>
+                    </el-table-column>
+                    <el-table-column fixed="right" width="65">
+                        <template slot-scope="scope">
+                            <el-tooltip :content="$t('remove')" placement="left">
+                                <el-button @click="removeGoods(scope.$index)"
+                                           type="danger"
+                                           size="mini">
+                                    <i class="fas fa-trash"></i>
+                                </el-button>
+                            </el-tooltip>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <br>
+                <Value name="totalGoodsPrice" inner>
+                    <Currency :val="goodsSum" />
+                </Value>
+            </div>
+        </el-form>
+        <span v-if="order" slot="footer" class="dialog-footer">
             <el-button @click="partialIssue" :v-show="true">
                 {{ $t('partialIssue') }}
             </el-button>
@@ -155,52 +144,52 @@
 </template>
 
 <script>
-    import Dimensions from '../Dimensions';
-    import TagChecked from '../TagChecked';
+    import {mapState, mapActions, mapGetters} from 'vuex';
+    import cloneDeep from 'lodash/cloneDeep';
 
     import mixins from '../../common/mixins';
+    import Dimensions from '../Dimensions';
+    import TagChecked from '../TagChecked';
+    import Currency from '../Currency';
+    import Value from '../Value';
 
     export default {
         name: 'OrderDialog',
         mixins: [mixins],
-        components: {TagChecked, Dimensions},
-        props: {
-            data: { type: Object, required: true },
-        },
+        components: {Value, Currency, TagChecked, Dimensions},
         data () {
             return {
                 width: 0,
-                order: { ...this.data },
-                productsChanged: false,
+                order: null,
             }
         },
         computed: {
+            ...mapState('orders', {
+                orders: 'list',
+                opened: 'opened',
+            }),
+            ...mapGetters('auth', [
+                'isAdmin',
+            ]),
             visible: {
                 get () { return !!this.order; },
                 set () { this.close(); },
             },
-            productsSum () {
-                return 0;
+            goodsSum () {
+                let sum = 0;
+                this.order.goods.forEach(item => sum += item.price * item.counting.count);
+                return sum;
             },
         },
         methods: {
+            ...mapActions('orders', [
+                'close',
+            ]),
             printDocument () {
 
             },
-            saveProductsList () {
-                this.productsChanged = false;
-                this.$message({
-                    message: this.$t('productsSaved'),
-                    type: 'success',
-                });
-            },
-            removeProduct (index) {
-                this.productsChanged = true;
+            removeGoods (index) {
 
-
-            },
-            productAmountOnChange () {
-                this.productsChanged = true;
             },
             partialIssue () {
 
@@ -211,15 +200,22 @@
             toReturn () {
 
             },
-            close () {
-                this.$emit('close');
-            },
         },
         created () {
             this.bindClientWidth('width');
         },
         destroyed () {
             this.unbindClientWidth();
+        },
+        watch: {
+            opened: {
+                handler (opened) {
+                    this.order = (opened !== null)
+                        ? cloneDeep(this.orders.data[opened])
+                        : null;
+                },
+                immediate: true,
+            },
         },
     }
 </script>
@@ -240,18 +236,6 @@
         border-top: 1px solid @lighter-border-color;
     }
 
-    .el-col {
-        &.el-col-xs-24 {
-            &:not(:last-child) {
-                @media (max-width: 767px) { margin-bottom: 1em; }
-            }
-        }
-    }
-
-    .comment {
-        .block-border;
-    }
-
     .services {
         .block-border;
 
@@ -262,9 +246,21 @@
         }
     }
 
-    .products {
+    .goods {
         .block-border;
 
 
+    }
+
+    .el-col {
+        &.el-col-xs-24 {
+            &:not(:last-child) {
+                @media (max-width: 767px) { margin-bottom: 1em; }
+            }
+        }
+    }
+
+    .el-input-group {
+        vertical-align: 2px;
     }
 </style>

@@ -37,7 +37,8 @@ export default {
                     });
                 });
         },
-        open: ({commit}, order) => commit('setOpened', order),
+        open: ({commit}, index) => commit('setOpened', index),
+        close: ({commit}) => commit('setOpened', null),
     },
     getters: {
 

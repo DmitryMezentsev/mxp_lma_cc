@@ -2,8 +2,7 @@
     <div>
         <OrdersFilters v-if="type === 'courier' || type === 'point'" />
         <OrdersTable :data="list.data"
-                     :mode="type"
-                     @openOrder="openOrder" />
+                     :mode="type" />
         <div v-if="list.totalCount && (type === 'courier' || type === 'point')" class="total">
             {{ $t('totalOrders') }}: <Number :val="list.totalCount" />.
             {{ $t('totalPriceDeclared') }}: <Currency :val="list.sumPriceDeclared" />.
@@ -11,9 +10,7 @@
         </div>
         <Pagination :total="list.totalCount" :max-page="list.pageCount" />
 
-        <OrderDialog v-if="openedOrder"
-                     :data="openedOrder"
-                     @close="openedOrder = null" />
+        <OrderDialog  />
     </div>
 </template>
 
@@ -37,7 +34,6 @@
             return {
                 type: this.$route.params.type,
                 removeAfterEach: null,
-                openedOrder: null,
             }
         },
         computed: {
@@ -48,11 +44,7 @@
         methods: {
             ...mapActions('orders', [
                 'getList',
-                'open',
             ]),
-            openOrder (order) {
-                this.openedOrder = order;
-            },
             loadList () {
                 this.getList({
                     perPage: PER_PAGE_DEFAULT,

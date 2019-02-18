@@ -64,4 +64,7 @@ export default {
                 });
         },
     },
+    getters: {
+        isAdmin: (state) => state.currentUser && state.currentUser.role === 'admin',
+    },
 }
