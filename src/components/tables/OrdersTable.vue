@@ -1,10 +1,10 @@
 <template>
     <el-table v-loading="loading"
               :data="data"
-              :empty-text="$t(loading ? 'pleaseWait' : 'noOrders')"
-              :class="`orders-table-${mode}`"
-              class="orders-table">
-        <el-table-column :label="$t('orderNumberInCompanyOrShop')">
+              :empty-text="$t(loading ? 'pleaseWait' : 'noOrders')">
+        <el-table-column
+                :label="$t('orderNumberInCompanyOrShop')"
+                key="col-number">
             <template slot-scope="scope">
                 <el-button type="text" @click="open(scope.$index)">
                     {{ scope.row.sender.providerNumber }} / {{ scope.row.sender.internalNumber }}
@@ -13,7 +13,8 @@
         </el-table-column>
         <el-table-column
                 v-if="width > 719"
-                :label="$t('recipient')">
+                :label="$t('recipient')"
+                key="col-contacts">
             <template slot-scope="scope">
                 {{ scope.row.recipient.contacts.name }}<br>
                 <small>{{ scope.row.recipient.contacts.phone }}</small>
@@ -21,8 +22,8 @@
         </el-table-column>
         <el-table-column
                 v-if="width > 579"
-                prop=""
-                :label="$t('cod')">
+                :label="$t('cod')"
+                key="col-price-declared">
             <template slot-scope="scope">
                 <Currency :val="scope.row.cashOnDelivery.priceDeclared" />
             </template>
@@ -30,59 +31,93 @@
         <el-table-column
                 v-if="width > 879"
                 prop="sender.brandName"
-                :label="$t('shop')">
+                :label="$t('shop')"
+                key="col-shop">
         </el-table-column>
         <el-table-column
                 v-if="width > 479"
                 prop="status.name"
-                :label="$t('status')">
+                :label="$t('status')"
+                key="col-status">
         </el-table-column>
 
         <!-- Только курьерка -->
         <el-table-column
                 v-if="mode === 'courier' && width > 1279"
                 prop="recipient.address.value"
-                :label="$t('deliveryAddress')">
+                :label="$t('deliveryAddress')"
+                key="col-delivery-address">
         </el-table-column>
         <el-table-column
                 v-if="mode === 'courier' && width > 379"
                 prop=""
-                :label="$t('deliveryDate')">
+                :label="$t('deliveryDate')"
+                key="col-delivery-date">
         </el-table-column>
 
         <!-- Только ПВЗ -->
         <el-table-column
                 v-if="mode === 'point' && width > 1279"
                 prop=""
-                :label="$t('issuePoint')">
+                :label="$t('issuePoint')"
+                key="col-issue-point">
         </el-table-column>
         <el-table-column
                 v-if="mode === 'point' && width > 379"
                 prop=""
-                :label="$t('buyoutDate')">
+                :label="$t('buyoutDate')"
+                key="col-buyout-date">
         </el-table-column>
 
         <!-- Только поиск (совмещенные столбцы) -->
         <el-table-column
                 v-if="mode === 'search' && width > 1365"
-                prop=""
-                :label="$t('type')">
+                :label="$t('type')"
+                key="col-type">
+            <template slot-scope="scope">
+                <div v-if="scope.row.serviceType === 0">
+                    {{ $t('courierOrders') }}
+                </div>
+                <div v-else-if="scope.row.serviceType === 1">
+                    {{ $t('pointOrders') }}
+                </div>
+                <div v-else>{{ $t('other') }}</div>
+            </template>
         </el-table-column>
         <el-table-column
                 v-if="mode === 'search' && width > 1279"
-                prop=""
-                :label="$t('deliveryAddress') + ' / ' + $t('issuePoint')">
+                :label="$t('deliveryAddress') + ' / ' + $t('issuePoint')"
+                key="col-delivery-address-or-issue-point">
+            <template slot-scope="scope">
+                <div v-if="scope.row.serviceType === 0">
+                    {{ scope.row.recipient.address.value }}
+                </div>
+                <div v-else-if="scope.row.serviceType === 1">
+
+                </div>
+            </template>
         </el-table-column>
         <el-table-column
                 v-if="mode === 'search' && width > 379"
-                prop=""
-                :label="$t('deliveryDate') + ' / ' + $t('buyoutDate')">
+                :label="$t('deliveryDate') + ' / ' + $t('buyoutDate')"
+                key="col-delivery-date-or-buyout-date">
+            <template slot-scope="scope">
+                <div v-if="scope.row.serviceType === 0">
+
+                </div>
+                <div v-else-if="scope.row.serviceType === 1">
+
+                </div>
+            </template>
         </el-table-column>
 
         <el-table-column
                 v-if="width > 1365"
-                prop=""
-                :label="$t('proceeds')">
+                :label="$t('proceeds')"
+                key="col-proceeds">
+            <template slot-scope="scope">
+
+            </template>
         </el-table-column>
     </el-table>
 </template>

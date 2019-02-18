@@ -55,7 +55,7 @@
         },
         methods: {
             loadFilterValues () {
-                this.filters = pick(this.$router.currentRoute.query, ['courier', 'date']);
+                this.filters = pick(this.$route.query, ['courier', 'date']);
             },
         },
         mounted () {

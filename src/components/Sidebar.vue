@@ -83,7 +83,7 @@
 
     const SIDEBAR_STATE_COOKIE_NAME = 'sidebarSubmenu';
 
-    const isSearchRoute = route => route.name === 'ordersList' && route.params.page === 'search';
+    const isSearchRoute = route => route.name === 'ordersList' && route.params.type === 'search';
 
     export default {
         name: 'Sidebar',
@@ -137,8 +137,8 @@
                 this.searchQuery = (isSearchRoute(to)) ? to.query.q : ''
             );
 
-            if (isSearchRoute(this.$router.currentRoute))
-                this.searchQuery = this.$router.currentRoute.query.q;
+            if (isSearchRoute(this.$route))
+                this.searchQuery = this.$route.query.q;
         },
     }
 </script>

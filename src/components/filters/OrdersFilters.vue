@@ -1,9 +1,9 @@
 <template>
     <el-form class="filters">
-        <div class="filter">
+        <div class="filter delivery-date-filter">
             <el-form-item :label="$t('deliveryDate')">
                 <el-date-picker
-                        v-model="filters.delivery_date"
+                        v-model="filters.deliveryDate"
                         type="daterange"
                         range-separator="—"
                         :value-format="dateValueFormat"
@@ -42,7 +42,7 @@
         data () {
             return {
                 filters: {
-                    delivery_date: null,
+                    deliveryDate: null,
                     status: null,
                 },
                 dateValueFormat: DATE_API_FORMAT,
@@ -52,7 +52,7 @@
         },
         methods: {
             loadFilterValues () {
-                this.filters = pick(this.$router.currentRoute.query, ['delivery_date', 'status']);
+                this.filters = pick(this.$route.query, ['deliveryDate', 'status']);
             },
         },
         mounted () {
@@ -75,4 +75,8 @@
 
 <style lang="less" scoped>
     .el-range-editor { width: 250px; }
+
+    .delivery-date-filter {
+        @media (max-width: 640px) { display: none; }
+    }
 </style>

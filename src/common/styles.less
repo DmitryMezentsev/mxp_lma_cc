@@ -23,8 +23,6 @@ input, textarea {
 }
 
 .filters {
-    margin-bottom: 1em;
-
     &:after {
         content: '';
         clear: both;
@@ -44,6 +42,10 @@ input, textarea {
 
         &:not(:last-child) {
             margin-right: @margin;
+        }
+
+        .el-form-item {
+            margin-bottom: 0;
         }
     }
 }
@@ -104,6 +106,11 @@ input, textarea {
 
     .el-table__footer-wrapper {
         font-weight: bold;
+    }
+
+    .el-table__empty-text {
+        line-height: 30px;
+        padding: 1em 0;
     }
 }
 

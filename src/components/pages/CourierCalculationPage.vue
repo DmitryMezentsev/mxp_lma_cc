@@ -18,8 +18,8 @@
         components: {CourierSalaryEdit, CourierCalculationFilters},
         data () {
             return {
-                courier: this.$router.currentRoute.query.courier,
-                date: this.$router.currentRoute.query.date,
+                courier: this.$route.query.courier,
+                date: this.$route.query.date,
 
                 removeAfterEach: null,
             }

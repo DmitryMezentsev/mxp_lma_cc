@@ -7,37 +7,56 @@
         <el-table-column
                 v-if="width > 399"
                 prop=""
-                :label="$t('client')">
+                :label="$t('client')"
+                key="col-client">
         </el-table-column>
         <el-table-column
                 v-if="width > 479"
-                prop=""
-                :label="$t('reportDate')">
+                :label="$t('reportDate')"
+                key="col-report-date">
+            <template slot-scope="scope">
+
+            </template>
         </el-table-column>
         <el-table-column
                 v-if="width > 1199"
-                prop=""
-                :label="$t('creatingDate')">
+                :label="$t('creatingDate')"
+                key="col-creating-date">
+            <template slot-scope="scope">
+
+            </template>
         </el-table-column>
         <el-table-column
                 v-if="width > 639"
-                prop=""
-                :label="$t('cod')">
+                :label="$t('cod')"
+                key="col-cod">
+            <template slot-scope="scope">
+
+            </template>
         </el-table-column>
         <el-table-column
                 v-if="width > 679"
-                prop=""
-                :label="$t('sumForServices')">
+                :label="$t('sumForServices')"
+                key="col-sum-for-services">
+            <template slot-scope="scope">
+
+            </template>
         </el-table-column>
         <el-table-column
                 v-if="width > 799"
-                prop=""
-                :label="$t('deduction')">
+                :label="$t('deduction')"
+                key="col-deduction">
+            <template slot-scope="scope">
+
+            </template>
         </el-table-column>
         <el-table-column
                 v-if="width > 1099"
-                prop=""
-                :label="$t('payDate')">
+                :label="$t('payDate')"
+                key="col-pay-date">
+            <template slot-scope="scope">
+
+            </template>
         </el-table-column>
         <el-table-column :label="$t('report')">
             <template slot-scope="scope">

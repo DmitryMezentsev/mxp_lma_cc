@@ -5,6 +5,7 @@ import VueI18n from 'vue-i18n';
 import 'babel-polyfill'; // for IE11
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import 'element-ui/lib/theme-chalk/display.css';
 
 import './common/styles';
 import i18n from './i18n';
@@ -19,7 +20,7 @@ Vue.use(Vuex);
 Vue.use(ElementUI);
 
 
-new Vue({
+window.app = new Vue({
     el: '#app',
     render: h => h(App),
     router,

@@ -1,8 +1,8 @@
 <template>
     <div>
         <OrdersFilters v-if="type === 'courier' || type === 'point'" />
-        <OrdersTable :data="list.data"
-                     :mode="type" />
+        <br>
+        <OrdersTable :data="list.data" :mode="type" />
         <div v-if="list.totalCount && (type === 'courier' || type === 'point')" class="total">
             {{ $t('totalOrders') }}: <Number :val="list.totalCount" />.
             {{ $t('totalPriceDeclared') }}: <Currency :val="list.sumPriceDeclared" />.
@@ -54,8 +54,8 @@
                         if (this.type === 'point') return 1;
                     })(),
                     search: (this.type === 'search') ? get(this.$route.query, 'q') : null,
-                    deliveryDateFrom: get(this.$route.query, 'delivery_date[0]'),
-                    deliveryDateTo: get(this.$route.query, 'delivery_date[1]'),
+                    deliveryDateFrom: get(this.$route.query, 'deliveryDate[0]'),
+                    deliveryDateTo: get(this.$route.query, 'deliveryDate[1]'),
                     status: get(this.$route.query, 'status'),
                 });
             },

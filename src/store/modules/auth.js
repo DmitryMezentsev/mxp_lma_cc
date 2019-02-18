@@ -23,6 +23,11 @@ axios.interceptors.response.use(res => res, err => {
     if (get(err, 'response.status') === 401)
         return redirectToAuth();
 
+    window.app.$message({
+        message: window.app.$t('serverError'),
+        type: 'error',
+    });
+
     return Promise.reject(err);
 });
 

@@ -17,25 +17,27 @@ export default {
         },
         // Добавляет к текущим GET-параметрам в URL новые
         replaceRouteQueryParams (params) {
-            let query = {
-                ...this.$router.currentRoute.query
-            };
+            let query = { ...this.$route.query };
 
             Object.keys(params).forEach(key => {
                 // Чтобы в URL не попадали параметры без значений
-                query[key] = (params[key] !== '' && params[key] !== null)
+                let val = (params[key] !== '' && params[key] !== null)
                     ? params[key]
                     : undefined;
+
+                // Чтобы не присваивались undefined-значения тем параметрам, которых в URL и так нет
+                if (typeof val !== 'undefined' || typeof this.$route.query[key] !== 'undefined')
+                    query[key] = val;
             });
 
             this.$router.push({ query });
         },
         // Возвращает название страницы для переданного или текущего роута
         getRoutePageName (route) {
-            if (!route) route = this.$router.currentRoute;
+            if (!route) route = this.$route;
 
             return this.$t(route.meta.pageName
-                ? route.meta.pageName.values[this.$router.currentRoute.params[route.meta.pageName.param]]
+                ? route.meta.pageName.values[this.$route.params[route.meta.pageName.param]]
                 : route.name);
         },
 

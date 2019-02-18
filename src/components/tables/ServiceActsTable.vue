@@ -6,26 +6,42 @@
         <el-table-column
                 v-if="width > 579"
                 prop=""
-                :label="$t('client')"></el-table-column>
+                :label="$t('client')"
+                key="col-client">
+        </el-table-column>
         <el-table-column
                 v-if="width > 479"
                 prop=""
-                :label="$t('actNumber')"></el-table-column>
+                :label="$t('actNumber')"
+                key="col-act-number">
+        </el-table-column>
         <el-table-column
                 v-if="width > 1099"
-                prop=""
-                :label="$t('date')"></el-table-column>
+                :label="$t('date')"
+                key="col-date">
+            <template slot-scope="scope">
+
+            </template>
+        </el-table-column>
         <el-table-column
                 v-if="width > 799"
-                prop=""
-                :label="$t('sum')"></el-table-column>
-        <el-table-column :label="$t('documentReceiptDate')">
+                :label="$t('sum')"
+                key="col-sum">
+            <template slot-scope="scope">
+
+            </template>
+        </el-table-column>
+        <el-table-column
+                :label="$t('documentReceiptDate')"
+                key="col-receipt-date">
             <template slot-scope="scope">
                 <div v-if="false"></div>
                 <el-button type="text" @click="setDate(scope.row)" v-else>{{ $t('setDate') }}</el-button>
             </template>
         </el-table-column>
-        <el-table-column width="100">
+        <el-table-column
+                width="100"
+                key="col-actions">
             <template slot-scope="scope">
                 <div class="text-right">
                     <el-dropdown>

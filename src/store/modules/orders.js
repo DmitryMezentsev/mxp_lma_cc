@@ -15,7 +15,7 @@ export default {
     mutations: {
         clearList: (state) =>
             state.list = {
-            data: null,
+                data: null,
                 totalCount: 0,
                 pageCount: 0,
                 sumPriceDeclared: 0,
@@ -39,8 +39,5 @@ export default {
         },
         open: ({commit}, index) => commit('setOpened', index),
         close: ({commit}) => commit('setOpened', null),
-    },
-    getters: {
-
     },
 }

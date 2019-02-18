@@ -75,15 +75,18 @@
                             v-if="width > 639"
                             type="index"
                             label="#"
-                            width="40">
+                            width="40"
+                            key="col-index">
                     </el-table-column>
                     <el-table-column
                             prop="name"
-                            :label="$tc('name', 3)">
+                            :label="$tc('name', 3)"
+                            key="col-name">
                     </el-table-column>
                     <el-table-column
                             :label="$tc('quantity', 2)"
-                            width="120">
+                            width="120"
+                            key="col-quantity">
                         <template slot-scope="scope">
                             <el-input-number v-model="scope.row.counting.count"
                                              controls-position="right"
@@ -96,19 +99,24 @@
                     </el-table-column>
                     <el-table-column
                             v-if="width > 479"
-                            :label="$t('price')">
+                            :label="$t('price')"
+                            key="col-price">
                         <template slot-scope="scope">
                             <Currency :val="scope.row.price" />
                         </template>
                     </el-table-column>
                     <el-table-column
                             v-if="width > 579"
-                            :label="$t('sum')">
+                            :label="$t('sum')"
+                            key="col-sum">
                         <template slot-scope="scope">
                             <Currency :val="scope.row.price * scope.row.counting.count" />
                         </template>
                     </el-table-column>
-                    <el-table-column fixed="right" width="65">
+                    <el-table-column
+                            fixed="right"
+                            width="65"
+                            key="col-actions">
                         <template slot-scope="scope">
                             <el-tooltip :content="$t('remove')" placement="left">
                                 <el-button @click="removeGoods(scope.$index)"

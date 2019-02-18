@@ -50,6 +50,7 @@ export default {
     order: '',
     numInShop: '',
     phone: '',
+    phones: '',
     city: '',
     storageTime: '',
     arrivalDate: '',
@@ -100,4 +101,12 @@ export default {
     providerNumber: '',
     shopNumber: '',
     days: '',
+    fullName: '',
+    inArchive: '',
+    livingArea: '',
+    printBadge: '',
+    restore: '',
+    serverError: '',
+    other: '',
+
 }
