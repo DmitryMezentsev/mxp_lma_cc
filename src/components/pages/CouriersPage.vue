@@ -14,7 +14,7 @@
                 </el-col>
             </el-row>
             <br>
-            <CouriersTable :data="list.data" />
+            <CouriersTable :data="list.data" @update="loadList" />
             <Pagination :total="list.totalCount" :max-page="list.pageCount" />
         </div>
 

@@ -32,5 +32,11 @@ export default {
                     });
                 });
         },
+        patchCourier ({dispatch}, {id, params, callback}) {
+            axios.patch(`courier/${id}`, { ...params })
+                .then(({data}) => {
+                    if (data.status === 'ok') callback();
+                });
+        },
     },
 }

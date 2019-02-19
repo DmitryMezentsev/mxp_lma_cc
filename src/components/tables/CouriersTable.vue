@@ -30,19 +30,13 @@
                 key="col-actions">
             <template slot-scope="scope">
                 <el-button-group>
-                    <el-tooltip :content="$t('toArchive')"
-                                placement="left"
-                                v-if="scope.row.isActive"
-                                @click="toArchive(scope.row.courierId)">
-                        <el-button type="danger" size="mini">
+                    <el-tooltip :content="$t('toArchive')" placement="left" v-if="scope.row.isActive">
+                        <el-button type="danger" size="mini" @click="setCourierActive(scope.row.courierId, false)">
                             <i class="fas fa-archive"></i>
                         </el-button>
                     </el-tooltip>
-                    <el-tooltip :content="$t('restore')"
-                                placement="left"
-                                v-else
-                                @click="restore(scope.row.courierId)">
-                        <el-button type="primary" size="mini">
+                    <el-tooltip :content="$t('restore')" placement="left" v-else>
+                        <el-button type="primary" size="mini" @click="setCourierActive(scope.row.courierId, true)">
                             <i class="fas fa-redo-alt"></i>
                         </el-button>
                     </el-tooltip>
@@ -78,13 +72,14 @@
         },
         methods: {
             ...mapActions('couriers', [
-
+                'patchCourier',
             ]),
-            toArchive (id) {
-
-            },
-            restore (id) {
-
+            setCourierActive (id, active) {
+                this.patchCourier({
+                    id,
+                    params: { isActive: active },
+                    callback: () => this.$emit('update'),
+                });
             },
             printBadge (id) {
 

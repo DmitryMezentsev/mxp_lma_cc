@@ -18,11 +18,19 @@ const TOKEN_COOKIE_NAME = 'token';
 
 
 axios.defaults.baseURL = API_PATH;
-axios.interceptors.response.use(res => res, err => {
+axios.interceptors.response.use(res => {
+    // Вывод ошибки с бэка
+    if (get(res, 'data.status') === 'error') {
+        let message = get(res, 'data.message', window.app.$t('serverError'));
+        window.app.$message({ message, type: 'error' });
+    }
+
+    return res;
+}, err => {
     // Если по API был получен статус 401
     if (get(err, 'response.status') === 401)
         return redirectToAuth();
-
+    // Вывод сообщения об ошибке подключения к серверу
     window.app.$message({
         message: window.app.$t('serverError'),
         type: 'error',
