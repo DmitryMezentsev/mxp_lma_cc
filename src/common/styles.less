@@ -22,6 +22,8 @@ input, textarea {
     float: none;
 }
 
+.hidden { display: none; }
+
 .filters {
     &:after {
         content: '';
@@ -46,6 +48,10 @@ input, textarea {
 
         .el-form-item {
             margin-bottom: 0;
+
+            .el-form-item__label {
+                white-space: nowrap;
+            }
         }
     }
 }

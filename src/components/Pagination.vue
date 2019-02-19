@@ -70,9 +70,13 @@
     }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
     .pagination-wrap {
         text-align: center;
         margin: 1em 0;
+
+        .el-pager {
+            @media (max-width: 470px) { display: none; }
+        }
     }
 </style>

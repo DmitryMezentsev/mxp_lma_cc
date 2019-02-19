@@ -6,26 +6,52 @@
                 :label="$t('fullName')"
                 key="col-fullname">
             <template slot-scope="scope">
-
+                <router-link :to="{ name: 'editCourier', params: { id: scope.row.courierId } }">
+                    <el-button type="text">{{ scope.row.fullname }}</el-button>
+                </router-link>
             </template>
         </el-table-column>
         <el-table-column
                 :label="$t('phones')"
+                v-if="width > 767"
                 key="col-phones">
             <template slot-scope="scope">
-
+                {{ scope.row.phone1 }}<span v-if="scope.row.phone2">, {{ scope.row.phone2 }}</span>
             </template>
         </el-table-column>
         <el-table-column
-                prop=""
+                prop="livingArea"
                 :label="$t('livingArea')"
+                v-if="width > 539"
                 key="col-living-area">
         </el-table-column>
         <el-table-column
                 width="110"
                 key="col-actions">
             <template slot-scope="scope">
-
+                <el-button-group>
+                    <el-tooltip :content="$t('toArchive')"
+                                placement="left"
+                                v-if="scope.row.isActive"
+                                @click="toArchive(scope.row.courierId)">
+                        <el-button type="danger" size="mini">
+                            <i class="fas fa-archive"></i>
+                        </el-button>
+                    </el-tooltip>
+                    <el-tooltip :content="$t('restore')"
+                                placement="left"
+                                v-else
+                                @click="restore(scope.row.courierId)">
+                        <el-button type="primary" size="mini">
+                            <i class="fas fa-redo-alt"></i>
+                        </el-button>
+                    </el-tooltip>
+                    <el-tooltip :content="$t('printBadge')" placement="top">
+                        <el-button type="primary" size="mini" @click="printBadge(scope.row.courierId)">
+                            <i class="fas fa-id-badge"></i>
+                        </el-button>
+                    </el-tooltip>
+                </el-button-group>
             </template>
         </el-table-column>
     </el-table>
@@ -54,6 +80,15 @@
             ...mapActions('couriers', [
 
             ]),
+            toArchive (id) {
+
+            },
+            restore (id) {
+
+            },
+            printBadge (id) {
+
+            },
         },
         created () {
             this.bindClientWidth('width');

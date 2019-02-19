@@ -10,6 +10,7 @@
                 <el-switch v-model="filters.inArchive"></el-switch>
             </el-form-item>
         </div>
+        <el-button @click.prevent native-type="submit" class="hidden" />
     </el-form>
 </template>
 

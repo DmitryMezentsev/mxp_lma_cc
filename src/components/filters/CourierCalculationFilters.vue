@@ -27,6 +27,7 @@
                 </el-date-picker>
             </el-form-item>
         </div>
+        <el-button @click.prevent native-type="submit" class="hidden" />
     </el-form>
 </template>
 
