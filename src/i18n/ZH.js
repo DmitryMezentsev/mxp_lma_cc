@@ -108,5 +108,8 @@ export default {
     restore: '',
     serverError: '',
     other: '',
+    needConfirmation: '',
+    toArchiveCourierConfirmation: '',
+    restoreCourierConfirmation: '',
 
 }

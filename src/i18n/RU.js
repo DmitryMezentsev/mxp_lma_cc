@@ -110,5 +110,8 @@ export default {
     restore: 'Восстановить',
     serverError: 'Ошибка при подключении к серверу',
     other: 'Другое',
+    needConfirmation: 'Требуется подтверждение',
+    toArchiveCourierConfirmation: 'Поместить курьера в архив?',
+    restoreCourierConfirmation: 'Восстановить курьера?',
 
 }

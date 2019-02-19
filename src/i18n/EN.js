@@ -108,5 +108,8 @@ export default {
     restore: 'Restore',
     serverError: 'Server error',
     other: 'Other',
+    needConfirmation: 'Need confirmation',
+    toArchiveCourierConfirmation: 'Send to archive this courier?',
+    restoreCourierConfirmation: 'Restore courier?',
 
 }

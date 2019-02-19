@@ -40,6 +40,12 @@ export default {
                 ? route.meta.pageName.values[this.$route.params[route.meta.pageName.param]]
                 : route.name);
         },
+        // Отображение окна подтверждения действия
+        confirm (message, callback) {
+            this.$confirm(message, this.$t('needConfirmation'))
+                .then(() => callback(true))
+                .catch(() => callback());
+        },
 
         // Методы биндинга и анбиндинга ширины страницы к указанному свойству компонента
         bindClientWidth (propName) {

@@ -75,10 +75,14 @@
                 'patchCourier',
             ]),
             setCourierActive (id, active) {
-                this.patchCourier({
-                    id,
-                    params: { isActive: active },
-                    callback: () => this.$emit('update'),
+                this.confirm(this.$t(active ? 'restoreCourierConfirmation' : 'toArchiveCourierConfirmation'), ok => {
+                    if (ok) {
+                        this.patchCourier({
+                            id,
+                            params: {isActive: active},
+                            callback: () => this.$emit('update'),
+                        });
+                    }
                 });
             },
             printBadge (id) {
