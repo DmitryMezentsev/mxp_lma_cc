@@ -60,8 +60,7 @@
             this.loader = this.$loading();
             this.getCurrentUser();
 
-            // Установка <title> страницы
-            setTimeout(() => this.setPageTitle(this.getRoutePageName()), 250);
+            // Смена title страницы при переходах между страницами
             this.$router.afterEach(to => this.setPageTitle(this.getRoutePageName(to)));
 
             // Изменение состояния сайдбара при изменении размеров окна браузера
@@ -80,6 +79,9 @@
                     // Установка локали
                     this.$i18n.locale = user.locale;
                     locale.use(elementLocalesMap[user.locale]);
+
+                    // Установка title для текущей страницы
+                    this.setPageTitle(this.getRoutePageName());
                 }
             },
         }
