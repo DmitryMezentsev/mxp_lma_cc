@@ -1,3 +1,6 @@
+import axios from 'axios';
+
+
 import {APP_TITLE} from '../../constants/config';
 
 
@@ -60,6 +63,24 @@ export default {
                 return { type: 'email', message: this.$t('validation.email') };
 
 
+        },
+        // Приводит в порядок вводимый в input адрес с помощью сервиса dadata.ru
+        dadataCleanAddress (address, callback) {
+            address = address.trim();
+
+            if (address.length) {
+                axios.post('dadata-clean-address', { address })
+                    .then(({data}) => {
+                        console.log(data);
+                        // callback([{ value: data.result }]);
+                        callback([]);
+                    })
+                    .catch(() => {
+                        callback([]);
+                    });
+            } else  {
+                callback([]);
+            }
         },
 
         // Методы биндинга и анбиндинга ширины страницы к указанному свойству компонента

@@ -27,8 +27,13 @@
                     </el-col>
                     <el-col :span="8" :xs="24">
                         <h4>{{ $t('passportData') }}</h4>
-                        <el-form-item :label="$t('registrationAddress')" prop="passport.address" required>
-                            <el-input v-model="courier.passport.address" name="passport.address"></el-input>
+                        <el-form-item :label="$t('registrationAddress')" prop="passport.address" class="autocomplete-form-item" required>
+                            <el-autocomplete v-if="currentUser.locale === 'RU'"
+                                             v-model="courier.passport.address"
+                                             :fetch-suggestions="dadataCleanAddress"
+                                             :debounce="700"
+                                             name="passport.address"></el-autocomplete>
+                            <el-input v-else v-model="courier.passport.address" name="passport.address"></el-input>
                         </el-form-item>
                         <el-form-item :label="$t('passportNumber')" prop="passport.series" required>
                             <el-input v-model="courier.passport.series" name="passport.series"></el-input>
@@ -38,12 +43,14 @@
                         </el-form-item>
                         <el-form-item :label="$t('birthday')" prop="passport.birthday" required>
                             <br>
-                            <el-date-picker v-model="courier.passport.birthday" type="date"></el-date-picker>
+                            <el-date-picker v-model="courier.passport.birthday"
+                                            type="date"
+                                            :value-format="dateValueFormat"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8" :xs="24">
                         <h4>{{ $t('carData') }}</h4>
-                        <el-form-item :label="$t('brand')" prop="transport.brand" class="transport-brand">
+                        <el-form-item :label="$t('brand')" prop="transport.brand" class="autocomplete-form-item">
                             <el-autocomplete
                                     name="transport.brand"
                                     v-model="courier.transport.brand"
@@ -137,6 +144,7 @@
 <script>
     import {mapState, mapActions} from 'vuex';
 
+    import {DATE_API_FORMAT} from '../../constants/config';
     import mixins from '../../common/js/mixins';
     import {generateRandomString} from '../../common/js/helpers';
     import cars from '../../common/js/cars';
@@ -154,6 +162,7 @@
         data () {
             return {
                 minPasswordLength,
+                dateValueFormat: DATE_API_FORMAT,
                 processing: false,
                 isAdd: this.$route.name === 'addCourier',
                 rules: {
@@ -258,7 +267,7 @@
     .form-wrap {
         padding-bottom: 45px;
 
-        .transport-brand {
+        .autocomplete-form-item {
             .el-autocomplete {
                 display: block;
             }

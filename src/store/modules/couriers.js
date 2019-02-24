@@ -42,6 +42,7 @@ export default {
         },
         createNewCourier ({commit}) {
             commit('setCourier', {
+                isActive: true,
                 fullname: '',
                 shortname: '',
                 phone1: '',
@@ -78,12 +79,12 @@ export default {
             commit('setCourier', courier);
 
             if (courier.courierId) {
-                axios.put(`courier/${courier.courierId}`, { ...courier })
+                axios.put(`courier/${courier.courierId}`, courier)
                     .then(({data}) => {
                         callback(data.status === 'ok');
                     });
             } else {
-                axios.post('courier')
+                axios.post('courier', courier)
                     .then(({data}) => {
                         callback(data.status === 'ok');
                     });

@@ -158,4 +158,5 @@ export default {
         email: 'Enter E-mail',
     },
     passwordIsTooShort: 'Password is too short',
+
 }

@@ -158,4 +158,5 @@ export default {
         email: 'Введите E-mail',
     },
     passwordIsTooShort: 'Слишком короткий пароль',
+
 }
