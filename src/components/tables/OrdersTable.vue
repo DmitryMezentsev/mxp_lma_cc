@@ -125,7 +125,7 @@
 <script>
     import {mapActions} from 'vuex';
 
-    import mixins from '../../common/mixins';
+    import mixins from '../../common/js/mixins';
     import Currency from '../Currency';
 
     export default {

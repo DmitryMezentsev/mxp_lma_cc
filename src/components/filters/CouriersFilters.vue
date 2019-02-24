@@ -18,8 +18,8 @@
     import debounce from 'lodash/debounce';
     import pick from 'lodash/pick';
 
-    import {str2Bool} from '../../common/helpers';
-    import mixins from '../../common/mixins';
+    import {str2Bool} from '../../common/js/helpers';
+    import mixins from '../../common/js/mixins';
 
     export default {
         name: 'CouriersFilters',

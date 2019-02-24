@@ -61,7 +61,7 @@
 </template>
 
 <script>
-    import mixins from '../../common/mixins';
+    import mixins from '../../common/js/mixins';
 
     export default {
         name: 'ServiceActsTable',

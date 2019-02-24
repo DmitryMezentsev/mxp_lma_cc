@@ -13,12 +13,17 @@ export default (() => {
                 if (typeof binding.value === 'string')
                     return route.name === binding.value;
 
-                if (route.name === binding.value.name) {
+                if (
+                    route.name === binding.value.name ||
+                    (typeof binding.value.name !== 'string' && binding.value.name.includes(route.name))
+                ) {
                     let match = true;
 
-                    Object.keys(binding.value.params).forEach(param => {
-                        if (route.params[param] !== binding.value.params[param]) match = false;
-                    });
+                    if (binding.value.params) {
+                        Object.keys(binding.value.params).forEach(param => {
+                            if (route.params[param] !== binding.value.params[param]) match = false;
+                        });
+                    }
 
                     return match;
                 }

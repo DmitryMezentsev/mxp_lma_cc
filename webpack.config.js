@@ -57,7 +57,7 @@ module.exports = (env = {}) => {
                     html5: true,
                 },
             }),
-            new WebappWebpackPlugin(path.join(__dirname, 'src/common/favicon.png')),
+            new WebappWebpackPlugin(path.join(__dirname, 'src/common/img/favicon.png')),
             new VueLoaderPlugin(),
             new webpack.DefinePlugin({
                 BUILD_IS_DEV: isDev,

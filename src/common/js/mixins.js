@@ -1,4 +1,4 @@
-import {APP_TITLE} from '../constants/config';
+import {APP_TITLE} from '../../constants/config';
 
 
 export default {
@@ -41,10 +41,25 @@ export default {
                 : route.name);
         },
         // Отображение окна подтверждения действия
-        confirm (message, callback) {
-            this.$confirm(message, this.$t('needConfirmation'))
+        confirm (message, callback, confirmButtonText) {
+            this.$confirm(message, this.$t('needConfirmation'), {
+                confirmButtonText,
+            })
                 .then(() => callback(true))
                 .catch(() => callback());
+        },
+        // Возвращает правило валидации
+        validationRule (rule) {
+            if (rule === 'required')
+                return { required: true, message: this.$t('validation.required') };
+
+            if (rule === 'phone')
+                return { required: false, message: this.$t('validation.invalidPhoneNumber'), pattern: /^\d{11}$/ };
+
+            if (rule === 'email')
+                return { type: 'email', message: this.$t('validation.email') };
+
+
         },
 
         // Методы биндинга и анбиндинга ширины страницы к указанному свойству компонента

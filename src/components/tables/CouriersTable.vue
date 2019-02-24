@@ -1,7 +1,8 @@
 <template>
     <el-table v-loading="loading"
               :data="data"
-              :empty-text="$t(loading ? 'pleaseWait' : 'noCouriers')">
+              :empty-text="$t(loading ? 'pleaseWait' : 'noCouriers')"
+              class="couriers-table">
         <el-table-column
                 :label="$t('fullName')"
                 key="col-fullname">
@@ -27,10 +28,11 @@
         </el-table-column>
         <el-table-column
                 width="110"
+                class-name="actions"
                 key="col-actions">
             <template slot-scope="scope">
                 <el-button-group>
-                    <el-tooltip :content="$t('toArchive')" placement="left" v-if="scope.row.isActive">
+                    <el-tooltip :content="$t('sendToArchive')" placement="left" v-if="scope.row.isActive">
                         <el-button type="danger" size="mini" @click="setCourierActive(scope.row.courierId, false)">
                             <i class="fas fa-archive"></i>
                         </el-button>
@@ -40,7 +42,7 @@
                             <i class="fas fa-redo-alt"></i>
                         </el-button>
                     </el-tooltip>
-                    <el-tooltip :content="$t('printBadge')" placement="top">
+                    <el-tooltip :content="$t('printBadge')" placement="top" v-if="scope.row.isActive">
                         <el-button type="primary" size="mini" @click="printBadge(scope.row.courierId)">
                             <i class="fas fa-id-badge"></i>
                         </el-button>
@@ -54,7 +56,7 @@
 <script>
     import {mapActions} from 'vuex';
 
-    import mixins from '../../common/mixins';
+    import mixins from '../../common/js/mixins';
 
     export default {
         name: 'CouriersTable',
@@ -80,7 +82,9 @@
                         this.patchCourier({
                             id,
                             params: {isActive: active},
-                            callback: () => this.$emit('update'),
+                            callback: success => {
+                                if (success) this.$emit('update');
+                            },
                         });
                     }
                 });
@@ -98,6 +102,12 @@
     }
 </script>
 
-<style lang="less" scoped>
-
+<style lang="less">
+    .couriers-table {
+        .el-table__row {
+            .actions {
+                .cell { text-align: right; }
+            }
+        }
+    }
 </style>

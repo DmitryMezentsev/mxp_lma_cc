@@ -3,7 +3,7 @@
         <el-aside :width="asideWidth" class="aside">
             <Sidebar :collapsed="sidebarCollapsed" />
         </el-aside>
-        <el-main class="main">
+        <el-main class="main" :class="{ 'sidebar-collapsed': sidebarCollapsed }">
             <Breadcrumbs />
             <div class="wrap">
                 <router-view />
@@ -16,7 +16,7 @@
     import {mapState, mapActions} from 'vuex';
 
     import {SIDEBAR_TOGGLE_WIDTH} from '../constants/config';
-    import mixins from '../common/mixins';
+    import mixins from '../common/js/mixins';
     import Breadcrumbs from './Breadcrumbs';
     import Sidebar from './Sidebar';
 

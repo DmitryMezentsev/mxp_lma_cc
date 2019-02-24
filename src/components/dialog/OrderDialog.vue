@@ -155,7 +155,7 @@
     import {mapState, mapActions, mapGetters} from 'vuex';
     import cloneDeep from 'lodash/cloneDeep';
 
-    import mixins from '../../common/mixins';
+    import mixins from '../../common/js/mixins';
     import Dimensions from '../Dimensions';
     import TagChecked from '../TagChecked';
     import Currency from '../Currency';

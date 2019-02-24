@@ -34,7 +34,7 @@
 <script>
     import pick from 'lodash/pick';
 
-    import mixins from '../../common/mixins';
+    import mixins from '../../common/js/mixins';
     import {DATE_API_FORMAT} from '../../constants/config';
 
     export default {

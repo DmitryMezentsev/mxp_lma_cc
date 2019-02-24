@@ -1,7 +1,7 @@
 <template>
     <div class="sidebar" :class="{ collapsed }">
         <router-link class="logo" :to="{name: 'home'}">
-            <img src="../common/logo.png" alt="MXP">
+            <img src="../common/img/logo.png" alt="MXP">
         </router-link>
         <div class="search">
             <el-input :placeholder="$t('orderSearch')"
@@ -46,11 +46,11 @@
                 <i class="fas fa-warehouse"></i>
                 <span slot="title">{{ $t('warehouse') }}</span>
             </el-menu-item>
-            <el-menu-item index="3" :route="{name: 'clients'}" v-is-route="'clients'">
+            <el-menu-item index="3" :route="{name: 'clients'}" v-is-route="{ name: ['clients', 'addClient', 'editClient'] }">
                 <i class="fas fa-users"></i>
                 <span slot="title">{{ $t('clients') }}</span>
             </el-menu-item>
-            <el-menu-item index="4" :route="{name: 'couriers'}" v-is-route="'couriers'">
+            <el-menu-item index="4" :route="{name: 'couriers'}" v-is-route="{ name: ['couriers', 'addCourier', 'editCourier'] }">
                 <i class="fas fa-user-tie"></i>
                 <span slot="title">{{ $t('couriers') }}</span>
             </el-menu-item>
@@ -218,6 +218,13 @@
 
         .active-route {
             color: @blue-color !important;
+            transition-property: background-color;
+
+            i {
+                &.fas {
+                    &:before { color: @blue-color !important; }
+                }
+            }
         }
     }
 </style>

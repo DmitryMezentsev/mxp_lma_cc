@@ -60,7 +60,8 @@
             },
         },
         mounted () {
-            this.loadList();
+            if (this.$route.name === 'couriers')
+                this.loadList();
 
             this.removeAfterEach = this.$router.afterEach(to => {
                 this.page = to.name;
