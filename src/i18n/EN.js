@@ -158,5 +158,9 @@ export default {
         email: 'Enter E-mail',
     },
     passwordIsTooShort: 'Password is too short',
+    browse: 'Browse',
+    warning: 'Warning',
+    invalidFileType: 'Invalid file type',
+    fileTooLarge: 'File too large. Max file size: {maxSize}MB.',
 
 }

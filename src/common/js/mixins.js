@@ -51,6 +51,12 @@ export default {
                 .then(() => callback(true))
                 .catch(() => callback());
         },
+        // Отображение окна с ворнингом
+        warning (message) {
+            this.$alert(message, this.$t('warning'), {
+                type: 'warning',
+            }).catch(() => {});
+        },
         // Возвращает правило валидации
         validationRule (rule) {
             if (rule === 'required')

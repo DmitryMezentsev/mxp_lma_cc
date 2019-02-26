@@ -158,5 +158,9 @@ export default {
         email: '',
     },
     passwordIsTooShort: '',
+    browse: '',
+    warning: '',
+    invalidFileType: '',
+    fileTooLarge: '',
 
 }

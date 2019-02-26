@@ -3,8 +3,7 @@
         <el-form v-if="courier"
                  ref="courier"
                  :model="courier"
-                 :rules="rules"
-                 :key="courier.courierId">
+                 :rules="rules">
             <div class="form-wrap">
                 <el-row :gutter="10">
                     <el-col :span="8" :xs="24">
@@ -27,6 +26,16 @@
                     </el-col>
                     <el-col :span="8" :xs="24">
                         <h4>{{ $t('passportData') }}</h4>
+                        <el-form-item :label="$t('photo')">
+                            <br>
+                            <div class="passport-photo">
+                                <img v-if="courier.passport.photo" :src="courier.passport.photo">
+                                <InputFile :model.sync="courier.passport.photo"
+                                           :max-file-size="1024"
+                                           :allowed-types="['image/jpeg', 'image/png', 'image/bmp']" />
+                                <div class="hint">{{ $t('imageSize') }} 100x120px</div>
+                            </div>
+                        </el-form-item>
                         <el-form-item :label="$t('registrationAddress')" prop="passport.address" class="autocomplete-form-item" required>
                             <el-autocomplete v-if="currentUser.locale === 'RU'"
                                              v-model="courier.passport.address"
@@ -150,13 +159,14 @@
     import cars from '../../common/js/cars';
     import inputmask from '../../directives/inputmask';
     import Waiting from '../Waiting';
+    import InputFile from '../InputFile';
 
     // Минимальная длина пароля при создании нового курьера
     const minPasswordLength = 6;
 
     export default {
         name: 'CourierPage',
-        components: {Waiting},
+        components: {InputFile, Waiting},
         mixins: [mixins],
         directives: {inputmask},
         data () {
@@ -252,7 +262,7 @@
                 });
             },
         },
-        mounted () {
+        created () {
             if (this.$route.name === 'editCourier')
                 this.openCourier(this.$route.params.id);
             else
@@ -266,6 +276,30 @@
 
     .form-wrap {
         padding-bottom: 45px;
+
+        .passport-photo {
+            @img-margin: 8px;
+
+            font-size: 0;
+            margin-bottom: -@img-margin;
+
+            * {
+                vertical-align: top;
+            }
+
+            img {
+                max-width: 100px;
+                max-height: 120px;
+                margin-right: @img-margin;
+                margin-bottom: @img-margin;
+            }
+
+            .hint {
+                font-size: 12px;
+                color: @secondary-text-color;
+                line-height: 24px;
+            }
+        }
 
         .autocomplete-form-item {
             .el-autocomplete {
