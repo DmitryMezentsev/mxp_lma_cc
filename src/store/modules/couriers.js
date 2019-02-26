@@ -73,6 +73,10 @@ export default {
             axios.get(`courier/${id}`)
                 .then(({data}) => {
                     commit('setCourier', data);
+                })
+                .catch(({response}) => {
+                    if (response.status === 404)
+                        window.app.$router.push({ name: 'couriers' });
                 });
         },
         saveCourier ({commit}, {courier, callback}) {

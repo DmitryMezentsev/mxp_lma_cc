@@ -27,14 +27,19 @@ axios.interceptors.response.use(res => {
 
     return res;
 }, err => {
-    // Если по API был получен статус 401
-    if (get(err, 'response.status') === 401)
+    const status = get(err, 'response.status');
+
+    // Ошибка авторизации
+    if (status === 401)
         return redirectToAuth();
-    // Вывод сообщения об ошибке подключения к серверу
-    window.app.$message({
-        message: window.app.$t('serverError'),
-        type: 'error',
-    });
+
+    if (status !== 404) {
+        // Вывод сообщения об ошибке подключения к серверу
+        window.app.$message({
+            message: window.app.$t('serverError'),
+            type: 'error',
+        });
+    }
 
     return Promise.reject(err);
 });

@@ -2,6 +2,7 @@ import axios from 'axios';
 
 
 import {APP_TITLE} from '../../constants/config';
+import get from 'lodash/get';
 
 
 export default {
@@ -75,18 +76,15 @@ export default {
             address = address.trim();
 
             if (address.length) {
-                axios.post('dadata-clean-address', { address })
+                axios.post('dadata/clean-address', { address })
                     .then(({data}) => {
-                        console.log(data);
-                        // callback([{ value: data.result }]);
-                        callback([]);
-                    })
-                    .catch(() => {
-                        callback([]);
+                        const value = get(data, '[0].result');
+                        if (value) callback([{ value }]);
                     });
-            } else  {
-                callback([]);
             }
+
+            // Чтобы скрыть процесс загрузки результатов, callback вызываем сразу
+            callback([]);
         },
 
         // Методы биндинга и анбиндинга ширины страницы к указанному свойству компонента
