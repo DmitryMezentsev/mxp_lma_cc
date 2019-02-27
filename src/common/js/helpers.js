@@ -22,3 +22,26 @@ export const generateRandomString = (len = 8) => {
     return str;
 };
 
+
+// Возвращает MIME-type из base64
+export const getMimeFromBase64 = (base64) => {
+    const mime = base64.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/);
+    return (mime && mime.length) ? mime[1] : null;
+};
+
+
+// Определяет расширение файла по base64
+export const getExtensionFromBase64 = (base64) => {
+    const mime = getMimeFromBase64(base64);
+    const extensions = {
+        'image/jpeg': 'jpg',
+        'image/png': 'png',
+        'image/bmp': 'bmp',
+        'image/tiff': 'tiff',
+        'application/pdf': 'pdf',
+    };
+
+    return extensions[mime];
+};
+
+

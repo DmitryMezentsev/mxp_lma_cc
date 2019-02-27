@@ -172,11 +172,12 @@
 
 <script>
     import {mapState, mapActions} from 'vuex';
+    import downloadjs from 'downloadjs';
 
     import {DATE_API_FORMAT} from '../../constants/config';
     import DOCUMENT_TYPES from '../../constants/courier-document-types';
     import mixins from '../../common/js/mixins';
-    import {generateRandomString} from '../../common/js/helpers';
+    import {generateRandomString, getExtensionFromBase64} from '../../common/js/helpers';
     import cars from '../../common/js/cars';
     import inputmask from '../../directives/inputmask';
     import Waiting from '../Waiting';
@@ -241,8 +242,11 @@
             removeDocument (i) {
                 this.courier.documents.splice(i, 1);
             },
-            openDocument ({data}) {
-                console.log(data);
+            openDocument ({data, type}) {
+                const ext = getExtensionFromBase64(data),
+                      id = this.courier.courierId || '';
+
+                downloadjs(data, `courier${id}-doc-${type}.${ext}`);
             },
             carBrands (query, cb) {
                 query = query.trim().toLowerCase();

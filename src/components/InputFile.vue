@@ -9,6 +9,7 @@
 
 <script>
     import mixins from '../common/js/mixins';
+    import {getMimeFromBase64} from '../common/js/helpers';
 
     export default {
         name: 'InputFile',
@@ -29,12 +30,6 @@
                 target.blur();
             },
             onFileSelect ({target}) {
-                // Возвращает MIME-type из base64
-                function getMimeFromBase64 (base64) {
-                    const mime = base64.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/);
-                    return (mime && mime.length) ? mime[1] : null;
-                }
-
                 let reader = new FileReader();
 
                 reader.addEventListener('load', () => {
