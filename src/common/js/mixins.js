@@ -60,16 +60,18 @@ export default {
         },
         // Возвращает правило валидации
         validationRule (rule) {
-            if (rule === 'required')
-                return { required: true, message: this.$t('validation.required') };
-
-            if (rule === 'phone')
-                return { required: false, message: this.$t('validation.invalidPhoneNumber'), pattern: /^\d{11}$/ };
-
-            if (rule === 'email')
-                return { type: 'email', message: this.$t('validation.email') };
-
-
+            switch (rule) {
+                case 'required':
+                    return { required: true, message: this.$t('validation.required') };
+                case 'fileRequired':
+                    return { required: true, message: this.$t('validation.fileRequired') };
+                case 'selectRequired':
+                    return { required: true, message: this.$t('validation.selectRequired') };
+                case 'phone':
+                    return { required: false, message: this.$t('validation.invalidPhoneNumber'), pattern: /^\d{11}$/ };
+                case 'email':
+                    return { type: 'email', message: this.$t('validation.email') };
+            }
         },
         // Приводит в порядок вводимый в input адрес с помощью сервиса dadata.ru
         dadataCleanAddress (address, callback) {

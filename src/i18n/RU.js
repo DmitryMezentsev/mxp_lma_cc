@@ -154,6 +154,8 @@ export default {
     newPasswordSentToCourier: 'Новый пароль успешно отправлен курьеру.',
     validation: {
         required: 'Заполните это поле',
+        fileRequired: 'Выберите файл',
+        selectRequired: 'Выберите вариант',
         invalidPhoneNumber: 'Некорректный номер телефона',
         email: 'Введите E-mail',
     },

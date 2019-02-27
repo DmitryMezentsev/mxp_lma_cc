@@ -1,7 +1,9 @@
 <template>
     <span>
         <input type="file" @change="onFileSelect">
-        <el-button @click="browse">{{ $t('browse') }}...</el-button>
+        <el-button @click="browse">
+            {{ fileName || ($t('browse') + '...') }}
+        </el-button>
     </span>
 </template>
 
@@ -16,6 +18,11 @@
             maxFileSize: { type: Number }, // В Кб
         },
         mixins: [mixins],
+        data () {
+            return {
+                fileName: null,
+            }
+        },
         methods: {
             browse ({target}) {
                 this.$el.querySelector('input[type=file]').click();
@@ -47,16 +54,31 @@
 
                     // Все ок, обновление модели
                     this.$emit('update:model', reader.result);
+                    // Установка имени файла на кнопку загрузки
+                    this.fileName = target.files[0].name;
                 }, false);
 
                 reader.readAsDataURL(target.files[0]);
+            },
+        },
+        watch: {
+            model (model) {
+                if (!model) this.fileName = null;
             },
         },
     }
 </script>
 
 <style lang="less" scoped>
-    input[type=file] {
-        display: none;
+    span {
+        font-size: 16px;
+
+        button {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
     }
+
+    input[type=file] { display: none; }
 </style>

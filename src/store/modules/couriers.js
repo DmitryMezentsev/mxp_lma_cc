@@ -60,7 +60,7 @@ export default {
                     model: '',
                     registrationNumber: '',
                 },
-                documentsPhotos: [],
+                documents: [],
                 access: {
                     login: '',
                     password: '',

@@ -154,6 +154,8 @@ export default {
     newPasswordSentToCourier: 'New password sent to the courier.',
     validation: {
         required: 'Field is required',
+        fileRequired: 'Select a file',
+        selectRequired: 'Select option',
         invalidPhoneNumber: 'Invalid phone number',
         email: 'Enter E-mail',
     },

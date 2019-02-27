@@ -91,15 +91,35 @@
 
                 <div class="documents">
                     <h4>{{ $t('documents') }}</h4>
-                    <div v-if="courier.documentsPhotos.length">
-
-                    </div>
-                    <div v-else>
-                        <small>{{ $t('noDocuments') }}.</small>
-                    </div>
+                    <el-table :data="courier.documents" :empty-text="$t('noDocuments')">
+                        <el-table-column :label="$t('document')" key="col-document">
+                            <template slot-scope="scope">
+                                <el-button type="text" @click="openDocument(scope.row)">
+                                    <span v-if="scope.row.type === DOCUMENT_TYPES.PASSPORT">{{ $t('passport') }}</span>
+                                    <span v-else-if="scope.row.type === DOCUMENT_TYPES.VEHICLE_PASSPORT">{{ $t('vehiclePassport') }}</span>
+                                    <span v-else-if="scope.row.type === DOCUMENT_TYPES.DRIVERS_LICENSE">{{ $t('driversLicense') }}</span>
+                                </el-button>
+                            </template>
+                        </el-table-column>
+                        <el-table-column v-if="width > 500" :label="$t('uploadDate')" key="col-document-upload-date">
+                            <template slot-scope="scope">
+                                <FormattedDate :timestamp="scope.row.uploadDate" show-time />
+                            </template>
+                        </el-table-column>
+                        <el-table-column width="65" key="col-document-actions">
+                            <template slot-scope="scope">
+                                <el-tooltip :content="$t('remove')" placement="left">
+                                    <el-button type="danger" size="mini" @click="removeDocument(scope.$index)">
+                                        <i class="fas fa-trash"></i>
+                                    </el-button>
+                                </el-tooltip>
+                            </template>
+                        </el-table-column>
+                    </el-table>
                     <div class="upload-button-wrap">
-                        <el-button size="mini" @click="openUploadDocumentDialog" type="primary">{{ $t('uploadDocument') }}</el-button>
+                        <el-button size="mini" @click="uploadDocumentDialog = true" type="primary">{{ $t('uploadDocument') }}</el-button>
                     </div>
+                    <UploadCourierDocumentDialog :opened.sync="uploadDocumentDialog" @upload="uploadDocument" />
                 </div>
             </div>
 
@@ -154,19 +174,22 @@
     import {mapState, mapActions} from 'vuex';
 
     import {DATE_API_FORMAT} from '../../constants/config';
+    import DOCUMENT_TYPES from '../../constants/courier-document-types';
     import mixins from '../../common/js/mixins';
     import {generateRandomString} from '../../common/js/helpers';
     import cars from '../../common/js/cars';
     import inputmask from '../../directives/inputmask';
     import Waiting from '../Waiting';
     import InputFile from '../InputFile';
+    import UploadCourierDocumentDialog from '../dialog/UploadCourierDocumentDialog';
+    import FormattedDate from '../FormattedDate';
 
     // Минимальная длина пароля при создании нового курьера
     const minPasswordLength = 6;
 
     export default {
         name: 'CourierPage',
-        components: {InputFile, Waiting},
+        components: {FormattedDate, UploadCourierDocumentDialog, InputFile, Waiting},
         mixins: [mixins],
         directives: {inputmask},
         data () {
@@ -175,6 +198,9 @@
                 dateValueFormat: DATE_API_FORMAT,
                 processing: false,
                 isAdd: this.$route.name === 'addCourier',
+                uploadDocumentDialog: false,
+                DOCUMENT_TYPES,
+                width: 0,
                 rules: {
                     fullname: [this.validationRule('required')],
                     shortname: [this.validationRule('required')],
@@ -205,6 +231,19 @@
                 'saveCourier',
                 'patchCourier',
             ]),
+            uploadDocument (document) {
+                this.uploadDocumentDialog = false;
+                this.courier.documents.push({
+                    ...document,
+                    uploadDate: (new Date()).getTime(),
+                });
+            },
+            removeDocument (i) {
+                this.courier.documents.splice(i, 1);
+            },
+            openDocument ({data}) {
+                console.log(data);
+            },
             carBrands (query, cb) {
                 query = query.trim().toLowerCase();
 
@@ -215,9 +254,6 @@
                 cb(result.map(value => {
                     return { value };
                 }));
-            },
-            openUploadDocumentDialog () {
-
             },
             changeActive (active) {
                 let dialogTitle = this.$t(active ? 'restoreCourierConfirmation' : 'toArchiveCourierConfirmation');
@@ -263,10 +299,15 @@
             },
         },
         created () {
+            this.bindClientWidth('width');
+
             if (this.$route.name === 'editCourier')
                 this.openCourier(this.$route.params.id);
             else
                 this.createNewCourier();
+        },
+        destroyed () {
+            this.unbindClientWidth();
         },
     }
 </script>
@@ -292,12 +333,6 @@
                 max-height: 120px;
                 margin-right: @img-margin;
                 margin-bottom: @img-margin;
-            }
-
-            .hint {
-                font-size: 12px;
-                color: @secondary-text-color;
-                line-height: 24px;
             }
         }
 

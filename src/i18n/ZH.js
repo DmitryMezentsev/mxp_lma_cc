@@ -154,6 +154,8 @@ export default {
     newPasswordSentToCourier: '',
     validation: {
         required: '',
+        fileRequired: '',
+        selectRequired: '',
         invalidPhoneNumber: '',
         email: '',
     },
