@@ -53,6 +53,7 @@
             loadList () {
                 this.getList({
                     perPage: PER_PAGE_DEFAULT,
+                    fields: ['courierId', 'fullname', 'phone1', 'phone2', 'livingArea', 'isActive'],
                     page: get(this.$route.query, 'page'),
                     fullname: get(this.$route.query, 'fullname'),
                     isActive: !get(this.$route.query, 'inArchive'),
