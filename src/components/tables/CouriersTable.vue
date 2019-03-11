@@ -54,10 +54,10 @@
 </template>
 
 <script>
-    import {mapActions} from 'vuex';
+    import {mapState, mapActions} from 'vuex';
 
     import mixins from '../../common/js/mixins';
-    import {API_PATH} from '../../constants/config';
+    import {OTH_SERVER_PATH} from '../../common/js/env';
 
     export default {
         name: 'CouriersTable',
@@ -71,6 +71,9 @@
             }
         },
         computed: {
+            ...mapState('auth', [
+                'token',
+            ]),
             loading () { return this.data === null; },
         },
         methods: {
@@ -92,7 +95,7 @@
             },
             printBadge (id) {
                 const params = 'width=360,height=280,resizable=no,scrollbars=no,toolbar=no,location=no,menubar=no,status=no';
-                window.open(`${API_PATH}courier/badge/${id}`, 'courier-badge', params).print();
+                window.open(`${OTH_SERVER_PATH}courier/badge/${id}?token=${this.token}`, 'courier-badge', params).print();
             },
         },
         created () {

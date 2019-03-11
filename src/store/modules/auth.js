@@ -3,14 +3,14 @@ import Cookies from 'js-cookie';
 import get from 'lodash/get';
 
 import {getParam} from '../../common/js/helpers';
-import {API_PATH, SSO_AUTH_URL, COOKIES_EXP_DAYS} from '../../constants/config';
-import {CLIENT_ID} from '../../common/js/env';
+import {COOKIES_EXP_DAYS} from '../../constants/config';
+import {API_PATH, AUTH_SERVER_PATH, CLIENT_ID} from '../../common/js/env';
 
 
 // Редиректит на страницу авторизации
 function redirectToAuth () {
     let redirect = `${location.protocol}//${location.host}`;
-    location.href = `${SSO_AUTH_URL}?client_id=${CLIENT_ID}&redirect_uri=${redirect}`;
+    location.href = `${AUTH_SERVER_PATH}auth?client_id=${CLIENT_ID}&redirect_uri=${redirect}`;
 }
 
 

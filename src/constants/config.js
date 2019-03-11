@@ -1,9 +1,3 @@
-// Путь к API
-export const API_PATH = 'http://api.lma.mxpdev.com/';
-
-// Путь к странице авторизации
-export const SSO_AUTH_URL = 'http://sso.dev.maxitechcore.ru/auth';
-
 // Название приложения
 export const APP_TITLE = 'MXP';
 
