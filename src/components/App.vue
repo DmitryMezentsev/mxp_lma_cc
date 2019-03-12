@@ -82,6 +82,9 @@
 
                     // Установка title для текущей страницы
                     this.setPageTitle(this.getRoutePageName());
+
+                    // Подключение Google Maps
+                    window.app.includeGoogleMaps(user.locale.toLowerCase());
                 }
             },
         }

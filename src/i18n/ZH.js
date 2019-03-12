@@ -164,5 +164,8 @@ export default {
     warning: '',
     invalidFileType: '',
     fileTooLarge: '',
+    routing: '',
+    map: '',
+    summary: '',
 
 }

@@ -9,6 +9,7 @@ import ClientsPage from './components/pages/ClientsPage';
 import ClientPage from './components/pages/ClientPage';
 import CouriersPage from './components/pages/CouriersPage';
 import CourierPage from './components/pages/CourierPage';
+import RoutingPage from './components/pages/RoutingPage';
 import ReportingPage from './components/pages/ReportingPage';
 import CourierCalculationPage from './components/pages/CourierCalculationPage';
 import ReportingStatementsPage from './components/pages/ReportingStatementsPage';
@@ -72,6 +73,10 @@ export default new VueRouter({
             path: ':id',
             component: CourierPage,
         }],
+    }, {
+        name: 'routing',
+        path: '/routing',
+        component: RoutingPage,
     }, {
         name: 'reporting',
         path: '/reporting',

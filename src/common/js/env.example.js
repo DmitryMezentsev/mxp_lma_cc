@@ -9,3 +9,6 @@ export const AUTH_SERVER_PATH = '';
 
 // Client ID для SSO-авторизации
 export const CLIENT_ID = '';
+
+// Google Maps API key
+export const GOOGLE_MAPS_API_KEY = '';

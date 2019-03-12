@@ -164,5 +164,8 @@ export default {
     warning: 'Warning',
     invalidFileType: 'Invalid file type',
     fileTooLarge: 'File too large. Max file size: {maxSize}MB.',
+    routing: 'Routing',
+    map: 'Map',
+    summary: 'Summary',
 
 }

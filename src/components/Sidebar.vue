@@ -54,6 +54,10 @@
                 <i class="fas fa-user-tie"></i>
                 <span slot="title">{{ $t('couriers') }}</span>
             </el-menu-item>
+            <el-menu-item index="5" :route="{name: 'routing'}" v-is-route="'routing'">
+                <i class="fas fa-map-marked-alt"></i>
+                <span slot="title">{{ $t('routing') }}</span>
+            </el-menu-item>
             <el-submenu index="5">
                 <template slot="title">
                     <i class="fas fa-book"></i>

@@ -73,7 +73,6 @@ module.exports = (env = {}) => {
                 },
             }, {
                 test: /\.vue$/,
-                exclude: /node_modules/,
                 loader: 'vue-loader',
                 options: {
                     extractCSS: true,
