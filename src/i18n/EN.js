@@ -167,5 +167,17 @@ export default {
     routing: 'Routing',
     map: 'Map',
     summary: 'Summary',
+    pickups: 'Pickups',
+    noPickups: 'No pickups',
+    loading: 'Loading',
+    noStatuses: 'No statuses',
+    number: 'Number',
+    pickupDate: 'Pickup date',
+    customer: 'Customer',
+    zone: 'Zone',
+    clientTimezoneMsg: 'Date and time are in the recipient’s time zone',
+    setCourier: 'Set courier',
+    selectCourier: 'Select courier',
+    courierAreSet: 'Courier are set | Couriers are set',
 
 }

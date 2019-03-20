@@ -167,5 +167,17 @@ export default {
     routing: 'Маршрутизация',
     map: 'Карта',
     summary: 'Сводка',
+    pickups: 'Заборы',
+    noPickups: 'Нет заборов для отображения',
+    loading: 'Загрузка...',
+    noStatuses: 'Нет статусов',
+    number: 'Номер',
+    pickupDate: 'Дата забора',
+    customer: 'Заказчик',
+    zone: 'Зона',
+    clientTimezoneMsg: 'Дата и время указаны в часовом поясе получателя',
+    setCourier: 'Назначить курьера',
+    selectCourier: 'Выберите курьера',
+    courierAreSet: 'Курьер назначен | Курьеры назначены',
 
 }

@@ -51,8 +51,14 @@
         <el-table-column
                 v-if="mode === 'courier' && width > 379"
                 prop=""
-                :label="$t('deliveryDate')"
+                width="155"
                 key="col-delivery-date">
+            <template slot="header" slot-scope="scope">
+                {{ $t('deliveryDate') }}&nbsp;
+                <el-tooltip :content="$t('clientTimezoneMsg')" placement="top">
+                    <i class="far fa-question-circle"></i>
+                </el-tooltip>
+            </template>
         </el-table-column>
 
         <!-- Только ПВЗ -->

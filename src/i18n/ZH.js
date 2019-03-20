@@ -167,5 +167,17 @@ export default {
     routing: '',
     map: '',
     summary: '',
+    pickups: '',
+    noPickups: '',
+    loading: '',
+    noStatuses: '',
+    number: '',
+    pickupDate: '',
+    customer: '',
+    zone: '',
+    clientTimezoneMsg: '',
+    setCourier: '',
+    selectCourier: '',
+    courierAreSet: '',
 
 }

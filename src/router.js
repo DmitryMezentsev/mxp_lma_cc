@@ -5,6 +5,7 @@ import HomePage from './components/pages/HomePage';
 import AccountPage from './components/pages/AccountPage';
 import AccountSettingsPage from './components/pages/AccountSettingsPage';
 import OrdersPage from './components/pages/OrdersPage';
+import PickupsPage from './components/pages/PickupsPage';
 import ClientsPage from './components/pages/ClientsPage';
 import ClientPage from './components/pages/ClientPage';
 import CouriersPage from './components/pages/CouriersPage';
@@ -47,6 +48,10 @@ export default new VueRouter({
                 },
             },
         }],
+    }, {
+        name: 'pickups',
+        path: '/pickups',
+        component: PickupsPage,
     }, {
         name: 'clients',
         path: '/clients',

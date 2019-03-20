@@ -42,34 +42,38 @@
                     <span slot="title">{{ $t('pointOrders') }}</span>
                 </el-menu-item>
             </el-submenu>
-            <el-menu-item index="2" @click="toWarehouse">
+            <el-menu-item index="2" :route="{name: 'pickups'}" v-is-route="'pickups'">
+                <i class="fas fa-truck-loading"></i>
+                <span slot="title">{{ $t('pickups') }}</span>
+            </el-menu-item>
+            <el-menu-item index="3" @click="toWarehouse">
                 <i class="fas fa-warehouse"></i>
                 <span slot="title">{{ $t('warehouse') }}</span>
             </el-menu-item>
-            <el-menu-item index="3" :route="{name: 'clients'}" v-is-route="{ name: ['clients', 'addClient', 'editClient'] }">
+            <el-menu-item index="4" :route="{name: 'clients'}" v-is-route="{ name: ['clients', 'addClient', 'editClient'] }">
                 <i class="fas fa-users"></i>
                 <span slot="title">{{ $t('clients') }}</span>
             </el-menu-item>
-            <el-menu-item index="4" :route="{name: 'couriers'}" v-is-route="{ name: ['couriers', 'addCourier', 'editCourier'] }">
+            <el-menu-item index="5" :route="{name: 'couriers'}" v-is-route="{ name: ['couriers', 'addCourier', 'editCourier'] }">
                 <i class="fas fa-user-tie"></i>
                 <span slot="title">{{ $t('couriers') }}</span>
             </el-menu-item>
-            <el-menu-item index="5" :route="{name: 'routing'}" v-is-route="'routing'">
+            <el-menu-item index="6" :route="{name: 'routing'}" v-is-route="'routing'">
                 <i class="fas fa-map-marked-alt"></i>
                 <span slot="title">{{ $t('routing') }}</span>
             </el-menu-item>
-            <el-submenu index="5">
+            <el-submenu index="7">
                 <template slot="title">
                     <i class="fas fa-book"></i>
                     <span slot="title">{{ $t('reporting') }}</span>
                 </template>
-                <el-menu-item index="5-1" :route="{name: 'courierCalculation'}" v-is-route="'courierCalculation'">
+                <el-menu-item index="7-1" :route="{name: 'courierCalculation'}" v-is-route="'courierCalculation'">
                     <span slot="title">{{ $t('courierCalculation') }}</span>
                 </el-menu-item>
-                <el-menu-item index="5-2" :route="{name: 'reportingStatements'}" v-is-route="'reportingStatements'">
+                <el-menu-item index="7-2" :route="{name: 'reportingStatements'}" v-is-route="'reportingStatements'">
                     <span slot="title">{{ $t('reportingStatements') }}</span>
                 </el-menu-item>
-                <el-menu-item index="5-3" :route="{name: 'serviceActs'}" v-is-route="'serviceActs'">
+                <el-menu-item index="7-3" :route="{name: 'serviceActs'}" v-is-route="'serviceActs'">
                     <span slot="title">{{ $t('serviceActs') }}</span>
                 </el-menu-item>
             </el-submenu>

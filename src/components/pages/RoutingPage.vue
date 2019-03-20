@@ -1,9 +1,9 @@
 <template>
     <el-tabs v-model="tab">
-        <el-tab-pane :label="$t('map')" name="map">
+        <el-tab-pane :label="$t('map')" name="map" lazy>
             <RoutingMap />
         </el-tab-pane>
-        <el-tab-pane :label="$t('summary')" name="summary">
+        <el-tab-pane :label="$t('summary')" name="summary" lazy>
             <RoutingSummary />
         </el-tab-pane>
     </el-tabs>

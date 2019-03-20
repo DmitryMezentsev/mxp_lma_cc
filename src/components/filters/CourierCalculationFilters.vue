@@ -2,18 +2,7 @@
     <el-form class="filters">
         <div class="filter">
             <el-form-item :label="$t('courier')">
-                <el-select v-model="filters.courier"
-                           :no-data-text="$t('noCouriers')"
-                           :placeholder="$tc('noSelect', 1)"
-                           :loading="!couriers"
-                           filterable>
-                    <el-option
-                            v-for="(courier, i) in couriers"
-                            :key="i"
-                            :label="courier.name"
-                            :value="courier.id">
-                    </el-option>
-                </el-select>
+                <CourierSelect :value.sync="filters.courier" />
             </el-form-item>
         </div>
         <div class="filter">
@@ -36,9 +25,11 @@
 
     import mixins from '../../common/js/mixins';
     import {DATE_API_FORMAT} from '../../constants/config';
+    import CourierSelect from '../CourierSelect';
 
     export default {
         name: 'CourierCalculationFilters',
+        components: {CourierSelect},
         mixins: [mixins],
         data () {
             return {
@@ -46,12 +37,8 @@
                     courier: null,
                     date: null,
                 },
-
                 dateValueFormat: DATE_API_FORMAT,
-
                 removeAfterEach: null,
-
-                couriers: [{ id: '1', name: 'Вася' }, { id: '2', name: 'Паша' }],
             }
         },
         methods: {
@@ -76,7 +63,3 @@
         },
     }
 </script>
-
-<style lang="less" scoped>
-
-</style>

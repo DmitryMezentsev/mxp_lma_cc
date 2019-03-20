@@ -1,21 +1,18 @@
 <template>
     <el-form class="filters">
-        <div class="filter delivery-date-filter">
-            <el-form-item :label="$t('deliveryDate')">
-                <el-date-picker
-                        v-model="filters.deliveryDate"
-                        type="daterange"
-                        range-separator="—"
-                        :value-format="dateValueFormat"
-                        :picker-options="{firstDayOfWeek: 1}"
-                        :start-placeholder="$tc('from', 1) + '...'"
-                        :end-placeholder="$tc('to', 1) + '...'">
-                </el-date-picker>
+        <div class="filter">
+            <el-form-item :label="$t('courier')">
+                <CourierSelect :model.sync="filters.courier" clearable />
             </el-form-item>
         </div>
         <div class="filter">
-            <el-form-item :label="$t('status')">
-                <StatusSelect :value.sync="filters.status" />
+            <el-form-item :label="$t('date')">
+                <el-date-picker
+                        v-model="filters.pickupDate"
+                        type="date"
+                        :value-format="dateValueFormat"
+                        :picker-options="{firstDayOfWeek: 1}">
+                </el-date-picker>
             </el-form-item>
         </div>
         <el-button @click.prevent native-type="submit" class="hidden" />
@@ -27,17 +24,17 @@
 
     import mixins from '../../common/js/mixins';
     import {DATE_API_FORMAT} from '../../constants/config';
-    import StatusSelect from '../StatusSelect';
+    import CourierSelect from '../CourierSelect';
 
     export default {
-        name: 'OrdersFilters',
-        components: {StatusSelect},
+        name: 'PickupsFilters',
+        components: {CourierSelect},
         mixins: [mixins],
         data () {
             return {
                 filters: {
-                    deliveryDate: null,
-                    status: null,
+                    courier: null,
+                    pickupDate: null,
                 },
                 dateValueFormat: DATE_API_FORMAT,
                 removeAfterEach: null,
@@ -45,7 +42,7 @@
         },
         methods: {
             loadFilterValues () {
-                this.filters = pick(this.$route.query, ['deliveryDate', 'status']);
+                this.filters = pick(this.$route.query, ['pickupDate', 'courier']);
             },
         },
         mounted () {
@@ -65,11 +62,3 @@
         },
     }
 </script>
-
-<style lang="less" scoped>
-    .el-range-editor { width: 250px; }
-
-    .delivery-date-filter {
-        @media (max-width: 640px) { display: none; }
-    }
-</style>
