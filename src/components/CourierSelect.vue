@@ -5,6 +5,7 @@
                :loading="!couriers"
                :clearable="clearable"
                :disabled="disabled"
+               :style="{ width: width + 'px' }"
                filterable
                @change="onChange">
         <el-option
@@ -25,6 +26,7 @@
             clearable: { type: Boolean },
             disabled: { type: Boolean },
             model: { type: String },
+            width: { type: Number, default: 220 }
         },
         data () {
             return {
