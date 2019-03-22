@@ -26,7 +26,7 @@
             clearable: { type: Boolean },
             disabled: { type: Boolean },
             model: { type: String },
-            width: { type: Number, default: 220 }
+            width: { type: Number, default: 220 },
         },
         data () {
             return {

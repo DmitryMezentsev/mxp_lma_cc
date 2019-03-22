@@ -9,13 +9,14 @@
                         :value-format="dateValueFormat"
                         :picker-options="{firstDayOfWeek: 1}"
                         :start-placeholder="$tc('from', 1) + '...'"
-                        :end-placeholder="$tc('to', 1) + '...'">
-                </el-date-picker>
+                        :end-placeholder="$tc('to', 1) + '...'" />
             </el-form-item>
         </div>
         <div class="filter">
             <el-form-item :label="$t('status')">
-                <StatusSelect :value.sync="filters.status" />
+                <StatusSelect :model.sync="filters.status"
+                              :noSelectPlaceholder="$t('all')"
+                              clearable />
             </el-form-item>
         </div>
         <el-button @click.prevent native-type="submit" class="hidden" />

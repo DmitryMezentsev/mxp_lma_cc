@@ -3,13 +3,15 @@
                :no-data-text="$t('noStatuses')"
                :placeholder="placeholder"
                :loading="!statuses"
-               clearable
+               :clearable="clearable"
+               :disabled="disabled"
+               :style="{ width: width + 'px' }"
                @change="onChange">
         <el-option
                 v-for="(status, i) in statuses"
                 :key="i"
                 :label="status.name"
-                :value="status.statusId">
+                :value="status.id">
         </el-option>
     </el-select>
 </template>
@@ -20,7 +22,12 @@
     export default {
         name: 'StatusSelect',
         props: {
-            model: { type: String },
+            clearable: { type: Boolean },
+            disabled: { type: Boolean },
+            model: { type: [String, Number] },
+            width: { type: Number, default: 220 },
+            noSelectPlaceholder: { type: String },
+            type: { type: String, default: 'order' },
         },
         data () {
             return {
@@ -30,7 +37,9 @@
         },
         computed: {
             placeholder () {
-                return this.$t(this.statuses ? 'all' : 'loading');
+                return this.statuses
+                    ? this.noSelectPlaceholder || this.$tc('noSelect', 1)
+                    : this.$t('loading');
             },
         },
         methods: {
@@ -39,13 +48,11 @@
             },
         },
         created () {
-            // todo: доделать, когда будет API
-            this.statuses = [];
-            // api.get('statuses')
-            //     .then(({data}) => {
-            //         this.statuses = data;
-            //         this.value = this.model;
-            //     });
+            api.get(`statuses/${this.type}`)
+                .then(({data}) => {
+                    this.statuses = data;
+                    this.value = this.model;
+                });
         },
         watch: {
             model: {
