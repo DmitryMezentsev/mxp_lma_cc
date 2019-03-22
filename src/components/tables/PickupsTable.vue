@@ -34,13 +34,13 @@
         </el-table-column>
         <el-table-column
                 v-if="width > 1359"
-                property=""
+                property="sender.name"
                 key="col-customer"
                 :label="$t('customer')">
         </el-table-column>
         <el-table-column
                 v-if="width > 1169"
-                property=""
+                property="sender.warehouseName"
                 key="col-warehouse"
                 :label="$t('warehouse')">
         </el-table-column>
@@ -48,15 +48,15 @@
                 v-if="width > 767"
                 :label="$t('status')"
                 key="col-status"
-                property="">
+                property="serviceInfo.statusName">
         </el-table-column>
         <el-table-column
                 v-if="width > 639"
                 key="col-zone-and-courier"
                 :label="$t('zone') + ' / ' + $t('courier')">
             <template slot-scope="scope">
-                <div></div>
-                <div></div>
+                <div>{{ scope.row.serviceInfo.zoneName }}</div>
+                <div>{{ scope.row.serviceInfo.courierName }}</div>
             </template>
         </el-table-column>
     </el-table>
