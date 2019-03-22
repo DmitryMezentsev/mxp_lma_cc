@@ -26,11 +26,10 @@
     import {mapState, mapActions} from 'vuex';
     import get from 'lodash/get';
 
-    import {PER_PAGE_DEFAULT} from '../../constants/config';
-
-    import CouriersFilters from '../filters/CouriersFilters';
-    import CouriersTable from '../tables/CouriersTable';
-    import Pagination from '../Pagination';
+    import {PER_PAGE_DEFAULT} from 'Constants/config';
+    import CouriersFilters from 'Components/filters/CouriersFilters';
+    import CouriersTable from 'Components/tables/CouriersTable';
+    import Pagination from 'Components/Pagination';
 
     export default {
         name: 'CouriersPage',

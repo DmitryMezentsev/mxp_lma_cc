@@ -1,4 +1,4 @@
-import api from '../../common/js/api';
+import api from 'Common/js/api';
 
 
 export default {

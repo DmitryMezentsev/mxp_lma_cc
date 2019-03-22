@@ -8,8 +8,8 @@
 </template>
 
 <script>
-    import mixins from '../common/js/mixins';
-    import {getMimeFromBase64} from '../common/js/helpers';
+    import mixins from 'Common/js/mixins';
+    import {getMimeFromBase64} from 'Common/js/helpers';
 
     export default {
         name: 'InputFile',

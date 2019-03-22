@@ -86,8 +86,8 @@
     import Cookies from 'js-cookie';
     import {mapActions} from 'vuex';
 
-    import isRoute from '../directives/is-route';
-    import {COOKIES_EXP_DAYS} from '../constants/config';
+    import isRoute from 'Directives/is-route';
+    import {COOKIES_EXP_DAYS} from 'Constants/config';
 
     const SIDEBAR_STATE_COOKIE_NAME = 'sidebarSubmenu';
 

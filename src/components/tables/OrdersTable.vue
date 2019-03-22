@@ -131,8 +131,8 @@
 <script>
     import {mapActions} from 'vuex';
 
-    import mixins from '../../common/js/mixins';
-    import Currency from '../Currency';
+    import mixins from 'Common/js/mixins';
+    import Currency from 'Components/Currency';
 
     export default {
         name: 'OrdersTable',

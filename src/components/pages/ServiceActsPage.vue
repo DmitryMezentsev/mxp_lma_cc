@@ -13,9 +13,9 @@
 </template>
 
 <script>
-    import ServiceActsTable from '../tables/ServiceActsTable';
-    import Pagination from '../Pagination';
-    import SelectDateDialog from '../dialog/SelectDateDialog';
+    import ServiceActsTable from 'Components/tables/ServiceActsTable';
+    import Pagination from 'Components/Pagination';
+    import SelectDateDialog from 'Components/dialog/SelectDateDialog';
 
     export default {
         name: 'ServiceActsPage',

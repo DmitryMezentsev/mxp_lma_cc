@@ -14,9 +14,8 @@
 </template>
 
 <script>
-    import {DATE_API_FORMAT} from '../../constants/config';
-
-    import mixins from '../../common/js/mixins';
+    import {DATE_API_FORMAT} from 'Constants/config';
+    import mixins from 'Common/js/mixins';
 
     export default {
         name: 'SelectDateDialog',

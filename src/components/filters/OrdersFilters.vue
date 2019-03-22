@@ -25,9 +25,9 @@
 <script>
     import pick from 'lodash/pick';
 
-    import mixins from '../../common/js/mixins';
-    import {DATE_API_FORMAT} from '../../constants/config';
-    import StatusSelect from '../StatusSelect';
+    import mixins from 'Common/js/mixins';
+    import {DATE_API_FORMAT} from 'Constants/config';
+    import StatusSelect from 'Components/StatusSelect';
 
     export default {
         name: 'OrdersFilters',

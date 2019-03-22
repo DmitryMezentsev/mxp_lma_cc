@@ -1,7 +1,7 @@
 import queryString from 'query-string';
 import get from 'lodash/get';
 
-import {AUTH_SERVER_PATH, CLIENT_ID} from './env';
+import {AUTH_SERVER_PATH, CLIENT_ID} from 'Common/js/env';
 
 
 

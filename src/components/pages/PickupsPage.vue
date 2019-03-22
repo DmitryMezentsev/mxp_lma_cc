@@ -25,12 +25,12 @@
     import {mapState, mapActions} from 'vuex';
     import get from 'lodash/get';
 
-    import {PER_PAGE_DEFAULT} from '../../constants/config';
+    import {PER_PAGE_DEFAULT} from 'Constants/config';
 
-    import PickupsFilters from '../filters/PickupsFilters';
-    import Pagination from '../Pagination';
-    import PickupsTable from '../tables/PickupsTable';
-    import SelectCourierDialog from '../dialog/SelectCourierDialog';
+    import PickupsFilters from 'Components/filters/PickupsFilters';
+    import Pagination from 'Components/Pagination';
+    import PickupsTable from 'Components/tables/PickupsTable';
+    import SelectCourierDialog from 'Components/dialog/SelectCourierDialog';
 
     export default {
         name: 'PickupsPage',

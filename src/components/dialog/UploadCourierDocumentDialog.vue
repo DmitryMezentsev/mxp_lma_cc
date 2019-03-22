@@ -31,9 +31,9 @@
 </template>
 
 <script>
-    import DOCUMENT_TYPES from '../../constants/courier-document-types';
-    import mixins from '../../common/js/mixins';
-    import InputFile from '../InputFile';
+    import DOCUMENT_TYPES from 'Constants/courier-document-types';
+    import mixins from 'Common/js/mixins';
+    import InputFile from 'Components/InputFile';
 
     export default {
         name: 'UploadCourierDocumentDialog',
@@ -88,7 +88,3 @@
         },
     }
 </script>
-
-<style lang="less" scoped>
-
-</style>

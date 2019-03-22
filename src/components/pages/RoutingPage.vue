@@ -10,8 +10,8 @@
 </template>
 
 <script>
-    import RoutingMap from '../RoutingMap';
-    import RoutingSummary from '../RoutingSummary';
+    import RoutingMap from 'Components/RoutingMap';
+    import RoutingSummary from 'Components/RoutingSummary';
 
     export default {
         name: 'RoutingPage',

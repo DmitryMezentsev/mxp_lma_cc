@@ -1,20 +1,20 @@
 import VueRouter from 'vue-router';
 
 
-import HomePage from './components/pages/HomePage';
-import AccountPage from './components/pages/AccountPage';
-import AccountSettingsPage from './components/pages/AccountSettingsPage';
-import OrdersPage from './components/pages/OrdersPage';
-import PickupsPage from './components/pages/PickupsPage';
-import ClientsPage from './components/pages/ClientsPage';
-import ClientPage from './components/pages/ClientPage';
-import CouriersPage from './components/pages/CouriersPage';
-import CourierPage from './components/pages/CourierPage';
-import RoutingPage from './components/pages/RoutingPage';
-import ReportingPage from './components/pages/ReportingPage';
-import CourierCalculationPage from './components/pages/CourierCalculationPage';
-import ReportingStatementsPage from './components/pages/ReportingStatementsPage';
-import ServiceActsPage from './components/pages/ServiceActsPage';
+import HomePage from 'Components/pages/HomePage';
+import AccountPage from 'Components/pages/AccountPage';
+import AccountSettingsPage from 'Components/pages/AccountSettingsPage';
+import OrdersPage from 'Components/pages/OrdersPage';
+import PickupsPage from 'Components/pages/PickupsPage';
+import ClientsPage from 'Components/pages/ClientsPage';
+import ClientPage from 'Components/pages/ClientPage';
+import CouriersPage from 'Components/pages/CouriersPage';
+import CourierPage from 'Components/pages/CourierPage';
+import RoutingPage from 'Components/pages/RoutingPage';
+import ReportingPage from 'Components/pages/ReportingPage';
+import CourierCalculationPage from 'Components/pages/CourierCalculationPage';
+import ReportingStatementsPage from 'Components/pages/ReportingStatementsPage';
+import ServiceActsPage from 'Components/pages/ServiceActsPage';
 
 
 export default new VueRouter({

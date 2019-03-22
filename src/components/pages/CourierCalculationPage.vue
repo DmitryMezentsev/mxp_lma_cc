@@ -10,8 +10,8 @@
 </template>
 
 <script>
-    import CourierCalculationFilters from '../filters/CourierCalculationFilters';
-    import CourierSalaryEdit from '../CourierSalaryEdit';
+    import CourierCalculationFilters from 'Components/filters/CourierCalculationFilters';
+    import CourierSalaryEdit from 'Components/CourierSalaryEdit';
 
     export default {
         name: 'CourierCalculationPage',

@@ -18,14 +18,13 @@
     import {mapState, mapActions} from 'vuex';
     import get from 'lodash/get';
 
-    import {PER_PAGE_DEFAULT} from '../../constants/config';
-
-    import OrdersFilters from '../filters/OrdersFilters';
-    import OrdersTable from '../tables/OrdersTable';
-    import Pagination from '../Pagination';
-    import OrderDialog from '../dialog/OrderDialog';
-    import Number from '../Number';
-    import Currency from '../Currency';
+    import {PER_PAGE_DEFAULT} from 'Constants/config';
+    import OrdersFilters from 'Components/filters/OrdersFilters';
+    import OrdersTable from 'Components/tables/OrdersTable';
+    import Pagination from 'Components/Pagination';
+    import OrderDialog from 'Components/dialog/OrderDialog';
+    import Number from 'Components/Number';
+    import Currency from 'Components/Currency';
 
     export default {
         name: 'OrdersPage',

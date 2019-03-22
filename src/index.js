@@ -8,12 +8,12 @@ import 'element-ui/lib/theme-chalk/index.css';
 import 'element-ui/lib/theme-chalk/display.css';
 import * as VueGoogleMaps from 'vue2-google-maps'
 
-import './common/styles';
-import {GOOGLE_MAPS_API_KEY} from './common/js/env';
-import i18n from './i18n';
-import router from './router';
-import getStore from './store';
-import App from './components/App';
+import 'Common/styles';
+import {GOOGLE_MAPS_API_KEY} from 'Common/js/env';
+import i18n from 'Base/i18n';
+import router from 'Base/router';
+import getStore from 'Base/store';
+import App from 'Components/App';
 
 
 Vue.use(VueI18n);

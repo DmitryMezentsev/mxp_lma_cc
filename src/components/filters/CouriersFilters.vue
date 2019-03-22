@@ -18,8 +18,8 @@
     import debounce from 'lodash/debounce';
     import pick from 'lodash/pick';
 
-    import {str2Bool} from '../../common/js/helpers';
-    import mixins from '../../common/js/mixins';
+    import {str2Bool} from 'Common/js/helpers';
+    import mixins from 'Common/js/mixins';
 
     export default {
         name: 'CouriersFilters',
@@ -71,7 +71,3 @@
         },
     }
 </script>
-
-<style lang="less" scoped>
-
-</style>

@@ -65,7 +65,7 @@
 <script>
     import {mapActions} from 'vuex';
 
-    import mixins from '../../common/js/mixins';
+    import mixins from 'Common/js/mixins';
 
     export default {
         name: 'PickupsTable',

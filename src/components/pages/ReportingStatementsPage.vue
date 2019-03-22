@@ -6,8 +6,8 @@
 </template>
 
 <script>
-    import ReportingStatementsTable from '../tables/ReportingStatementsTable';
-    import Pagination from '../Pagination';
+    import ReportingStatementsTable from 'Components/tables/ReportingStatementsTable';
+    import Pagination from 'Components/Pagination';
 
     export default {
         name: 'ReportingStatementsPage',

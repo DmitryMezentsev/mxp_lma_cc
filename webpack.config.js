@@ -101,6 +101,13 @@ module.exports = (env = {}) => {
         },
         resolve: {
             extensions: ['.vue', '.js', '.less', '.css'],
+            alias: {
+                Base: path.resolve(__dirname, 'src/'),
+                Common: path.resolve(__dirname, 'src/common/'),
+                Constants: path.resolve(__dirname, 'src/constants/'),
+                Components: path.resolve(__dirname, 'src/components/'),
+                Directives: path.resolve(__dirname, 'src/directives/'),
+            },
         },
         devServer: {
             stats: 'errors-only',

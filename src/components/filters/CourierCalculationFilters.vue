@@ -23,9 +23,9 @@
 <script>
     import pick from 'lodash/pick';
 
-    import mixins from '../../common/js/mixins';
-    import {DATE_API_FORMAT} from '../../constants/config';
-    import CourierSelect from '../CourierSelect';
+    import mixins from 'Common/js/mixins';
+    import {DATE_API_FORMAT} from 'Constants/config';
+    import CourierSelect from 'Components/CourierSelect';
 
     export default {
         name: 'CourierCalculationFilters',

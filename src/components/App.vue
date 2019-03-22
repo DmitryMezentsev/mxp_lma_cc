@@ -15,15 +15,15 @@
 <script>
     import {mapState, mapActions} from 'vuex';
 
-    import {SIDEBAR_TOGGLE_WIDTH} from '../constants/config';
-    import mixins from '../common/js/mixins';
-    import Breadcrumbs from './Breadcrumbs';
-    import Sidebar from './Sidebar';
-
     import locale from 'element-ui/lib/locale';
     import elementLocaleRU from 'element-ui/lib/locale/lang/ru-RU';
     import elementLocaleEN from 'element-ui/lib/locale/lang/en';
     import elementLocaleZH from 'element-ui/lib/locale/lang/zh-CN';
+
+    import {SIDEBAR_TOGGLE_WIDTH} from 'Constants/config';
+    import mixins from 'Common/js/mixins';
+    import Breadcrumbs from 'Components/Breadcrumbs';
+    import Sidebar from 'Components/Sidebar';
 
     const elementLocalesMap = {
         RU: elementLocaleRU,

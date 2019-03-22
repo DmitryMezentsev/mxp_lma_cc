@@ -174,16 +174,16 @@
     import {mapState, mapActions} from 'vuex';
     import downloadjs from 'downloadjs';
 
-    import {DATE_API_FORMAT} from '../../constants/config';
-    import DOCUMENT_TYPES from '../../constants/courier-document-types';
-    import mixins from '../../common/js/mixins';
-    import {generateRandomString, getExtensionFromBase64} from '../../common/js/helpers';
-    import cars from '../../common/js/cars';
-    import inputmask from '../../directives/inputmask';
-    import Waiting from '../Waiting';
-    import InputFile from '../InputFile';
-    import UploadCourierDocumentDialog from '../dialog/UploadCourierDocumentDialog';
-    import FormattedDate from '../FormattedDate';
+    import {DATE_API_FORMAT} from 'Constants/config';
+    import DOCUMENT_TYPES from 'Constants/courier-document-types';
+    import mixins from 'Common/js/mixins';
+    import {generateRandomString, getExtensionFromBase64} from 'Common/js/helpers';
+    import cars from 'Common/js/cars';
+    import inputmask from 'Directives/inputmask';
+    import Waiting from 'Components/Waiting';
+    import InputFile from 'Components/InputFile';
+    import UploadCourierDocumentDialog from 'Components/dialog/UploadCourierDocumentDialog';
+    import FormattedDate from 'Components/FormattedDate';
 
     // Минимальная длина пароля при создании нового курьера
     const minPasswordLength = 6;

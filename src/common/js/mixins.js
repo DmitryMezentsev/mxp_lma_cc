@@ -1,8 +1,8 @@
-import api from '../js/api';
-
-
-import {APP_TITLE} from '../../constants/config';
 import get from 'lodash/get';
+
+import api from 'Common/js/api';
+import {APP_TITLE} from 'Constants/config';
+
 
 
 export default {

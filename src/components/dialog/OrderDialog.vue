@@ -155,11 +155,11 @@
     import {mapState, mapActions, mapGetters} from 'vuex';
     import cloneDeep from 'lodash/cloneDeep';
 
-    import mixins from '../../common/js/mixins';
-    import Dimensions from '../Dimensions';
-    import TagChecked from '../TagChecked';
-    import Currency from '../Currency';
-    import Value from '../Value';
+    import mixins from 'Common/js/mixins';
+    import Dimensions from 'Components/Dimensions';
+    import TagChecked from 'Components/TagChecked';
+    import Currency from 'Components/Currency';
+    import Value from 'Components/Value';
 
     export default {
         name: 'OrderDialog',

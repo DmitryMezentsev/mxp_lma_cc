@@ -56,8 +56,8 @@
 <script>
     import {mapState, mapActions} from 'vuex';
 
-    import mixins from '../../common/js/mixins';
-    import {OTH_SERVER_PATH} from '../../common/js/env';
+    import mixins from 'Common/js/mixins';
+    import {OTH_SERVER_PATH} from 'Common/js/env';
 
     export default {
         name: 'CouriersTable',

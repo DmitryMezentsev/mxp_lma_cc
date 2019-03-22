@@ -13,8 +13,8 @@
 </template>
 
 <script>
-    import mixins from '../common/js/mixins';
-    import {PER_PAGE_DEFAULT} from '../constants/config';
+    import mixins from 'Common/js/mixins';
+    import {PER_PAGE_DEFAULT} from 'Constants/config';
 
     const QUERY_PARAM_NAME = 'page';
 

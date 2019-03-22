@@ -1,8 +1,8 @@
 import Cookies from 'js-cookie';
 
-import api from '../../common/js/api';
-import {getParam, redirectToAuth} from '../../common/js/helpers';
-import {COOKIES_EXP_DAYS} from '../../constants/config';
+import api from 'Common/js/api';
+import {getParam, redirectToAuth} from 'Common/js/helpers';
+import {COOKIES_EXP_DAYS} from 'Constants/config';
 
 
 const TOKEN_COOKIE_NAME = 'token';

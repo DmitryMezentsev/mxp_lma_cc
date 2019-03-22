@@ -1,4 +1,4 @@
-import router from '../router';
+import router from 'Base/router';
 
 
 const CLASS_NAME = 'active-route';
