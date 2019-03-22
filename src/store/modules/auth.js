@@ -1,48 +1,11 @@
-import axios from 'axios';
 import Cookies from 'js-cookie';
-import get from 'lodash/get';
 
-import {getParam} from '../../common/js/helpers';
+import api from '../../common/js/api';
+import {getParam, redirectToAuth} from '../../common/js/helpers';
 import {COOKIES_EXP_DAYS} from '../../constants/config';
-import {API_PATH, AUTH_SERVER_PATH, CLIENT_ID} from '../../common/js/env';
-
-
-// Редиректит на страницу авторизации
-function redirectToAuth () {
-    let redirect = `${location.protocol}//${location.host}`;
-    location.href = `${AUTH_SERVER_PATH}auth?client_id=${CLIENT_ID}&redirect_uri=${redirect}`;
-}
 
 
 const TOKEN_COOKIE_NAME = 'token';
-
-
-axios.defaults.baseURL = API_PATH;
-axios.interceptors.response.use(res => {
-    // Вывод ошибки с бэка
-    if (get(res, 'data.status') === 'error') {
-        let message = get(res, 'data.message', window.app.$t('serverError'));
-        window.app.$message({ message, type: 'error' });
-    }
-
-    return res;
-}, err => {
-    const status = get(err, 'response.status');
-
-    // Ошибка авторизации
-    if (status === 401)
-        return redirectToAuth();
-
-    if (status !== 404) {
-        // Вывод сообщения об ошибке подключения к серверу
-        window.app.$message({
-            message: window.app.$t('serverError'),
-            type: 'error',
-        });
-    }
-
-    return Promise.reject(err);
-});
 
 
 export default {
@@ -54,7 +17,7 @@ export default {
     mutations: {
         setToken (state, payload) {
             state.token = payload;
-            axios.defaults.headers.common['Authorization'] = `Bearer ${payload}`;
+            api.defaults.headers.common['Authorization'] = `Bearer ${payload}`;
             Cookies.set(TOKEN_COOKIE_NAME, payload, { expires: COOKIES_EXP_DAYS });
         },
         setCurrentUser: (state, payload) => state.currentUser = payload,
@@ -71,7 +34,7 @@ export default {
             redirectToAuth();
         },
         getCurrentUser ({commit}) {
-            axios.post('token/decode')
+            api.post('token/decode')
                 .then(({data:{data}}) => {
                     commit('setCurrentUser', {
                         locale: data.locale.language,
@@ -83,6 +46,6 @@ export default {
         },
     },
     getters: {
-        isAdmin: (state) => state.currentUser && state.currentUser.role === 'admin',
+        isAdmin: state => state.currentUser && state.currentUser.role === 'admin',
     },
 }

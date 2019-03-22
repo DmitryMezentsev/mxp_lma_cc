@@ -18,7 +18,7 @@
 </template>
 
 <script>
-    import axios from 'axios';
+    import api from '../common/js/api';
 
     export default {
         name: 'CourierSelect',
@@ -47,7 +47,7 @@
             },
         },
         created () {
-            axios.get('courier', {
+            api.get('courier', {
                 params: { perPage: 0 },
             })
                 .then(({data}) => {

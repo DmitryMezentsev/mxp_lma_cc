@@ -1,6 +1,9 @@
 import queryString from 'query-string';
 import get from 'lodash/get';
 
+import {AUTH_SERVER_PATH, CLIENT_ID} from './env';
+
+
 
 // Возвращает значение GET-параметра из текущего URL
 export const getParam = (name, defaultValue) =>
@@ -42,6 +45,13 @@ export const getExtensionFromBase64 = (base64) => {
     };
 
     return extensions[mime];
+};
+
+
+// Редиректит на страницу авторизации
+export const redirectToAuth = () => {
+    const redirectUri = `${location.protocol}//${location.host}`;
+    location.href = `${AUTH_SERVER_PATH}auth?client_id=${CLIENT_ID}&redirect_uri=${redirectUri}`;
 };
 
 

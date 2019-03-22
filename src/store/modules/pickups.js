@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../../common/js/api';
 
 
 export default {
@@ -13,7 +13,7 @@ export default {
         selected: [],
     },
     mutations: {
-        clearList: (state) =>
+        clearList: state =>
             state.list = {
                 data: null,
                 totalCount: 0,
@@ -28,7 +28,7 @@ export default {
         getList ({commit}, params) {
             commit('clearList');
 
-            axios.get('pickup', { params })
+            api.get('pickup', { params })
                 .then(({data, headers}) => {
                     commit('setList', {
                         data,
@@ -42,7 +42,7 @@ export default {
         select: ({commit}, ids) => commit('setSelected', ids),
         clearSelect: ({commit}) => commit('clearSelected'),
         patchPickup (context, {id, params, callback}) {
-            axios.patch(`pickup/${id}`, { ...params })
+            api.patch(`pickup/${id}`, { ...params })
                 .then(({data}) => {
                     callback(data.status === 'ok');
                 });

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../../common/js/api';
 
 
 export default {
@@ -12,7 +12,7 @@ export default {
         courier: null,
     },
     mutations: {
-        clearList: (state) =>
+        clearList: state =>
             state.list = {
                 data: null,
                 totalCount: 0,
@@ -25,7 +25,7 @@ export default {
         getList ({commit}, params) {
             commit('clearList');
 
-            axios.get('courier', { params })
+            api.get('courier', { params })
                 .then(({data, headers}) => {
                     commit('setList', {
                         data,
@@ -35,7 +35,7 @@ export default {
                 });
         },
         patchCourier (context, {id, params, callback}) {
-            axios.patch(`courier/${id}`, { ...params })
+            api.patch(`courier/${id}`, { ...params })
                 .then(({data}) => {
                     callback(data.status === 'ok');
                 });
@@ -70,7 +70,7 @@ export default {
         openCourier ({commit}, id) {
             commit('setCourier', null);
 
-            axios.get(`courier/${id}`)
+            api.get(`courier/${id}`)
                 .then(({data}) => {
                     commit('setCourier', data);
                 })
@@ -83,12 +83,12 @@ export default {
             commit('setCourier', courier);
 
             if (courier.courierId) {
-                axios.put(`courier/${courier.courierId}`, courier)
+                api.put(`courier/${courier.courierId}`, courier)
                     .then(({data}) => {
                         callback(data.status === 'ok');
                     });
             } else {
-                axios.post('courier', courier)
+                api.post('courier', courier)
                     .then(({data}) => {
                         callback(data.status === 'ok');
                     });

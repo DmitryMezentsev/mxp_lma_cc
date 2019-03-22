@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../../common/js/api';
 
 
 export default {
@@ -27,7 +27,7 @@ export default {
         getList ({commit}, params) {
             commit('clearList');
 
-            axios.get('order', { params })
+            api.get('order', { params })
                 .then(({data, headers}) => {
                     commit('setList', {
                         data,

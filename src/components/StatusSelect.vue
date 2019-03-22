@@ -15,7 +15,7 @@
 </template>
 
 <script>
-    import axios from 'axios';
+    import api from '../common/js/api';
 
     export default {
         name: 'StatusSelect',
@@ -41,7 +41,7 @@
         created () {
             // todo: доделать, когда будет API
             this.statuses = [];
-            // axios.get('statuses')
+            // api.get('statuses')
             //     .then(({data}) => {
             //         this.statuses = data;
             //         this.value = this.model;

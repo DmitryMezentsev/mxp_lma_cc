@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../js/api';
 
 
 import {APP_TITLE} from '../../constants/config';
@@ -78,7 +78,7 @@ export default {
             address = address.trim();
 
             if (address.length) {
-                axios.post('dadata/clean-address', { address })
+                api.post('dadata/clean-address', { address })
                     .then(({data}) => {
                         const value = get(data, '[0].result');
                         if (value) callback([{ value }]);
