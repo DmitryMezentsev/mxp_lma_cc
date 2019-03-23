@@ -1,5 +1,5 @@
 <template>
-    <span>{{ values.width || 0 }}{{ $t('cm') }} x {{ values.height || 0 }}{{ $t('cm') }} x {{ values.length || 0 }}{{ $t('cm') }}</span>
+    <span>{{ values.width || 0 }}&nbsp;{{ $t('cm') }}<span class="x">x</span>{{ values.height || 0 }}&nbsp;{{ $t('cm') }}<span class="x">x</span>{{ values.length || 0 }}&nbsp;{{ $t('cm') }}</span>
 </template>
 
 <script>
@@ -10,3 +10,13 @@
         },
     }
 </script>
+
+<style lang="less">
+    @import "../common/colors";
+
+    .x {
+        color: @secondary-text-color;
+        display: inline-block;
+        margin: 0 5px;
+    }
+</style>

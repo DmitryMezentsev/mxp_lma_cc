@@ -2,12 +2,12 @@
     <el-form class="filters">
         <div class="filter hidden-xs-only">
             <el-form-item :label="$t('fullName')">
-                <el-input v-model="filters.fullname" clearable></el-input>
+                <el-input v-model="filters.fullname" clearable />
             </el-form-item>
         </div>
         <div class="filter">
             <el-form-item :label="$t('inArchive')">
-                <el-switch v-model="filters.inArchive"></el-switch>
+                <el-switch v-model="filters.inArchive" />
             </el-form-item>
         </div>
         <el-button @click.prevent native-type="submit" class="hidden" />

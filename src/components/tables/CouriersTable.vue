@@ -24,8 +24,7 @@
                 prop="livingArea"
                 :label="$t('livingArea')"
                 v-if="width > 539"
-                key="col-living-area">
-        </el-table-column>
+                key="col-living-area" />
         <el-table-column
                 width="110"
                 class-name="actions"

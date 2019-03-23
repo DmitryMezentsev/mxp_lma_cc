@@ -86,11 +86,17 @@ export default {
                 api.put(`courier/${courier.courierId}`, courier)
                     .then(({data}) => {
                         callback(data.status === 'ok');
+                    })
+                    .catch(() => {
+                        callback();
                     });
             } else {
                 api.post('courier', courier)
                     .then(({data}) => {
                         callback(data.status === 'ok');
+                    })
+                    .catch(() => {
+                        callback();
                     });
             }
         },

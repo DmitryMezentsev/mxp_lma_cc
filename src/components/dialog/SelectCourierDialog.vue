@@ -25,7 +25,7 @@
 
 <script>
     import mixins from 'Common/js/mixins';
-    import CourierSelect from 'Components/CourierSelect';
+    import CourierSelect from 'Components/form-elements/CourierSelect';
 
     export default {
         name: 'SelectCourierDialog',

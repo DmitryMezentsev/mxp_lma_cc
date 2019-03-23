@@ -11,8 +11,7 @@
                 v-for="(status, i) in statuses"
                 :key="i"
                 :label="status.name"
-                :value="status.id">
-        </el-option>
+                :value="status.id" />
     </el-select>
 </template>
 

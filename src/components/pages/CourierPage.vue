@@ -9,19 +9,19 @@
                     <el-col :span="8" :xs="24">
                         <h4>{{ $t('basic') }}</h4>
                         <el-form-item :label="$t('fullName')" prop="fullname" required>
-                            <el-input v-model="courier.fullname" name="fullname"></el-input>
+                            <el-input v-model="courier.fullname" name="fullname" />
                         </el-form-item>
                         <el-form-item :label="$t('shortName')" prop="shortname" required>
-                            <el-input v-model="courier.shortname" name="shortname"></el-input>
+                            <el-input v-model="courier.shortname" name="shortname" />
                         </el-form-item>
                         <el-form-item :label="$t('phone')" prop="phone1" required>
-                            <el-input v-model="courier.phone1" v-inputmask name="phone1" type="tel"></el-input>
+                            <el-input v-model="courier.phone1" v-inputmask name="phone1" type="tel" />
                         </el-form-item>
                         <el-form-item :label="$t('additionalPhone')" prop="phone2">
-                            <el-input v-model="courier.phone2" v-inputmask name="phone2" type="tel"></el-input>
+                            <el-input v-model="courier.phone2" v-inputmask name="phone2" type="tel" />
                         </el-form-item>
                         <el-form-item :label="$t('livingArea')" prop="livingArea" required>
-                            <el-input v-model="courier.livingArea" name="livingArea"></el-input>
+                            <el-input v-model="courier.livingArea" name="livingArea" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="8" :xs="24">
@@ -41,20 +41,20 @@
                                              v-model="courier.passport.address"
                                              :fetch-suggestions="dadataCleanAddress"
                                              :debounce="700"
-                                             name="passport.address"></el-autocomplete>
-                            <el-input v-else v-model="courier.passport.address" name="passport.address"></el-input>
+                                             name="passport.address" />
+                            <el-input v-else v-model="courier.passport.address" name="passport.address" />
                         </el-form-item>
                         <el-form-item :label="$t('passportNumber')" prop="passport.series" required>
-                            <el-input v-model="courier.passport.series" name="passport.series"></el-input>
+                            <el-input v-model="courier.passport.series" name="passport.series" />
                         </el-form-item>
                         <el-form-item :label="$t('whenAndWhoIssuedPassport')" prop="passport.issueInfo" required>
-                            <el-input v-model="courier.passport.issueInfo" name="passport.issueInfo"></el-input>
+                            <el-input v-model="courier.passport.issueInfo" name="passport.issueInfo" />
                         </el-form-item>
                         <el-form-item :label="$t('birthday')" prop="passport.birthday" required>
                             <br>
                             <el-date-picker v-model="courier.passport.birthday"
                                             type="date"
-                                            :value-format="dateValueFormat"></el-date-picker>
+                                            :value-format="dateValueFormat" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="8" :xs="24">
@@ -63,27 +63,25 @@
                             <el-autocomplete
                                     name="transport.brand"
                                     v-model="courier.transport.brand"
-                                    :fetch-suggestions="carBrands">
-                            </el-autocomplete>
+                                    :fetch-suggestions="carBrands" />
                         </el-form-item>
 
                         <el-form-item :label="$t('model')" prop="transport.model">
-                            <el-input v-model="courier.transport.model" name="transport.model"></el-input>
+                            <el-input v-model="courier.transport.model" name="transport.model" />
                         </el-form-item>
                         <el-form-item :label="$t('govNumber')" prop="transport.registrationNumber">
-                            <el-input v-model="courier.transport.registrationNumber" name="transport.registrationNumber"></el-input>
+                            <el-input v-model="courier.transport.registrationNumber" name="transport.registrationNumber" />
                         </el-form-item>
 
                         <br>
                         <h4>{{ $t('authorizationData') }}</h4>
                         <el-form-item :label="$t('login')" prop="access.login" required>
-                            <el-input v-model="courier.access.login" name="access.login" :readonly="!isAdd" class="custom-readonly"></el-input>
+                            <el-input v-model="courier.access.login" name="access.login" :readonly="!isAdd" class="custom-readonly" />
                         </el-form-item>
                         <el-form-item v-if="isAdd" :label="$t('password')" prop="access.password" required>
                             <el-input v-model="courier.access.password"
                                       name="access.password"
-                                      :placeholder="$tc('atLeastCharacters', 1, { quantity: minPasswordLength })">
-                            </el-input>
+                                      :placeholder="$tc('atLeastCharacters', 1, { quantity: minPasswordLength })" />
                             <el-button size="mini" @click="generatePassword">{{ $t('generatePassword') }}</el-button>
                         </el-form-item>
                     </el-col>
@@ -103,7 +101,7 @@
                         </el-table-column>
                         <el-table-column v-if="width > 500" :label="$t('uploadDate')" key="col-document-upload-date">
                             <template slot-scope="scope">
-                                <FormattedDate :timestamp="scope.row.uploadDate" show-time />
+                                <FormattedDate :date="scope.row.uploadDate" show-time />
                             </template>
                         </el-table-column>
                         <el-table-column width="65" key="col-document-actions">
@@ -181,7 +179,7 @@
     import cars from 'Common/js/cars';
     import inputmask from 'Directives/inputmask';
     import Waiting from 'Components/Waiting';
-    import InputFile from 'Components/InputFile';
+    import InputFile from 'Components/form-elements/InputFile';
     import UploadCourierDocumentDialog from 'Components/dialog/UploadCourierDocumentDialog';
     import FormattedDate from 'Components/FormattedDate';
 
@@ -341,9 +339,7 @@
         }
 
         .autocomplete-form-item {
-            .el-autocomplete {
-                display: block;
-            }
+            .el-autocomplete { display: block; }
         }
 
         .documents {

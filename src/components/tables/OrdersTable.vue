@@ -32,22 +32,19 @@
                 v-if="width > 879"
                 prop="sender.brandName"
                 :label="$t('shop')"
-                key="col-shop">
-        </el-table-column>
+                key="col-shop" />
         <el-table-column
                 v-if="width > 479"
                 prop="status.name"
                 :label="$t('status')"
-                key="col-status">
-        </el-table-column>
+                key="col-status" />
 
         <!-- Только курьерка -->
         <el-table-column
                 v-if="mode === 'courier' && width > 1279"
                 prop="recipient.address.value"
                 :label="$t('deliveryAddress')"
-                key="col-delivery-address">
-        </el-table-column>
+                key="col-delivery-address" />
         <el-table-column
                 v-if="mode === 'courier' && width > 379"
                 prop=""
@@ -66,14 +63,12 @@
                 v-if="mode === 'point' && width > 1279"
                 prop=""
                 :label="$t('issuePoint')"
-                key="col-issue-point">
-        </el-table-column>
+                key="col-issue-point" />
         <el-table-column
                 v-if="mode === 'point' && width > 379"
                 prop=""
                 :label="$t('buyoutDate')"
-                key="col-buyout-date">
-        </el-table-column>
+                key="col-buyout-date" />
 
         <!-- Только поиск (совмещенные столбцы) -->
         <el-table-column

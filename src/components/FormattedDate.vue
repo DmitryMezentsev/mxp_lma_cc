@@ -9,7 +9,7 @@
     export default {
         name: 'FormattedDate',
         props: {
-            timestamp: { type: Number, required: true },
+            date: { type: [Number, String], required: true },
             showTime: { type: Boolean, default: false },
         },
         computed: {
@@ -23,7 +23,11 @@
                     default:   moment.locale('en');
                 }
 
-                const momentDate = moment.unix(this.timestamp / 1000).utc().utcOffset(this.currentUser.timezone);
+                const momentDate = (typeof this.date === 'number')
+                    // timestamp
+                    ? moment.unix(this.date / 1000).utc().utcOffset(this.currentUser.timezone)
+                    // iso date
+                    : moment(this.date);
 
                 let result = momentDate.format('L');
                 if (this.showTime) result += ' ' + momentDate.format('LT');

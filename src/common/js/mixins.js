@@ -58,8 +58,15 @@ export default {
                 type: 'warning',
             }).catch(() => {});
         },
+        // Отображение уведомления об успешном сохранении изменений
+        changesSavedMessage () {
+            this.$message({
+                message: this.$t('changesSaved'),
+                type: 'success',
+            });
+        },
         // Возвращает правило валидации
-        validationRule (rule) {
+        validationRule (rule, param) {
             switch (rule) {
                 case 'required':
                     return { required: true, message: this.$t('validation.required') };
@@ -71,6 +78,10 @@ export default {
                     return { required: false, message: this.$t('validation.invalidPhoneNumber'), pattern: /^\d{11}$/ };
                 case 'email':
                     return { type: 'email', message: this.$t('validation.email') };
+                case 'numberMin':
+                    return { type: 'number', min: param[0], message: this.$t('validation.min', { val: param[1] }) };
+                case 'numberMax':
+                    return { type: 'number', max: param[0], message: this.$t('validation.max', { val: param[1] }) };
             }
         },
         // Приводит в порядок вводимый в input адрес с помощью сервиса dadata.ru

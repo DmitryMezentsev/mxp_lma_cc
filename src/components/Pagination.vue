@@ -7,8 +7,7 @@
                 :current-page="page"
                 :page-size="pageSize"
                 :total="total"
-                @current-change="change">
-        </el-pagination>
+                @current-change="change" />
     </div>
 </template>
 

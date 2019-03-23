@@ -3,58 +3,69 @@
                :visible.sync="visible"
                :width="width > 719 ? '700px' : '100%'"
                top="5vh">
-        <el-form v-if="order" :model="order" class="compact-form">
+        <el-form v-if="order"
+                 :model="order"
+                 :rules="rules"
+                 ref="order"
+                 class="compact-form">
             <el-row :gutter="10">
                 <el-col :span="12" :xs="24">
                     <div class="values-section">
-                        <Value name="providerNumber" :value="order.sender.providerNumber" />
-                        <Value name="shopNumber" :value="order.sender.internalNumber" />
+                        <Value :name="$t('providerNumber')" :value="order.sender.providerNumber" />
+                        <Value :name="$t('shopNumber')" :value="order.sender.internalNumber" />
                     </div>
                     <div class="values-section">
-                        <Value name="shop" :value="order.sender.brandName" />
-                        <Value name="issuePoint" :value="order.deliveryOrder.orderServicePointId" v-if="order.serviceType === 1" />
+                        <Value :name="$t('shop')" :value="order.sender.brandName" />
+                        <Value :name="$t('issuePoint')" :value="order.deliveryOrder.orderServicePointId" v-if="order.serviceType === 1" />
                     </div>
                     <div class="values-section">
-                        <Value name="estimatedCost" inner>
+                        <Value :name="$t('estimatedCost')" inner>
                             <Currency :val="order.cashOnDelivery.estimatedCost" />
                         </Value>
                     </div>
                 </el-col>
                 <el-col :span="12" :xs="24">
                     <div class="values-section" v-if="order.serviceType === 1">
-                        <Value name="storageTime" :value="''" :suffix="$t('days')" :dot="false" />
-                        <Value name="arrivalDate" :value="''" />
+                        <Value :name="$t('storageTime')" :value="''" :suffix="$t('days')" :dot="false" />
+                        <Value :name="$t('arrivalDate')" :value="''" />
                     </div>
                     <div class="values-section">
-                        <Value name="weight" :value="order.dimensions.weight / 1000" :suffix="$t('kg')" />
-                        <Value name="dimensions" inner>
+                        <Value :name="$t('weight')" :value="order.dimensions.weight / 1000" :suffix="$t('kg')" />
+                        <Value :name="$t('dimensions')" inner>
                             <Dimensions :values="order.dimensions" />
                         </Value>
                     </div>
                 </el-col>
             </el-row>
-            <div class="block-border">
-                <el-row :gutter="10">
-                    <el-col :span="12" :xs="24">
-                        <el-form-item :label="$t('recipient')">
-                            <el-input class="custom-readonly" v-model="order.recipient.contacts.name" :readonly="!isAdmin"></el-input>
-                        </el-form-item>
-                        <el-form-item :label="$t('city')" v-if="order.serviceType === 1">
-                            <el-input class="custom-readonly" v-model="order.recipient.address.city" :readonly="!isAdmin"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12" :xs="24">
-                        <el-form-item :label="$t('phone')">
-                            <el-input type="tel" class="custom-readonly" v-model="order.recipient.contacts.phone" :readonly="!isAdmin"></el-input>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-            </div>
-            <div class="block-border">
-                <el-form-item :label="$t('comment')">
-                    <el-input type="textarea" class="custom-readonly" v-model="order.recipient.notes" :readonly="!isAdmin"></el-input>
-                </el-form-item>
-            </div>
+            <hr class="margin-top margin-bottom">
+            <el-row :gutter="10">
+                <el-col :span="12" :xs="24">
+                    <el-form-item :label="$t('recipient')">
+                        <el-input class="custom-readonly" v-model="order.recipient.contacts.name" :readonly="!isAdmin" />
+                    </el-form-item>
+                    <el-form-item :label="$t('city')" v-if="order.serviceType === 1">
+                        <el-input class="custom-readonly" v-model="order.recipient.address.city" :readonly="!isAdmin" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12" :xs="24">
+                    <el-form-item :label="$t('phone')">
+                        <el-input type="tel"
+                                  class="custom-readonly"
+                                  v-model="order.recipient.contacts.phone"
+                                  v-inputmask
+                                  :readonly="!isAdmin" />
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <hr class="margin-bottom">
+            <el-row :gutter="10">
+                <el-col>
+                    <el-form-item :label="$t('comment')">
+                        <el-input type="textarea" class="custom-readonly" v-model="order.recipient.notes" :readonly="!isAdmin" />
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <hr class="margin-bottom-x2">
             <div class="services">
                 <h4>{{ $t('services') }}:</h4>
                 <div class="services-list">
@@ -67,6 +78,7 @@
                     </div>
                 </div>
             </div>
+            <hr class="margin-top-x2 margin-bottom-x2">
             <div class="goods">
                 <h4>{{ $t('goods') }}:</h4>
                 <el-table :data="order.goods"
@@ -76,13 +88,11 @@
                             type="index"
                             label="#"
                             width="40"
-                            key="col-index">
-                    </el-table-column>
+                            key="col-index" />
                     <el-table-column
                             prop="name"
                             :label="$tc('name', 3)"
-                            key="col-name">
-                    </el-table-column>
+                            key="col-name" />
                     <el-table-column
                             :label="$tc('quantity', 2)"
                             width="120"
@@ -129,10 +139,11 @@
                     </el-table-column>
                 </el-table>
                 <br>
-                <Value name="totalGoodsPrice" inner>
+                <Value :name="$t('totalGoodsPrice')" inner>
                     <Currency :val="goodsSum" />
                 </Value>
             </div>
+            <el-button class="hidden" native-type="submit" @click.prevent="save" />
         </el-form>
         <span v-if="order" slot="footer" class="dialog-footer">
             <el-button @click="partialIssue" :v-show="true">
@@ -156,6 +167,7 @@
     import cloneDeep from 'lodash/cloneDeep';
 
     import mixins from 'Common/js/mixins';
+    import inputmask from 'Directives/inputmask';
     import Dimensions from 'Components/Dimensions';
     import TagChecked from 'Components/TagChecked';
     import Currency from 'Components/Currency';
@@ -165,10 +177,14 @@
         name: 'OrderDialog',
         mixins: [mixins],
         components: {Value, Currency, TagChecked, Dimensions},
+        directives: {inputmask},
         data () {
             return {
                 width: 0,
                 order: null,
+                rules: {
+
+                },
             }
         },
         computed: {
@@ -193,6 +209,13 @@
             ...mapActions('orders', [
                 'close',
             ]),
+            save () {
+                this.$refs.order.validate(valid => {
+                    if (valid) {
+
+                    }
+                });
+            },
             printDocument () {
 
             },
@@ -238,15 +261,7 @@
         margin:  0 0 .3em 0;
     }
 
-    .block-border {
-        margin: 1em 0;
-        padding-top: 1em;
-        border-top: 1px solid @lighter-border-color;
-    }
-
     .services {
-        .block-border;
-
         .services-list {
             margin-top: .5em;
 
@@ -255,20 +270,18 @@
     }
 
     .goods {
-        .block-border;
 
-
-    }
-
-    .el-col {
-        &.el-col-xs-24 {
-            &:not(:last-child) {
-                @media (max-width: 767px) { margin-bottom: 1em; }
-            }
-        }
     }
 
     .el-input-group {
         vertical-align: 2px;
+    }
+
+    @media (max-width: 767px) {
+        .el-col {
+            &.el-col-xs-24:not(:first-child) {
+                .values-section { margin-top: 0; }
+            }
+        }
     }
 </style>

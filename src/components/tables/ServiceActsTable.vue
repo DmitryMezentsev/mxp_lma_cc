@@ -7,14 +7,12 @@
                 v-if="width > 579"
                 prop=""
                 :label="$t('client')"
-                key="col-client">
-        </el-table-column>
+                key="col-client" />
         <el-table-column
                 v-if="width > 479"
                 prop=""
                 :label="$t('actNumber')"
-                key="col-act-number">
-        </el-table-column>
+                key="col-act-number" />
         <el-table-column
                 v-if="width > 1099"
                 :label="$t('date')"

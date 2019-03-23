@@ -8,8 +8,7 @@
                 v-if="width > 399"
                 prop=""
                 :label="$t('client')"
-                key="col-client">
-        </el-table-column>
+                key="col-client" />
         <el-table-column
                 v-if="width > 479"
                 :label="$t('reportDate')"

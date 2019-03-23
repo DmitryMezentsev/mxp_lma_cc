@@ -6,9 +6,9 @@
             <el-form-item :label="$t('documentType')" prop="type" required>
                 <br>
                 <el-select v-model="document.type" :placeholder="$tc('noSelect', 1)" name="type">
-                    <el-option :label="$t('passport')" :value="DOCUMENT_TYPES.PASSPORT"></el-option>
-                    <el-option :label="$t('vehiclePassport')" :value="DOCUMENT_TYPES.VEHICLE_PASSPORT"></el-option>
-                    <el-option :label="$t('driversLicense')" :value="DOCUMENT_TYPES.DRIVERS_LICENSE"></el-option>
+                    <el-option :label="$t('passport')" :value="DOCUMENT_TYPES.PASSPORT" />
+                    <el-option :label="$t('vehiclePassport')" :value="DOCUMENT_TYPES.VEHICLE_PASSPORT" />
+                    <el-option :label="$t('driversLicense')" :value="DOCUMENT_TYPES.DRIVERS_LICENSE" />
                 </el-select>
             </el-form-item>
             <el-form-item :label="$t('fileForUpload')" prop="data" required>
@@ -16,7 +16,7 @@
                 <InputFile :model.sync="document.data"
                            :max-file-size="1024 * this.maxFileSize"
                            :allowed-types="['image/jpeg', 'image/png', 'image/tiff', 'application/pdf']" />
-                <el-input v-model="document.data" name="data" class="hidden"></el-input>
+                <el-input v-model="document.data" name="data" class="hidden" />
                 <div class="hint">
                     {{ $tc('fileFormatAndMaxSize', 1, { format: 'PNG / JPEG / TIFF / PDF', maxSize: this.maxFileSize }) }}
                 </div>
@@ -33,7 +33,7 @@
 <script>
     import DOCUMENT_TYPES from 'Constants/courier-document-types';
     import mixins from 'Common/js/mixins';
-    import InputFile from 'Components/InputFile';
+    import InputFile from 'Components/form-elements/InputFile';
 
     export default {
         name: 'UploadCourierDocumentDialog',

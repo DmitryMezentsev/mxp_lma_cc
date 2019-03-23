@@ -6,7 +6,7 @@
     import {mapState} from 'vuex';
 
     export default {
-        name: 'currency',
+        name: 'Currency',
         props: {
             val: { type: Number, default: 0 },
         },

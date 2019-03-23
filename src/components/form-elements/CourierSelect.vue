@@ -12,8 +12,7 @@
                 v-for="(courier, i) in couriers"
                 :key="i"
                 :label="courier.fullname"
-                :value="courier.courierId">
-        </el-option>
+                :value="courier.courierId" />
     </el-select>
 </template>
 

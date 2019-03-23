@@ -7,7 +7,7 @@
 
 <script>
     export default {
-        name: 'number',
+        name: 'Number',
         props: {
             val: { type: [String, Number] },
         },

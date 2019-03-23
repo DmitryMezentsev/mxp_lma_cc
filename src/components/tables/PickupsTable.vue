@@ -6,13 +6,13 @@
         <el-table-column
                 type="selection"
                 width="55"
-                key="col-selection">
-        </el-table-column>
+                key="col-selection" />
         <el-table-column
                 key="col-number"
-                :label="$t('number')">
+                :label="$t('orderNumberInCompanyOrShop')">
             <template slot-scope="scope">
                 <el-button type="text" @click="open(scope.$index)">
+                    {{ scope.row.logist.internalNumber }} /
                     {{ scope.row.sender.internalNumber }}
                 </el-button>
             </template>
@@ -28,7 +28,7 @@
                 </el-tooltip>
             </template>
             <template slot-scope="scope">
-                <div>{{ scope.row.pickup.date }}</div>
+                <FormattedDate :date="scope.row.pickup.date" />
                 <div>{{ scope.row.pickup.time.from }} &ndash; {{ scope.row.pickup.time.to }}</div>
             </template>
         </el-table-column>
@@ -36,20 +36,17 @@
                 v-if="width > 1359"
                 property="sender.name"
                 key="col-customer"
-                :label="$t('customer')">
-        </el-table-column>
+                :label="$t('customer')" />
         <el-table-column
                 v-if="width > 1169"
                 property="sender.warehouseName"
                 key="col-warehouse"
-                :label="$t('warehouse')">
-        </el-table-column>
+                :label="$t('warehouse')" />
         <el-table-column
                 v-if="width > 767"
                 :label="$t('status')"
                 key="col-status"
-                property="serviceInfo.statusName">
-        </el-table-column>
+                property="serviceInfo.statusName" />
         <el-table-column
                 v-if="width > 639"
                 key="col-zone-and-courier"
@@ -66,9 +63,11 @@
     import {mapActions} from 'vuex';
 
     import mixins from 'Common/js/mixins';
+    import FormattedDate from 'Base/components/FormattedDate';
 
     export default {
         name: 'PickupsTable',
+        components: {FormattedDate},
         mixins: [mixins],
         props: {
             data: { type: Array },

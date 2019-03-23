@@ -1,8 +1,8 @@
 <template>
     <div>
-        <span class="value-label">{{ $t(name) }}: </span>
+        <span class="value-label">{{ name }}: </span>
         <span v-if="!inner">
-            <span v-if="isEmpty">&mdash;</span><span v-else>{{ value }}</span><span v-show="suffix"> {{ suffix }}</span><span v-show="dot">.</span>
+            <span v-if="isEmpty">&mdash;</span><span v-else>{{ value }}</span><span v-show="suffix">&nbsp;{{ suffix }}</span><span v-show="dot">.</span>
         </span>
         <span v-else>
             <slot /><span v-show="dot">.</span>

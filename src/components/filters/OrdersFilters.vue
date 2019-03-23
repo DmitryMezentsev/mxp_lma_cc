@@ -28,7 +28,7 @@
 
     import mixins from 'Common/js/mixins';
     import {DATE_API_FORMAT} from 'Constants/config';
-    import StatusSelect from 'Components/StatusSelect';
+    import StatusSelect from 'Components/form-elements/StatusSelect';
 
     export default {
         name: 'OrdersFilters',

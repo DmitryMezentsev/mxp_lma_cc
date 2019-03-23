@@ -13,6 +13,7 @@
         </el-button>
         <Pagination :total="list.totalCount" :max-page="list.pageCount" />
 
+        <PickupDialog @update="loadList" />
         <SelectCourierDialog :visible="selectCourierDialog"
                              @select="setCourier"
                              @cancel="selectCourierDialog = false" />
@@ -31,10 +32,11 @@
     import Pagination from 'Components/Pagination';
     import PickupsTable from 'Components/tables/PickupsTable';
     import SelectCourierDialog from 'Components/dialog/SelectCourierDialog';
+    import PickupDialog from 'Base/components/dialog/PickupDialog';
 
     export default {
         name: 'PickupsPage',
-        components: {SelectCourierDialog, PickupsTable, Pagination, PickupsFilters},
+        components: {PickupDialog, SelectCourierDialog, PickupsTable, Pagination, PickupsFilters},
         data () {
             return {
                 removeAfterEach: null,
@@ -51,6 +53,7 @@
             ...mapActions('pickups', [
                 'getList',
                 'patchPickup',
+                'updatePickup',
             ]),
             loadList () {
                 this.getList({

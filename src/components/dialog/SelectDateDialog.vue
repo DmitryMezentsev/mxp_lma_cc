@@ -3,8 +3,8 @@
                :visible.sync="visible"
                :width="width > 450 ? '400px' : '300px'">
         <div class="date-select-wrap">
-            <el-alert v-show="error" type="error" :title="$t('dateNotSelected')" :closable="false" show-icon></el-alert>
-            <el-date-picker v-model="date" type="date" :value-format="format" :clearable="false"></el-date-picker>
+            <el-alert v-show="error" type="error" :title="$t('dateNotSelected')" :closable="false" show-icon />
+            <el-date-picker v-model="date" type="date" :value-format="format" :clearable="false" />
         </div>
         <span slot="footer" class="dialog-footer">
             <el-button @click="close">{{ $t('close') }}</el-button>

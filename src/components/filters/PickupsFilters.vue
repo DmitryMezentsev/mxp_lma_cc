@@ -11,8 +11,7 @@
                         v-model="filters.pickupDate"
                         type="date"
                         :value-format="dateValueFormat"
-                        :picker-options="{firstDayOfWeek: 1}">
-                </el-date-picker>
+                        :picker-options="{firstDayOfWeek: 1}" />
             </el-form-item>
         </div>
         <el-button @click.prevent native-type="submit" class="hidden" />
@@ -24,7 +23,7 @@
 
     import mixins from 'Common/js/mixins';
     import {DATE_API_FORMAT} from 'Constants/config';
-    import CourierSelect from 'Components/CourierSelect';
+    import CourierSelect from 'Components/form-elements/CourierSelect';
 
     export default {
         name: 'PickupsFilters',

@@ -10,7 +10,7 @@
         </div>
         <Pagination :total="list.totalCount" :max-page="list.pageCount" />
 
-        <OrderDialog  />
+        <OrderDialog @update="loadList" />
     </div>
 </template>
 
