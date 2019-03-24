@@ -23,10 +23,14 @@
                     <i class="fas fa-user"></i>
                     <span slot="title">{{ $t('account') }}</span>
                 </template>
-                <el-menu-item index="0-1" :route="{name: 'accountSettings'}" v-is-route="'accountSettings'">
+                <el-menu-item index="0-1"
+                              @click="scrollTop"
+                              :route="{name: 'accountSettings'}"
+                              v-is-route="'accountSettings'">
                     <span slot="title">{{ $t('settings') }}</span>
                 </el-menu-item>
-                <el-menu-item index="0-2" @click="clearToken">
+                <el-menu-item index="0-2"
+                              @click="clearToken">
                     <span slot="title">{{ $t('logout') }}</span>
                 </el-menu-item>
             </el-submenu>
@@ -35,30 +39,48 @@
                     <i class="fas fa-file-alt"></i>
                     <span slot="title">{{ $t('orders') }}</span>
                 </template>
-                <el-menu-item index="1-1" :route="{name: 'ordersList', params: {type: 'courier'}}" v-is-route="{name: 'ordersList', params: {type: 'courier'}}">
+                <el-menu-item index="1-1"
+                              @click="scrollTop"
+                              :route="{name: 'ordersList', params: {type: 'courier'}}"
+                              v-is-route="{name: 'ordersList', params: {type: 'courier'}}">
                     <span slot="title">{{ $t('courierOrders') }}</span>
                 </el-menu-item>
-                <el-menu-item index="1-2" :route="{name: 'ordersList', params: {type: 'point'}}" v-is-route="{name: 'ordersList', params: {type: 'point'}}">
+                <el-menu-item index="1-2"
+                              @click="scrollTop"
+                              :route="{name: 'ordersList', params: {type: 'point'}}"
+                              v-is-route="{name: 'ordersList', params: {type: 'point'}}">
                     <span slot="title">{{ $t('pointOrders') }}</span>
                 </el-menu-item>
             </el-submenu>
-            <el-menu-item index="2" :route="{name: 'pickups'}" v-is-route="'pickups'">
+            <el-menu-item index="2"
+                          @click="scrollTop"
+                          :route="{name: 'pickups'}"
+                          v-is-route="'pickups'">
                 <i class="fas fa-truck-loading"></i>
                 <span slot="title">{{ $t('pickups') }}</span>
             </el-menu-item>
-            <el-menu-item index="3" @click="toWarehouse">
+            <el-menu-item index="3"
+                          @click="toWarehouse">
                 <i class="fas fa-warehouse"></i>
                 <span slot="title">{{ $t('warehouse') }}</span>
             </el-menu-item>
-            <el-menu-item index="4" :route="{name: 'clients'}" v-is-route="{ name: ['clients', 'addClient', 'editClient'] }">
+            <el-menu-item index="4"
+                          @click="scrollTop"
+                          :route="{name: 'clients'}"
+                          v-is-route="{ name: ['clients', 'addClient', 'editClient'] }">
                 <i class="fas fa-users"></i>
                 <span slot="title">{{ $t('clients') }}</span>
             </el-menu-item>
-            <el-menu-item index="5" :route="{name: 'couriers'}" v-is-route="{ name: ['couriers', 'addCourier', 'editCourier'] }">
+            <el-menu-item index="5"
+                          @click="scrollTop"
+                          :route="{name: 'couriers'}"
+                          v-is-route="{ name: ['couriers', 'addCourier', 'editCourier'] }">
                 <i class="fas fa-user-tie"></i>
                 <span slot="title">{{ $t('couriers') }}</span>
             </el-menu-item>
-            <el-menu-item index="6" :route="{name: 'routing'}" v-is-route="'routing'">
+            <el-menu-item index="6"
+                          @click="scrollTop"
+                          :route="{name: 'routing'}" v-is-route="'routing'">
                 <i class="fas fa-map-marked-alt"></i>
                 <span slot="title">{{ $t('routing') }}</span>
             </el-menu-item>
@@ -67,13 +89,22 @@
                     <i class="fas fa-book"></i>
                     <span slot="title">{{ $t('reporting') }}</span>
                 </template>
-                <el-menu-item index="7-1" :route="{name: 'courierCalculation'}" v-is-route="'courierCalculation'">
+                <el-menu-item index="7-1"
+                              @click="scrollTop"
+                              :route="{name: 'courierCalculation'}"
+                              v-is-route="'courierCalculation'">
                     <span slot="title">{{ $t('courierCalculation') }}</span>
                 </el-menu-item>
-                <el-menu-item index="7-2" :route="{name: 'reportingStatements'}" v-is-route="'reportingStatements'">
+                <el-menu-item index="7-2"
+                              @click="scrollTop"
+                              :route="{name: 'reportingStatements'}"
+                              v-is-route="'reportingStatements'">
                     <span slot="title">{{ $t('reportingStatements') }}</span>
                 </el-menu-item>
-                <el-menu-item index="7-3" :route="{name: 'serviceActs'}" v-is-route="'serviceActs'">
+                <el-menu-item index="7-3"
+                              @click="scrollTop"
+                              :route="{name: 'serviceActs'}"
+                              v-is-route="'serviceActs'">
                     <span slot="title">{{ $t('serviceActs') }}</span>
                 </el-menu-item>
             </el-submenu>
@@ -118,8 +149,8 @@
                 'clearToken',
             ]),
             toWarehouse () {
-                // todo: изменить на URL админки склада
-                window.open('https://google.com');
+                // todo: тут будет открываться URL склада
+                // window.open('');
             },
             searchChange (q) {
                 q = trim(q);
@@ -138,6 +169,9 @@
             },
             submenuClose (i) {
                 this.submenuStateSave(i, false);
+            },
+            scrollTop () {
+                window.scrollTo(0, 0);
             },
         },
         mounted () {
