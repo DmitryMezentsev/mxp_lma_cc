@@ -1,5 +1,6 @@
 import queryString from 'query-string';
 import get from 'lodash/get';
+import Bowser from 'bowser';
 
 import {AUTH_SERVER_PATH, CLIENT_ID} from 'Common/js/env';
 
@@ -53,5 +54,9 @@ export const redirectToAuth = () => {
     const redirectUri = `${location.protocol}//${location.host}`;
     location.href = `${AUTH_SERVER_PATH}auth?client_id=${CLIENT_ID}&redirect_uri=${redirectUri}`;
 };
+
+
+// Возвращает название браузера пользователя
+export const getBrowserName = () => Bowser.getParser(window.navigator.userAgent).getBrowserName();
 
 

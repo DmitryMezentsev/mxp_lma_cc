@@ -2,7 +2,7 @@
     <el-form class="filters">
         <div class="filter">
             <el-form-item :label="$t('courier')">
-                <CourierSelect :value.sync="filters.courier" />
+                <CourierSelect :model.sync="filters.courier" />
             </el-form-item>
         </div>
         <div class="filter">

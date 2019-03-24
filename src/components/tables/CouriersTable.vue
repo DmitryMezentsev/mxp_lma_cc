@@ -57,6 +57,7 @@
 
     import mixins from 'Common/js/mixins';
     import {OTH_SERVER_PATH} from 'Common/js/env';
+    import {getBrowserName} from 'Base/common/js/helpers';
 
     export default {
         name: 'CouriersTable',
@@ -94,7 +95,9 @@
             },
             printBadge (id) {
                 const params = 'width=360,height=280,resizable=no,scrollbars=no,toolbar=no,location=no,menubar=no,status=no';
-                window.open(`${OTH_SERVER_PATH}courier/badge/${id}?token=${this.token}`, 'courier-badge', params).print();
+                const badge = window.open(`${OTH_SERVER_PATH}courier/badge/${id}?token=${this.token}`, 'courier-badge', params);
+                // Потому что в Edge печать не срабатывает, в а Chrome от этого ещё и валится страница
+                if (getBrowserName() === 'Firefox') badge.print();
             },
         },
         created () {
