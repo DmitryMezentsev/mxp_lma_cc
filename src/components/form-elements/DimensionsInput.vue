@@ -9,6 +9,7 @@
                           :class="className"
                           :name="widthPropName"
                           :readonly="readonly"
+                          @keypress.native="onKeyPress"
                           @blur="onBlur('width')">
                     <template slot="append">{{ $t('cm') }}</template>
                 </el-input>
@@ -23,6 +24,7 @@
                           :class="className"
                           :name="heightPropName"
                           :readonly="readonly"
+                          @keypress.native="onKeyPress"
                           @blur="onBlur('height')">
                     <template slot="append">{{ $t('cm') }}</template>
                 </el-input>
@@ -37,6 +39,7 @@
                           :class="className"
                           :name="lengthPropName"
                           :readonly="readonly"
+                          @keypress.native="onKeyPress"
                           @blur="onBlur('length')">
                     <template slot="append">{{ $t('cm') }}</template>
                 </el-input>
@@ -93,6 +96,11 @@
         methods: {
             update (name, val) {
                 this.$emit(`update:${name}`, val ? Number(val) : null);
+            },
+            onKeyPress (e) {
+                // Зарпет ввода нечисловых символов
+                if (!Number(e.key) && Number(e.key) !== 0)
+                    e.preventDefault();
             },
             onBlur (prop) {
                 const name = `${prop}Internal`;

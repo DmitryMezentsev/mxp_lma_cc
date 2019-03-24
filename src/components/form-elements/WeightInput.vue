@@ -4,6 +4,8 @@
               :name="name"
               :readonly="readonly"
               v-model="value"
+              ref="input"
+              @keypress.native="onKeyPress"
               @blur="onBlur">
         <template slot="append">{{ $t('kg') }}</template>
     </el-input>
@@ -37,6 +39,10 @@
                 this.$emit('update:model', (this.value || this.value === 0)
                     ? Math.round(this.value * 1000)
                     : null);
+            },
+            onKeyPress ({key}) {
+                if (key === 'Enter')
+                    this.$refs.input.blur();
             },
         },
         watch: {
