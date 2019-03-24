@@ -1,11 +1,12 @@
 <template>
     <el-select v-model="value"
+               :class="className"
                :no-data-text="$t('noCouriers')"
                :placeholder="placeholder"
                :loading="!couriers"
                :clearable="clearable"
                :disabled="disabled"
-               :style="{ width: width + 'px' }"
+               :style="{ width }"
                filterable
                @change="onChange">
         <el-option
@@ -25,7 +26,8 @@
             clearable: { type: Boolean },
             disabled: { type: Boolean },
             model: { type: String },
-            width: { type: Number, default: 220 },
+            width: { type: String, default: '220px' },
+            className: { type: String },
         },
         data () {
             return {

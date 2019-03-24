@@ -7,12 +7,7 @@
         </div>
         <div class="filter">
             <el-form-item :label="$t('date')">
-                <el-date-picker
-                        v-model="filters.date"
-                        type="date"
-                        :clearable="false"
-                        :value-format="dateValueFormat"
-                        :picker-options="{firstDayOfWeek: 1}" />
+                <DatePicker :model.sync="filters.date" :clearable="false" />
             </el-form-item>
         </div>
         <el-button @click.prevent native-type="submit" class="hidden" />
@@ -23,12 +18,12 @@
     import pick from 'lodash/pick';
 
     import mixins from 'Common/js/mixins';
-    import {DATE_API_FORMAT} from 'Constants/config';
     import CourierSelect from 'Components/form-elements/CourierSelect';
+    import DatePicker from 'Base/components/DatePicker';
 
     export default {
         name: 'CourierCalculationFilters',
-        components: {CourierSelect},
+        components: {DatePicker, CourierSelect},
         mixins: [mixins],
         data () {
             return {
@@ -36,7 +31,6 @@
                     courier: null,
                     date: null,
                 },
-                dateValueFormat: DATE_API_FORMAT,
                 removeAfterEach: null,
             }
         },

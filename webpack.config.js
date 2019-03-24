@@ -26,16 +26,12 @@ module.exports = (env = {}) => {
 
         // Отключение вывода лишней информации о сборке в консоль
         stats: {
-            hash:       false,
-            version:    false,
-            timings:    false,
-            assets:     false,
-            chunks:     false,
-            modules:    false,
-            reasons:    false,
-            children:   false,
-            source:     false,
-            publicPath: false,
+            assets:   false,
+            chunks:   false,
+            modules:  false,
+            reasons:  false,
+            children: false,
+            source:   false,
         },
         performance: { hints: false },
 

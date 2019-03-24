@@ -21,8 +21,8 @@ export default {
     settings: 'Настройки',
     accountSettings: 'Настройки',
     logout: 'Выйти',
-    from: 'От | от',
-    to: 'До | до',
+    from: 'От | от | С',
+    to: 'До | до | По',
     all: 'Все',
     noOrders: 'Нет заказов для отображения',
     orderNumberInCompanyOrShop: 'Номер в ТК / ИМ',
@@ -190,5 +190,6 @@ export default {
     height: 'Высота',
     length: 'Глубина',
     changesSaved: 'Изменения сохранены',
+    pickupDateHint: 'Дата и время указываются в часовом поясе получателя.',
 
 }

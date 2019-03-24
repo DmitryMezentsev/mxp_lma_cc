@@ -17,18 +17,76 @@
                         <Value :name="$t('providerNumber')" :value="pickup.logist.internalNumber" />
                         <Value :name="$t('shopNumber')" :value="pickup.sender.internalNumber" />
                     </div>
+                </el-col>
+                <el-col :span="12" :xs="24">
                     <div class="values-section">
                         <Value :name="$t('customer')" :value="pickup.sender.name" />
                     </div>
                 </el-col>
+            </el-row>
+            <el-row :gutter="10">
                 <el-col :span="12" :xs="24">
-                    <div class="values-section">
-
-                    </div>
+                    <el-form-item :label="$t('status')"
+                                  prop="serviceInfo.status"
+                                  required>
+                        <StatusSelect type="pickup"
+                                      class-name="custom-disabled"
+                                      width="100%"
+                                      :model.sync="pickup.serviceInfo.status"
+                                      :disabled="lock" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12" :xs="24">
+                    <el-form-item :label="$t('courier')"
+                                  prop="serviceInfo.courierId">
+                        <CourierSelect width="100%"
+                                       class-name="custom-disabled"
+                                       :disabled="lock"
+                                       :model.sync="pickup.serviceInfo.courierId"
+                                       clearable />
+                    </el-form-item>
                 </el-col>
             </el-row>
 
-            <hr class="margin-top margin-bottom-x2">
+            <hr class="margin-bottom">
+            <el-row :gutter="10" class="pickup-time-select-wrap">
+                <el-col :span="12" :xs="24">
+                    <el-form-item :label="$t('pickupDate')"
+                                  prop="pickup.date"
+                                  required>
+                        <DatePicker class="custom-readonly"
+                                    name="pickupDate"
+                                    :model.sync="pickup.pickup.date"
+                                    :clearable="false"
+                                    :readonly="lock" />
+                        <div class="hint mobile-hidden">{{ $t('pickupDateHint') }}</div>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6" :xs="12">
+                    <el-form-item :label="$tc('from', 2)"
+                                  prop="pickup.time.from"
+                                  required>
+                        <el-time-select class="custom-readonly"
+                                        v-model="pickup.pickup.time.from"
+                                        :clearable="false"
+                                        :readonly="lock"
+                                        :picker-options="getTimePickerOptions('from')" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6" :xs="12">
+                    <el-form-item :label="$tc('to', 2)"
+                                  prop="pickup.time.to"
+                                  required>
+                        <el-time-select class="custom-readonly"
+                                        v-model="pickup.pickup.time.to"
+                                        :clearable="false"
+                                        :readonly="lock"
+                                        :picker-options="getTimePickerOptions('to')" />
+                    </el-form-item>
+                </el-col>
+            </el-row>
+
+            <hr class="margin-bottom-x2">
             <h3>{{ $t('warehouse') }}.</h3>
             <el-row :gutter="10">
                 <el-col :span="12" :xs="24">
@@ -152,11 +210,14 @@
     import Value from 'Components/Value';
     import WeightInput from 'Base/components/form-elements/WeightInput';
     import DimensionsInput from 'Base/components/form-elements/DimensionsInput';
+    import StatusSelect from 'Base/components/form-elements/StatusSelect';
+    import CourierSelect from 'Base/components/form-elements/CourierSelect';
+    import DatePicker from 'Base/components/DatePicker';
 
     export default {
         name: 'PickupDialog',
         mixins: [mixins],
-        components: {DimensionsInput, WeightInput, Value, Dimensions},
+        components: {DatePicker, CourierSelect, StatusSelect, DimensionsInput, WeightInput, Value, Dimensions},
         directives: {inputmask},
         data () {
             return {
@@ -172,6 +233,10 @@
                     'dimensions.widthFact': [this.validationRule('numberMin', [1, 1])],
                     'dimensions.heightFact': [this.validationRule('numberMin', [1, 1])],
                     'dimensions.lengthFact': [this.validationRule('numberMin', [1, 1])],
+                    'serviceInfo.status': [this.validationRule('required')],
+                    'pickup.date': [this.validationRule('required')],
+                    'pickup.time.from': [this.validationRule('required')],
+                    'pickup.time.to': [this.validationRule('required')],
                 },
             }
         },
@@ -196,6 +261,20 @@
                 'close',
                 'updatePickup',
             ]),
+            getTimePickerOptions (input) {
+                const options = {
+                    step: '00:15',
+                    start: '00:00',
+                    end: '23:45',
+                };
+
+                if (input === 'from' && this.pickup.pickup.time.to)
+                    options.end = this.pickup.pickup.time.to;
+                else if (input === 'to' && this.pickup.pickup.time.from)
+                    options.start = this.pickup.pickup.time.from;
+
+                return options;
+            },
             save () {
                 this.$refs.pickup.validate(valid => {
                     if (valid) {
@@ -252,6 +331,10 @@
     }
 
     .dimensions-input { margin-top: 8px; }
+
+    .pickup-time-select-wrap {
+        .el-input { width: 100%; }
+    }
 
     @media (max-width: 767px) {
         .el-col {

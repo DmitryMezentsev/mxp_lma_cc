@@ -52,9 +52,7 @@
                         </el-form-item>
                         <el-form-item :label="$t('birthday')" prop="passport.birthday" required>
                             <br>
-                            <el-date-picker v-model="courier.passport.birthday"
-                                            type="date"
-                                            :value-format="dateValueFormat" />
+                            <DatePicker :model.sync="courier.passport.birthday" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="8" :xs="24">
@@ -172,7 +170,6 @@
     import {mapState, mapActions} from 'vuex';
     import downloadjs from 'downloadjs';
 
-    import {DATE_API_FORMAT} from 'Constants/config';
     import DOCUMENT_TYPES from 'Constants/courier-document-types';
     import mixins from 'Common/js/mixins';
     import {generateRandomString, getExtensionFromBase64} from 'Common/js/helpers';
@@ -182,19 +179,19 @@
     import InputFile from 'Components/form-elements/InputFile';
     import UploadCourierDocumentDialog from 'Components/dialog/UploadCourierDocumentDialog';
     import FormattedDate from 'Components/FormattedDate';
+    import DatePicker from 'Base/components/DatePicker';
 
     // Минимальная длина пароля при создании нового курьера
     const minPasswordLength = 6;
 
     export default {
         name: 'CourierPage',
-        components: {FormattedDate, UploadCourierDocumentDialog, InputFile, Waiting},
+        components: {DatePicker, FormattedDate, UploadCourierDocumentDialog, InputFile, Waiting},
         mixins: [mixins],
         directives: {inputmask},
         data () {
             return {
                 minPasswordLength,
-                dateValueFormat: DATE_API_FORMAT,
                 processing: false,
                 isAdd: this.$route.name === 'addCourier',
                 uploadDocumentDialog: false,

@@ -21,8 +21,8 @@ export default {
     settings: 'Settings',
     accountSettings: 'Settings',
     logout: 'Logout',
-    from: 'From | from',
-    to: 'To | to',
+    from: 'From | from | From',
+    to: 'To | to | To',
     all: 'All',
     noOrders: 'No orders',
     orderNumberInCompanyOrShop: 'Number / Shop number',
@@ -190,5 +190,6 @@ export default {
     height: 'Height',
     length: 'Length',
     changesSaved: 'Changes saved',
+    pickupDateHint: 'Date and time are set in the recipient’s time zone.',
 
 }

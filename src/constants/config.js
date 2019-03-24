@@ -7,9 +7,6 @@ export const SIDEBAR_TOGGLE_WIDTH = 1000;
 // Формат даты для отправки в API
 export const DATE_API_FORMAT = 'yyyy-MM-dd';
 
-// Формат даты со временем для отправки в API
-export const DATETIME_API_FORMAT = 'yyyy-MM-dd HH:mm:ss';
-
 // Время хранения Cookies
 export const COOKIES_EXP_DAYS = 365;
 

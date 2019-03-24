@@ -4,7 +4,7 @@
                :width="width > 450 ? '400px' : '300px'">
         <div class="date-select-wrap">
             <el-alert v-show="error" type="error" :title="$t('dateNotSelected')" :closable="false" show-icon />
-            <el-date-picker v-model="date" type="date" :value-format="format" :clearable="false" />
+            <DatePicker :model.sync="date" :clearable="false" />
         </div>
         <span slot="footer" class="dialog-footer">
             <el-button @click="close">{{ $t('close') }}</el-button>
@@ -14,11 +14,12 @@
 </template>
 
 <script>
-    import {DATE_API_FORMAT} from 'Constants/config';
     import mixins from 'Common/js/mixins';
+    import DatePicker from 'Base/components/DatePicker';
 
     export default {
         name: 'SelectDateDialog',
+        components: {DatePicker},
         mixins: [mixins],
         props: {
             title: { type: String, required: true },
@@ -28,7 +29,6 @@
                 width: 0,
                 date: null,
                 error: false,
-                format: DATE_API_FORMAT,
             }
         },
         computed: {

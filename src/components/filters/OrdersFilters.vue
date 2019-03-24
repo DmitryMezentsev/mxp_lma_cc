@@ -2,14 +2,10 @@
     <el-form class="filters">
         <div class="filter delivery-date-filter">
             <el-form-item :label="$t('deliveryDate')">
-                <el-date-picker
-                        v-model="filters.deliveryDate"
-                        type="daterange"
-                        range-separator="—"
-                        :value-format="dateValueFormat"
-                        :picker-options="{firstDayOfWeek: 1}"
-                        :start-placeholder="$tc('from', 1) + '...'"
-                        :end-placeholder="$tc('to', 1) + '...'" />
+                <DatePicker :model.sync="filters.deliveryDate"
+                            :start-placeholder="$tc('from', 1) + '...'"
+                            :end-placeholder="$tc('to', 1) + '...'"
+                            type="daterange" />
             </el-form-item>
         </div>
         <div class="filter">
@@ -27,12 +23,12 @@
     import pick from 'lodash/pick';
 
     import mixins from 'Common/js/mixins';
-    import {DATE_API_FORMAT} from 'Constants/config';
     import StatusSelect from 'Components/form-elements/StatusSelect';
+    import DatePicker from 'Base/components/DatePicker';
 
     export default {
         name: 'OrdersFilters',
-        components: {StatusSelect},
+        components: {DatePicker, StatusSelect},
         mixins: [mixins],
         data () {
             return {
@@ -40,7 +36,6 @@
                     deliveryDate: null,
                     status: null,
                 },
-                dateValueFormat: DATE_API_FORMAT,
                 removeAfterEach: null,
             }
         },

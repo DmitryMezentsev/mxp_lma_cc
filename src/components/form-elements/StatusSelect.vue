@@ -1,11 +1,12 @@
 <template>
     <el-select v-model="value"
+               :class="className"
                :no-data-text="$t('noStatuses')"
                :placeholder="placeholder"
                :loading="!statuses"
                :clearable="clearable"
                :disabled="disabled"
-               :style="{ width: width + 'px' }"
+               :style="{ width }"
                @change="onChange">
         <el-option
                 v-for="(status, i) in statuses"
@@ -24,9 +25,10 @@
             clearable: { type: Boolean },
             disabled: { type: Boolean },
             model: { type: [String, Number] },
-            width: { type: Number, default: 220 },
+            width: { type: String, default: '220px' },
             noSelectPlaceholder: { type: String },
             type: { type: String, default: 'order' },
+            className: { type: String },
         },
         data () {
             return {
