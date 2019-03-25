@@ -197,5 +197,6 @@ export default {
     toArchiveZoneConfirmation: '',
     restoreZoneConfirmation: '',
     editingZone: '',
+    active: '',
 
 }

@@ -197,5 +197,6 @@ export default {
     toArchiveZoneConfirmation: 'Поместить зону в архив?',
     restoreZoneConfirmation: 'Восстановить зону?',
     editingZone: 'Редактирование зоны',
+    active: 'Активный | Активная',
 
 }

@@ -1,7 +1,7 @@
 <template>
     <el-dialog :title="title"
                :visible="!!zone"
-               :width="width > 719 ? '700px' : '100%'"
+               :width="width > 719 ? '700px' : '95%'"
                :close-on-press-escape="!waiting"
                :show-close="!waiting"
                :close-on-click-modal="!waiting"
@@ -12,7 +12,28 @@
                  ref="zone"
                  :model="zone"
                  :rules="rules">
-
+            <el-row>
+                    <el-col :span="14" :xs="24">
+                        <el-form-item :label="$tc('name', 0)" prop="properties.name" required>
+                            <el-input class="custom-readonly"
+                                      name="name"
+                                      v-model="zone.properties.name"
+                                      :readonly="waiting" />
+                        </el-form-item>
+                    </el-col>
+                <el-col :span="10" :xs="24">
+                    <el-form-item prop="properties.isOperating" class="active-switch">
+                        <el-switch v-model="zone.properties.isOperating"
+                                   name="isOperating"
+                                   :disabled="waiting"
+                                   :inactive-color="DANGER_COLOR"
+                                   :active-color="SUCCESS_COLOR"
+                                   :active-text="$tc('active', 0)"
+                                   :inactive-text="$t('inArchive')">
+                        </el-switch>
+                    </el-form-item>
+                </el-col>
+            </el-row>
             <el-button @click.prevent="save" native-type="submit" class="hidden" />
         </el-form>
         <span v-if="zone" slot="footer" class="dialog-footer">
@@ -33,6 +54,7 @@
 <script>
     import {mapState, mapActions} from 'vuex';
 
+    import {DANGER_COLOR, SUCCESS_COLOR} from 'Constants/colors';
     import mixins from 'Common/js/mixins';
     import Waiting from 'Components/Waiting';
 
@@ -45,8 +67,10 @@
                 width: 0,
                 waiting: false,
                 rules: {
-
+                    'properties.name': [this.validationRule('required')],
                 },
+                DANGER_COLOR,
+                SUCCESS_COLOR,
             }
         },
         computed: {
@@ -86,5 +110,10 @@
 </script>
 
 <style lang="less" scoped>
-
+    .active-switch {
+        @media (min-width: 768px) {
+            text-align: right;
+            margin-top: 38px;
+        }
+    }
 </style>

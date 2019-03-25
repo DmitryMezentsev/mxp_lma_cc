@@ -231,6 +231,26 @@ i {
   user-select: none;
 }
 
+.el-switch {
+  .el-switch__label {
+    user-select: none;
+
+    &.is-active {
+      color: @primary-text-color;
+    }
+
+    &:not(.is-active) {
+      color: @placeholder-text-color;
+    }
+  }
+}
+
+.el-picker-panel {
+  .time-select-item {
+    user-select: none;
+  }
+}
+
 .el-message {
   @media (max-width: 400px) { min-width: 320px; }
 }

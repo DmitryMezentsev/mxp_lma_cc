@@ -197,5 +197,6 @@ export default {
     toArchiveZoneConfirmation: 'Send to archive this zone?',
     restoreZoneConfirmation: 'Restore zone?',
     editingZone: 'Editing zone',
+    active: 'Active | Active',
 
 }

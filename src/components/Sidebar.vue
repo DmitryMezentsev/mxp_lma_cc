@@ -14,8 +14,8 @@
                  :router="true"
                  :collapse="collapsed"
                  :collapse-transition="false"
+                 :active-text-color="PRIMARY_TEXT_COLOR"
                  background-color="#FFF"
-                 active-text-color="#303133"
                  @open="submenuOpen"
                  @close="submenuClose">
             <el-submenu index="0">
@@ -137,6 +137,7 @@
 
     import isRoute from 'Directives/is-route';
     import {COOKIES_EXP_DAYS} from 'Constants/config';
+    import {PRIMARY_TEXT_COLOR} from 'Constants/colors';
 
     const SIDEBAR_STATE_COOKIE_NAME = 'sidebarSubmenu';
 
@@ -151,6 +152,7 @@
         data () {
             return {
                 searchQuery: '',
+                PRIMARY_TEXT_COLOR,
             }
         },
         computed: {

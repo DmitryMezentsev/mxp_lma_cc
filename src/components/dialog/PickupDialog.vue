@@ -1,7 +1,7 @@
 <template>
     <el-dialog :title="$t('viewPickup')"
                :visible.sync="visible"
-               :width="width > 719 ? '700px' : '100%'"
+               :width="width > 719 ? '700px' : '95%'"
                :close-on-press-escape="!waiting"
                :show-close="!waiting"
                :close-on-click-modal="!waiting"
