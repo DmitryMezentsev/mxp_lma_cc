@@ -7,12 +7,18 @@
         </div>
         <div class="filter">
             <el-form-item :label="$t('courier')">
-                <CourierSelect :model.sync="filters.courier" clearable multiple />
+                <CourierSelect :model.sync="filters.courier"
+                               :noSelectPlaceholder="$t('all')"
+                               clearable
+                               multiple />
             </el-form-item>
         </div>
         <div class="filter">
             <el-form-item :label="$t('status')">
-                <StatusSelect :model.sync="filters.status" clearable multiple />
+                <StatusSelect :model.sync="filters.status"
+                              :noSelectPlaceholder="$t('all')"
+                              clearable
+                              multiple />
             </el-form-item>
         </div>
         <div class="filter">

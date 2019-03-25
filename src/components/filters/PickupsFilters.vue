@@ -2,7 +2,9 @@
     <el-form class="filters">
         <div class="filter">
             <el-form-item :label="$t('courier')">
-                <CourierSelect :model.sync="filters.courier" clearable />
+                <CourierSelect :model.sync="filters.courier"
+                               :noSelectPlaceholder="$t('all')"
+                               clearable />
             </el-form-item>
         </div>
         <div class="filter">

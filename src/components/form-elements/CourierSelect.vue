@@ -29,6 +29,7 @@
             multiple: { type: Boolean },
             model: { type: [String, Array] },
             width: { type: String, default: '220px' },
+            noSelectPlaceholder: { type: String },
             className: { type: String },
         },
         data () {
@@ -40,7 +41,7 @@
         computed: {
             placeholder () {
                 return this.couriers
-                    ? this.$tc('noSelect', 1)
+                    ? this.noSelectPlaceholder || this.$tc('noSelect', 1)
                     : this.$t('loading');
             },
         },
