@@ -38,10 +38,13 @@ export default {
             api.patch(`geo/${id}`, { ...params })
                 .then(({data}) => callback(data.status === 'ok'));
         },
-        updateZone (context, {geo, callback}) {
-            api.put(`geo/${geo.geoId}`, geo)
-                .then(({data}) => callback(data.status === 'ok'))
-                .catch(() => callback());
+        saveZone (context, {zone, callback}) {
+            let req = zone.geoId
+                ? api.put(`geo/${zone.geoId}`, zone)
+                : api.post('geo', zone);
+
+            req.then(({data}) => callback(data.status === 'ok'))
+               .catch(() => callback());
         },
         createNewZone ({commit}) {
             commit('setOpened', {

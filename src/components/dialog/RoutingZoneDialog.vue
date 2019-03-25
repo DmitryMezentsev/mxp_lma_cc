@@ -86,13 +86,25 @@
         methods: {
             ...mapActions('geo', [
                 'close',
+                'saveZone',
             ]),
             save () {
                 this.$refs.zone.validate(valid => {
                     if (valid) {
                         this.waiting = true;
 
+                        this.saveZone({
+                            zone: this.zone,
+                            callback: success => {
+                                this.waiting = false;
 
+                                if (success) {
+                                    this.$emit('update');
+                                    this.changesSavedMessage();
+                                    this.close();
+                                }
+                            },
+                        });
                     }
                 });
             },

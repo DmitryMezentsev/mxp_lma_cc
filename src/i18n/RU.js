@@ -198,5 +198,6 @@ export default {
     restoreZoneConfirmation: 'Восстановить зону?',
     editingZone: 'Редактирование зоны',
     active: 'Активный | Активная',
+    selectDate: 'Выберите дату',
 
 }

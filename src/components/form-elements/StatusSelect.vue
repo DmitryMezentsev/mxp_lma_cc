@@ -6,6 +6,7 @@
                :loading="!statuses"
                :clearable="clearable"
                :disabled="disabled"
+               :multiple="multiple"
                :style="{ width }"
                @change="onChange">
         <el-option
@@ -24,7 +25,8 @@
         props: {
             clearable: { type: Boolean },
             disabled: { type: Boolean },
-            model: { type: [String, Number] },
+            multiple: { type: Boolean },
+            model: { type: [String, Number, Array] },
             width: { type: String, default: '220px' },
             noSelectPlaceholder: { type: String },
             type: { type: String, default: 'order' },
@@ -32,7 +34,7 @@
         },
         data () {
             return {
-                value: null,
+                value: this.multiple ? [] : null,
                 statuses: null,
             }
         },

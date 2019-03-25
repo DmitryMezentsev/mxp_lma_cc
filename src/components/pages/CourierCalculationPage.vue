@@ -20,7 +20,6 @@
             return {
                 courier: this.$route.query.courier,
                 date: this.$route.query.date,
-
                 removeAfterEach: null,
             }
         },

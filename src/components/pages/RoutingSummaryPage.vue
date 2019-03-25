@@ -1,16 +1,35 @@
 <template>
     <div>
+        <RoutingSummaryFilters />
+        <RoutingSummaryTable v-if="date" />
 
-        <RoutingSummary />
+        <div v-show="!date" class="page-center-message">
+            {{ $t('selectDate') }}.
+        </div>
     </div>
 </template>
 
 <script>
-    import RoutingSummary from 'Components/RoutingSummary';
+    import RoutingSummaryTable from 'Components/tables/RoutingSummaryTable';
+    import RoutingSummaryFilters from 'Components/filters/RoutingSummaryFilters';
     
     export default {
         name: 'RoutingMapPage',
-        components: {RoutingSummary},
+        components: {RoutingSummaryFilters, RoutingSummaryTable},
+        data () {
+            return {
+                date: this.$route.query.date,
+                removeAfterEach: null,
+            }
+        },
+        mounted () {
+            this.removeAfterEach = this.$router.afterEach(to => {
+                this.date = to.query.date;
+            });
+        },
+        destroyed () {
+            if (this.removeAfterEach) this.removeAfterEach();
+        },
     }
 </script>
 

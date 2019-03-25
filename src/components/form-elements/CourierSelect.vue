@@ -6,6 +6,7 @@
                :loading="!couriers"
                :clearable="clearable"
                :disabled="disabled"
+               :multiple="multiple"
                :style="{ width }"
                filterable
                @change="onChange">
@@ -25,13 +26,14 @@
         props: {
             clearable: { type: Boolean },
             disabled: { type: Boolean },
-            model: { type: String },
+            multiple: { type: Boolean },
+            model: { type: [String, Array] },
             width: { type: String, default: '220px' },
             className: { type: String },
         },
         data () {
             return {
-                value: null,
+                value: this.multiple ? [] : null,
                 couriers: null,
             }
         },

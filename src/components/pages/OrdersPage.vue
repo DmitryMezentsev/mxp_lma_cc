@@ -47,15 +47,15 @@
             loadList () {
                 this.getList({
                     perPage: PER_PAGE_DEFAULT,
-                    page: get(this.$route.query, 'page'),
+                    page: this.$route.query.page,
                     serviceType: (() => {
                         if (this.type === 'courier') return 0;
                         if (this.type === 'point') return 1;
                     })(),
-                    search: (this.type === 'search') ? get(this.$route.query, 'q') : null,
+                    search: (this.type === 'search') ? this.$route.query.q : null,
                     deliveryDateFrom: get(this.$route.query, 'deliveryDate[0]'),
                     deliveryDateTo: get(this.$route.query, 'deliveryDate[1]'),
-                    status: get(this.$route.query, 'status'),
+                    status: this.$route.query.status,
                 });
             },
         },

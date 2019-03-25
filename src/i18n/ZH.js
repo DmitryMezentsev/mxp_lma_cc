@@ -198,5 +198,6 @@ export default {
     restoreZoneConfirmation: '',
     editingZone: '',
     active: '',
+    selectDate: '',
 
 }

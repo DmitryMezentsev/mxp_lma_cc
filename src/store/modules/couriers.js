@@ -78,15 +78,12 @@ export default {
         saveCourier ({commit}, {courier, callback}) {
             commit('setCourier', courier);
 
-            if (courier.courierId) {
-                api.put(`courier/${courier.courierId}`, courier)
-                    .then(({data}) => callback(data.status === 'ok'))
-                    .catch(() => callback());
-            } else {
-                api.post('courier', courier)
-                    .then(({data}) => callback(data.status === 'ok'))
-                    .catch(() => callback());
-            }
+            let req = courier.courierId
+                ? api.put(`courier/${courier.courierId}`, courier)
+                : api.post('courier', courier);
+
+            req.then(({data}) => callback(data.status === 'ok'))
+               .catch(() => callback());
         },
     },
 }

@@ -282,13 +282,13 @@
 
                         this.updatePickup({
                             pickup: this.pickup,
-                            callback: (success) => {
+                            callback: success => {
+                                this.waiting = false;
+
                                 if (success) {
                                     this.$emit('update');
                                     this.changesSavedMessage();
                                     this.close();
-                                } else {
-                                    this.waiting = false;
                                 }
                             },
                         });

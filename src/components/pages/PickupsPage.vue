@@ -24,7 +24,6 @@
 <script>
     import {parallel} from 'async';
     import {mapState, mapActions} from 'vuex';
-    import get from 'lodash/get';
 
     import {PER_PAGE_DEFAULT} from 'Constants/config';
 
@@ -58,9 +57,9 @@
             loadList () {
                 this.getList({
                     perPage: PER_PAGE_DEFAULT,
-                    page: get(this.$route.query, 'page'),
-                    pickupDate: get(this.$route.query, 'pickupDate'),
-                    courierId: get(this.$route.query, 'courier'),
+                    page: this.$route.query.page,
+                    pickupDate: this.$route.query.pickupDate,
+                    courierId: this.$route.query.courier,
                 });
             },
             setCourier (courierId) {

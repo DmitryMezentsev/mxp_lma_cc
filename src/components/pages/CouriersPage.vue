@@ -24,7 +24,6 @@
 
 <script>
     import {mapState, mapActions} from 'vuex';
-    import get from 'lodash/get';
 
     import {PER_PAGE_DEFAULT} from 'Constants/config';
     import CouriersFilters from 'Components/filters/CouriersFilters';
@@ -53,9 +52,9 @@
                 this.getList({
                     perPage: PER_PAGE_DEFAULT,
                     fields: ['courierId', 'fullname', 'phone1', 'phone2', 'livingArea', 'isActive'],
-                    page: get(this.$route.query, 'page'),
-                    fullname: get(this.$route.query, 'fullname'),
-                    isActive: !get(this.$route.query, 'inArchive'),
+                    page: this.$route.query.page,
+                    fullname: this.$route.query.fullname,
+                    isActive: !this.$route.query.inArchive,
                 });
             },
         },

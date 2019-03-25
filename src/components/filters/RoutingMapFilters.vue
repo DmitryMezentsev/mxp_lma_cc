@@ -1,0 +1,87 @@
+<template>
+    <el-form class="filters">
+        <div class="filter">
+            <el-form-item :label="$t('date')">
+                <DatePicker :model.sync="filters.date" />
+            </el-form-item>
+        </div>
+        <div class="filter">
+            <el-form-item :label="$t('courier')">
+                <CourierSelect :model.sync="filters.courier" clearable multiple />
+            </el-form-item>
+        </div>
+        <div class="filter">
+            <el-form-item :label="$t('status')">
+                <StatusSelect :model.sync="filters.status" clearable multiple />
+            </el-form-item>
+        </div>
+        <div class="filter">
+            <el-form-item :label="$t('zone')">
+
+            </el-form-item>
+        </div>
+        <el-button @click.prevent native-type="submit" class="hidden" />
+    </el-form>
+</template>
+
+<script>
+    import mixins from 'Common/js/mixins';
+    import CourierSelect from 'Components/form-elements/CourierSelect';
+    import DatePicker from 'Components/DatePicker';
+    import StatusSelect from 'Base/components/form-elements/StatusSelect';
+
+    export default {
+        name: 'RoutingMapFilters',
+        components: {StatusSelect, DatePicker, CourierSelect},
+        mixins: [mixins],
+        data () {
+            return {
+                filters: {
+                    date: null,
+                    courier: [],
+                    status: [],
+                    zone: [],
+                },
+                removeAfterEach: null,
+            }
+        },
+        methods: {
+            loadFilterValues () {
+                function getMultiple (val, num) {
+                    if (!val) return [];
+
+                    if (!Array.isArray(val))
+                        val = [val];
+
+                    return num ? val.map(Number) : val;
+                }
+
+                this.filters = {
+                    date: this.$route.query.date,
+                    courier: getMultiple(this.$route.query.courier),
+                    status: getMultiple(this.$route.query.status, true),
+                    zone: getMultiple(this.$route.query.zone),
+                };
+            },
+        },
+        mounted () {
+            this.loadFilterValues();
+            this.removeAfterEach = this.$router.afterEach(() => this.loadFilterValues());
+        },
+        destroyed () {
+            if (this.removeAfterEach) this.removeAfterEach();
+        },
+        watch: {
+            filters: {
+                handler (values) {
+                    this.replaceRouteQueryParams(values);
+                },
+                deep: true,
+            }
+        },
+    }
+</script>
+
+<style lang="less" scoped>
+
+</style>
