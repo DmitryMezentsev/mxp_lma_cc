@@ -22,7 +22,7 @@ export default {
     accountSettings: 'Настройки',
     logout: 'Выйти',
     from: 'От | от | С',
-    to: 'До | до | По',
+    to: 'До | до | До',
     all: 'Все',
     noOrders: 'Нет заказов для отображения',
     orderNumberInCompanyOrShop: 'Номер в ТК / ИМ',
