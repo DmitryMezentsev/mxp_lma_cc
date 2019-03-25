@@ -170,6 +170,7 @@
     import {mapState, mapActions} from 'vuex';
     import downloadjs from 'downloadjs';
 
+    import api from 'Common/js/api';
     import DOCUMENT_TYPES from 'Constants/courier-document-types';
     import mixins from 'Common/js/mixins';
     import {generateRandomString, getExtensionFromBase64} from 'Common/js/helpers';
@@ -275,7 +276,15 @@
             sendNewPassword () {
                 this.confirm(this.$t('sendPasswordDialogText'), ok => {
                     if (ok) {
-
+                        api.post(`/courier/${this.courier.courierId}/send-password-by-sms`)
+                            .then(({data}) => {
+                                if (data.status === 'ok') {
+                                    this.$message({
+                                        message: this.$t('newPasswordSentToCourier'),
+                                        type: 'success',
+                                    });
+                                }
+                            })
                     }
                 }, this.$t('sendPassword'));
             },
