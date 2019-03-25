@@ -184,6 +184,9 @@
             <el-button class="hidden" native-type="submit" @click.prevent="save" />
         </el-form>
         <span v-if="pickup" slot="footer" class="dialog-footer">
+             <el-button @click="close" :disabled="waiting">
+                {{ $t('close') }}
+            </el-button>
             <el-button type="primary"
                        @click="save"
                        :loading="waiting"
@@ -192,9 +195,6 @@
             </el-button>
             <el-button type="primary" @click="lock = false" v-show="lock">
                 {{ $t('edit') }}
-            </el-button>
-            <el-button @click="close" :disabled="waiting">
-                {{ $t('close') }}
             </el-button>
         </span>
     </el-dialog>

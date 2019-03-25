@@ -146,17 +146,17 @@
             <el-button class="hidden" native-type="submit" @click.prevent="save" />
         </el-form>
         <span v-if="order" slot="footer" class="dialog-footer">
-            <el-button @click="partialIssue" :v-show="true">
-                {{ $t('partialIssue') }}
+             <el-button @click="close">
+                {{ $t('close') }}
             </el-button>
-            <el-button @click="toIssue" type="success">
-                {{ $t('toIssue') }}
+            <el-button @click="partialIssue" :v-if="true">
+                {{ $t('partialIssue') }}
             </el-button>
             <el-button @click="toReturn" type="danger">
                 {{ $t('return') }}
             </el-button>
-            <el-button @click="close">
-                {{ $t('close') }}
+            <el-button @click="toIssue" type="success">
+                {{ $t('toIssue') }}
             </el-button>
         </span>
     </el-dialog>

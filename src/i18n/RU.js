@@ -192,9 +192,10 @@ export default {
     changesSaved: 'Изменения сохранены',
     pickupDateHint: 'Дата и время указываются в часовом поясе получателя.',
     zones: 'Зоны',
-    addZone: 'Добавить зону',
+    newZone: 'Новая зона',
     noZones: 'Нет зон для отображения',
     toArchiveZoneConfirmation: 'Поместить зону в архив?',
     restoreZoneConfirmation: 'Восстановить зону?',
+    editingZone: 'Редактирование зоны',
 
 }

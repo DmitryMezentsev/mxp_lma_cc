@@ -192,9 +192,10 @@ export default {
     changesSaved: '',
     pickupDateHint: '',
     zones: '',
-    addZone: '',
+    newZone: '',
     noZones: '',
     toArchiveZoneConfirmation: '',
     restoreZoneConfirmation: '',
+    editingZone: '',
 
 }

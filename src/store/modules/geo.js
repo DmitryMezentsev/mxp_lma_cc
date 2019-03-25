@@ -9,7 +9,7 @@ export default {
             totalCount: 0,
             pageCount: 0,
         },
-        editedId: null,
+        opened: null,
     },
     mutations: {
         clearList: state =>
@@ -19,7 +19,7 @@ export default {
                 pageCount: 0,
             },
         setList: (state, payload) => state.list = payload,
-        setEditedId: (state, payload) => state.editedId = payload,
+        setOpened: (state, payload) => state.opened = payload,
     },
     actions: {
         getList ({commit}, params) {
@@ -36,20 +36,28 @@ export default {
         },
         patchZone (context, {id, params, callback}) {
             api.patch(`geo/${id}`, { ...params })
-                .then(({data}) => {
-                    callback(data.status === 'ok');
-                });
+                .then(({data}) => callback(data.status === 'ok'));
         },
         updateZone (context, {geo, callback}) {
             api.put(`geo/${geo.geoId}`, geo)
-                .then(({data}) => {
-                    callback(data.status === 'ok');
-                })
-                .catch(() => {
-                    callback();
-                });
+                .then(({data}) => callback(data.status === 'ok'))
+                .catch(() => callback());
         },
-        edit: ({commit}, id) => commit('setEditedId', id),
-        close: ({commit}) => commit('setEditedId', null),
+        createNewZone ({commit}) {
+            commit('setOpened', {
+                properties: {
+                    name: '',
+                    isOperating: true,
+                },
+                geometry: {},
+            });
+        },
+        open: ({commit}, id) => {
+            commit('setOpened', null);
+
+            api.get(`geo/${id}`)
+                .then(({data}) => commit('setOpened', data));
+        },
+        close: ({commit}) => commit('setOpened', null),
     },
 }

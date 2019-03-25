@@ -10,6 +10,6 @@
 
 <style lang="less" scoped>
     .waiting {
-        margin: 12em 0;
+        padding: 12em 0;
     }
 </style>

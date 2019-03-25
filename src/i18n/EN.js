@@ -192,9 +192,10 @@ export default {
     changesSaved: 'Changes saved',
     pickupDateHint: 'Date and time are set in the recipient’s time zone.',
     zones: 'Zones',
-    addZone: 'Add zone',
+    newZone: 'New zone',
     noZones: 'No zones',
     toArchiveZoneConfirmation: 'Send to archive this zone?',
     restoreZoneConfirmation: 'Restore zone?',
+    editingZone: 'Editing zone',
 
 }

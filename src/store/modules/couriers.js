@@ -36,9 +36,7 @@ export default {
         },
         patchCourier (context, {id, params, callback}) {
             api.patch(`courier/${id}`, { ...params })
-                .then(({data}) => {
-                    callback(data.status === 'ok');
-                });
+                .then(({data}) => callback(data.status === 'ok'));
         },
         createNewCourier ({commit}) {
             commit('setCourier', {
@@ -71,9 +69,7 @@ export default {
             commit('setCourier', null);
 
             api.get(`courier/${id}`)
-                .then(({data}) => {
-                    commit('setCourier', data);
-                })
+                .then(({data}) => commit('setCourier', data))
                 .catch(({response}) => {
                     if (response.status === 404)
                         window.app.$router.push({ name: 'couriers' });
@@ -84,20 +80,12 @@ export default {
 
             if (courier.courierId) {
                 api.put(`courier/${courier.courierId}`, courier)
-                    .then(({data}) => {
-                        callback(data.status === 'ok');
-                    })
-                    .catch(() => {
-                        callback();
-                    });
+                    .then(({data}) => callback(data.status === 'ok'))
+                    .catch(() => callback());
             } else {
                 api.post('courier', courier)
-                    .then(({data}) => {
-                        callback(data.status === 'ok');
-                    })
-                    .catch(() => {
-                        callback();
-                    });
+                    .then(({data}) => callback(data.status === 'ok'))
+                    .catch(() => callback());
             }
         },
     },

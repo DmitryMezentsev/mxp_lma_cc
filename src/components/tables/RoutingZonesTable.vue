@@ -6,7 +6,7 @@
                 :label="$tc('name', 0)"
                 key="col-name">
             <template slot-scope="scope">
-                <el-button type="text" @click="edit(scope.row.geoId)">
+                <el-button type="text" @click="open(scope.row.geoId)">
                     {{ scope.row.properties.name }}
                 </el-button>
             </template>
@@ -44,7 +44,7 @@
         },
         methods: {
             ...mapActions('geo', [
-                'edit',
+                'open',
                 'patchZone',
             ]),
             setZoneActive (id, isOperating) {
@@ -63,7 +63,3 @@
         },
     }
 </script>
-
-<style lang="less" scoped>
-
-</style>

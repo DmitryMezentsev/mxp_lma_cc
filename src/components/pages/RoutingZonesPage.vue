@@ -6,8 +6,8 @@
             </el-col>
             <el-col :span="12" :xs="15">
                 <div class="text-right">
-                    <el-button type="primary" @click="showRoutingZoneDialog = true">
-                        {{ $t('addZone') }}
+                    <el-button type="primary" @click="createNewZone">
+                        {{ $t('newZone') }}
                     </el-button>
                 </div>
             </el-col>
@@ -16,7 +16,7 @@
         <RoutingZonesTable :data="list.data" @update="loadList" />
         <Pagination :total="list.totalCount" :max-page="list.pageCount" />
 
-        <RoutingZoneDialog />
+        <RoutingZoneDialog @update="loadList" />
     </div>
 </template>
 
@@ -37,7 +37,6 @@
             return {
                 removeAfterEach: null,
                 page: this.$route.name,
-                showRoutingZoneDialog: false,
             }
         },
         computed: {
@@ -48,6 +47,7 @@
         methods: {
             ...mapActions('geo', [
                 'getList',
+                'createNewZone',
             ]),
             loadList () {
                 this.getList({
