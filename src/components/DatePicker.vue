@@ -16,7 +16,7 @@
 <script>
     import {mapState} from 'vuex';
 
-    import {DATE_API_FORMAT} from 'Base/constants/config';
+    import {DATE_API_FORMAT} from 'Constants/config';
 
     export default {
         name: 'DatePicker',

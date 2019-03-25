@@ -19,7 +19,7 @@
 
     import mixins from 'Common/js/mixins';
     import CourierSelect from 'Components/form-elements/CourierSelect';
-    import DatePicker from 'Base/components/DatePicker';
+    import DatePicker from 'Components/DatePicker';
 
     export default {
         name: 'CourierCalculationFilters',

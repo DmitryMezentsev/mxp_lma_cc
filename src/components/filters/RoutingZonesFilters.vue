@@ -1,13 +1,8 @@
 <template>
     <el-form class="filters">
         <div class="filter">
-            <el-form-item :label="$t('courier')">
-                <CourierSelect :model.sync="filters.courier" clearable />
-            </el-form-item>
-        </div>
-        <div class="filter">
-            <el-form-item :label="$t('date')">
-                <DatePicker :model.sync="filters.pickupDate" />
+            <el-form-item :label="$t('inArchive')">
+                <el-switch v-model="filters.inArchive" />
             </el-form-item>
         </div>
         <el-button @click.prevent native-type="submit" class="hidden" />
@@ -17,26 +12,37 @@
 <script>
     import pick from 'lodash/pick';
 
+    import {str2Bool} from 'Common/js/helpers';
     import mixins from 'Common/js/mixins';
-    import CourierSelect from 'Components/form-elements/CourierSelect';
-    import DatePicker from 'Components/DatePicker';
 
     export default {
-        name: 'PickupsFilters',
-        components: {DatePicker, CourierSelect},
+        name: 'RoutingZonesFilters',
         mixins: [mixins],
         data () {
             return {
                 filters: {
-                    courier: null,
-                    pickupDate: null,
+                    inArchive: false,
                 },
                 removeAfterEach: null,
             }
         },
+        computed: {
+            preparedFilters: {
+                get () {
+                    return {
+                        inArchive: this.filters.inArchive ? 'true' : null,
+                    }
+                },
+                set (values) {
+                    this.filters = {
+                        inArchive: str2Bool(values.inArchive),
+                    };
+                },
+            },
+        },
         methods: {
             loadFilterValues () {
-                this.filters = pick(this.$route.query, ['pickupDate', 'courier']);
+                this.preparedFilters = pick(this.$route.query, ['inArchive']);
             },
         },
         mounted () {
@@ -47,9 +53,9 @@
             if (this.removeAfterEach) this.removeAfterEach();
         },
         watch: {
-            filters: {
-                handler (values) {
-                    this.replaceRouteQueryParams(values);
+            preparedFilters: {
+                handler (preparedFilters) {
+                    this.replaceRouteQueryParams(preparedFilters);
                 },
                 deep: true,
             }

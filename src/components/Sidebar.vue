@@ -78,12 +78,30 @@
                 <i class="fas fa-user-tie"></i>
                 <span slot="title">{{ $t('couriers') }}</span>
             </el-menu-item>
-            <el-menu-item index="6"
-                          @click="scrollTop"
-                          :route="{name: 'routing'}" v-is-route="'routing'">
-                <i class="fas fa-map-marked-alt"></i>
-                <span slot="title">{{ $t('routing') }}</span>
-            </el-menu-item>
+            <el-submenu index="6">
+                <template slot="title">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span slot="title">{{ $t('routing') }}</span>
+                </template>
+                <el-menu-item index="6-1"
+                              @click="scrollTop"
+                              :route="{name: 'routingMap'}"
+                              v-is-route="'routingMap'">
+                    <span slot="title">{{ $t('map') }}</span>
+                </el-menu-item>
+                <el-menu-item index="6-2"
+                              @click="scrollTop"
+                              :route="{name: 'routingSummary'}"
+                              v-is-route="'routingSummary'">
+                    <span slot="title">{{ $t('summary') }}</span>
+                </el-menu-item>
+                <el-menu-item index="6-3"
+                              @click="scrollTop"
+                              :route="{name: 'routingZones'}"
+                              v-is-route="'routingZones'">
+                    <span slot="title">{{ $t('zones') }}</span>
+                </el-menu-item>
+            </el-submenu>
             <el-submenu index="7">
                 <template slot="title">
                     <i class="fas fa-book"></i>

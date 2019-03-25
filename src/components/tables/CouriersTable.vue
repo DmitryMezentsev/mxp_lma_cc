@@ -1,8 +1,7 @@
 <template>
     <el-table v-loading="loading"
               :data="data"
-              :empty-text="$t(loading ? 'pleaseWait' : 'noCouriers')"
-              class="couriers-table">
+              :empty-text="$t(loading ? 'pleaseWait' : 'noCouriers')">
         <el-table-column
                 :label="$t('fullName')"
                 key="col-fullname">
@@ -26,8 +25,8 @@
                 v-if="width > 539"
                 key="col-living-area" />
         <el-table-column
+                align="right"
                 width="110"
-                class-name="actions"
                 key="col-actions">
             <template slot-scope="scope">
                 <el-button-group>
@@ -57,7 +56,7 @@
 
     import mixins from 'Common/js/mixins';
     import {OTH_SERVER_PATH} from 'Common/js/env';
-    import {getBrowserName} from 'Base/common/js/helpers';
+    import {getBrowserName} from 'Common/js/helpers';
 
     export default {
         name: 'CouriersTable',
@@ -108,13 +107,3 @@
         },
     }
 </script>
-
-<style lang="less">
-    .couriers-table {
-        .el-table__row {
-            .actions {
-                .cell { text-align: right; }
-            }
-        }
-    }
-</style>

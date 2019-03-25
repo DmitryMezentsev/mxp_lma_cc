@@ -59,7 +59,7 @@
                                     :model.sync="pickup.pickup.date"
                                     :clearable="false"
                                     :readonly="lock" />
-                        <div class="hint mobile-hidden">{{ $t('pickupDateHint') }}</div>
+                        <div class="hint hidden-xs-only">{{ $t('pickupDateHint') }}</div>
                     </el-form-item>
                 </el-col>
                 <el-col :span="6" :xs="12">
@@ -208,11 +208,11 @@
     import inputmask from 'Directives/inputmask';
     import Dimensions from 'Components/Dimensions';
     import Value from 'Components/Value';
-    import WeightInput from 'Base/components/form-elements/WeightInput';
-    import DimensionsInput from 'Base/components/form-elements/DimensionsInput';
-    import StatusSelect from 'Base/components/form-elements/StatusSelect';
-    import CourierSelect from 'Base/components/form-elements/CourierSelect';
-    import DatePicker from 'Base/components/DatePicker';
+    import WeightInput from 'Components/form-elements/WeightInput';
+    import DimensionsInput from 'Components/form-elements/DimensionsInput';
+    import StatusSelect from 'Components/form-elements/StatusSelect';
+    import CourierSelect from 'Components/form-elements/CourierSelect';
+    import DatePicker from 'Components/DatePicker';
 
     export default {
         name: 'PickupDialog',

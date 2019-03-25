@@ -15,7 +15,7 @@
 
 <script>
     import mixins from 'Common/js/mixins';
-    import DatePicker from 'Base/components/DatePicker';
+    import DatePicker from 'Components/DatePicker';
 
     export default {
         name: 'SelectDateDialog',

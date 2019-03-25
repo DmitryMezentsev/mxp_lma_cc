@@ -180,7 +180,7 @@
     import InputFile from 'Components/form-elements/InputFile';
     import UploadCourierDocumentDialog from 'Components/dialog/UploadCourierDocumentDialog';
     import FormattedDate from 'Components/FormattedDate';
-    import DatePicker from 'Base/components/DatePicker';
+    import DatePicker from 'Components/DatePicker';
 
     // Минимальная длина пароля при создании нового курьера
     const minPasswordLength = 6;

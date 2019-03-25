@@ -15,6 +15,9 @@ import ReportingPage from 'Components/pages/ReportingPage';
 import CourierCalculationPage from 'Components/pages/CourierCalculationPage';
 import ReportingStatementsPage from 'Components/pages/ReportingStatementsPage';
 import ServiceActsPage from 'Components/pages/ServiceActsPage';
+import RoutingMapPage from 'Components/pages/RoutingMapPage';
+import RoutingSummaryPage from 'Components/pages/RoutingSummaryPage';
+import RoutingZonesPage from 'Components/pages/RoutingZonesPage';
 
 
 export default new VueRouter({
@@ -82,6 +85,23 @@ export default new VueRouter({
         name: 'routing',
         path: '/routing',
         component: RoutingPage,
+        redirect: '/routing/map',
+        children: [{
+            name: 'routingMap',
+            path: 'map',
+            component: RoutingMapPage,
+            meta: { pageName: 'map' },
+        }, {
+            name: 'routingSummary',
+            path: 'summary',
+            component: RoutingSummaryPage,
+            meta: { pageName: 'summary' },
+        }, {
+            name: 'routingZones',
+            path: 'zones',
+            component: RoutingZonesPage,
+            meta: { pageName: 'zones' },
+        }],
     }, {
         name: 'reporting',
         path: '/reporting',

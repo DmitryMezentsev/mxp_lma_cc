@@ -191,5 +191,10 @@ export default {
     length: 'Глубина',
     changesSaved: 'Изменения сохранены',
     pickupDateHint: 'Дата и время указываются в часовом поясе получателя.',
+    zones: 'Зоны',
+    addZone: 'Добавить зону',
+    noZones: 'Нет зон для отображения',
+    toArchiveZoneConfirmation: 'Поместить зону в архив?',
+    restoreZoneConfirmation: 'Восстановить зону?',
 
 }

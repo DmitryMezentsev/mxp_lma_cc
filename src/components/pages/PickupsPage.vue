@@ -32,7 +32,7 @@
     import Pagination from 'Components/Pagination';
     import PickupsTable from 'Components/tables/PickupsTable';
     import SelectCourierDialog from 'Components/dialog/SelectCourierDialog';
-    import PickupDialog from 'Base/components/dialog/PickupDialog';
+    import PickupDialog from 'Components/dialog/PickupDialog';
 
     export default {
         name: 'PickupsPage',

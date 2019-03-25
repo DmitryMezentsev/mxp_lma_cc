@@ -63,7 +63,7 @@
     import {mapActions} from 'vuex';
 
     import mixins from 'Common/js/mixins';
-    import FormattedDate from 'Base/components/FormattedDate';
+    import FormattedDate from 'Components/FormattedDate';
 
     export default {
         name: 'PickupsTable',

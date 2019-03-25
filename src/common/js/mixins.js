@@ -40,9 +40,10 @@ export default {
         getRoutePageName (route) {
             if (!route) route = this.$route;
 
-            return this.$t(route.meta.pageName
-                ? route.meta.pageName.values[this.$route.params[route.meta.pageName.param]]
-                : route.name);
+            if (typeof route.meta.pageName === 'object')
+                return this.$t(route.meta.pageName.values[this.$route.params[route.meta.pageName.param]]);
+
+            return this.$t(route.meta.pageName || route.name);
         },
         // Отображение окна подтверждения действия
         confirm (message, callback, confirmButtonText) {
