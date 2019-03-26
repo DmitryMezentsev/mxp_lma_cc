@@ -23,7 +23,10 @@
         </div>
         <div class="filter">
             <el-form-item :label="$t('zone')">
-
+                <RoutingZoneSelect :model.sync="filters.zone"
+                                   :noSelectPlaceholder="$t('all')"
+                                   clearable
+                                   multiple />
             </el-form-item>
         </div>
         <el-button @click.prevent native-type="submit" class="hidden" />
@@ -34,11 +37,12 @@
     import mixins from 'Common/js/mixins';
     import CourierSelect from 'Components/form-elements/CourierSelect';
     import DatePicker from 'Components/DatePicker';
-    import StatusSelect from 'Base/components/form-elements/StatusSelect';
+    import StatusSelect from 'Components/form-elements/StatusSelect';
+    import RoutingZoneSelect from 'Components/form-elements/RoutingZoneSelect';
 
     export default {
         name: 'RoutingMapFilters',
-        components: {StatusSelect, DatePicker, CourierSelect},
+        components: {StatusSelect, DatePicker, CourierSelect, RoutingZoneSelect},
         mixins: [mixins],
         data () {
             return {
