@@ -12,3 +12,9 @@ export const CLIENT_ID = '';
 
 // Google Maps API key
 export const GOOGLE_MAPS_API_KEY = '';
+
+// Кординаты начального центра карты
+export const MAP_CENTER = {
+    lat: 10,
+    lng: 10,
+};

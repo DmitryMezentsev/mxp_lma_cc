@@ -199,5 +199,9 @@ export default {
     editingZone: '',
     active: '',
     selectDate: '',
+    polygonsCantBeSeveral: '',
+    markOnMapZoneBoundaries: '',
+    clearMap: '',
+    zoneNotSet: '',
 
 }

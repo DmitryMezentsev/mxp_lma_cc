@@ -2,17 +2,22 @@
     <div>
         <RoutingMapFilters />
         <br>
-        <RoutingMap />
+        <Map @init="mapInit" height="700px" />
     </div>
 </template>
 
 <script>
-    import RoutingMap from 'Components/RoutingMap';
     import RoutingMapFilters from 'Components/filters/RoutingMapFilters';
+    import Map from 'Components/Map';
 
     export default {
         name: 'RoutingMapPage',
-        components: {RoutingMapFilters, RoutingMap},
+        components: {RoutingMapFilters, Map},
+        methods: {
+            mapInit (map) {
+
+            },
+        },
     }
 </script>
 

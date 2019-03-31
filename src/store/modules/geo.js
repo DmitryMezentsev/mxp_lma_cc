@@ -52,7 +52,7 @@ export default {
                     name: '',
                     isOperating: true,
                 },
-                geometry: {},
+                geometry: null,
             });
         },
         open: ({commit}, id) => {

@@ -199,5 +199,9 @@ export default {
     editingZone: 'Редактирование зоны',
     active: 'Активный | Активная',
     selectDate: 'Выберите дату',
+    polygonsCantBeSeveral: 'Полигонов не может быть несколько',
+    markOnMapZoneBoundaries: 'Обозначьте на карте границы зоны',
+    clearMap: 'Очистить карту',
+    zoneNotSet: 'Вы не задали зону',
 
 }
