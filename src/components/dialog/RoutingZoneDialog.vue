@@ -1,12 +1,12 @@
 <template>
     <el-dialog :title="title"
                :visible="!!zone"
-               :width="width > 719 ? '700px' : '95%'"
                :close-on-press-escape="!waiting"
                :show-close="!waiting"
                :close-on-click-modal="!waiting"
                @open="onOpen"
                @close="close"
+               width="95%"
                top="5vh">
         <el-form v-if="zone"
                  ref="zone"
@@ -35,6 +35,7 @@
                 </el-col>
             </el-row>
             <Map class="map"
+                 height="600px"
                  :help="$t('markOnMapZoneBoundaries')"
                  @init="mapInit" />
             <el-button @click.prevent="save" native-type="submit" class="hidden" />
@@ -74,7 +75,6 @@
         mixins: [mixins],
         data () {
             return {
-                width: 0,
                 waiting: false,
                 map: null,
                 rules: {
@@ -164,12 +164,6 @@
             onOpen () {
                 this.waiting = false;
             },
-        },
-        created () {
-            this.bindClientWidth('width');
-        },
-        destroyed () {
-            this.unbindClientWidth();
         },
         watch: {
             'zone.geometry': {

@@ -33,6 +33,7 @@
                     rotateControl: false,
                     fullscreenControl: false,
                     clickableIcons: false,
+                    gestureHandling: 'cooperative',
                     // Выключаем ненужные рекламные точки на карте
                     styles: [{
                         featureType: 'poi',
