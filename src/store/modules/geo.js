@@ -52,6 +52,7 @@ export default {
                     name: '',
                     isOperating: true,
                 },
+                type: '',
                 geometry: null,
             });
         },

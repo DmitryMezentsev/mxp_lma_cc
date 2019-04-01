@@ -94,9 +94,6 @@
                     ? this.$t(this.zone.geoId ? 'editingZone' : 'newZone')
                     : null;
             },
-            zoneIsSet () {
-                return get(this.zone, 'geometry.features.length');
-            },
         },
         methods: {
             ...mapActions('geo', [
@@ -109,10 +106,8 @@
                         if (geo.features.length > 1)
                             this.warning(this.$t('polygonsCantBeSeveral'));
 
-                        this.zone.geometry = {
-                            type: geo.type,
-                            features: geo.features[0] ? [geo.features[0]] : [],
-                        };
+                        this.zone.type = get(geo, 'features[0].type', '');
+                        this.zone.geometry = get(geo, 'features[0].geometry', null);
                     });
                 };
 
@@ -123,30 +118,36 @@
                 map.data.addListener('setgeometry', refreshGeoJson);
 
                 this.map = map;
-                this.updateMap(this.zone.geometry, true);
+                this.updateMap(this.zone.type, this.zone.geometry, true);
             },
             clearMap () {
+                this.zone.type = '';
                 this.zone.geometry = null;
             },
-            updateMap (geometry, center) {
+            updateMap (type, geometry, center) {
+                const newGeometry = {
+                    type: 'FeatureCollection',
+                    features: geometry
+                        ? [{ type, geometry, properties: {} }]
+                        : [],
+                };
+
                 this.map.data.toGeoJson(currentGeometry => {
-                    if (!isEqual(currentGeometry, geometry)) {
+                    if (!isEqual(currentGeometry.features, newGeometry.features)) {
                         // Снос прежних полигонов
                         this.map.data.forEach(poly => this.map.data.remove(poly));
 
-                        if (geometry) {
-                            // Добавление нового полигона
-                            this.map.data.addGeoJson(geometry);
+                        // Добавление нового полигона
+                        this.map.data.addGeoJson(newGeometry);
 
-                            if (center) this.map.setCenter(centerCoordsFromGeometry(geometry));
-                        }
+                        if (center) this.map.setCenter(centerCoordsFromGeometry(newGeometry));
                     }
                 });
             },
             save () {
                 this.$refs.zone.validate(valid => {
                     if (valid) {
-                        if (this.zoneIsSet) {
+                        if (this.zone.geometry) {
                             this.waiting = true;
 
                             this.saveZone({
@@ -175,7 +176,7 @@
             'zone.geometry': {
                 handler (geometry) {
                     if (this.map && this.zone)
-                        this.updateMap(geometry);
+                        this.updateMap(this.zone.type, geometry);
                 },
                 deep: true,
             },
