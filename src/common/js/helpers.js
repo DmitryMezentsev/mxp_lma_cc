@@ -28,14 +28,14 @@ export const generateRandomString = (len = 8) => {
 
 
 // Возвращает MIME-type из base64
-export const getMimeFromBase64 = (base64) => {
+export const getMimeFromBase64 = base64 => {
     const mime = base64.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/);
     return (mime && mime.length) ? mime[1] : null;
 };
 
 
 // Определяет расширение файла по base64
-export const getExtensionFromBase64 = (base64) => {
+export const getExtensionFromBase64 = base64 => {
     const mime = getMimeFromBase64(base64);
     const extensions = {
         'image/jpeg': 'jpg',
@@ -58,5 +58,27 @@ export const redirectToAuth = () => {
 
 // Возвращает название браузера пользователя
 export const getBrowserName = () => Bowser.getParser(window.navigator.userAgent).getBrowserName();
+
+
+// Находит координаты средней точки для установки центра карты
+export const centerCoordsFromGeometry = geometry => {
+    let center = { lng: 0, lat: 0 },
+        count = 0;
+
+    geometry.features.forEach(({geometry:{coordinates}}) => {
+        coordinates.forEach(c => {
+            c.forEach(c => {
+                center.lng += parseFloat(c[0]);
+                center.lat += parseFloat(c[1]);
+                ++count;
+            });
+        });
+    });
+
+    center.lng /= count;
+    center.lat /= count;
+
+    return center;
+};
 
 

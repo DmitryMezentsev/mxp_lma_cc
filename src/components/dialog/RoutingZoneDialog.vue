@@ -64,6 +64,7 @@
     import get from 'lodash/get';
     import {mapState, mapActions} from 'vuex';
 
+    import {centerCoordsFromGeometry} from 'Common/js/helpers';
     import {DANGER_COLOR, SUCCESS_COLOR} from 'Constants/colors';
     import mixins from 'Common/js/mixins';
     import Waiting from 'Components/Waiting';
@@ -122,18 +123,23 @@
                 map.data.addListener('setgeometry', refreshGeoJson);
 
                 this.map = map;
-                this.updateMap(this.zone.geometry);
+                this.updateMap(this.zone.geometry, true);
             },
             clearMap () {
                 this.zone.geometry = null;
             },
-            updateMap (geometry) {
+            updateMap (geometry, center) {
                 this.map.data.toGeoJson(currentGeometry => {
                     if (!isEqual(currentGeometry, geometry)) {
                         // Снос прежних полигонов
                         this.map.data.forEach(poly => this.map.data.remove(poly));
-                        // Добавление нового полигона
-                        if (geometry) this.map.data.addGeoJson(geometry);
+
+                        if (geometry) {
+                            // Добавление нового полигона
+                            this.map.data.addGeoJson(geometry);
+
+                            if (center) this.map.setCenter(centerCoordsFromGeometry(geometry));
+                        }
                     }
                 });
             },
