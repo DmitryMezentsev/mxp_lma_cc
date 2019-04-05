@@ -10,7 +10,7 @@ stages:
 
 npm:
   stage: npm
-  image: yarnpkg/node-yarn
+  image: kkarczmarczyk/node-yarn
   tags:
     - docker
   only:
