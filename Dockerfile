@@ -1,9 +1,3 @@
-FROM node:latest
+FROM nginx:latest
 
-RUN mkdir -p /opt/app
-
-COPY . /opt/app/
-ENV PORT=8080
-WORKDIR /opt/app
-
-CMD sleep 1000
+COPY ./build/ /usr/share/nginx/html/

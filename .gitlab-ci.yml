@@ -18,7 +18,7 @@ npm:
 
   artifacts:
     paths:
-    - ./
+    - ./build/
 
   cache:
     paths:
