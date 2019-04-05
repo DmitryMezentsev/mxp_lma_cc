@@ -31,6 +31,7 @@ npm:
     - apt-get update && apt-get -y install yarn
     - yarn
     - npm run build
+    - ls -la ./
 
 build:
   stage: build
@@ -45,6 +46,7 @@ build:
   - production
 
   script:
+    - ls -la ./
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin
     - docker build --tag="$CODE_IMAGE" .
     - docker push $CODE_IMAGE
