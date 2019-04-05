@@ -10,7 +10,7 @@ stages:
 
 npm:
   stage: npm
-  image: kkarczmarczyk/node-yarn
+  image: node
   tags:
     - docker
   only:
@@ -25,6 +25,10 @@ npm:
       - node_modules
 
   script:
+    - apt-get update; apt-get -y install curl
+    - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+    - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+    - apt-get update && sudo apt-get -y install yarn
     - yarn
     - npm run build
 
