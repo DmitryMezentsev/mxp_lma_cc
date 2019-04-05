@@ -1,0 +1,59 @@
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: FULL_APP_NAME
+  labels:
+    appname: FULL_APP_NAME-applabel
+  namespace: FULL_APP_NAME-BRANCH_ENVIRONMENT
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: FULL_APP_NAME
+  template:
+    metadata:
+      labels:
+        tier: FULL_APP_NAME
+        appname: FULL_APP_NAME-applabel
+    spec:
+      containers:
+      - name: FULL_APP_NAME
+        image: GITLAB_DOCKER_REGISTRY_IMAGE/SHORT_APP_NAME:COMMIT_SHA
+      imagePullSecrets:
+      - name: regcred
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: FULL_APP_NAME
+  namespace: FULL_APP_NAME-BRANCH_ENVIRONMENT
+spec:
+  selector:
+    appname: FULL_APP_NAME-applabel
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: FULL_APP_NAME-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  namespace: FULL_APP_NAME-BRANCH_ENVIRONMENT
+spec:
+  rules:
+  - host: INGRESS_HOSTNAME
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: FULL_APP_NAME
+          servicePort: 80
