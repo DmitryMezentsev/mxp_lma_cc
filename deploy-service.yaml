@@ -46,9 +46,13 @@ metadata:
   name: FULL_APP_NAME-ingress
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
   namespace: FULL_APP_NAME-BRANCH_ENVIRONMENT
 spec:
+  tls:
+  - hosts:
+    - INGRESS_HOSTNAME
+    secretName: wildcard-mxp
   rules:
   - host: INGRESS_HOSTNAME
     http:

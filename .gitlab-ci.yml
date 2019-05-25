@@ -1,12 +1,48 @@
 variables:
+  CODE_IMAGE: $CI_REGISTRY_IMAGE/$CI_PROJECT_NAME:$CI_COMMIT_SHA
 
-    CODE_IMAGE: $CI_REGISTRY_IMAGE/$CI_PROJECT_NAME:$CI_COMMIT_SHA
+.common_deploy: &common_deploy
+  stage: deploy
+  dependencies:
+    - build
+  tags:
+    - docker
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - case ${CI_ENVIRONMENT_SLUG} in
+        production)
+        echo "$PRODUCTION_KUBERNETES_CONFIG" > kube_config;
+        echo "$PRODUCTION_TLS_CRT" > tls.crt;
+        echo "$PRODUCTION_TLS_KEY" > tls.key
+        ;;
+        development)
+        echo "$DEVELOPMENT_KUBERNETES_CONFIG" > kube_config;
+        echo "$DEVELOPMENT_TLS_CRT" > tls.crt;
+        echo "$DEVELOPMENT_TLS_KEY" > tls.key
+        ;;
+        esac
+    - sed -i "s/FULL_APP_NAME/${CI_PROJECT_PATH_SLUG}/g" namespace.yaml
+    - sed -i "s/BRANCH_ENVIRONMENT/${CI_ENVIRONMENT_SLUG}/g" namespace.yaml
+    - sed -i "s/CI_JOB_ID/${CI_JOB_ID}/g" deploy-service.yaml
+    - sed -i "s/COMMIT_SHA/${CI_COMMIT_SHA}/g" deploy-service.yaml
+    - sed -i "s/FULL_APP_NAME/${CI_PROJECT_PATH_SLUG}/g" deploy-service.yaml
+    - sed -i "s/BRANCH_ENVIRONMENT/${CI_ENVIRONMENT_SLUG}/g" deploy-service.yaml
+    - sed -i "s~GITLAB_DOCKER_REGISTRY_IMAGE~${CI_REGISTRY_IMAGE}~g" deploy-service.yaml
+    - sed -i "s/SHORT_APP_NAME/${CI_PROJECT_NAME}/g" deploy-service.yaml
+    - sed -i "s/INGRESS_HOSTNAME/${CI_ENVIRONMENT_URL}/g" deploy-service.yaml
+    - docker run -v ${PWD}/kube_config:/root/.kube/config -v ${PWD}/namespace.yaml:/namespace.yaml lachlanevenson/k8s-kubectl:v1.10.3 apply -f /namespace.yaml
+    - docker run -v ${PWD}/kube_config:/root/.kube/config lachlanevenson/k8s-kubectl:v1.10.3 -n $CI_PROJECT_PATH_SLUG-$CI_ENVIRONMENT_SLUG create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username=$CI_REGISTRY_USER --docker-password=$CI_REGISTRY_PASSWORD --docker-email=$GITLAB_USER_EMAIL || true
+    - docker run -v ${PWD}/kube_config:/root/.kube/config lachlanevenson/k8s-kubectl:v1.10.3 -n ${CI_PROJECT_PATH_SLUG}-${CI_ENVIRONMENT_SLUG} delete secret wildcard-mxp || true
+    - docker run -v ${PWD}/kube_config:/root/.kube/config -v ${PWD}/tls.key:/tls.key -v ${PWD}/tls.crt:/tls.crt lachlanevenson/k8s-kubectl:v1.10.3 -n ${CI_PROJECT_PATH_SLUG}-${CI_ENVIRONMENT_SLUG} create secret tls wildcard-mxp --key /tls.key --cert /tls.crt
+    - docker run -v ${PWD}/kube_config:/root/.kube/config -v ${PWD}/deploy-service.yaml:/deploy-service.yaml lachlanevenson/k8s-kubectl:v1.10.3 apply -f /deploy-service.yaml
+    - echo "${CI_ENVIRONMENT_URL} Deployed"
 
 stages:
   - npm
   - build
   - deploy
-
 
 npm:
   stage: npm
@@ -15,6 +51,7 @@ npm:
     - docker
   only:
   - production
+  - development
 
   artifacts:
     paths:
@@ -34,8 +71,6 @@ npm:
 
 build:
   stage: build
-  dependencies:
-    - npm
   image: docker:latest
   tags:
     - docker
@@ -43,39 +78,26 @@ build:
     - docker:dind
   only:
   - production
+  - development
 
   script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin
     - docker build --tag="$CODE_IMAGE" .
     - docker push $CODE_IMAGE
 
-deploy:
+deploy_prod:
+  <<: *common_deploy
   environment:
     name: production
-    url: lma.maxipost.com
-  when: manual
+    url: lma.mxp.world
+  #when: manual
   only:
   - production
-  stage: deploy
-  dependencies:
-    - build
-  tags:
-    - docker
-  image: docker:latest
-  services:
-    - docker:dind
-  script:
-    - echo "$KUBERNETES_CONFIG" > config
-    - sed -i "s/FULL_APP_NAME/${CI_PROJECT_PATH_SLUG}/g" namespace.yaml
-    - sed -i "s/BRANCH_ENVIRONMENT/${CI_ENVIRONMENT_SLUG}/g" namespace.yaml
-    - sed -i "s/CI_JOB_ID/${CI_JOB_ID}/g" deploy-service.yaml
-    - sed -i "s/COMMIT_SHA/${CI_COMMIT_SHA}/g" deploy-service.yaml
-    - sed -i "s/FULL_APP_NAME/${CI_PROJECT_PATH_SLUG}/g" deploy-service.yaml
-    - sed -i "s/BRANCH_ENVIRONMENT/${CI_ENVIRONMENT_SLUG}/g" deploy-service.yaml
-    - sed -i "s~GITLAB_DOCKER_REGISTRY_IMAGE~${CI_REGISTRY_IMAGE}~g" deploy-service.yaml
-    - sed -i "s/SHORT_APP_NAME/${CI_PROJECT_NAME}/g" deploy-service.yaml
-    - sed -i "s/INGRESS_HOSTNAME/${CI_ENVIRONMENT_URL}/g" deploy-service.yaml
-    - docker run -v ${PWD}/config:/root/.kube/config -v ${PWD}/namespace.yaml:/namespace.yaml lachlanevenson/k8s-kubectl:v1.10.3 apply -f /namespace.yaml
-    - docker run -v ${PWD}/config:/root/.kube/config lachlanevenson/k8s-kubectl:v1.10.3 -n $CI_PROJECT_PATH_SLUG-$CI_ENVIRONMENT_SLUG create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username=$CI_REGISTRY_USER --docker-password=$CI_REGISTRY_PASSWORD --docker-email=$GITLAB_USER_EMAIL || true
-    - docker run -v ${PWD}/config:/root/.kube/config -v ${PWD}/deploy-service.yaml:/deploy-service.yaml lachlanevenson/k8s-kubectl:v1.10.3 apply -f /deploy-service.yaml
-    - echo "${CI_ENVIRONMENT_URL} Deployed"
+
+deploy_dev:
+  <<: *common_deploy
+  environment:
+    name: development
+    url: lma.mxp.dev
+  only:
+  - development
