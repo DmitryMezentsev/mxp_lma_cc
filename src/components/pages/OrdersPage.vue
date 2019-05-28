@@ -76,7 +76,7 @@
 </script>
 
 <style lang="less" scoped>
-    @import "../../common/colors";
+    @import "~Common/colors";
 
     .total {
         margin-top: 1.25em;

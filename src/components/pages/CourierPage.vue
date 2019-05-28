@@ -321,7 +321,7 @@
 </script>
 
 <style lang="less" scoped>
-    @import "../../common/colors";
+    @import "~Common/colors";
 
     .form-wrap {
         padding-bottom: 45px;

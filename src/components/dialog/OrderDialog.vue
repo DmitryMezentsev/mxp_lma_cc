@@ -252,7 +252,7 @@
 </script>
 
 <style lang="less" scoped>
-    @import "../../common/colors";
+    @import "~Common/colors";
 
     h4 {
         font-size: 13px;

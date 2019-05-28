@@ -206,7 +206,7 @@
 </script>
 
 <style lang="less">
-    @import "../common/colors";
+    @import "~Common/colors";
 
     .sidebar {
         &.collapsed {
