@@ -12,7 +12,7 @@
 </script>
 
 <style lang="less">
-    @import "../common/colors";
+    @import "~Common/colors";
 
     .x {
         color: @secondary-text-color;

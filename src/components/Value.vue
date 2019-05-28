@@ -29,7 +29,7 @@
 </script>
 
 <style lang="less" scoped>
-    @import "../common/colors";
+    @import "~Common/colors";
 
     .value-label {
         color: @secondary-text-color;

@@ -52,7 +52,7 @@
 </script>
 
 <style lang="less" scoped>
-    @import "../common/colors";
+    @import "~Common/colors";
 
     .map {
         width: 100%;
