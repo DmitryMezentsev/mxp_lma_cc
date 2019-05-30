@@ -1,8 +1,8 @@
 // Путь к API
-export const API_PATH = 'http://api.lma.mxpdev.com/';
+export const API_PATH = 'httsp://api.lma.mxp.dev/';
 
 // Путь к бэкенду (не API)
-export const OTH_SERVER_PATH = 'http://oth-lma.mxpdev.com/';
+export const OTH_SERVER_PATH = 'https://oth-lma.mxp.dev/';
 
 // Путь к серверу авторизации
 export const AUTH_SERVER_PATH = 'https://sso.mxp.dev/';
