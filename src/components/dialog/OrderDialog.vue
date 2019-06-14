@@ -11,12 +11,12 @@
             <el-row :gutter="10">
                 <el-col :span="12" :xs="24">
                     <div class="values-section">
-                        <Value :name="$t('providerNumber')" :value="order.sender.providerNumber" />
+                        <Value :name="$t('providerNumber')" :value="order.internalNumber" />
                         <Value :name="$t('shopNumber')" :value="order.sender.internalNumber" />
                     </div>
                     <div class="values-section">
                         <Value :name="$t('shop')" :value="order.sender.brandName" />
-                        <Value :name="$t('issuePoint')" :value="order.deliveryOrder.orderServicePointId" v-if="order.serviceType === 1" />
+                        <Value :name="$t('issuePoint')" :value="order.deliveryOrder.orderServicePointId" v-if="order.serviceType === ORDER_TYPE_POINT" />
                     </div>
                     <div class="values-section">
                         <Value :name="$t('estimatedCost')" inner>
@@ -25,7 +25,7 @@
                     </div>
                 </el-col>
                 <el-col :span="12" :xs="24">
-                    <div class="values-section" v-if="order.serviceType === 1">
+                    <div class="values-section" v-if="order.serviceType === ORDER_TYPE_POINT">
                         <Value :name="$t('storageTime')" :value="''" :suffix="$t('days')" :dot="false" />
                         <Value :name="$t('arrivalDate')" :value="''" />
                     </div>
@@ -37,17 +37,52 @@
                     </div>
                 </el-col>
             </el-row>
+            <div v-if="order.serviceType === ORDER_TYPE_COURIER">
+                <hr class="margin-top margin-bottom-x2">
+                <el-row :gutter="10">
+                    <el-col :span="10" :xs="24">
+                        <el-form-item :label="$t('courier')">
+                            <CourierSelect width="100%"
+                                           :model.sync="order.serviceInfo.courierId"
+                                           clearable />
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="14" :xs="24">
+                        <el-form-item :label="$t('deliveryAddress')">
+                            <el-input class="custom-readonly" v-model="order.recipient.address.value" />
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="10">
+                    <el-col :span="8" :xs="24">
+                        <el-form-item :label="$t('deliveryZone')">
+                            <RoutingZoneSelect :model.sync="order.serviceInfo.deliveryZoneId"
+                                               :no-select-placeholder="$tc('noSelect', 2)"
+                                               width="100%"
+                                               clearable />
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8" :xs="24">
+                        <el-form-item :label="$t('deliveryDate')">
+                            <DatePicker class="custom-readonly"
+                                        name="deliveryDate"
+                                        :model.sync="order.deliveryOrder.dateTimeInterval.date" />
+                            <div class="hint hidden-xs-only">{{ $t('dateTimeZoneHint') }}</div>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </div>
             <hr class="margin-top margin-bottom">
             <el-row :gutter="10">
-                <el-col :span="12" :xs="24">
+                <el-col :span="14" :xs="24">
                     <el-form-item :label="$t('recipient')">
                         <el-input class="custom-readonly" v-model="order.recipient.contacts.name" :readonly="!isAdmin" />
                     </el-form-item>
-                    <el-form-item :label="$t('city')" v-if="order.serviceType === 1">
+                    <el-form-item :label="$t('city')" v-if="order.serviceType === ORDER_TYPE_POINT">
                         <el-input class="custom-readonly" v-model="order.recipient.address.city" :readonly="!isAdmin" />
                     </el-form-item>
                 </el-col>
-                <el-col :span="12" :xs="24">
+                <el-col :span="10" :xs="24">
                     <el-form-item :label="$t('phone')">
                         <el-input type="tel"
                                   class="custom-readonly"
@@ -79,6 +114,44 @@
                 </div>
             </div>
             <hr class="margin-top-x2 margin-bottom-x2">
+            <div class="places">
+                <h4>{{ $t('orderPlaces') }}:</h4>
+                <el-table :data="order.places"
+                          :empty-text="$t('noPlaces')">
+                    <el-table-column
+                            label="№"
+                            width="40"
+                            prop="placeNum"
+                            key="col-number" />
+                    <el-table-column
+                            :label="$t('barcode')"
+                            key="col-barcode">
+                        <template slot-scope="scope">
+                            <span class="barcode">{{ scope.row.barcode }}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column
+                            :label="$t('dimensions')"
+                            key="col-dimensions">
+                        <template slot-scope="scope">
+                            <div class="dimensions">
+                                <div class="label">{{ $t('declared') }}:</div>
+                                <Dimensions :values="scope.row.dimensions" />
+                                ({{ scope.row.dimensions.weight / 1000 }} {{ $t('kg') }})
+                            </div>
+                            <div class="dimensions">
+                                <div class="label">{{ $t('actual') }}:</div>
+                                <Dimensions :values="{
+                                    width: scope.row.dimensions.widthFact,
+                                    height: scope.row.dimensions.heightFact,
+                                    length: scope.row.dimensions.lengthFact,
+                                }" />
+                                ({{ scope.row.dimensions.weightFact / 1000 }} {{ $t('kg') }})
+                            </div>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </div>
             <div class="goods">
                 <h4>{{ $t('goods') }}:</h4>
                 <el-table :data="order.goods"
@@ -90,9 +163,12 @@
                             width="40"
                             key="col-index" />
                     <el-table-column
-                            prop="name"
                             :label="$tc('name', 3)"
-                            key="col-name" />
+                            key="col-name">
+                        <template slot-scope="scope">
+                            <div class="name">{{ scope.row.name }}</div>
+                        </template>
+                    </el-table-column>
                     <el-table-column
                             :label="$tc('quantity', 2)"
                             width="120"
@@ -172,14 +248,20 @@
     import TagChecked from 'Components/TagChecked';
     import Currency from 'Components/Currency';
     import Value from 'Components/Value';
+    import CourierSelect from 'Components/form-elements/CourierSelect';
+    import {ORDER_TYPE_COURIER, ORDER_TYPE_POINT} from 'Constants/data';
+    import RoutingZoneSelect from 'Components/form-elements/RoutingZoneSelect';
+    import DatePicker from 'Components/DatePicker';
 
     export default {
         name: 'OrderDialog',
         mixins: [mixins],
-        components: {Value, Currency, TagChecked, Dimensions},
+        components: {DatePicker, RoutingZoneSelect, CourierSelect, Value, Currency, TagChecked, Dimensions},
         directives: {inputmask},
         data () {
             return {
+                ORDER_TYPE_COURIER,
+                ORDER_TYPE_POINT,
                 width: 0,
                 order: null,
                 rules: {
@@ -269,8 +351,36 @@
         }
     }
 
-    .goods {
+    .places {
+        .barcode {
+            @media (max-width: 479px) { font-size: .9em; }
+        }
 
+        .dimensions {
+            line-height: 1.2em;
+
+            @media (max-width: 479px) { font-size: .9em; }
+
+            &:not(:first-child) {
+                margin-top: 7px;
+            }
+
+            .label {
+                color: @secondary-text-color;
+                font-size: .85em;
+            }
+        }
+    }
+
+    .goods {
+        margin-top: 20px;
+
+        .name {
+            @media (max-width: 419px) {
+                font-size: .9em;
+                line-height: 1.5em;
+            }
+        }
     }
 
     .el-input-group {

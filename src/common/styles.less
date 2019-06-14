@@ -33,9 +33,13 @@ hr {
   &.margin-bottom-x2 { margin-bottom: 20px; }
 }
 
-.clearfix {
-  clear: both;
-  float: none;
+a {
+  color: @blue-color;
+  cursor: pointer;
+
+  &:hover {
+    color: @light-blue-color;
+  }
 }
 
 .hidden { display: none; }
@@ -166,6 +170,10 @@ i {
       overflow: hidden;
       max-width: 100%;
     }
+
+    > a {
+      display: inline-block;
+    }
   }
 
   .el-table__footer-wrapper {
@@ -258,3 +266,10 @@ i {
 .el-message-box {
   @media (max-width: 450px) { width: 310px; }
 }
+
+.el-date-editor {
+  &.el-input {
+    max-width: 100%;
+  }
+}
+

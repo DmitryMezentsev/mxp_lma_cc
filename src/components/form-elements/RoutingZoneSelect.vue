@@ -8,6 +8,7 @@
                :disabled="disabled"
                :multiple="multiple"
                :style="{ width }"
+               :no-data-text="$t('zonesNotFound')"
                filterable
                remote
                @visible-change="onVisibleChange"

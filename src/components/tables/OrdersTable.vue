@@ -6,9 +6,10 @@
                 :label="$t('orderNumberInCompanyOrShop')"
                 key="col-number">
             <template slot-scope="scope">
-                <el-button type="text" @click="open(scope.$index)">
-                    {{ scope.row.sender.providerNumber }} / {{ scope.row.sender.internalNumber }}
-                </el-button>
+                <a @click.prevent="open(scope.$index)">
+                    {{ scope.row.internalNumber }}<br>
+                    {{ scope.row.sender.internalNumber }}
+                </a>
             </template>
         </el-table-column>
         <el-table-column
@@ -56,6 +57,15 @@
                     <i class="far fa-question-circle"></i>
                 </el-tooltip>
             </template>
+            <template slot-scope="scope">
+                <div v-if="scope.row.deliveryOrder.dateTimeInterval.date">
+                    {{ scope.row.deliveryOrder.dateTimeInterval.date }}
+                    <div v-show="scope.row.deliveryOrder.dateTimeInterval.timeInterval.from && scope.row.deliveryOrder.dateTimeInterval.timeInterval.to">
+                        {{ scope.row.deliveryOrder.dateTimeInterval.timeInterval.from }}&ndash;{{ scope.row.deliveryOrder.dateTimeInterval.timeInterval.to }}
+                    </div>
+                </div>
+                <div v-else>&mdash;</div>
+            </template>
         </el-table-column>
 
         <!-- Только ПВЗ -->
@@ -76,10 +86,10 @@
                 :label="$t('type')"
                 key="col-type">
             <template slot-scope="scope">
-                <div v-if="scope.row.serviceType === 0">
+                <div v-if="scope.row.serviceType === ORDER_TYPE_COURIER">
                     {{ $t('courierOrders') }}
                 </div>
-                <div v-else-if="scope.row.serviceType === 1">
+                <div v-else-if="scope.row.serviceType === ORDER_TYPE_POINT">
                     {{ $t('pointOrders') }}
                 </div>
                 <div v-else>{{ $t('other') }}</div>
@@ -90,10 +100,10 @@
                 :label="$t('deliveryAddress') + ' / ' + $t('issuePoint')"
                 key="col-delivery-address-or-issue-point">
             <template slot-scope="scope">
-                <div v-if="scope.row.serviceType === 0">
+                <div v-if="scope.row.serviceType === ORDER_TYPE_COURIER">
                     {{ scope.row.recipient.address.value }}
                 </div>
-                <div v-else-if="scope.row.serviceType === 1">
+                <div v-else-if="scope.row.serviceType === ORDER_TYPE_POINT">
 
                 </div>
             </template>
@@ -103,10 +113,10 @@
                 :label="$t('deliveryDate') + ' / ' + $t('buyoutDate')"
                 key="col-delivery-date-or-buyout-date">
             <template slot-scope="scope">
-                <div v-if="scope.row.serviceType === 0">
+                <div v-if="scope.row.serviceType === ORDER_TYPE_COURIER">
 
                 </div>
-                <div v-else-if="scope.row.serviceType === 1">
+                <div v-else-if="scope.row.serviceType === ORDER_TYPE_POINT">
 
                 </div>
             </template>
@@ -128,6 +138,7 @@
 
     import mixins from 'Common/js/mixins';
     import Currency from 'Components/Currency';
+    import {ORDER_TYPE_COURIER, ORDER_TYPE_POINT} from 'Constants/data';
 
     export default {
         name: 'OrdersTable',
@@ -139,6 +150,8 @@
         },
         data () {
             return {
+                ORDER_TYPE_COURIER,
+                ORDER_TYPE_POINT,
                 width: 0,
             }
         },

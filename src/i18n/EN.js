@@ -176,6 +176,7 @@ export default {
     pickupDate: 'Pickup date',
     customer: 'Customer',
     zone: 'Zone',
+    deliveryZone: 'Delivery zone',
     clientTimezoneMsg: 'Date and time are in the recipient’s time zone',
     setCourier: 'Set courier',
     selectCourier: 'Select courier',
@@ -190,7 +191,7 @@ export default {
     height: 'Height',
     length: 'Length',
     changesSaved: 'Changes saved',
-    pickupDateHint: 'Date and time are set in the recipient’s time zone.',
+    dateTimeZoneHint: 'Date and time are set in the recipient’s time zone.',
     zones: 'Zones',
     newZone: 'New zone',
     noZones: 'No zones',
@@ -203,5 +204,11 @@ export default {
     markOnMapZoneBoundaries: 'Mark on map zone boundaries',
     clearMap: 'Clear map',
     zoneNotSet: 'Zone not set',
+    orderPlaces: 'Places',
+    noPlaces: 'No places',
+    barcode: 'Barcode',
+    declared: 'Declared',
+    actual: 'Actual',
+    zonesNotFound: 'Zones not found',
 
 }

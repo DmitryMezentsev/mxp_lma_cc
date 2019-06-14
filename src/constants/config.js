@@ -1,5 +1,5 @@
 // Название приложения
-export const APP_TITLE = 'MXP';
+export const APP_TITLE = 'MXP LMA';
 
 // Ширина экрана, при которой сайдбар должен переключаться в адаптивный режим
 export const SIDEBAR_TOGGLE_WIDTH = 1000;
