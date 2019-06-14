@@ -42,31 +42,39 @@
                 <el-row :gutter="10">
                     <el-col :span="10" :xs="24">
                         <el-form-item :label="$t('courier')">
-                            <CourierSelect width="100%"
+                            <CourierSelect v-if="!order.currentStatus.statusInfo.isEnd"
+                                           width="100%"
                                            :model.sync="order.serviceInfo.courierId"
                                            clearable />
+                            <el-input v-else class="custom-readonly" v-model="order.serviceInfo.courierName" readonly />
                         </el-form-item>
                     </el-col>
                     <el-col :span="14" :xs="24">
                         <el-form-item :label="$t('deliveryAddress')">
-                            <el-input class="custom-readonly" v-model="order.recipient.address.value" />
+                            <el-input class="custom-readonly"
+                                      v-model="order.recipient.address.value"
+                                      :readonly="order.currentStatus.statusInfo.isEnd" />
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row :gutter="10">
                     <el-col :span="14" :xs="24">
                         <el-form-item :label="$t('deliveryZone')">
-                            <RoutingZoneSelect :model.sync="order.serviceInfo.deliveryZoneId"
+                            <!-- todo: убрать true, когда появится serviceInfo.deliveryZoneName -->
+                            <RoutingZoneSelect v-if="true || !currentStatus.statusInfo.isEnd"
+                                               :model.sync="order.serviceInfo.deliveryZoneId"
                                                :no-select-placeholder="$tc('noSelect', 2)"
                                                width="100%"
                                                clearable />
+                            <el-input v-else class="custom-readonly" v-model="order.serviceInfo.deliveryZoneName" readonly />
                         </el-form-item>
                     </el-col>
                     <el-col :span="10" :xs="24">
                         <el-form-item :label="$t('deliveryDate')">
                             <DatePicker class="custom-readonly"
                                         name="deliveryDate"
-                                        :model.sync="order.deliveryOrder.dateTimeInterval.date" />
+                                        :model.sync="order.deliveryOrder.dateTimeInterval.date"
+                                        :readonly="order.currentStatus.statusInfo.isEnd" />
                             <div class="hint hidden-xs-only">{{ $t('dateTimeZoneHint') }}</div>
                         </el-form-item>
                     </el-col>
@@ -76,10 +84,14 @@
             <el-row :gutter="10">
                 <el-col :span="14" :xs="24">
                     <el-form-item :label="$t('recipient')">
-                        <el-input class="custom-readonly" v-model="order.recipient.contacts.name" :readonly="!isAdmin" />
+                        <el-input class="custom-readonly"
+                                  v-model="order.recipient.contacts.name"
+                                  :readonly="!isAdmin || order.currentStatus.statusInfo.isEnd" />
                     </el-form-item>
                     <el-form-item :label="$t('city')" v-if="order.serviceType === ORDER_TYPE_POINT">
-                        <el-input class="custom-readonly" v-model="order.recipient.address.city" :readonly="!isAdmin" />
+                        <el-input class="custom-readonly"
+                                  v-model="order.recipient.address.city"
+                                  :readonly="!isAdmin || order.currentStatus.statusInfo.isEnd" />
                     </el-form-item>
                 </el-col>
                 <el-col :span="10" :xs="24">
@@ -88,7 +100,7 @@
                                   class="custom-readonly"
                                   v-model="order.recipient.contacts.phone"
                                   v-inputmask
-                                  :readonly="!isAdmin" />
+                                  :readonly="!isAdmin || order.currentStatus.statusInfo.isEnd" />
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -96,7 +108,10 @@
             <el-row :gutter="10">
                 <el-col>
                     <el-form-item :label="$t('comment')">
-                        <el-input type="textarea" class="custom-readonly" v-model="order.recipient.notes" :readonly="!isAdmin" />
+                        <el-input type="textarea"
+                                  class="custom-readonly"
+                                  v-model="order.recipient.notes"
+                                  :readonly="!isAdmin || order.currentStatus.statusInfo.isEnd" />
                     </el-form-item>
                 </el-col>
             </el-row>
