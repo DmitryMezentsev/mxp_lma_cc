@@ -343,6 +343,10 @@
         margin:  0 0 .3em 0;
     }
 
+    .el-date-editor {
+        width: 100%;
+    }
+
     .services {
         .services-list {
             margin-top: .5em;
