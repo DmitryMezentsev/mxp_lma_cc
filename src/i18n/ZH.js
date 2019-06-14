@@ -176,6 +176,7 @@ export default {
     pickupDate: '',
     customer: '',
     zone: '',
+    deliveryZone: '',
     clientTimezoneMsg: '',
     setCourier: '',
     selectCourier: '',
@@ -190,7 +191,7 @@ export default {
     height: '',
     length: '',
     changesSaved: '',
-    pickupDateHint: '',
+    dateTimeZoneHint: '',
     zones: '',
     newZone: '',
     noZones: '',
@@ -203,5 +204,11 @@ export default {
     markOnMapZoneBoundaries: '',
     clearMap: '',
     zoneNotSet: '',
+    orderPlaces: '',
+    noPlaces: '',
+    barcode: '',
+    declared: '',
+    actual: '',
+    zonesNotFound: '',
 
 }

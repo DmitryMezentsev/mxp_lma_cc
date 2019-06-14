@@ -176,6 +176,7 @@ export default {
     pickupDate: 'Дата забора',
     customer: 'Заказчик',
     zone: 'Зона',
+    deliveryZone: 'Зона доставки',
     clientTimezoneMsg: 'Дата и время указаны в часовом поясе получателя',
     setCourier: 'Назначить курьера',
     selectCourier: 'Выберите курьера',
@@ -190,7 +191,7 @@ export default {
     height: 'Высота',
     length: 'Глубина',
     changesSaved: 'Изменения сохранены',
-    pickupDateHint: 'Дата и время указываются в часовом поясе получателя.',
+    dateTimeZoneHint: 'Дата и время указываются в часовом поясе получателя.',
     zones: 'Зоны',
     newZone: 'Новая зона',
     noZones: 'Нет зон для отображения',
@@ -203,5 +204,11 @@ export default {
     markOnMapZoneBoundaries: 'Обозначьте на карте границы зоны',
     clearMap: 'Очистить карту',
     zoneNotSet: 'Вы не задали зону',
+    orderPlaces: 'Грузоместа',
+    noPlaces: 'Нет грузомест',
+    barcode: 'Штрихкод',
+    declared: 'Заявленные',
+    actual: 'Фактические',
+    zonesNotFound: 'Зоны не найдены',
 
 }

@@ -59,7 +59,7 @@
                                     :model.sync="pickup.pickup.date"
                                     :clearable="false"
                                     :readonly="lock" />
-                        <div class="hint hidden-xs-only">{{ $t('pickupDateHint') }}</div>
+                        <div class="hint hidden-xs-only">{{ $t('dateTimeZoneHint') }}</div>
                     </el-form-item>
                 </el-col>
                 <el-col :span="6" :xs="12">
