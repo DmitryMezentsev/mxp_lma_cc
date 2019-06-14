@@ -8,9 +8,21 @@
             {{ $t('totalPriceDeclared') }}: <Currency :val="list.sumPriceDeclared" />.
             {{ $t('totalRevenues') }}: <Currency :val="0" />.
         </div>
+        <br>
+        <el-button v-if="list.data && list.data.length"
+                   size="mini"
+                   type="primary"
+                   :disabled="!selected.length"
+                   @click="selectCourierDialog = true">
+            {{ $t('setCourier') }}
+        </el-button>
         <Pagination :total="list.totalCount" :max-page="list.pageCount" />
 
         <OrderDialog @update="loadList" />
+
+        <SelectCourierDialog :visible="selectCourierDialog"
+                             @select="setCourier"
+                             @cancel="selectCourierDialog = false" />
     </div>
 </template>
 
@@ -25,19 +37,23 @@
     import OrderDialog from 'Components/dialog/OrderDialog';
     import Number from 'Components/Number';
     import Currency from 'Components/Currency';
+    import SelectCourierDialog from 'Components/dialog/SelectCourierDialog';
+    import api from 'Common/js/api';
 
     export default {
         name: 'OrdersPage',
-        components: {Number, Currency, OrderDialog, Pagination, OrdersTable, OrdersFilters},
+        components: {Number, Currency, OrderDialog, Pagination, OrdersTable, OrdersFilters, SelectCourierDialog},
         data () {
             return {
                 type: this.$route.params.type,
                 removeAfterEach: null,
+                selectCourierDialog: false,
             }
         },
         computed: {
             ...mapState('orders', [
                 'list',
+                'selected',
             ]),
         },
         methods: {
@@ -57,6 +73,21 @@
                     deliveryDateTo: get(this.$route.query, 'deliveryDate[1]'),
                     status: this.$route.query.status,
                 });
+            },
+            setCourier (courierId) {
+                api.post('/order/setCourierToOrders', {
+                    courierId,
+                    orderIds: this.selected,
+                })
+                    .then(() => {
+                        this.loadList();
+
+                        this.$message({
+                            message: this.$tc('courierAreSet', (this.selected.length > 1) ? 2 : 1),
+                            type: 'success',
+                        });
+                    })
+                    .finally(() => this.selectCourierDialog = false);
             },
         },
         mounted () {

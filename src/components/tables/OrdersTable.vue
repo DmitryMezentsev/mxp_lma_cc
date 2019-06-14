@@ -1,7 +1,13 @@
 <template>
     <el-table v-loading="loading"
               :data="data"
-              :empty-text="$t(loading ? 'pleaseWait' : 'noOrders')">
+              :empty-text="$t(loading ? 'pleaseWait' : 'noOrders')"
+              @selection-change="onSelectionChange">
+        <el-table-column
+                v-if="mode === 'courier'"
+                type="selection"
+                width="55"
+                key="col-selection" />
         <el-table-column
                 :label="$t('orderNumberInCompanyOrShop')"
                 key="col-number">
@@ -161,13 +167,19 @@
         methods: {
             ...mapActions('orders', [
                 'open',
+                'select',
+                'clearSelect',
             ]),
+            onSelectionChange (selection) {
+                this.select(selection.map(item => item._id));
+            },
         },
         created () {
             this.bindClientWidth('width');
         },
         destroyed () {
             this.unbindClientWidth();
+            this.clearSelect();
         },
     }
 </script>
