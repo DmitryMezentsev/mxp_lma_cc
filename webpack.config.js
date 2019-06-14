@@ -12,7 +12,9 @@ const Autoprefixer               = require('autoprefixer');
 const CSSnano                    = require('cssnano');
 const { VueLoaderPlugin }        = require('vue-loader');
 
-const autoprefixer = Autoprefixer({ browsers: ['ie >= 10', 'last 5 version'] });
+const autoprefixer = Autoprefixer({
+    overrideBrowserslist: ['> 2%', 'last 5 versions']
+});
 
 
 
