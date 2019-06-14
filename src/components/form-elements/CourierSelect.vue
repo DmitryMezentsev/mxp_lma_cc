@@ -56,7 +56,12 @@
             })
                 .then(({data}) => {
                     this.couriers = data;
-                    this.value = this.model;
+
+                    data.forEach(({courierId}) => {
+                        // Проверка, есть ли курьер с переданным в селект ID в загруженном списке
+                        // Чтобы в случае, когда курьер был перенесен в архив, в селект не вываливался ID этого курьера
+                        if (courierId === this.model) this.value = this.model;
+                    });
                 });
         },
         watch: {
