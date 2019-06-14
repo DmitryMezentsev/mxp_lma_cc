@@ -9,7 +9,7 @@
             {{ $t('totalRevenues') }}: <Currency :val="0" />.
         </div>
         <br>
-        <el-button v-if="list.data && list.data.length"
+        <el-button v-if="type === 'courier' && list.data && list.data.length"
                    size="mini"
                    type="primary"
                    :disabled="!selected.length"
