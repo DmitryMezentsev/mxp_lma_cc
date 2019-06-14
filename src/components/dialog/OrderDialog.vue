@@ -54,7 +54,7 @@
                     </el-col>
                 </el-row>
                 <el-row :gutter="10">
-                    <el-col :span="8" :xs="24">
+                    <el-col :span="12" :xs="24">
                         <el-form-item :label="$t('deliveryZone')">
                             <RoutingZoneSelect :model.sync="order.serviceInfo.deliveryZoneId"
                                                :no-select-placeholder="$tc('noSelect', 2)"
@@ -62,7 +62,7 @@
                                                clearable />
                         </el-form-item>
                     </el-col>
-                    <el-col :span="8" :xs="24">
+                    <el-col :span="12" :xs="24">
                         <el-form-item :label="$t('deliveryDate')">
                             <DatePicker class="custom-readonly"
                                         name="deliveryDate"
