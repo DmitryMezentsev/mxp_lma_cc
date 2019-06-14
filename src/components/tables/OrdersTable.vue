@@ -185,5 +185,17 @@
 </script>
 
 <style lang="less" scoped>
-
+    table {
+        tbody {
+            tr {
+                td {
+                    a {
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        max-width: 100%;
+                    }
+                }
+            }
+        }
+    }
 </style>
