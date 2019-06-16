@@ -1,7 +1,7 @@
 <template>
     <el-dialog :title="$t('viewOrder')"
                :visible.sync="visible"
-               :width="width > 719 ? '700px' : '100%'"
+               :width="clientWidth > 719 ? '700px' : '100%'"
                top="5vh">
         <el-form v-if="order"
                  :model="order"
@@ -172,7 +172,7 @@
                 <el-table :data="order.goods"
                           :empty-text="$t('noGoods')">
                     <el-table-column
-                            v-if="width > 639"
+                            v-if="clientWidth > 639"
                             type="index"
                             label="#"
                             width="40"
@@ -199,7 +199,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                            v-if="width > 479"
+                            v-if="clientWidth > 479"
                             :label="$t('price')"
                             key="col-price">
                         <template slot-scope="scope">
@@ -207,7 +207,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                            v-if="width > 579"
+                            v-if="clientWidth > 579"
                             :label="$t('sum')"
                             key="col-sum">
                         <template slot-scope="scope">
@@ -277,7 +277,6 @@
             return {
                 ORDER_TYPE_COURIER,
                 ORDER_TYPE_POINT,
-                width: 0,
                 order: null,
                 rules: {
 
@@ -285,6 +284,9 @@
             }
         },
         computed: {
+            ...mapState('common', [
+                'clientWidth',
+            ]),
             ...mapState('orders', {
                 orders: 'list',
                 opened: 'opened',
@@ -328,12 +330,6 @@
             toReturn () {
 
             },
-        },
-        created () {
-            this.bindClientWidth('width');
-        },
-        destroyed () {
-            this.unbindClientWidth();
         },
         watch: {
             opened: {

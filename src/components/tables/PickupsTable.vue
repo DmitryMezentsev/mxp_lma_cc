@@ -18,7 +18,7 @@
             </template>
         </el-table-column>
         <el-table-column
-                v-if="width > 459"
+                v-if="clientWidth > 459"
                 key="col-pickup-date"
                 width="150">
             <template slot="header" slot-scope="scope">
@@ -33,22 +33,22 @@
             </template>
         </el-table-column>
         <el-table-column
-                v-if="width > 1359"
+                v-if="clientWidth > 1359"
                 property="sender.name"
                 key="col-customer"
                 :label="$t('customer')" />
         <el-table-column
-                v-if="width > 1169"
+                v-if="clientWidth > 1169"
                 property="sender.warehouseName"
                 key="col-warehouse"
                 :label="$t('warehouse')" />
         <el-table-column
-                v-if="width > 767"
+                v-if="clientWidth > 767"
                 :label="$t('status')"
                 key="col-status"
                 property="serviceInfo.statusName" />
         <el-table-column
-                v-if="width > 639"
+                v-if="clientWidth > 639"
                 key="col-zone-and-courier"
                 :label="$t('zone') + ' / ' + $t('courier')">
             <template slot-scope="scope">
@@ -60,24 +60,20 @@
 </template>
 
 <script>
-    import {mapActions} from 'vuex';
+    import {mapState, mapActions} from 'vuex';
 
-    import mixins from 'Common/js/mixins';
     import FormattedDate from 'Components/FormattedDate';
 
     export default {
         name: 'PickupsTable',
         components: {FormattedDate},
-        mixins: [mixins],
         props: {
             data: { type: Array },
         },
-        data () {
-            return {
-                width: 0,
-            }
-        },
         computed: {
+            ...mapState('common', [
+                'clientWidth',
+            ]),
             loading () { return this.data === null; },
         },
         methods: {
@@ -91,11 +87,7 @@
                 this.select(ids);
             },
         },
-        created () {
-            this.bindClientWidth('width');
-        },
         destroyed () {
-            this.unbindClientWidth();
             this.clearSelect();
         },
     }

@@ -13,7 +13,7 @@
         </el-table-column>
         <el-table-column
                 :label="$t('phones')"
-                v-if="width > 767"
+                v-if="clientWidth > 767"
                 key="col-phones">
             <template slot-scope="scope">
                 {{ scope.row.phone1 }}<span v-if="scope.row.phone2">, {{ scope.row.phone2 }}</span>
@@ -22,7 +22,7 @@
         <el-table-column
                 prop="livingArea"
                 :label="$t('livingArea')"
-                v-if="width > 539"
+                v-if="clientWidth > 539"
                 key="col-living-area" />
         <el-table-column
                 align="right"
@@ -64,12 +64,10 @@
         props: {
             data: { type: Array },
         },
-        data () {
-            return {
-                width: 0,
-            }
-        },
         computed: {
+            ...mapState('common', [
+                'clientWidth',
+            ]),
             ...mapState('auth', [
                 'token',
             ]),
@@ -98,12 +96,6 @@
                 // Потому что в Edge печать не срабатывает, в а Chrome от этого ещё и валится страница
                 if (getBrowserName() === 'Firefox') badge.print();
             },
-        },
-        created () {
-            this.bindClientWidth('width');
-        },
-        destroyed () {
-            this.unbindClientWidth();
         },
     }
 </script>

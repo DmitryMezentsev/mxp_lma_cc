@@ -19,7 +19,7 @@
             </template>
         </el-table-column>
         <el-table-column
-                v-if="width > 719"
+                v-if="clientWidth > 719"
                 :label="$t('recipient')"
                 key="col-contacts">
             <template slot-scope="scope">
@@ -28,7 +28,7 @@
             </template>
         </el-table-column>
         <el-table-column
-                v-if="width > 579"
+                v-if="clientWidth > 579"
                 :label="$t('cod')"
                 key="col-price-declared">
             <template slot-scope="scope">
@@ -36,24 +36,24 @@
             </template>
         </el-table-column>
         <el-table-column
-                v-if="width > 879"
+                v-if="clientWidth > 879"
                 prop="sender.brandName"
                 :label="$t('shop')"
                 key="col-shop" />
         <el-table-column
-                v-if="width > 479"
+                v-if="clientWidth > 479"
                 prop="status.name"
                 :label="$t('status')"
                 key="col-status" />
 
         <!-- Только курьерка -->
         <el-table-column
-                v-if="mode === 'courier' && width > 1279"
+                v-if="mode === 'courier' && clientWidth > 1279"
                 prop="recipient.address.value"
                 :label="$t('deliveryAddress')"
                 key="col-delivery-address" />
         <el-table-column
-                v-if="mode === 'courier' && width > 379"
+                v-if="mode === 'courier' && clientWidth > 379"
                 prop=""
                 width="155"
                 key="col-delivery-date">
@@ -70,19 +70,19 @@
 
         <!-- Только ПВЗ -->
         <el-table-column
-                v-if="mode === 'point' && width > 1279"
+                v-if="mode === 'point' && clientWidth > 1279"
                 prop=""
                 :label="$t('issuePoint')"
                 key="col-issue-point" />
         <el-table-column
-                v-if="mode === 'point' && width > 379"
+                v-if="mode === 'point' && clientWidth > 379"
                 prop=""
                 :label="$t('buyoutDate')"
                 key="col-buyout-date" />
 
         <!-- Только поиск (совмещенные столбцы) -->
         <el-table-column
-                v-if="mode === 'search' && width > 1365"
+                v-if="mode === 'search' && clientWidth > 1365"
                 :label="$t('type')"
                 key="col-type">
             <template slot-scope="scope">
@@ -96,7 +96,7 @@
             </template>
         </el-table-column>
         <el-table-column
-                v-if="mode === 'search' && width > 1279"
+                v-if="mode === 'search' && clientWidth > 1279"
                 :label="$t('deliveryAddress') + ' / ' + $t('issuePoint')"
                 key="col-delivery-address-or-issue-point">
             <template slot-scope="scope">
@@ -109,7 +109,7 @@
             </template>
         </el-table-column>
         <el-table-column
-                v-if="mode === 'search' && width > 379"
+                v-if="mode === 'search' && clientWidth > 379"
                 :label="$t('deliveryDate') + ' / ' + $t('buyoutDate')"
                 key="col-delivery-date-or-buyout-date">
             <template slot-scope="scope">
@@ -123,7 +123,7 @@
         </el-table-column>
 
         <el-table-column
-                v-if="width > 1365"
+                v-if="clientWidth > 1365"
                 :label="$t('proceeds')"
                 key="col-proceeds">
             <template slot-scope="scope">
@@ -134,7 +134,7 @@
 </template>
 
 <script>
-    import {mapActions} from 'vuex';
+    import {mapState, mapActions} from 'vuex';
 
     import mixins from 'Common/js/mixins';
     import Currency from 'Components/Currency';
@@ -153,10 +153,12 @@
             return {
                 ORDER_TYPE_COURIER,
                 ORDER_TYPE_POINT,
-                width: 0,
             }
         },
         computed: {
+            ...mapState('common', [
+                'clientWidth',
+            ]),
             loading () { return this.data === null; },
         },
         methods: {
@@ -169,11 +171,7 @@
                 this.select(selection.map(item => item._id));
             },
         },
-        created () {
-            this.bindClientWidth('width');
-        },
         destroyed () {
-            this.unbindClientWidth();
             this.clearSelect();
         },
     }

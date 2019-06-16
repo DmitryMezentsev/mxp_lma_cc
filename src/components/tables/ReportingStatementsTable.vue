@@ -5,12 +5,12 @@
               :data="data"
               :empty-text="$t('noReports')">
         <el-table-column
-                v-if="width > 399"
+                v-if="clientWidth > 399"
                 prop=""
                 :label="$t('client')"
                 key="col-client" />
         <el-table-column
-                v-if="width > 479"
+                v-if="clientWidth > 479"
                 :label="$t('reportDate')"
                 key="col-report-date">
             <template slot-scope="scope">
@@ -18,7 +18,7 @@
             </template>
         </el-table-column>
         <el-table-column
-                v-if="width > 1199"
+                v-if="clientWidth > 1199"
                 :label="$t('creatingDate')"
                 key="col-creating-date">
             <template slot-scope="scope">
@@ -26,7 +26,7 @@
             </template>
         </el-table-column>
         <el-table-column
-                v-if="width > 639"
+                v-if="clientWidth > 639"
                 :label="$t('cod')"
                 key="col-cod">
             <template slot-scope="scope">
@@ -34,7 +34,7 @@
             </template>
         </el-table-column>
         <el-table-column
-                v-if="width > 679"
+                v-if="clientWidth > 679"
                 :label="$t('sumForServices')"
                 key="col-sum-for-services">
             <template slot-scope="scope">
@@ -42,7 +42,7 @@
             </template>
         </el-table-column>
         <el-table-column
-                v-if="width > 799"
+                v-if="clientWidth > 799"
                 :label="$t('deduction')"
                 key="col-deduction">
             <template slot-scope="scope">
@@ -50,7 +50,7 @@
             </template>
         </el-table-column>
         <el-table-column
-                v-if="width > 1099"
+                v-if="clientWidth > 1099"
                 :label="$t('payDate')"
                 key="col-pay-date">
             <template slot-scope="scope">
@@ -68,20 +68,17 @@
 </template>
 
 <script>
-    import mixins from 'Common/js/mixins';
+    import {mapState} from 'vuex';
 
     export default {
         name: 'ReportingStatementsTable',
-        mixins: [mixins],
         props: {
             data: { type: Array },
         },
-        data () {
-            return {
-                width: 0,
-            }
-        },
         computed: {
+            ...mapState('common', [
+                'clientWidth',
+            ]),
             loading () { return this.data === null; },
         },
         methods: {
@@ -91,12 +88,6 @@
             openReport (row) {
 
             },
-        },
-        created () {
-            this.bindClientWidth('width');
-        },
-        destroyed () {
-            this.unbindClientWidth();
         },
     }
 </script>

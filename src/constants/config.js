@@ -1,9 +1,6 @@
 // Название приложения
 export const APP_TITLE = 'MXP LMA';
 
-// Ширина экрана, при которой сайдбар должен переключаться в адаптивный режим
-export const SIDEBAR_TOGGLE_WIDTH = 1000;
-
 // Формат даты для отправки в API
 export const DATE_API_FORMAT = 'yyyy-MM-dd';
 

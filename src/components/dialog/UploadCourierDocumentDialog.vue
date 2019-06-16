@@ -1,7 +1,7 @@
 <template>
     <el-dialog :title="$t('uploadDocument')"
                :visible.sync="visible"
-               :width="width > 450 ? '420px' : '300px'">
+               :width="clientWidth > 450 ? '420px' : '300px'">
         <el-form :model="document" ref="document" :rules="rules">
             <el-form-item :label="$t('documentType')" prop="type" required>
                 <br>
@@ -31,6 +31,8 @@
 </template>
 
 <script>
+    import {mapState} from 'vuex';
+
     import DOCUMENT_TYPES from 'Constants/courier-document-types';
     import mixins from 'Common/js/mixins';
     import InputFile from 'Components/form-elements/InputFile';
@@ -44,7 +46,6 @@
         },
         data () {
             return {
-                width: 0,
                 maxFileSize: 5,
                 document: { type: null, data: '' },
                 rules: {
@@ -55,6 +56,9 @@
             }
         },
         computed: {
+            ...mapState('common', [
+                'clientWidth',
+            ]),
             visible: {
                 get () { return this.opened; },
                 set (visible) {
@@ -68,12 +72,6 @@
                     if (valid) this.$emit('upload', { ...this.document });
                 });
             },
-        },
-        created () {
-            this.bindClientWidth('width');
-        },
-        destroyed () {
-            this.unbindClientWidth();
         },
         watch: {
             visible (visible) {

@@ -1,7 +1,7 @@
 <template>
     <el-dialog :title="$t('viewPickup')"
                :visible.sync="visible"
-               :width="width > 719 ? '700px' : '95%'"
+               :width="clientWidth > 719 ? '700px' : '95%'"
                :close-on-press-escape="!waiting"
                :show-close="!waiting"
                :close-on-click-modal="!waiting"
@@ -221,7 +221,6 @@
         directives: {inputmask},
         data () {
             return {
-                width: 0,
                 pickup: null,
                 lock: true,
                 waiting: false,
@@ -241,6 +240,9 @@
             }
         },
         computed: {
+            ...mapState('common', [
+                'clientWidth',
+            ]),
             ...mapState('auth', [
                 'currentUser',
             ]),
@@ -295,12 +297,6 @@
                     }
                 });
             },
-        },
-        created () {
-            this.bindClientWidth('width');
-        },
-        destroyed () {
-            this.unbindClientWidth();
         },
         watch: {
             opened: {

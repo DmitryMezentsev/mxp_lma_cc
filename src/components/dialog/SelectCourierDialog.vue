@@ -1,7 +1,7 @@
 <template>
     <el-dialog :title="$t('selectCourier')"
                :visible="visible"
-               :width="width > 450 ? '400px' : '300px'"
+               :width="clientWidth > 450 ? '400px' : '300px'"
                :close-on-press-escape="!waiting"
                :show-close="!waiting"
                :close-on-click-modal="!waiting"
@@ -24,22 +24,26 @@
 </template>
 
 <script>
-    import mixins from 'Common/js/mixins';
+    import {mapState} from 'vuex';
+
     import CourierSelect from 'Components/form-elements/CourierSelect';
 
     export default {
         name: 'SelectCourierDialog',
         components: {CourierSelect},
-        mixins: [mixins],
         props: {
             visible: { type: Boolean },
         },
         data () {
             return {
-                width: 0,
                 waiting: false,
                 courier: null,
             }
+        },
+        computed: {
+            ...mapState('common', [
+                'clientWidth',
+            ]),
         },
         methods: {
             onOpen () {
@@ -53,12 +57,6 @@
                 this.waiting = true;
                 this.$emit('select', this.courier);
             },
-        },
-        created () {
-            this.bindClientWidth('width');
-        },
-        destroyed () {
-            this.unbindClientWidth();
         },
     }
 </script>

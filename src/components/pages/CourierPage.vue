@@ -80,7 +80,7 @@
                             <el-input v-model="courier.access.password"
                                       name="access.password"
                                       :placeholder="$tc('atLeastCharacters', 1, { quantity: minPasswordLength })" />
-                            <el-button size="mini" @click="generatePassword">{{ $t('generatePassword') }}</el-button>
+                            <el-button size="mini" @click="generatePassword" v-autoblur>{{ $t('generatePassword') }}</el-button>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -97,7 +97,7 @@
                                 </el-button>
                             </template>
                         </el-table-column>
-                        <el-table-column v-if="width > 500" :label="$t('uploadDate')" key="col-document-upload-date">
+                        <el-table-column v-if="clientWidth > 500" :label="$t('uploadDate')" key="col-document-upload-date">
                             <template slot-scope="scope">
                                 <FormattedDate :date="scope.row.uploadDate" show-time />
                             </template>
@@ -176,6 +176,7 @@
     import {generateRandomString, getExtensionFromBase64} from 'Common/js/helpers';
     import cars from 'Common/js/cars';
     import inputmask from 'Directives/inputmask';
+    import autoblur from 'Directives/autoblur';
     import Waiting from 'Components/Waiting';
     import InputFile from 'Components/form-elements/InputFile';
     import UploadCourierDocumentDialog from 'Components/dialog/UploadCourierDocumentDialog';
@@ -189,7 +190,7 @@
         name: 'CourierPage',
         components: {DatePicker, FormattedDate, UploadCourierDocumentDialog, InputFile, Waiting},
         mixins: [mixins],
-        directives: {inputmask},
+        directives: {inputmask, autoblur},
         data () {
             return {
                 minPasswordLength,
@@ -197,7 +198,6 @@
                 isAdd: this.$route.name === 'addCourier',
                 uploadDocumentDialog: false,
                 DOCUMENT_TYPES,
-                width: 0,
                 rules: {
                     fullname: [this.validationRule('required')],
                     shortname: [this.validationRule('required')],
@@ -214,6 +214,9 @@
             }
         },
         computed: {
+            ...mapState('common', [
+                'clientWidth',
+            ]),
             ...mapState('auth', [
                 'currentUser',
             ]),
@@ -307,15 +310,10 @@
             },
         },
         created () {
-            this.bindClientWidth('width');
-
             if (this.$route.name === 'editCourier')
                 this.openCourier(this.$route.params.id);
             else
                 this.createNewCourier();
-        },
-        destroyed () {
-            this.unbindClientWidth();
         },
     }
 </script>

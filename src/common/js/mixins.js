@@ -4,16 +4,7 @@ import api from 'Common/js/api';
 import {APP_TITLE} from 'Constants/config';
 
 
-
 export default {
-    data () {
-        return {
-            mixinEventListeners: {
-                bindClientWidthListener: null,
-            },
-        }
-    },
-
     methods: {
         // Устанавливает название страницы в <title>
         setPageTitle: title => {
@@ -99,18 +90,6 @@ export default {
 
             // Чтобы скрыть процесс загрузки результатов, callback вызываем сразу
             callback([]);
-        },
-
-        // Методы биндинга и анбиндинга ширины страницы к указанному свойству компонента
-        bindClientWidth (propName) {
-            this[propName] = document.body.clientWidth;
-
-            this.mixinEventListeners.bindClientWidthListener = () => this[propName] = document.body.clientWidth;
-            window.addEventListener('resize', this.mixinEventListeners.bindClientWidthListener);
-        },
-        unbindClientWidth () {
-            if (this.mixinEventListeners.bindClientWidthListener)
-                window.removeEventListener('resize', this.mixinEventListeners.bindClientWidthListener);
         },
     },
 }

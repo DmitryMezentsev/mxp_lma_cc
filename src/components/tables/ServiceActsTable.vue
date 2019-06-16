@@ -4,17 +4,17 @@
               :empty-text="$t('noActs')"
               class="service-acts-table">
         <el-table-column
-                v-if="width > 579"
+                v-if="clientWidth > 579"
                 prop=""
                 :label="$t('client')"
                 key="col-client" />
         <el-table-column
-                v-if="width > 479"
+                v-if="clientWidth > 479"
                 prop=""
                 :label="$t('actNumber')"
                 key="col-act-number" />
         <el-table-column
-                v-if="width > 1099"
+                v-if="clientWidth > 1099"
                 :label="$t('date')"
                 key="col-date">
             <template slot-scope="scope">
@@ -22,7 +22,7 @@
             </template>
         </el-table-column>
         <el-table-column
-                v-if="width > 799"
+                v-if="clientWidth > 799"
                 :label="$t('sum')"
                 key="col-sum">
             <template slot-scope="scope">
@@ -59,20 +59,17 @@
 </template>
 
 <script>
-    import mixins from 'Common/js/mixins';
+    import {mapState} from 'vuex';
 
     export default {
         name: 'ServiceActsTable',
-        mixins: [mixins],
         props: {
             data: { type: Array },
         },
-        data () {
-            return {
-                width: 0,
-            }
-        },
         computed: {
+            ...mapState('common', [
+                'clientWidth',
+            ]),
             loading () { return this.data === null; },
         },
         methods: {
@@ -82,12 +79,6 @@
             open (act, documentType) {
 
             },
-        },
-        created () {
-            this.bindClientWidth('width');
-        },
-        destroyed () {
-            this.unbindClientWidth();
         },
     }
 </script>

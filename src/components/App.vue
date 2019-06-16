@@ -1,6 +1,6 @@
 <template>
     <el-container v-if="currentUser">
-        <el-aside :width="asideWidth" class="aside">
+        <el-aside :width="sidebarCollapsed ? '65px' : '240px'" class="aside">
             <Sidebar :collapsed="sidebarCollapsed" />
         </el-aside>
         <el-main class="main" :class="{ 'sidebar-collapsed': sidebarCollapsed }">
@@ -13,14 +13,13 @@
 </template>
 
 <script>
-    import {mapState, mapActions} from 'vuex';
+    import {mapState, mapMutations, mapActions} from 'vuex';
 
     import locale from 'element-ui/lib/locale';
     import elementLocaleRU from 'element-ui/lib/locale/lang/ru-RU';
     import elementLocaleEN from 'element-ui/lib/locale/lang/en';
     import elementLocaleZH from 'element-ui/lib/locale/lang/zh-CN';
 
-    import {SIDEBAR_TOGGLE_WIDTH} from 'Constants/config';
     import mixins from 'Common/js/mixins';
     import Breadcrumbs from 'Components/Breadcrumbs';
     import Sidebar from 'Components/Sidebar';
@@ -38,19 +37,29 @@
         data () {
             return {
                 loader: null,
-                asideWidth: null,
-                sidebarCollapsed: false,
             }
         },
+        computed: {
+            ...mapState('common', [
+                'clientWidth',
+            ]),
+            ...mapState('auth', [
+                'currentUser',
+            ]),
+            sidebarCollapsed () {
+                // Ширина, при которой садбар должен переключаться в адаптивный режим
+                const SIDEBAR_TOGGLE_WIDTH = 1000;
+
+                return this.clientWidth && this.clientWidth < SIDEBAR_TOGGLE_WIDTH;
+            },
+        },
         methods: {
+            ...mapMutations('common', [
+                'setClientWidth',
+            ]),
             ...mapActions('auth', [
                 'getToken',
                 'loadCurrentUser',
-            ]),
-        },
-        computed: {
-            ...mapState('auth', [
-                'currentUser',
             ]),
         },
         mounted () {
@@ -63,11 +72,8 @@
             // Смена title страницы при переходах между страницами
             this.$router.afterEach(to => this.setPageTitle(this.getRoutePageName(to)));
 
-            // Изменение состояния сайдбара при изменении размеров окна браузера
-            window.addEventListener('resize', () => {
-                this.sidebarCollapsed = document.body.clientWidth < SIDEBAR_TOGGLE_WIDTH;
-                this.asideWidth = this.sidebarCollapsed ? '65px' : '240px';
-            });
+            // Отслеживание размеров окна браузера
+            window.addEventListener('resize', () => this.setClientWidth(document.body.clientWidth));
             window.dispatchEvent(new Event('resize'));
         },
         watch: {
