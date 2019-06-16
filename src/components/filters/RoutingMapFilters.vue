@@ -42,7 +42,7 @@
 <script>
     import mixins from 'Common/js/mixins';
     import CourierSelect from 'Components/form-elements/CourierSelect';
-    import DatePicker from 'Components/DatePicker';
+    import DatePicker from 'Components/form-elements/DatePicker';
     import StatusSelect from 'Components/form-elements/StatusSelect';
     import RoutingZoneSelect from 'Components/form-elements/RoutingZoneSelect';
 

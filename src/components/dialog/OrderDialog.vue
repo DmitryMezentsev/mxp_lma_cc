@@ -20,7 +20,7 @@
                     </div>
                     <div class="values-section">
                         <Value :name="$t('estimatedCost')" inner>
-                            <Currency :val="order.cashOnDelivery.estimatedCost" />
+                            {{ order.cashOnDelivery.estimatedCost | currency }}
                         </Value>
                     </div>
                 </el-col>
@@ -203,7 +203,7 @@
                             :label="$t('price')"
                             key="col-price">
                         <template slot-scope="scope">
-                            <Currency :val="scope.row.price" />
+                            {{ scope.row.price | currency }}
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -211,7 +211,7 @@
                             :label="$t('sum')"
                             key="col-sum">
                         <template slot-scope="scope">
-                            <Currency :val="scope.row.price * scope.row.counting.count" />
+                            {{ scope.row.price * scope.row.counting.count | currency }}
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -231,7 +231,7 @@
                 </el-table>
                 <br>
                 <Value :name="$t('totalGoodsPrice')" inner>
-                    <Currency :val="goodsSum" />
+                    {{ goodsSum | currency }}
                 </Value>
             </div>
             <el-button class="hidden" native-type="submit" @click.prevent="save" />
@@ -261,17 +261,18 @@
     import inputmask from 'Directives/inputmask';
     import Dimensions from 'Components/Dimensions';
     import TagChecked from 'Components/TagChecked';
-    import Currency from 'Components/Currency';
     import Value from 'Components/Value';
     import CourierSelect from 'Components/form-elements/CourierSelect';
     import {ORDER_TYPE_COURIER, ORDER_TYPE_POINT} from 'Constants/data';
     import RoutingZoneSelect from 'Components/form-elements/RoutingZoneSelect';
-    import DatePicker from 'Components/DatePicker';
+    import DatePicker from 'Components/form-elements/DatePicker';
+    import {currency} from 'Common/js/filters';
 
     export default {
         name: 'OrderDialog',
         mixins: [mixins],
-        components: {DatePicker, RoutingZoneSelect, CourierSelect, Value, Currency, TagChecked, Dimensions},
+        filters: {currency},
+        components: {DatePicker, RoutingZoneSelect, CourierSelect, Value, TagChecked, Dimensions},
         directives: {inputmask},
         data () {
             return {

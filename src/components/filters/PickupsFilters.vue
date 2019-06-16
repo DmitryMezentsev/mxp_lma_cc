@@ -23,7 +23,7 @@
 
     import mixins from 'Common/js/mixins';
     import CourierSelect from 'Components/form-elements/CourierSelect';
-    import DatePicker from 'Components/DatePicker';
+    import DatePicker from 'Components/form-elements/DatePicker';
 
     export default {
         name: 'PickupsFilters',

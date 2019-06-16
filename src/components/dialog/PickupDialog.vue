@@ -212,7 +212,7 @@
     import DimensionsInput from 'Components/form-elements/DimensionsInput';
     import StatusSelect from 'Components/form-elements/StatusSelect';
     import CourierSelect from 'Components/form-elements/CourierSelect';
-    import DatePicker from 'Components/DatePicker';
+    import DatePicker from 'Components/form-elements/DatePicker';
 
     export default {
         name: 'PickupDialog',

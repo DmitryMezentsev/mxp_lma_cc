@@ -4,9 +4,9 @@
         <br>
         <OrdersTable :data="list.data" :mode="$route.params.type" />
         <div v-if="list.totalCount && ($route.params.type === 'courier' || $route.params.type === 'point')" class="total">
-            {{ $t('totalOrders') }}: <Number :val="list.totalCount" />.
-            {{ $t('totalPriceDeclared') }}: <Currency :val="list.sumPriceDeclared" />.
-            {{ $t('totalRevenues') }}: <Currency :val="0" />.
+            {{ $t('totalOrders') }}: {{ list.totalCount | number }}.
+            {{ $t('totalPriceDeclared') }}: {{ list.sumPriceDeclared | currency }}.
+            {{ $t('totalRevenues') }}: {{ 0 | currency }}.
         </div>
         <br>
         <el-button v-if="$route.params.type === 'courier' && list.data && list.data.length"
@@ -35,14 +35,14 @@
     import OrdersTable from 'Components/tables/OrdersTable';
     import Pagination from 'Components/Pagination';
     import OrderDialog from 'Components/dialog/OrderDialog';
-    import Number from 'Components/Number';
-    import Currency from 'Components/Currency';
     import SelectCourierDialog from 'Components/dialog/SelectCourierDialog';
     import api from 'Common/js/api';
+    import {number, currency} from 'Common/js/filters';
 
     export default {
         name: 'OrdersPage',
-        components: {Number, Currency, OrderDialog, Pagination, OrdersTable, OrdersFilters, SelectCourierDialog},
+        components: {OrderDialog, Pagination, OrdersTable, OrdersFilters, SelectCourierDialog},
+        filters: {number, currency},
         data () {
             return {
                 selectCourierDialog: false,

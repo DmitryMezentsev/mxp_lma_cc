@@ -32,7 +32,7 @@
                 :label="$t('cod')"
                 key="col-price-declared">
             <template slot-scope="scope">
-                <Currency :val="scope.row.cashOnDelivery.priceDeclared" />
+                {{ scope.row.cashOnDelivery.priceDeclared | currency }}
             </template>
         </el-table-column>
         <el-table-column
@@ -137,14 +137,15 @@
     import {mapState, mapActions} from 'vuex';
 
     import mixins from 'Common/js/mixins';
-    import Currency from 'Components/Currency';
     import OrderDeliveryDate from 'Components/OrderDeliveryDate';
     import {ORDER_TYPE_COURIER, ORDER_TYPE_POINT} from 'Constants/data';
+    import {currency} from 'Common/js/filters';
 
     export default {
         name: 'OrdersTable',
         mixins: [mixins],
-        components: {OrderDeliveryDate, Currency},
+        filters: {currency},
+        components: {OrderDeliveryDate},
         props: {
             data: { type: Array },
             mode: { type: String, required: true },

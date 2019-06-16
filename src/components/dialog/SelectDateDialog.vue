@@ -16,7 +16,7 @@
 <script>
     import {mapState} from 'vuex';
 
-    import DatePicker from 'Components/DatePicker';
+    import DatePicker from 'Components/form-elements/DatePicker';
 
     export default {
         name: 'SelectDateDialog',

@@ -28,7 +28,7 @@
 
     import mixins from 'Common/js/mixins';
     import StatusSelect from 'Components/form-elements/StatusSelect';
-    import DatePicker from 'Components/DatePicker';
+    import DatePicker from 'Components/form-elements/DatePicker';
 
     export default {
         name: 'OrdersFilters',

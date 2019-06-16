@@ -28,7 +28,7 @@
                 </el-tooltip>
             </template>
             <template slot-scope="scope">
-                <FormattedDate :date="scope.row.pickup.date" />
+                {{ scope.row.pickup.date | formatDate }}
                 <div>{{ scope.row.pickup.time.from }} &ndash; {{ scope.row.pickup.time.to }}</div>
             </template>
         </el-table-column>
@@ -62,11 +62,11 @@
 <script>
     import {mapState, mapActions} from 'vuex';
 
-    import FormattedDate from 'Components/FormattedDate';
+    import {formatDate} from 'Common/js/filters';
 
     export default {
         name: 'PickupsTable',
-        components: {FormattedDate},
+        filters: {formatDate},
         props: {
             data: { type: Array },
         },

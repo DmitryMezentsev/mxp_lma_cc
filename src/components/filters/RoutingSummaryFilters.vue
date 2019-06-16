@@ -13,7 +13,7 @@
     import pick from 'lodash/pick';
 
     import mixins from 'Common/js/mixins';
-    import DatePicker from 'Components/DatePicker';
+    import DatePicker from 'Components/form-elements/DatePicker';
 
     export default {
         name: 'RoutingSummaryFilters',

@@ -99,7 +99,7 @@
                         </el-table-column>
                         <el-table-column v-if="clientWidth > 500" :label="$t('uploadDate')" key="col-document-upload-date">
                             <template slot-scope="scope">
-                                <FormattedDate :date="scope.row.uploadDate" show-time />
+                                {{ scope.row.uploadDate | formatDate(true) }}
                             </template>
                         </el-table-column>
                         <el-table-column width="65" key="col-document-actions">
@@ -180,16 +180,17 @@
     import Waiting from 'Components/Waiting';
     import InputFile from 'Components/form-elements/InputFile';
     import UploadCourierDocumentDialog from 'Components/dialog/UploadCourierDocumentDialog';
-    import FormattedDate from 'Components/FormattedDate';
-    import DatePicker from 'Components/DatePicker';
+    import DatePicker from 'Components/form-elements/DatePicker';
+    import {formatDate} from 'Common/js/filters';
 
     // Минимальная длина пароля при создании нового курьера
     const minPasswordLength = 6;
 
     export default {
         name: 'CourierPage',
-        components: {DatePicker, FormattedDate, UploadCourierDocumentDialog, InputFile, Waiting},
+        components: {DatePicker, UploadCourierDocumentDialog, InputFile, Waiting},
         mixins: [mixins],
+        filters: {formatDate},
         directives: {inputmask, autoblur},
         data () {
             return {

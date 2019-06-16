@@ -46,6 +46,7 @@ export default {
         },
     },
     getters: {
+        getCurrentUser: state => state.currentUser,
         isAdmin: state => state.currentUser && state.currentUser.role === 'admin',
     },
 }
