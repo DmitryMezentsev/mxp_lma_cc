@@ -1,9 +1,9 @@
 <template>
     <div>
         <RoutingSummaryFilters />
-        <RoutingSummaryTable v-if="date" />
+        <RoutingSummaryTable v-if="$route.query.date" />
 
-        <div v-show="!date" class="page-center-message">
+        <div v-show="!$route.query.date" class="page-center-message">
             {{ $t('selectDate') }}.
         </div>
     </div>
@@ -16,20 +16,6 @@
     export default {
         name: 'RoutingMapPage',
         components: {RoutingSummaryFilters, RoutingSummaryTable},
-        data () {
-            return {
-                date: this.$route.query.date,
-                removeAfterEach: null,
-            }
-        },
-        mounted () {
-            this.removeAfterEach = this.$router.afterEach(to => {
-                this.date = to.query.date;
-            });
-        },
-        destroyed () {
-            if (this.removeAfterEach) this.removeAfterEach();
-        },
     }
 </script>
 

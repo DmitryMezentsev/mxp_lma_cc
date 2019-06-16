@@ -38,7 +38,6 @@
         components: {PickupDialog, SelectCourierDialog, PickupsTable, Pagination, PickupsFilters},
         data () {
             return {
-                removeAfterEach: null,
                 selectCourierDialog: false,
             }
         },
@@ -54,12 +53,12 @@
                 'patchPickup',
                 'updatePickup',
             ]),
-            loadList () {
+            loadList (query) {
                 this.getList({
                     perPage: PER_PAGE_DEFAULT,
-                    page: this.$route.query.page,
-                    pickupDate: this.$route.query.pickupDate,
-                    courierId: this.$route.query.courier,
+                    page: query.page,
+                    pickupDate: query.pickupDate,
+                    courierId: query.courier,
                 });
             },
             setCourier (courierId) {
@@ -84,15 +83,12 @@
                 });
             },
         },
-        mounted () {
-            this.loadList();
-
-            this.removeAfterEach = this.$router.afterEach(to => {
-                if (to.name === 'pickups') this.loadList();
-            });
+        beforeRouteEnter (to, from, next) {
+            next(vm => vm.loadList(to.query));
         },
-        destroyed () {
-            if (this.removeAfterEach) this.removeAfterEach();
+        beforeRouteUpdate (to, from, next) {
+            this.loadList(to.query);
+            next();
         },
     }
 </script>

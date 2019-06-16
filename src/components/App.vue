@@ -45,7 +45,7 @@
         methods: {
             ...mapActions('auth', [
                 'getToken',
-                'getCurrentUser',
+                'loadCurrentUser',
             ]),
         },
         computed: {
@@ -58,7 +58,7 @@
 
             // Получение данных текущего юзера
             this.loader = this.$loading();
-            this.getCurrentUser();
+            this.loadCurrentUser();
 
             // Смена title страницы при переходах между страницами
             this.$router.afterEach(to => this.setPageTitle(this.getRoutePageName(to)));

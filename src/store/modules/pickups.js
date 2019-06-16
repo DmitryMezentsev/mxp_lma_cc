@@ -1,4 +1,5 @@
 import api from 'Common/js/api';
+import {HEADER_PG_PAGE_COUNT, HEADER_PG_TOTAL_COUNT} from 'Constants/config';
 
 
 export default {
@@ -32,8 +33,8 @@ export default {
                 .then(({data, headers}) => {
                     commit('setList', {
                         data,
-                        totalCount: Number(headers['x-pagination-total-count']),
-                        pageCount: Number(headers['x-pagination-page-count']),
+                        totalCount: Number(headers[HEADER_PG_TOTAL_COUNT]),
+                        pageCount: Number(headers[HEADER_PG_PAGE_COUNT]),
                     });
                 });
         },

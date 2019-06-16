@@ -22,7 +22,6 @@
 
 <script>
     import {mapState, mapActions} from 'vuex';
-    import get from 'lodash/get';
 
     import {PER_PAGE_DEFAULT} from 'Constants/config';
     import Pagination from 'Components/Pagination';
@@ -33,12 +32,6 @@
     export default {
         name: 'RoutingZonesPage',
         components: {Pagination, RoutingZonesFilters, RoutingZonesTable, RoutingZoneDialog},
-        data () {
-            return {
-                removeAfterEach: null,
-                page: this.$route.name,
-            }
-        },
         computed: {
             ...mapState('geo', [
                 'list',
@@ -49,25 +42,21 @@
                 'getList',
                 'createNewZone',
             ]),
-            loadList () {
+            loadList (query) {
                 this.getList({
                     perPage: PER_PAGE_DEFAULT,
                     fields: ['geoId', 'properties', 'type'],
-                    page: get(this.$route.query, 'page'),
-                    isOperating: !get(this.$route.query, 'inArchive'),
+                    page: query.page,
+                    isOperating: !query.inArchive,
                 });
             },
         },
-        mounted () {
-            this.loadList();
-
-            this.removeAfterEach = this.$router.afterEach(to => {
-                this.page = to.name;
-                if (to.name === 'routingZones') this.loadList();
-            });
+        beforeRouteEnter (to, from, next) {
+            next(vm => vm.loadList(to.query));
         },
-        destroyed () {
-            if (this.removeAfterEach) this.removeAfterEach();
+        beforeRouteUpdate (to, from, next) {
+            this.loadList(to.query);
+            next();
         },
     }
 </script>

@@ -3,7 +3,7 @@
         <CourierCalculationFilters />
         <CourierSalaryEdit />
 
-        <div v-show="!courier || !date" class="page-center-message">
+        <div v-show="!$route.query.courier || !$route.query.date" class="page-center-message">
             {{ $t('selectCourierAndDate') }}.
         </div>
     </div>
@@ -16,22 +16,6 @@
     export default {
         name: 'CourierCalculationPage',
         components: {CourierSalaryEdit, CourierCalculationFilters},
-        data () {
-            return {
-                courier: this.$route.query.courier,
-                date: this.$route.query.date,
-                removeAfterEach: null,
-            }
-        },
-        mounted () {
-            this.removeAfterEach = this.$router.afterEach(to => {
-                this.courier = to.query.courier;
-                this.date = to.query.date;
-            });
-        },
-        destroyed () {
-            if (this.removeAfterEach) this.removeAfterEach();
-        },
     }
 </script>
 

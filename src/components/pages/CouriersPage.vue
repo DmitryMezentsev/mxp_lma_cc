@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="page === 'couriers'">
+        <div v-if="$route.name === 'couriers'">
             <el-row type="flex" align="bottom">
                 <el-col :span="12" :xs="9">
                     <CouriersFilters />
@@ -33,12 +33,6 @@
     export default {
         name: 'CouriersPage',
         components: {CouriersFilters, CouriersTable, Pagination},
-        data () {
-            return {
-                removeAfterEach: null,
-                page: this.$route.name,
-            }
-        },
         computed: {
             ...mapState('couriers', [
                 'list',
@@ -48,27 +42,22 @@
             ...mapActions('couriers', [
                 'getList',
             ]),
-            loadList () {
+            loadList (query) {
                 this.getList({
                     perPage: PER_PAGE_DEFAULT,
                     fields: ['courierId', 'fullname', 'phone1', 'phone2', 'livingArea', 'isActive'],
-                    page: this.$route.query.page,
-                    fullname: this.$route.query.fullname,
-                    isActive: !this.$route.query.inArchive,
+                    page: query.page,
+                    fullname: query.fullname,
+                    isActive: !query.inArchive,
                 });
             },
         },
-        mounted () {
-            if (this.$route.name === 'couriers')
-                this.loadList();
-
-            this.removeAfterEach = this.$router.afterEach(to => {
-                this.page = to.name;
-                if (to.name === 'couriers') this.loadList();
-            });
+        beforeRouteEnter (to, from, next) {
+            next(vm => vm.loadList(to.query));
         },
-        destroyed () {
-            if (this.removeAfterEach) this.removeAfterEach();
+        beforeRouteUpdate (to, from, next) {
+            this.loadList(to.query);
+            next();
         },
     }
 </script>

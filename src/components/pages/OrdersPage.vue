@@ -1,15 +1,15 @@
 <template>
     <div>
-        <OrdersFilters v-if="type === 'courier' || type === 'point'" />
+        <OrdersFilters v-if="$route.params.type === 'courier' || $route.params.type === 'point'" />
         <br>
-        <OrdersTable :data="list.data" :mode="type" />
-        <div v-if="list.totalCount && (type === 'courier' || type === 'point')" class="total">
+        <OrdersTable :data="list.data" :mode="$route.params.type" />
+        <div v-if="list.totalCount && ($route.params.type === 'courier' || $route.params.type === 'point')" class="total">
             {{ $t('totalOrders') }}: <Number :val="list.totalCount" />.
             {{ $t('totalPriceDeclared') }}: <Currency :val="list.sumPriceDeclared" />.
             {{ $t('totalRevenues') }}: <Currency :val="0" />.
         </div>
         <br>
-        <el-button v-if="type === 'courier' && list.data && list.data.length"
+        <el-button v-if="$route.params.type === 'courier' && list.data && list.data.length"
                    size="mini"
                    type="primary"
                    :disabled="!selected.length"
@@ -45,8 +45,6 @@
         components: {Number, Currency, OrderDialog, Pagination, OrdersTable, OrdersFilters, SelectCourierDialog},
         data () {
             return {
-                type: this.$route.params.type,
-                removeAfterEach: null,
                 selectCourierDialog: false,
             }
         },
@@ -60,18 +58,20 @@
             ...mapActions('orders', [
                 'getList',
             ]),
-            loadList () {
+            loadList (route) {
                 this.getList({
                     perPage: PER_PAGE_DEFAULT,
-                    page: this.$route.query.page,
+                    page: route.query.page,
                     serviceType: (() => {
-                        if (this.type === 'courier') return 0;
-                        if (this.type === 'point') return 1;
+                        switch (route.params.type) {
+                            case 'courier': return 0;
+                            case 'point': return 1;
+                        }
                     })(),
-                    search: (this.type === 'search') ? this.$route.query.q : null,
-                    deliveryDateFrom: get(this.$route.query, 'deliveryDate[0]'),
-                    deliveryDateTo: get(this.$route.query, 'deliveryDate[1]'),
-                    status: this.$route.query.status,
+                    search: (this.type === 'search') ? route.query.q : null,
+                    deliveryDateFrom: get(route.query, 'deliveryDate[0]'),
+                    deliveryDateTo: get(route.query, 'deliveryDate[1]'),
+                    status: route.query.status,
                 });
             },
             setCourier (courierId) {
@@ -90,18 +90,12 @@
                     .finally(() => this.selectCourierDialog = false);
             },
         },
-        mounted () {
-            this.loadList();
-
-            this.removeAfterEach = this.$router.afterEach(to => {
-                if (to.name === 'ordersList') {
-                    this.type = to.params.type;
-                    this.loadList();
-                }
-            });
+        beforeRouteEnter (to, from, next) {
+            next(vm => vm.loadList(to));
         },
-        destroyed () {
-            if (this.removeAfterEach) this.removeAfterEach();
+        beforeRouteUpdate (to, from, next) {
+            this.loadList(to);
+            next();
         },
     }
 </script>

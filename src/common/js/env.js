@@ -8,7 +8,7 @@ export const OTH_SERVER_PATH = 'https://oth-lma.mxp.dev/';
 export const AUTH_SERVER_PATH = 'https://sso.mxp.dev/';
 
 // Client ID для SSO-авторизации
-export const CLIENT_ID = 'ce95a469-61bf-4935-9388-490795aba85f';
+export const CLIENT_ID = 'ce95a469-61bf-4935-9388-490795aba85d';
 
 // Google Maps API key
 export const GOOGLE_MAPS_API_KEY = 'AIzaSyBOtcyrSzcub7xVBbgho3Gyit6QlHgpP_I';

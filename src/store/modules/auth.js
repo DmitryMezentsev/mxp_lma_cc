@@ -33,7 +33,7 @@ export default {
             Cookies.remove('token');
             redirectToAuth();
         },
-        getCurrentUser ({commit}) {
+        loadCurrentUser ({commit}) {
             api.post('token/decode')
                 .then(({data:{data}}) => {
                     commit('setCurrentUser', {
