@@ -57,12 +57,12 @@ export default {
                 geometry: null,
             });
         },
-        open: ({commit}, id) => {
+        openZone: ({commit}, id) => {
             commit('setOpened', null);
 
             api.get(`geo/${id}`)
                 .then(({data}) => commit('setOpened', data));
         },
-        close: ({commit}) => commit('setOpened', null),
+        closeZone: ({commit}) => commit('setOpened', null),
     },
 }

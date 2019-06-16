@@ -237,7 +237,7 @@
             <el-button class="hidden" native-type="submit" @click.prevent="save" />
         </el-form>
         <span v-if="order" slot="footer" class="dialog-footer">
-             <el-button @click="close">
+             <el-button @click="setOpened(null)">
                 {{ $t('close') }}
             </el-button>
             <el-button @click="partialIssue" :v-if="true">
@@ -254,7 +254,7 @@
 </template>
 
 <script>
-    import {mapState, mapActions, mapGetters} from 'vuex';
+    import {mapState, mapMutations, mapGetters} from 'vuex';
     import cloneDeep from 'lodash/cloneDeep';
 
     import mixins from 'Common/js/mixins';
@@ -297,7 +297,7 @@
             ]),
             visible: {
                 get () { return !!this.order; },
-                set () { this.close(); },
+                set () { this.setOpened(null); },
             },
             goodsSum () {
                 let sum = 0;
@@ -306,8 +306,8 @@
             },
         },
         methods: {
-            ...mapActions('orders', [
-                'close',
+            ...mapMutations('orders', [
+                'setOpened',
             ]),
             save () {
                 this.$refs.order.validate(valid => {

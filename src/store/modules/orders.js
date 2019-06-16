@@ -41,9 +41,5 @@ export default {
                     });
                 });
         },
-        open: ({commit}, index) => commit('setOpened', index),
-        close: ({commit}) => commit('setOpened', null),
-        select: ({commit}, ids) => commit('setSelected', ids),
-        clearSelect: ({commit}) => commit('clearSelected'),
     },
 }

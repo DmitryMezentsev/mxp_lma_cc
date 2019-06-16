@@ -11,7 +11,7 @@
                 key="col-number"
                 :label="$t('orderNumberInCompanyOrShop')">
             <template slot-scope="scope">
-                <el-button type="text" @click="open(scope.$index)">
+                <el-button type="text" @click="setOpened(scope.$index)">
                     {{ scope.row.logist.internalNumber }} /
                     {{ scope.row.sender.internalNumber }}
                 </el-button>
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-    import {mapState, mapActions} from 'vuex';
+    import {mapState, mapMutations} from 'vuex';
 
     import {formatDate} from 'Common/js/filters';
 
@@ -77,18 +77,18 @@
             loading () { return this.data === null; },
         },
         methods: {
-            ...mapActions('pickups', [
-                'open',
-                'select',
-                'clearSelect',
+            ...mapMutations('pickups', [
+                'setOpened',
+                'setSelected',
+                'clearSelected',
             ]),
             onSelectionChange (selection) {
                 const ids = selection.map(item => item.pickupId);
-                this.select(ids);
+                this.setSelected(ids);
             },
         },
         destroyed () {
-            this.clearSelect();
+            this.clearSelected();
         },
     }
 </script>

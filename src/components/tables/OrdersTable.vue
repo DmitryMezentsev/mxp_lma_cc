@@ -12,7 +12,7 @@
                 :label="$t('orderNumberInCompanyOrShop')"
                 key="col-number">
             <template slot-scope="scope">
-                <a @click.prevent="open(scope.$index)">
+                <a @click.prevent="setOpened(scope.$index)">
                     {{ scope.row.internalNumber }}<br>
                     {{ scope.row.sender.internalNumber }}
                 </a>
@@ -134,7 +134,7 @@
 </template>
 
 <script>
-    import {mapState, mapActions} from 'vuex';
+    import {mapState, mapMutations} from 'vuex';
 
     import mixins from 'Common/js/mixins';
     import OrderDeliveryDate from 'Components/OrderDeliveryDate';
@@ -163,17 +163,17 @@
             loading () { return this.data === null; },
         },
         methods: {
-            ...mapActions('orders', [
-                'open',
-                'select',
-                'clearSelect',
+            ...mapMutations('orders', [
+                'setOpened',
+                'setSelected',
+                'clearSelected',
             ]),
             onSelectionChange (selection) {
-                this.select(selection.map(item => item._id));
+                this.setSelected(selection.map(item => item._id));
             },
         },
         destroyed () {
-            this.clearSelect();
+            this.clearSelected();
         },
     }
 </script>

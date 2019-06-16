@@ -184,7 +184,7 @@
             <el-button class="hidden" native-type="submit" @click.prevent="save" />
         </el-form>
         <span v-if="pickup" slot="footer" class="dialog-footer">
-             <el-button @click="close" :disabled="waiting">
+             <el-button @click="setOpened(null)" :disabled="waiting">
                 {{ $t('close') }}
             </el-button>
             <el-button type="primary"
@@ -201,7 +201,7 @@
 </template>
 
 <script>
-    import {mapState, mapActions, mapGetters} from 'vuex';
+    import {mapState, mapActions, mapGetters, mapMutations} from 'vuex';
     import cloneDeep from 'lodash/cloneDeep';
 
     import mixins from 'Common/js/mixins';
@@ -255,12 +255,14 @@
             ]),
             visible: {
                 get () { return !!this.pickup; },
-                set () { this.close(); },
+                set () { this.setOpened(null); },
             },
         },
         methods: {
+            ...mapMutations('pickups', [
+                'setOpened',
+            ]),
             ...mapActions('pickups', [
-                'close',
                 'updatePickup',
             ]),
             getTimePickerOptions (input) {
@@ -290,7 +292,7 @@
                                 if (success) {
                                     this.$emit('update');
                                     this.changesSavedMessage();
-                                    this.close();
+                                    this.setOpened(null);
                                 }
                             },
                         });

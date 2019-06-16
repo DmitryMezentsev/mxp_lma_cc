@@ -5,7 +5,7 @@
                :show-close="!waiting"
                :close-on-click-modal="!waiting"
                @open="onOpen"
-               @close="close"
+               @close="closeZone"
                width="95%"
                top="5vh">
         <el-form v-if="zone"
@@ -45,7 +45,7 @@
                        :disabled="waiting">
                 {{ $t('clearMap') }}
             </el-button>
-            <el-button @click="close"
+            <el-button @click="closeZone"
                        :disabled="waiting">
                 {{ $t('close') }}
             </el-button>
@@ -97,7 +97,7 @@
         },
         methods: {
             ...mapActions('geo', [
-                'close',
+                'closeZone',
                 'saveZone',
             ]),
             mapInit (map) {
@@ -158,7 +158,7 @@
                                     if (success) {
                                         this.$emit('update');
                                         this.changesSavedMessage();
-                                        this.close();
+                                        this.closeZone();
                                     }
                                 },
                             });
