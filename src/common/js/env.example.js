@@ -18,3 +18,6 @@ export const MAP_CENTER = {
     lat: 10,
     lng: 10,
 };
+
+// URL панели склада
+export const WAREHOUSE_URL = '';

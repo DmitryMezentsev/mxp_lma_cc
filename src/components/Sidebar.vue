@@ -138,6 +138,7 @@
     import isRoute from 'Directives/is-route';
     import {COOKIES_EXP_DAYS} from 'Constants/config';
     import {PRIMARY_TEXT_COLOR} from 'Constants/colors';
+    import {WAREHOUSE_URL} from 'Common/js/env';
 
     const SIDEBAR_STATE_COOKIE_NAME = 'sidebarSubmenu';
 
@@ -168,10 +169,7 @@
             ...mapActions('auth', [
                 'clearToken',
             ]),
-            toWarehouse () {
-                // todo: тут будет открываться URL склада
-                // window.open('');
-            },
+            toWarehouse: () => window.open(WAREHOUSE_URL),
             searchChange (q) {
                 q = trim(q);
                 if (q)
