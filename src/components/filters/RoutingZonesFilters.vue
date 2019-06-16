@@ -2,7 +2,7 @@
     <el-form class="filters">
         <div class="filter">
             <el-form-item :label="$t('inArchive')">
-                <el-switch v-model="filters.inArchive" />
+                <el-switch v-model="filters.inArchive" @change="changeInArchive" />
             </el-form-item>
         </div>
         <el-button @click.prevent native-type="submit" class="hidden" />
@@ -18,47 +18,19 @@
     export default {
         name: 'RoutingZonesFilters',
         mixins: [mixins],
-        data () {
-            return {
-                filters: {
-                    inArchive: false,
-                },
-                removeAfterEach: null,
-            }
-        },
         computed: {
-            preparedFilters: {
-                get () {
-                    return {
-                        inArchive: this.filters.inArchive ? 'true' : null,
-                    }
-                },
-                set (values) {
-                    this.filters = {
-                        inArchive: str2Bool(values.inArchive),
-                    };
-                },
+            filters () {
+                const {inArchive} = pick(this.$route.query, ['inArchive']);
+
+                return {
+                    inArchive: str2Bool(inArchive),
+                };
             },
         },
         methods: {
-            loadFilterValues () {
-                this.preparedFilters = pick(this.$route.query, ['inArchive']);
+            changeInArchive (inArchive) {
+                this.replaceRouteQueryParams({ inArchive: inArchive || null });
             },
-        },
-        mounted () {
-            this.loadFilterValues();
-            this.removeAfterEach = this.$router.afterEach(() => this.loadFilterValues());
-        },
-        destroyed () {
-            if (this.removeAfterEach) this.removeAfterEach();
-        },
-        watch: {
-            preparedFilters: {
-                handler (preparedFilters) {
-                    this.replaceRouteQueryParams(preparedFilters);
-                },
-                deep: true,
-            }
         },
     }
 </script>

@@ -45,6 +45,7 @@
                     return this.model;
                 },
                 set (value) {
+                    this.$emit('change', { name: this.name, value });
                     this.$emit('update:model', value);
                 },
             },

@@ -31,6 +31,7 @@
             width: { type: String, default: '220px' },
             noSelectPlaceholder: { type: String },
             className: { type: String },
+            name: { type: String },
         },
         data () {
             return {
@@ -47,6 +48,7 @@
         },
         methods: {
             onChange () {
+                this.$emit('change', { name: this.name, value: this.value });
                 this.$emit('update:model', this.value);
             },
         },

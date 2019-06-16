@@ -2,31 +2,37 @@
     <el-form class="filters">
         <div class="filter">
             <el-form-item :label="$t('date')">
-                <DatePicker :model.sync="filters.date" />
+                <DatePicker name="date" :model="filters.date" @change="change" />
             </el-form-item>
         </div>
         <div class="filter">
             <el-form-item :label="$t('courier')">
-                <CourierSelect :model.sync="filters.courier"
+                <CourierSelect name="courier"
+                               :model="filters.courier"
                                :noSelectPlaceholder="$t('all')"
                                clearable
-                               multiple />
+                               multiple
+                               @change="change" />
             </el-form-item>
         </div>
         <div class="filter">
             <el-form-item :label="$t('status')">
-                <StatusSelect :model.sync="filters.status"
+                <StatusSelect name="status"
+                              :model="filters.status"
                               :noSelectPlaceholder="$t('all')"
                               clearable
-                              multiple />
+                              multiple
+                              @change="change" />
             </el-form-item>
         </div>
         <div class="filter">
             <el-form-item :label="$t('zone')">
-                <RoutingZoneSelect :model.sync="filters.zone"
+                <RoutingZoneSelect name="zone"
+                                   :model="filters.zone"
                                    :noSelectPlaceholder="$t('all')"
                                    clearable
-                                   multiple />
+                                   multiple
+                                   @change="change" />
             </el-form-item>
         </div>
         <el-button @click.prevent native-type="submit" class="hidden" />
@@ -44,19 +50,8 @@
         name: 'RoutingMapFilters',
         components: {StatusSelect, DatePicker, CourierSelect, RoutingZoneSelect},
         mixins: [mixins],
-        data () {
-            return {
-                filters: {
-                    date: null,
-                    courier: [],
-                    status: [],
-                    zone: [],
-                },
-                removeAfterEach: null,
-            }
-        },
-        methods: {
-            loadFilterValues () {
+        computed: {
+            filters () {
                 function getMultiple (val) {
                     if (!val) return [];
 
@@ -66,7 +61,7 @@
                     return val;
                 }
 
-                this.filters = {
+                return {
                     date: this.$route.query.date,
                     courier: getMultiple(this.$route.query.courier),
                     status: getMultiple(this.$route.query.status),
@@ -74,24 +69,21 @@
                 };
             },
         },
-        mounted () {
-            this.loadFilterValues();
-            this.removeAfterEach = this.$router.afterEach(() => this.loadFilterValues());
-        },
-        destroyed () {
-            if (this.removeAfterEach) this.removeAfterEach();
-        },
-        watch: {
-            filters: {
-                handler (values) {
-                    this.replaceRouteQueryParams(values);
-                },
-                deep: true,
-            }
+        methods: {
+            change ({name, value}) {
+                this.replaceRouteQueryParams({ [name]: value });
+            },
         },
     }
 </script>
 
 <style lang="less" scoped>
+    .filters {
+        display: flex;
+        flex-wrap: wrap;
 
+        .filter {
+
+        }
+    }
 </style>

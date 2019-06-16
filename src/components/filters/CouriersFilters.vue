@@ -29,45 +29,30 @@
                 filters: {
                     fullname: null,
                     inArchive: false,
-                },
-                removeAfterEach: null,
-            }
-        },
-        computed: {
-            preparedFilters: {
-                get () {
-                    return {
-                        fullname: this.filters.fullname,
-                        inArchive: this.filters.inArchive ? 'true' : null,
-                    }
-                },
-                set (values) {
-                    this.filters = {
-                        fullname: values.fullname || null,
-                        inArchive: str2Bool(values.inArchive),
-                    };
-                },
-            },
-        },
-        methods: {
-            loadFilterValues () {
-                this.preparedFilters = pick(this.$route.query, ['fullname', 'inArchive']);
-            },
-        },
-        mounted () {
-            this.loadFilterValues();
-            this.removeAfterEach = this.$router.afterEach(() => this.loadFilterValues());
-        },
-        destroyed () {
-            if (this.removeAfterEach) this.removeAfterEach();
+                }
+            };
         },
         watch: {
-            preparedFilters: {
-                handler: debounce(function (values) {
-                    this.replaceRouteQueryParams(values);
+            '$route.query': {
+                handler (query) {
+                    const {fullname, inArchive} = pick(query, ['fullname', 'inArchive']);
+
+                    this.filters = {
+                        fullname,
+                        inArchive: str2Bool(inArchive),
+                    };
+                },
+                immediate: true,
+            },
+            filters: {
+                handler: debounce(function ({fullname, inArchive}) {
+                    this.replaceRouteQueryParams({
+                        fullname,
+                        inArchive: inArchive || null,
+                    });
                 }, 400),
                 deep: true,
-            }
+            },
         },
     }
 </script>

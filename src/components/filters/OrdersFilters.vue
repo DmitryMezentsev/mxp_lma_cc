@@ -2,17 +2,21 @@
     <el-form class="filters">
         <div class="filter delivery-date-filter">
             <el-form-item :label="$t('deliveryDate')">
-                <DatePicker :model.sync="filters.deliveryDate"
+                <DatePicker name="deliveryDate"
+                            type="daterange"
+                            :model.sync="filters.deliveryDate"
                             :start-placeholder="$tc('from', 1) + '...'"
                             :end-placeholder="$tc('to', 1) + '...'"
-                            type="daterange" />
+                            @change="change" />
             </el-form-item>
         </div>
         <div class="filter">
             <el-form-item :label="$t('status')">
-                <StatusSelect :model.sync="filters.status"
+                <StatusSelect name="status"
+                              :model.sync="filters.status"
                               :noSelectPlaceholder="$t('all')"
-                              clearable />
+                              clearable
+                              @change="change" />
             </el-form-item>
         </div>
         <el-button @click.prevent native-type="submit" class="hidden" />
@@ -30,34 +34,15 @@
         name: 'OrdersFilters',
         components: {DatePicker, StatusSelect},
         mixins: [mixins],
-        data () {
-            return {
-                filters: {
-                    deliveryDate: null,
-                    status: null,
-                },
-                removeAfterEach: null,
-            }
-        },
-        methods: {
-            loadFilterValues () {
-                this.filters = pick(this.$route.query, ['deliveryDate', 'status']);
+        computed: {
+            filters () {
+                return pick(this.$route.query, ['deliveryDate', 'status']);
             },
         },
-        mounted () {
-            this.loadFilterValues();
-            this.removeAfterEach = this.$router.afterEach(() => this.loadFilterValues());
-        },
-        destroyed () {
-            if (this.removeAfterEach) this.removeAfterEach();
-        },
-        watch: {
-            filters: {
-                handler (values) {
-                    this.replaceRouteQueryParams(values);
-                },
-                deep: true,
-            }
+        methods: {
+            change ({name, value}) {
+                this.replaceRouteQueryParams({ [name]: value });
+            },
         },
     }
 </script>
