@@ -14,7 +14,7 @@
                 </el-col>
             </el-row>
             <br>
-            <CouriersTable :data="list.data" @update="loadList" />
+            <CouriersTable :data="list.data" @update="loadList($route.query)" />
             <Pagination :total="list.totalCount" :max-page="list.pageCount" />
         </div>
 
@@ -56,7 +56,7 @@
             next(vm => vm.loadList(to.query));
         },
         beforeRouteUpdate (to, from, next) {
-            this.loadList(to.query);
+            if (to.name === 'couriers') this.loadList(to.query);
             next();
         },
     }

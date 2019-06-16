@@ -57,19 +57,19 @@
         },
         methods: {
             loadFilterValues () {
-                function getMultiple (val, num) {
+                function getMultiple (val) {
                     if (!val) return [];
 
                     if (!Array.isArray(val))
                         val = [val];
 
-                    return num ? val.map(Number) : val;
+                    return val;
                 }
 
                 this.filters = {
                     date: this.$route.query.date,
                     courier: getMultiple(this.$route.query.courier),
-                    status: getMultiple(this.$route.query.status, true),
+                    status: getMultiple(this.$route.query.status),
                     zone: getMultiple(this.$route.query.zone),
                 };
             },

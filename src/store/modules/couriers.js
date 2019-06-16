@@ -1,5 +1,4 @@
 import api from 'Common/js/api';
-
 import {HEADER_PG_PAGE_COUNT, HEADER_PG_TOTAL_COUNT} from 'Constants/config';
 
 

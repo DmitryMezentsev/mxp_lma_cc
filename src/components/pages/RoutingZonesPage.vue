@@ -13,10 +13,10 @@
             </el-col>
         </el-row>
         <br>
-        <RoutingZonesTable :data="list.data" @update="loadList" />
+        <RoutingZonesTable :data="list.data" @update="loadList($route.query)" />
         <Pagination :total="list.totalCount" :max-page="list.pageCount" />
 
-        <RoutingZoneDialog @update="loadList" />
+        <RoutingZoneDialog @update="loadList($route.query)" />
     </div>
 </template>
 

@@ -64,13 +64,7 @@
                 </el-tooltip>
             </template>
             <template slot-scope="scope">
-                <div v-if="scope.row.deliveryOrder.dateTimeInterval.date">
-                    {{ scope.row.deliveryOrder.dateTimeInterval.date }}
-                    <div v-show="scope.row.deliveryOrder.dateTimeInterval.timeInterval.from && scope.row.deliveryOrder.dateTimeInterval.timeInterval.to">
-                        {{ scope.row.deliveryOrder.dateTimeInterval.timeInterval.from }}&ndash;{{ scope.row.deliveryOrder.dateTimeInterval.timeInterval.to }}
-                    </div>
-                </div>
-                <div v-else>&mdash;</div>
+                <OrderDeliveryDate :date-time-interval="scope.row.deliveryOrder.dateTimeInterval" />
             </template>
         </el-table-column>
 
@@ -119,9 +113,9 @@
                 :label="$t('deliveryDate') + ' / ' + $t('buyoutDate')"
                 key="col-delivery-date-or-buyout-date">
             <template slot-scope="scope">
-                <div v-if="scope.row.serviceType === ORDER_TYPE_COURIER">
-
-                </div>
+                <OrderDeliveryDate
+                        v-if="scope.row.serviceType === ORDER_TYPE_COURIER"
+                        :date-time-interval="scope.row.deliveryOrder.dateTimeInterval" />
                 <div v-else-if="scope.row.serviceType === ORDER_TYPE_POINT">
 
                 </div>
@@ -144,12 +138,13 @@
 
     import mixins from 'Common/js/mixins';
     import Currency from 'Components/Currency';
+    import OrderDeliveryDate from 'Components/OrderDeliveryDate';
     import {ORDER_TYPE_COURIER, ORDER_TYPE_POINT} from 'Constants/data';
 
     export default {
         name: 'OrdersTable',
         mixins: [mixins],
-        components: {Currency},
+        components: {OrderDeliveryDate, Currency},
         props: {
             data: { type: Array },
             mode: { type: String, required: true },

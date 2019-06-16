@@ -13,7 +13,7 @@
         </el-button>
         <Pagination :total="list.totalCount" :max-page="list.pageCount" />
 
-        <PickupDialog @update="loadList" />
+        <PickupDialog @update="loadList($route.query)" />
         <SelectCourierDialog :visible="selectCourierDialog"
                              @select="setCourier"
                              @cancel="selectCourierDialog = false" />
@@ -72,7 +72,7 @@
                     }
                 }), err => {
                     this.selectCourierDialog = false;
-                    this.loadList();
+                    this.loadList(this.$route.query);
 
                     if (!err) {
                         this.$message({

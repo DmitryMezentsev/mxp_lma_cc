@@ -53,7 +53,10 @@
         created () {
             api.get(`statuses/${this.type}`)
                 .then(({data}) => {
-                    this.statuses = data;
+                    this.statuses = data.map(s =>
+                        // Перевод всех ID в строки
+                        ({ id: String(s.id), name: s.name })
+                    );
                     this.value = this.model;
                 });
         },
