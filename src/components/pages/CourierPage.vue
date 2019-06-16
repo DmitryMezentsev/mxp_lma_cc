@@ -91,16 +91,14 @@
                         <el-table-column :label="$t('document')" key="col-document">
                             <template slot-scope="scope">
                                 <el-button type="text" @click="openDocument(scope.row)">
-                                    <span v-if="scope.row.type === DOCUMENT_TYPES.PASSPORT">{{ $t('passport') }}</span>
-                                    <span v-else-if="scope.row.type === DOCUMENT_TYPES.VEHICLE_PASSPORT">{{ $t('vehiclePassport') }}</span>
-                                    <span v-else-if="scope.row.type === DOCUMENT_TYPES.DRIVERS_LICENSE">{{ $t('driversLicense') }}</span>
+                                    <span v-if="scope.row.type === PASSPORT">{{ $t('passport') }}</span>
+                                    <span v-else-if="scope.row.type === VEHICLE_PASSPORT">{{ $t('vehiclePassport') }}</span>
+                                    <span v-else-if="scope.row.type === DRIVERS_LICENSE">{{ $t('driversLicense') }}</span>
                                 </el-button>
                             </template>
                         </el-table-column>
                         <el-table-column v-if="clientWidth > 500" :label="$t('uploadDate')" key="col-document-upload-date">
-                            <template slot-scope="scope">
-                                {{ scope.row.uploadDate | formatDate(true) }}
-                            </template>
+                            <template slot-scope="scope">{{ scope.row.uploadDate | formatDate(true) }}</template>
                         </el-table-column>
                         <el-table-column width="65" key="col-document-actions">
                             <template slot-scope="scope">
@@ -171,7 +169,7 @@
     import downloadjs from 'downloadjs';
 
     import api from 'Common/js/api';
-    import DOCUMENT_TYPES from 'Constants/courier-document-types';
+    import {PASSPORT, VEHICLE_PASSPORT, DRIVERS_LICENSE} from 'Constants/courier-document-types';
     import mixins from 'Common/js/mixins';
     import {generateRandomString, getExtensionFromBase64} from 'Common/js/helpers';
     import cars from 'Common/js/cars';
@@ -198,7 +196,9 @@
                 processing: false,
                 isAdd: this.$route.name === 'addCourier',
                 uploadDocumentDialog: false,
-                DOCUMENT_TYPES,
+                PASSPORT,
+                VEHICLE_PASSPORT,
+                DRIVERS_LICENSE,
                 rules: {
                     fullname: [this.validationRule('required')],
                     shortname: [this.validationRule('required')],

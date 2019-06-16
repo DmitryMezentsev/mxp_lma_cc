@@ -14,7 +14,7 @@
                 </el-col>
             </el-row>
             <br>
-            <CouriersTable :data="list.data" @update="loadList($route.query)" />
+            <CouriersTable :data="list.data" @update="loadCouriers($route.query)" />
             <Pagination :total="list.totalCount" :max-page="list.pageCount" />
         </div>
 
@@ -40,10 +40,10 @@
         },
         methods: {
             ...mapActions('couriers', [
-                'getList',
+                'loadList',
             ]),
-            loadList (query) {
-                this.getList({
+            loadCouriers (query) {
+                this.loadList({
                     perPage: PER_PAGE_DEFAULT,
                     fields: ['courierId', 'fullname', 'phone1', 'phone2', 'livingArea', 'isActive'],
                     page: query.page,
@@ -53,10 +53,10 @@
             },
         },
         beforeRouteEnter (to, from, next) {
-            next(vm => vm.loadList(to.query));
+            next(vm => vm.loadCouriers(to.query));
         },
         beforeRouteUpdate (to, from, next) {
-            if (to.name === 'couriers') this.loadList(to.query);
+            if (to.name === 'couriers') this.loadCouriers(to.query);
             next();
         },
     }

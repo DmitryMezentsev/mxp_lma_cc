@@ -13,10 +13,10 @@
             </el-col>
         </el-row>
         <br>
-        <RoutingZonesTable :data="list.data" @update="loadList($route.query)" />
+        <RoutingZonesTable :data="list.data" @update="loadZones($route.query)" />
         <Pagination :total="list.totalCount" :max-page="list.pageCount" />
 
-        <RoutingZoneDialog @update="loadList($route.query)" />
+        <RoutingZoneDialog @update="loadZones($route.query)" />
     </div>
 </template>
 
@@ -39,11 +39,11 @@
         },
         methods: {
             ...mapActions('geo', [
-                'getList',
+                'loadList',
                 'createNewZone',
             ]),
-            loadList (query) {
-                this.getList({
+            loadZones (query) {
+                this.loadList({
                     perPage: PER_PAGE_DEFAULT,
                     fields: ['geoId', 'properties', 'type'],
                     page: query.page,
@@ -52,10 +52,10 @@
             },
         },
         beforeRouteEnter (to, from, next) {
-            next(vm => vm.loadList(to.query));
+            next(vm => vm.loadZones(to.query));
         },
         beforeRouteUpdate (to, from, next) {
-            this.loadList(to.query);
+            this.loadZones(to.query);
             next();
         },
     }

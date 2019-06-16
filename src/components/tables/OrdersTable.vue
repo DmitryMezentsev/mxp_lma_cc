@@ -31,9 +31,7 @@
                 v-if="clientWidth > 579"
                 :label="$t('cod')"
                 key="col-price-declared">
-            <template slot-scope="scope">
-                {{ scope.row.cashOnDelivery.priceDeclared | currency }}
-            </template>
+            <template slot-scope="scope">{{ scope.row.cashOnDelivery.priceDeclared | currency }}</template>
         </el-table-column>
         <el-table-column
                 v-if="clientWidth > 879"

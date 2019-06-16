@@ -6,6 +6,7 @@ import orders from './modules/orders';
 import pickups from './modules/pickups';
 import couriers from './modules/couriers';
 import geo from './modules/geo';
+import reporting from './modules/reporting';
 
 
 export default () =>
@@ -17,5 +18,6 @@ export default () =>
             pickups,
             couriers,
             geo,
+            reporting,
         },
     });

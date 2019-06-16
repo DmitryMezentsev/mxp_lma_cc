@@ -28,7 +28,7 @@ export default {
         clearSelected: state => state.selected = [],
     },
     actions: {
-        getList ({commit}, params) {
+        loadList ({commit}, params) {
             commit('clearList');
 
             api.get('order', { params })

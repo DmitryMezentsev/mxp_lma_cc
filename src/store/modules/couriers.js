@@ -23,7 +23,7 @@ export default {
         setCourier: (state, payload) => state.courier = payload,
     },
     actions: {
-        getList ({commit}, params) {
+        loadList ({commit}, params) {
             commit('clearList');
 
             api.get('courier', { params })

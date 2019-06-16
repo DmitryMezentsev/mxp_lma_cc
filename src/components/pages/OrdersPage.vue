@@ -18,7 +18,7 @@
         </el-button>
         <Pagination :total="list.totalCount" :max-page="list.pageCount" />
 
-        <OrderDialog @update="loadList($route)" />
+        <OrderDialog @update="loadOrders($route)" />
 
         <SelectCourierDialog :visible="selectCourierDialog"
                              @select="setCourier"
@@ -56,10 +56,10 @@
         },
         methods: {
             ...mapActions('orders', [
-                'getList',
+                'loadList',
             ]),
-            loadList ({query, params}) {
-                this.getList({
+            loadOrders ({query, params}) {
+                this.loadList({
                     perPage: PER_PAGE_DEFAULT,
                     page: query.page,
                     serviceType: (() => {
@@ -80,7 +80,7 @@
                     orderIds: this.selected,
                 })
                     .then(() => {
-                        this.loadList(this.$route);
+                        this.loadOrders(this.$route);
 
                         this.$message({
                             message: this.$tc('courierAreSet', (this.selected.length > 1) ? 2 : 1),
@@ -91,10 +91,10 @@
             },
         },
         beforeRouteEnter (to, from, next) {
-            next(vm => vm.loadList(to));
+            next(vm => vm.loadOrders(to));
         },
         beforeRouteUpdate (to, from, next) {
-            this.loadList(to);
+            this.loadOrders(to);
             next();
         },
     }
@@ -108,6 +108,5 @@
         color: @secondary-text-color;
         font-size: .85em;
         text-align: center;
-
     }
 </style>

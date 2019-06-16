@@ -202,17 +202,13 @@
                             v-if="clientWidth > 479"
                             :label="$t('price')"
                             key="col-price">
-                        <template slot-scope="scope">
-                            {{ scope.row.price | currency }}
-                        </template>
+                        <template slot-scope="scope">{{ scope.row.price | currency }}</template>
                     </el-table-column>
                     <el-table-column
                             v-if="clientWidth > 579"
                             :label="$t('sum')"
                             key="col-sum">
-                        <template slot-scope="scope">
-                            {{ scope.row.price * scope.row.counting.count | currency }}
-                        </template>
+                        <template slot-scope="scope">{{ scope.row.price * scope.row.counting.count | currency }}</template>
                     </el-table-column>
                     <el-table-column
                             fixed="right"

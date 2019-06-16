@@ -23,7 +23,7 @@ export default {
         setOpened: (state, payload) => state.opened = payload,
     },
     actions: {
-        getList ({commit}, params) {
+        loadList ({commit}, params) {
             commit('clearList');
 
             api.get('geo', { params })

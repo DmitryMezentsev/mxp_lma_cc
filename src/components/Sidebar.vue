@@ -37,7 +37,7 @@
             <el-submenu index="1">
                 <template slot="title">
                     <i class="fas fa-file-alt"></i>
-                    <span slot="title">{{ $t('orders') }}</span>
+                    <span slot="title">{{ $tc('orders', 1) }}</span>
                 </template>
                 <el-menu-item index="1-1"
                               @click="scrollTop"

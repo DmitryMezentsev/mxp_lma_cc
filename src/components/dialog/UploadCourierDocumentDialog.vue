@@ -6,9 +6,9 @@
             <el-form-item :label="$t('documentType')" prop="type" required>
                 <br>
                 <el-select v-model="document.type" :placeholder="$tc('noSelect', 1)" name="type">
-                    <el-option :label="$t('passport')" :value="DOCUMENT_TYPES.PASSPORT" />
-                    <el-option :label="$t('vehiclePassport')" :value="DOCUMENT_TYPES.VEHICLE_PASSPORT" />
-                    <el-option :label="$t('driversLicense')" :value="DOCUMENT_TYPES.DRIVERS_LICENSE" />
+                    <el-option :label="$t('passport')" :value="PASSPORT" />
+                    <el-option :label="$t('vehiclePassport')" :value="VEHICLE_PASSPORT" />
+                    <el-option :label="$t('driversLicense')" :value="DRIVERS_LICENSE" />
                 </el-select>
             </el-form-item>
             <el-form-item :label="$t('fileForUpload')" prop="data" required>
@@ -33,7 +33,7 @@
 <script>
     import {mapState} from 'vuex';
 
-    import DOCUMENT_TYPES from 'Constants/courier-document-types';
+    import {PASSPORT, VEHICLE_PASSPORT, DRIVERS_LICENSE} from 'Constants/courier-document-types';
     import mixins from 'Common/js/mixins';
     import InputFile from 'Components/form-elements/InputFile';
 
@@ -52,7 +52,9 @@
                     type: [this.validationRule('selectRequired')],
                     data: [this.validationRule('fileRequired')],
                 },
-                DOCUMENT_TYPES,
+                PASSPORT,
+                VEHICLE_PASSPORT,
+                DRIVERS_LICENSE,
             }
         },
         computed: {

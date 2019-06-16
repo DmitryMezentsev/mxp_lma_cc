@@ -13,7 +13,7 @@
         </el-button>
         <Pagination :total="list.totalCount" :max-page="list.pageCount" />
 
-        <PickupDialog @update="loadList($route.query)" />
+        <PickupDialog @update="loadPickups($route.query)" />
         <SelectCourierDialog :visible="selectCourierDialog"
                              @select="setCourier"
                              @cancel="selectCourierDialog = false" />
@@ -49,12 +49,12 @@
         },
         methods: {
             ...mapActions('pickups', [
-                'getList',
+                'loadList',
                 'patchPickup',
                 'updatePickup',
             ]),
-            loadList (query) {
-                this.getList({
+            loadPickups (query) {
+                this.loadList({
                     perPage: PER_PAGE_DEFAULT,
                     page: query.page,
                     pickupDate: query.pickupDate,
@@ -72,7 +72,7 @@
                     }
                 }), err => {
                     this.selectCourierDialog = false;
-                    this.loadList(this.$route.query);
+                    this.loadPickups(this.$route.query);
 
                     if (!err) {
                         this.$message({
@@ -84,10 +84,10 @@
             },
         },
         beforeRouteEnter (to, from, next) {
-            next(vm => vm.loadList(to.query));
+            next(vm => vm.loadPickups(to.query));
         },
         beforeRouteUpdate (to, from, next) {
-            this.loadList(to.query);
+            this.loadPickups(to.query);
             next();
         },
     }

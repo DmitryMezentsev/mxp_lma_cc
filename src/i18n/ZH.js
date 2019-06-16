@@ -48,7 +48,6 @@ export default {
     close: '',
     type: '',
     order: '',
-    numInShop: '',
     phone: '',
     phones: '',
     city: '',
@@ -101,6 +100,7 @@ export default {
     viewOrder: '',
     providerNumber: '',
     shopNumber: '',
+    orderNumber: '',
     days: '',
     fullName: '',
     inArchive: '',
@@ -210,5 +210,12 @@ export default {
     declared: '',
     actual: '',
     zonesNotFound: '',
+    cashSum: '',
+    acquiringSum: '',
+    paymentType: '',
+    byCard: '',
+    inCash: '',
+    prepay: '',
+    safeTransaction: '',
 
 }
