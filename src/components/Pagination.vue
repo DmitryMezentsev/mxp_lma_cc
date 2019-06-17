@@ -39,8 +39,11 @@ export default {
       });
     },
     validatePage() {
-      if (this.maxPage && this.page > this.maxPage) this.change(this.maxPage);
-      else if (this.page < 1) this.change(1);
+      if (this.maxPage && this.page > this.maxPage) {
+        this.change(this.maxPage);
+      } else if (this.page < 1) {
+        this.change(1);
+      }
     },
   },
   mounted() {
