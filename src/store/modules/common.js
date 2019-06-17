@@ -1,9 +1,11 @@
 export default {
-    namespaced: true,
-    state: {
-        clientWidth: null,
+  namespaced: true,
+  state: {
+    clientWidth: null,
+  },
+  mutations: {
+    setClientWidth: (state, payload) => {
+      state.clientWidth = payload;
     },
-    mutations: {
-        setClientWidth: (state, payload) => state.clientWidth = payload,
-    },
-}
+  },
+};

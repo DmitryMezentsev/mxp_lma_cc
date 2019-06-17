@@ -1,13 +1,9 @@
-<template>
-
-</template>
+<template> </template>
 
 <script>
-    export default {
-        name: 'RoutingSummaryTable',
-    }
+export default {
+  name: 'RoutingSummaryTable',
+};
 </script>
 
-<style lang="less" scoped>
-
-</style>
+<style lang="less" scoped></style>

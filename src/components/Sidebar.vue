@@ -1,290 +1,317 @@
 <template>
-    <div class="sidebar" :class="{ collapsed }">
-        <router-link class="logo" :to="{name: 'home'}">
-            <img src="../common/img/logo.png" alt="MXP">
-        </router-link>
-        <div class="search">
-            <el-input :placeholder="$t('orderSearch')"
-                      prefix-icon="el-icon-search"
-                      size="mini"
-                      v-model="searchQuery"
-                      @change="searchChange" />
-        </div>
-        <el-menu :default-openeds="defaultOpened"
-                 :router="true"
-                 :collapse="collapsed"
-                 :collapse-transition="false"
-                 :active-text-color="PRIMARY_TEXT_COLOR"
-                 background-color="#FFF"
-                 @open="submenuOpen"
-                 @close="submenuClose">
-            <el-submenu index="0">
-                <template slot="title">
-                    <i class="fas fa-user"></i>
-                    <span slot="title">{{ $t('account') }}</span>
-                </template>
-                <el-menu-item index="0-1"
-                              @click="scrollTop"
-                              :route="{name: 'accountSettings'}"
-                              v-is-route="'accountSettings'">
-                    <span slot="title">{{ $t('settings') }}</span>
-                </el-menu-item>
-                <el-menu-item index="0-2"
-                              @click="clearToken">
-                    <span slot="title">{{ $t('logout') }}</span>
-                </el-menu-item>
-            </el-submenu>
-            <el-submenu index="1">
-                <template slot="title">
-                    <i class="fas fa-file-alt"></i>
-                    <span slot="title">{{ $tc('orders', 1) }}</span>
-                </template>
-                <el-menu-item index="1-1"
-                              @click="scrollTop"
-                              :route="{name: 'ordersList', params: {type: 'courier'}}"
-                              v-is-route="{name: 'ordersList', params: {type: 'courier'}}">
-                    <span slot="title">{{ $t('courierOrders') }}</span>
-                </el-menu-item>
-                <el-menu-item index="1-2"
-                              @click="scrollTop"
-                              :route="{name: 'ordersList', params: {type: 'point'}}"
-                              v-is-route="{name: 'ordersList', params: {type: 'point'}}">
-                    <span slot="title">{{ $t('pointOrders') }}</span>
-                </el-menu-item>
-            </el-submenu>
-            <el-menu-item index="2"
-                          @click="scrollTop"
-                          :route="{name: 'pickups'}"
-                          v-is-route="'pickups'">
-                <i class="fas fa-truck-loading"></i>
-                <span slot="title">{{ $t('pickups') }}</span>
-            </el-menu-item>
-            <el-menu-item index="3"
-                          @click="toWarehouse">
-                <i class="fas fa-warehouse"></i>
-                <span slot="title">{{ $t('warehouse') }}</span>
-            </el-menu-item>
-            <el-menu-item index="4"
-                          @click="scrollTop"
-                          :route="{name: 'clients'}"
-                          v-is-route="{ name: ['clients', 'addClient', 'editClient'] }">
-                <i class="fas fa-users"></i>
-                <span slot="title">{{ $t('clients') }}</span>
-            </el-menu-item>
-            <el-menu-item index="5"
-                          @click="scrollTop"
-                          :route="{name: 'couriers'}"
-                          v-is-route="{ name: ['couriers', 'addCourier', 'editCourier'] }">
-                <i class="fas fa-user-tie"></i>
-                <span slot="title">{{ $t('couriers') }}</span>
-            </el-menu-item>
-            <el-submenu index="6">
-                <template slot="title">
-                    <i class="fas fa-map-marked-alt"></i>
-                    <span slot="title">{{ $t('routing') }}</span>
-                </template>
-                <el-menu-item index="6-1"
-                              @click="scrollTop"
-                              :route="{name: 'routingMap'}"
-                              v-is-route="'routingMap'">
-                    <span slot="title">{{ $t('map') }}</span>
-                </el-menu-item>
-                <el-menu-item index="6-2"
-                              @click="scrollTop"
-                              :route="{name: 'routingSummary'}"
-                              v-is-route="'routingSummary'">
-                    <span slot="title">{{ $t('summary') }}</span>
-                </el-menu-item>
-                <el-menu-item index="6-3"
-                              @click="scrollTop"
-                              :route="{name: 'routingZones'}"
-                              v-is-route="'routingZones'">
-                    <span slot="title">{{ $t('zones') }}</span>
-                </el-menu-item>
-            </el-submenu>
-            <el-submenu index="7">
-                <template slot="title">
-                    <i class="fas fa-book"></i>
-                    <span slot="title">{{ $t('reporting') }}</span>
-                </template>
-                <el-menu-item index="7-1"
-                              @click="scrollTop"
-                              :route="{name: 'courierCalculation'}"
-                              v-is-route="'courierCalculation'">
-                    <span slot="title">{{ $t('courierCalculation') }}</span>
-                </el-menu-item>
-                <el-menu-item index="7-2"
-                              @click="scrollTop"
-                              :route="{name: 'reportingStatements'}"
-                              v-is-route="'reportingStatements'">
-                    <span slot="title">{{ $t('reportingStatements') }}</span>
-                </el-menu-item>
-                <el-menu-item index="7-3"
-                              @click="scrollTop"
-                              :route="{name: 'serviceActs'}"
-                              v-is-route="'serviceActs'">
-                    <span slot="title">{{ $t('serviceActs') }}</span>
-                </el-menu-item>
-            </el-submenu>
-        </el-menu>
+  <div class="sidebar" :class="{ collapsed }">
+    <router-link class="logo" :to="{ name: 'home' }">
+      <img src="../common/img/logo.png" alt="MXP" />
+    </router-link>
+    <div class="search">
+      <el-input
+        :placeholder="$t('orderSearch')"
+        prefix-icon="el-icon-search"
+        size="mini"
+        v-model="searchQuery"
+        @change="searchChange"
+      />
     </div>
+    <el-menu
+      :default-openeds="defaultOpened"
+      :router="true"
+      :collapse="collapsed"
+      :collapse-transition="false"
+      :active-text-color="PRIMARY_TEXT_COLOR"
+      background-color="#FFF"
+      @open="submenuOpen"
+      @close="submenuClose"
+    >
+      <el-submenu index="0">
+        <template slot="title">
+          <i class="fas fa-user"></i>
+          <span slot="title">{{ $t('account') }}</span>
+        </template>
+        <el-menu-item
+          index="0-1"
+          @click="scrollTop"
+          :route="{ name: 'accountSettings' }"
+          v-is-route="'accountSettings'"
+        >
+          <span slot="title">{{ $t('settings') }}</span>
+        </el-menu-item>
+        <el-menu-item index="0-2" @click="clearToken">
+          <span slot="title">{{ $t('logout') }}</span>
+        </el-menu-item>
+      </el-submenu>
+      <el-submenu index="1">
+        <template slot="title">
+          <i class="fas fa-file-alt"></i>
+          <span slot="title">{{ $tc('orders', 1) }}</span>
+        </template>
+        <el-menu-item
+          index="1-1"
+          @click="scrollTop"
+          :route="{ name: 'ordersList', params: { type: 'courier' } }"
+          v-is-route="{ name: 'ordersList', params: { type: 'courier' } }"
+        >
+          <span slot="title">{{ $t('courierOrders') }}</span>
+        </el-menu-item>
+        <el-menu-item
+          index="1-2"
+          @click="scrollTop"
+          :route="{ name: 'ordersList', params: { type: 'point' } }"
+          v-is-route="{ name: 'ordersList', params: { type: 'point' } }"
+        >
+          <span slot="title">{{ $t('pointOrders') }}</span>
+        </el-menu-item>
+      </el-submenu>
+      <el-menu-item
+        index="2"
+        @click="scrollTop"
+        :route="{ name: 'pickups' }"
+        v-is-route="'pickups'"
+      >
+        <i class="fas fa-truck-loading"></i>
+        <span slot="title">{{ $t('pickups') }}</span>
+      </el-menu-item>
+      <el-menu-item index="3" @click="toWarehouse">
+        <i class="fas fa-warehouse"></i>
+        <span slot="title">{{ $t('warehouse') }}</span>
+      </el-menu-item>
+      <el-menu-item
+        index="4"
+        @click="scrollTop"
+        :route="{ name: 'clients' }"
+        v-is-route="{ name: ['clients', 'addClient', 'editClient'] }"
+      >
+        <i class="fas fa-users"></i>
+        <span slot="title">{{ $t('clients') }}</span>
+      </el-menu-item>
+      <el-menu-item
+        index="5"
+        @click="scrollTop"
+        :route="{ name: 'couriers' }"
+        v-is-route="{ name: ['couriers', 'addCourier', 'editCourier'] }"
+      >
+        <i class="fas fa-user-tie"></i>
+        <span slot="title">{{ $t('couriers') }}</span>
+      </el-menu-item>
+      <el-submenu index="6">
+        <template slot="title">
+          <i class="fas fa-map-marked-alt"></i>
+          <span slot="title">{{ $t('routing') }}</span>
+        </template>
+        <el-menu-item
+          index="6-1"
+          @click="scrollTop"
+          :route="{ name: 'routingMap' }"
+          v-is-route="'routingMap'"
+        >
+          <span slot="title">{{ $t('map') }}</span>
+        </el-menu-item>
+        <el-menu-item
+          index="6-2"
+          @click="scrollTop"
+          :route="{ name: 'routingSummary' }"
+          v-is-route="'routingSummary'"
+        >
+          <span slot="title">{{ $t('summary') }}</span>
+        </el-menu-item>
+        <el-menu-item
+          index="6-3"
+          @click="scrollTop"
+          :route="{ name: 'routingZones' }"
+          v-is-route="'routingZones'"
+        >
+          <span slot="title">{{ $t('zones') }}</span>
+        </el-menu-item>
+      </el-submenu>
+      <el-submenu index="7">
+        <template slot="title">
+          <i class="fas fa-book"></i>
+          <span slot="title">{{ $t('reporting') }}</span>
+        </template>
+        <el-menu-item
+          index="7-1"
+          @click="scrollTop"
+          :route="{ name: 'courierCalculation' }"
+          v-is-route="'courierCalculation'"
+        >
+          <span slot="title">{{ $t('courierCalculation') }}</span>
+        </el-menu-item>
+        <el-menu-item
+          index="7-2"
+          @click="scrollTop"
+          :route="{ name: 'reportingStatements' }"
+          v-is-route="'reportingStatements'"
+        >
+          <span slot="title">{{ $t('reportingStatements') }}</span>
+        </el-menu-item>
+        <el-menu-item
+          index="7-3"
+          @click="scrollTop"
+          :route="{ name: 'serviceActs' }"
+          v-is-route="'serviceActs'"
+        >
+          <span slot="title">{{ $t('serviceActs') }}</span>
+        </el-menu-item>
+      </el-submenu>
+    </el-menu>
+  </div>
 </template>
 
 <script>
-    import trim from 'lodash/trim';
-    import Cookies from 'js-cookie';
-    import {mapActions} from 'vuex';
+import trim from 'lodash/trim';
+import Cookies from 'js-cookie';
+import { mapActions } from 'vuex';
 
-    import isRoute from 'Directives/is-route';
-    import {COOKIES_EXP_DAYS} from 'Constants/config';
-    import {PRIMARY_TEXT_COLOR} from 'Constants/colors';
-    import {WAREHOUSE_URL} from 'Common/js/env';
+import isRoute from 'Directives/is-route';
+import { COOKIES_EXP_DAYS } from 'Constants/config';
+import { PRIMARY_TEXT_COLOR } from 'Constants/colors';
+import { WAREHOUSE_URL } from 'Common/js/env';
 
-    const SIDEBAR_STATE_COOKIE_NAME = 'sidebarSubmenu';
+const SIDEBAR_STATE_COOKIE_NAME = 'sidebarSubmenu';
 
-    const isSearchRoute = route => route.name === 'ordersList' && route.params.type === 'search';
+const isSearchRoute = route => route.name === 'ordersList' && route.params.type === 'search';
 
-    export default {
-        name: 'Sidebar',
-        props: {
-            collapsed: { type: Boolean, default: false },
-        },
-        directives: {isRoute},
-        data () {
-            return {
-                searchQuery: '',
-                PRIMARY_TEXT_COLOR,
-            }
-        },
-        computed: {
-            // Открытые изначально подменю
-            defaultOpened () {
-                const sidebarSubmenu = Cookies.getJSON(SIDEBAR_STATE_COOKIE_NAME);
-                return sidebarSubmenu
-                    ? Object.keys(sidebarSubmenu).filter(i => sidebarSubmenu[i])
-                    : [];
-            },
-        },
-        methods: {
-            ...mapActions('auth', [
-                'clearToken',
-            ]),
-            toWarehouse: () => window.open(WAREHOUSE_URL),
-            searchChange (q) {
-                q = trim(q);
-                if (q)
-                    this.$router.push({ name: 'ordersList', params: { type: 'search' }, query: { q } });
-                else
-                    this.$router.push({ name: 'home' });
-            },
-            submenuStateSave (index, opened) {
-                let sidebarSubmenu = Cookies.getJSON(SIDEBAR_STATE_COOKIE_NAME) || {};
-                sidebarSubmenu[index] = opened;
-                Cookies.set(SIDEBAR_STATE_COOKIE_NAME, sidebarSubmenu, { expires: COOKIES_EXP_DAYS });
-            },
-            submenuOpen (i) {
-                this.submenuStateSave(i, true);
-            },
-            submenuClose (i) {
-                this.submenuStateSave(i, false);
-            },
-            scrollTop () {
-                window.scrollTo(0, 0);
-            },
-        },
-        mounted () {
-            this.$router.afterEach(to =>
-                this.searchQuery = (isSearchRoute(to)) ? to.query.q : ''
-            );
+export default {
+  name: 'Sidebar',
+  props: {
+    collapsed: { type: Boolean, default: false },
+  },
+  directives: { isRoute },
+  data() {
+    return {
+      searchQuery: '',
+      PRIMARY_TEXT_COLOR,
+    };
+  },
+  computed: {
+    // Открытые изначально подменю
+    defaultOpened() {
+      const sidebarSubmenu = Cookies.getJSON(SIDEBAR_STATE_COOKIE_NAME);
+      return sidebarSubmenu ? Object.keys(sidebarSubmenu).filter(i => sidebarSubmenu[i]) : [];
+    },
+  },
+  methods: {
+    ...mapActions('auth', ['clearToken']),
+    toWarehouse: () => window.open(WAREHOUSE_URL),
+    searchChange(q) {
+      // eslint-disable-next-line
+      q = trim(q);
 
-            if (isSearchRoute(this.$route))
-                this.searchQuery = this.$route.query.q;
-        },
-    }
+      if (q) {
+        this.$router.push({ name: 'ordersList', params: { type: 'search' }, query: { q } });
+      } else {
+        this.$router.push({ name: 'home' });
+      }
+    },
+    submenuStateSave(index, opened) {
+      const sidebarSubmenu = Cookies.getJSON(SIDEBAR_STATE_COOKIE_NAME) || {};
+
+      sidebarSubmenu[index] = opened;
+      Cookies.set(SIDEBAR_STATE_COOKIE_NAME, sidebarSubmenu, { expires: COOKIES_EXP_DAYS });
+    },
+    submenuOpen(i) {
+      this.submenuStateSave(i, true);
+    },
+    submenuClose(i) {
+      this.submenuStateSave(i, false);
+    },
+    scrollTop() {
+      window.scrollTo(0, 0);
+    },
+  },
+  mounted() {
+    this.$router.afterEach(to => {
+      this.searchQuery = isSearchRoute(to) ? to.query.q : '';
+    });
+
+    if (isSearchRoute(this.$route)) this.searchQuery = this.$route.query.q;
+  },
+};
 </script>
 
 <style lang="less">
-    @import "~Common/colors";
+@import '~Common/colors';
 
-    .sidebar {
-        &.collapsed {
-            .search {
-                display: none;
-            }
-
-            .el-menu {
-                text-align: center;
-
-                i {
-                    &.far,
-                    &.fas {
-                        margin-right: 0;
-                    }
-                }
-            }
-        }
-
-        .logo {
-            display: block;
-            text-align: center;
-            margin: .75em 0 .5em;
-
-            img {
-                width: 70%;
-            }
-        }
-
-        .search {
-            width: 90%;
-            margin: .5em auto;
-        }
-
-        .el-menu {
-            i {
-                &.far,
-                &.fas {
-                    margin-right: .75em;
-
-                    &.fa-file-alt {
-                        font-size: 1.25em;
-                    }
-
-                    &.fa-warehouse,
-                    &.fa-users {
-                        font-size: .96em;
-                    }
-
-                    &.fa-user-tie {
-                        font-size: 1.17em;
-                    }
-                }
-            }
-        }
+.sidebar {
+  &.collapsed {
+    .search {
+      display: none;
     }
 
     .el-menu {
-        user-select: none;
+      text-align: center;
 
-        .el-menu-item,
-        .el-submenu__title {
-            &:hover {
-                background-color: @lighter-border-color !important;
-            }
-
-            &:not(:hover) {
-                background-color: transparent !important;
-            }
+      i {
+        &.far,
+        &.fas {
+          margin-right: 0;
         }
-
-        .active-route {
-            color: @blue-color !important;
-            transition-property: background-color;
-
-            i {
-                &.fas {
-                    &:before { color: @blue-color !important; }
-                }
-            }
-        }
+      }
     }
+  }
+
+  .logo {
+    display: block;
+    text-align: center;
+    margin: 0.75em 0 0.5em;
+
+    img {
+      width: 70%;
+    }
+  }
+
+  .search {
+    width: 90%;
+    margin: 0.5em auto;
+  }
+
+  .el-menu {
+    i {
+      &.far,
+      &.fas {
+        margin-right: 0.75em;
+
+        &.fa-file-alt {
+          font-size: 1.25em;
+        }
+
+        &.fa-warehouse,
+        &.fa-users {
+          font-size: 0.96em;
+        }
+
+        &.fa-user-tie {
+          font-size: 1.17em;
+        }
+      }
+    }
+  }
+}
+
+.el-menu {
+  user-select: none;
+
+  .el-menu-item,
+  .el-submenu__title {
+    &:hover {
+      background-color: @lighter-border-color !important;
+    }
+
+    &:not(:hover) {
+      background-color: transparent !important;
+    }
+  }
+
+  .active-route {
+    color: @blue-color !important;
+    transition-property: background-color;
+
+    i {
+      &.fas {
+        &:before {
+          color: @blue-color !important;
+        }
+      }
+    }
+  }
+}
 </style>

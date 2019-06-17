@@ -8,16 +8,15 @@ import couriers from './modules/couriers';
 import geo from './modules/geo';
 import reporting from './modules/reporting';
 
-
 export default () =>
-    new Vuex.Store({
-        modules: {
-            common,
-            auth,
-            orders,
-            pickups,
-            couriers,
-            geo,
-            reporting,
-        },
-    });
+  new Vuex.Store({
+    modules: {
+      common,
+      auth,
+      orders,
+      pickups,
+      couriers,
+      geo,
+      reporting,
+    },
+  });

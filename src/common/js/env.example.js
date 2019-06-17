@@ -15,8 +15,8 @@ export const GOOGLE_MAPS_API_KEY = '';
 
 // Кординаты начального центра карты
 export const MAP_CENTER = {
-    lat: 10,
-    lng: 10,
+  lat: 10,
+  lng: 10,
 };
 
 // URL панели склада

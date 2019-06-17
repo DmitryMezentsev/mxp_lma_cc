@@ -13,4 +13,3 @@ export const PER_PAGE_DEFAULT = 10;
 // Имена заголовков
 export const HEADER_PG_TOTAL_COUNT = 'x-pagination-total-count';
 export const HEADER_PG_PAGE_COUNT = 'x-pagination-page-count';
-
