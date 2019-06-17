@@ -1,17 +1,13 @@
 <template>
-    <div>
-
-
-        <router-view />
-    </div>
+  <div>
+    <router-view />
+  </div>
 </template>
 
 <script>
-    export default {
-        name: 'ClientsPage',
-    }
+export default {
+  name: 'ClientsPage',
+};
 </script>
 
-<style lang="less" scoped>
-
-</style>
+<style lang="less" scoped></style>

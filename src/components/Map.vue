@@ -1,67 +1,68 @@
 <template>
-    <div>
-        <GmapMap ref="map"
-                 :center="MAP_CENTER"
-                 :zoom="zoom"
-                 :options="mapOptions"
-                 :style="{ height }">
-        </GmapMap>
-        <div class="help" v-if="help">
-            {{ help }}
-        </div>
-    </div>
+  <div>
+    <GmapMap
+      ref="map"
+      :center="MAP_CENTER"
+      :zoom="zoom"
+      :options="mapOptions"
+      :style="{ height }"
+    />
+    <div class="help" v-if="help">{{ help }}</div>
+  </div>
 </template>
 
 <script>
-    import {MAP_CENTER} from 'Common/js/env';
+import { MAP_CENTER } from 'Common/js/env';
 
-    export default {
-        name: 'Map',
-        props: {
-            height: { type: String, default: '400px' },
-            zoom: { type: Number, default: 7 },
-            help: { type: String },
-        },
-        data () {
-            return {
-                MAP_CENTER,
-                mapOptions: {
-                    zoomControl: true,
-                    mapTypeControl: false,
-                    scaleControl: false,
-                    streetViewControl: false,
-                    rotateControl: false,
-                    fullscreenControl: false,
-                    clickableIcons: false,
-                    gestureHandling: 'cooperative',
-                    // Выключаем ненужные рекламные точки на карте
-                    styles: [{
-                        featureType: 'poi',
-                        elementType: 'labels',
-                        stylers: [{ visibility: 'off' }],
-                    }],
-                },
-            }
-        },
-        mounted () {
-            this.$refs.map.$mapPromise.then(map => {
-                this.$emit('init', map);
-            });
-        },
-    }
+export default {
+  name: 'Map',
+  props: {
+    height: { type: String, default: '400px' },
+    zoom: { type: Number, default: 7 },
+    help: { type: String },
+  },
+  data() {
+    return {
+      MAP_CENTER,
+      mapOptions: {
+        zoomControl: true,
+        mapTypeControl: false,
+        scaleControl: false,
+        streetViewControl: false,
+        rotateControl: false,
+        fullscreenControl: false,
+        clickableIcons: false,
+        gestureHandling: 'cooperative',
+        // Выключаем ненужные рекламные точки на карте
+        styles: [
+          {
+            featureType: 'poi',
+            elementType: 'labels',
+            stylers: [{ visibility: 'off' }],
+          },
+        ],
+      },
+    };
+  },
+  mounted() {
+    this.$refs.map.$mapPromise.then(map => {
+      this.$emit('init', map);
+    });
+  },
+};
 </script>
 
 <style lang="less" scoped>
-    @import "~Common/colors";
+@import '~Common/colors';
 
-    .map {
-        width: 100%;
-    }
+.map {
+  width: 100%;
+}
 
-    .help {
-        margin-top: 5px;
-        font-size: 12px;
-        color: @secondary-text-color;
-        line-height: 16px;
-    }
+.help {
+  margin-top: 5px;
+  font-size: 12px;
+  color: @secondary-text-color;
+  line-height: 16px;
+}
 </style>
