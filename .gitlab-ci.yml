@@ -2,8 +2,34 @@ variables:
   CODE_IMAGE: $CI_REGISTRY_IMAGE/$CI_PROJECT_NAME:$CI_COMMIT_SHA
 
 stages:
+  - npm
   - build
   - deploy
+
+npm:
+  stage: npm
+  image: node
+  tags:
+    - docker
+  only:
+  - production
+  - development
+
+  artifacts:
+    paths:
+    - ./build/
+
+  cache:
+    paths:
+      - node_modules
+
+  script:
+    - apt-get update; apt-get -y install curl
+    - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+    - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+    - apt-get update && apt-get -y install yarn
+    - yarn
+    - npm run build
 
 .common_deploy: &common_deploy
   stage: deploy
