@@ -1,10 +1,12 @@
 variables:
   CODE_IMAGE: $CI_REGISTRY_IMAGE/$CI_PROJECT_NAME:$CI_COMMIT_SHA
 
+stages:
+  - build
+  - deploy
+
 .common_deploy: &common_deploy
   stage: deploy
-  dependencies:
-    - build
   tags:
     - docker
   image: docker:latest
@@ -39,54 +41,30 @@ variables:
     - docker run -v ${PWD}/kube_config:/root/.kube/config -v ${PWD}/deploy-service.yaml:/deploy-service.yaml lachlanevenson/k8s-kubectl:v1.10.3 apply -f /deploy-service.yaml
     - echo "${CI_ENVIRONMENT_URL} Deployed"
 
-stages:
-  - npm
-  - build
-  - deploy
-
-npm:
-  stage: npm
-  image: node
-  tags:
-    - docker
-  only:
-  - production
-  - development
-
-  artifacts:
-    paths:
-    - ./build/
-
-  cache:
-    paths:
-      - node_modules
-
-  script:
-    - apt-get update; apt-get -y install curl
-    - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-    - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-    - apt-get update && apt-get -y install yarn
-    - yarn
-    - npm run build
-
-build:
+.common_build: &common_build
   stage: build
   image: docker:latest
   tags:
     - docker
   services:
     - docker:dind
-  only:
-  - production
-  - development
-
   script:
+    - case ${CI_ENVIRONMENT_SLUG} in
+        production)
+        echo "$DEV_CONFIG" > src/common/js/env.js
+        ;;
+        development)
+        echo "$PROD_CONFIG" > src/common/js/env.js
+        ;;
+        esac
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin
     - docker build --tag="$CODE_IMAGE" .
     - docker push $CODE_IMAGE
 
 deploy_prod:
   <<: *common_deploy
+  dependencies:
+    - build_prod
   environment:
     name: production
     url: lma.mxp.world
@@ -96,8 +74,25 @@ deploy_prod:
 
 deploy_dev:
   <<: *common_deploy
+  dependencies:
+    - build_dev
   environment:
     name: development
     url: lma.mxp.dev
+  only:
+  - development
+
+build_prod:
+  <<: *common_build
+  environment:
+    name: production
+  #when: manual
+  only:
+  - production
+
+build_dev:
+  <<: *common_build
+  environment:
+    name: development
   only:
   - development
