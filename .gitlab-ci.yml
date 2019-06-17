@@ -6,7 +6,7 @@ stages:
   - build
   - deploy
 
-npm:
+.common_npm: &common_npm
   stage: npm
   image: node
   tags:
@@ -24,6 +24,14 @@ npm:
       - node_modules
 
   script:
+    - case ${CI_ENVIRONMENT_SLUG} in
+        production)
+        echo "$PROD_CONFIG" > src/common/js/env.js
+        ;;
+        development)
+        echo "$DEV_CONFIG" > src/common/js/env.js
+        ;;
+        esac
     - apt-get update; apt-get -y install curl
     - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
     - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
@@ -75,17 +83,40 @@ npm:
   services:
     - docker:dind
   script:
-    - case ${CI_ENVIRONMENT_SLUG} in
-        production)
-        echo "$PROD_CONFIG" > src/common/js/env.js
-        ;;
-        development)
-        echo "$DEV_CONFIG" > src/common/js/env.js
-        ;;
-        esac
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin
     - docker build --tag="$CODE_IMAGE" .
     - docker push $CODE_IMAGE
+
+npm_prod:
+  <<: *common_npm
+  environment:
+    name: production
+  #when: manual
+  only:
+  - production
+
+npm_dev:
+  <<: *common_npm
+  environment:
+    name: development
+  only:
+  - development
+
+build_prod:
+  <<: *common_build
+  environment:
+    name: production
+  #when: manual
+  only:
+  - production
+
+build_dev:
+  <<: *common_build
+  environment:
+    name: development
+  only:
+  - development
+
 
 deploy_prod:
   <<: *common_deploy
@@ -105,20 +136,5 @@ deploy_dev:
   environment:
     name: development
     url: lma.mxp.dev
-  only:
-  - development
-
-build_prod:
-  <<: *common_build
-  environment:
-    name: production
-  #when: manual
-  only:
-  - production
-
-build_dev:
-  <<: *common_build
-  environment:
-    name: development
   only:
   - development
