@@ -80,7 +80,7 @@ npm:
         echo "$PROD_CONFIG" > src/common/js/env.js
         ;;
         development)
-        echo "$PROD_CONFIG" > src/common/js/env.js
+        echo "$DEV_CONFIG" > src/common/js/env.js
         ;;
         esac
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin
