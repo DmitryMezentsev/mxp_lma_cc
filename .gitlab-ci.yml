@@ -77,7 +77,7 @@ npm:
   script:
     - case ${CI_ENVIRONMENT_SLUG} in
         production)
-        echo "$DEV_CONFIG" > src/common/js/env.js
+        echo "$PROD_CONFIG" > src/common/js/env.js
         ;;
         development)
         echo "$PROD_CONFIG" > src/common/js/env.js
