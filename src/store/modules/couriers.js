@@ -12,17 +12,17 @@ export default {
     courier: null,
   },
   mutations: {
-    clearList: state => {
+    clearList(state) {
       state.list = {
         data: null,
         totalCount: 0,
         pageCount: 0,
       };
     },
-    setList: (state, payload) => {
+    setList(state, payload) {
       state.list = payload;
     },
-    setCourier: (state, payload) => {
+    setCourier(state, payload) {
       state.courier = payload;
     },
   },

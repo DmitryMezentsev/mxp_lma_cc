@@ -4,7 +4,7 @@ export default {
     clientWidth: null,
   },
   mutations: {
-    setClientWidth: (state, payload) => {
+    setClientWidth(state, payload) {
       state.clientWidth = payload;
     },
   },

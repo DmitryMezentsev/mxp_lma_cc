@@ -18,7 +18,7 @@ export default {
       api.defaults.headers.common.Authorization = `Bearer ${payload}`;
       Cookies.set(TOKEN_COOKIE_NAME, payload, { expires: COOKIES_EXP_DAYS });
     },
-    setCurrentUser: (state, payload) => {
+    setCurrentUser(state, payload) {
       state.currentUser = payload;
     },
   },

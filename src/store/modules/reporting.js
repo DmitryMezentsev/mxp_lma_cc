@@ -6,7 +6,7 @@ export default {
     courierCalculation: null,
   },
   mutations: {
-    setCourierCalculation: (state, payload) => {
+    setCourierCalculation(state, payload) {
       state.courierCalculation = payload;
     },
   },

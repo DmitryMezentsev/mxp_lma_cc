@@ -13,23 +13,23 @@ export default {
     selected: [],
   },
   mutations: {
-    clearList: state => {
+    clearList(state) {
       state.list = {
         data: null,
         totalCount: 0,
         pageCount: 0,
       };
     },
-    setList: (state, payload) => {
+    setList(state, payload) {
       state.list = payload;
     },
-    setOpened: (state, payload) => {
+    setOpened(state, payload) {
       state.opened = payload;
     },
-    setSelected: (state, payload) => {
+    setSelected(state, payload) {
       state.selected = payload;
     },
-    clearSelected: state => {
+    clearSelected(state) {
       state.selected = [];
     },
   },

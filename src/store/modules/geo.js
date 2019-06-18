@@ -12,17 +12,17 @@ export default {
     opened: null,
   },
   mutations: {
-    clearList: state => {
+    clearList(state) {
       state.list = {
         data: null,
         totalCount: 0,
         pageCount: 0,
       };
     },
-    setList: (state, payload) => {
+    setList(state, payload) {
       state.list = payload;
     },
-    setOpened: (state, payload) => {
+    setOpened(state, payload) {
       state.opened = payload;
     },
   },
@@ -65,11 +65,13 @@ export default {
         geometry: null,
       });
     },
-    openZone: ({ commit }, id) => {
+    openZone({ commit }, id) {
       commit('setOpened', null);
 
       api.get(`geo/${id}`).then(({ data }) => commit('setOpened', data));
     },
-    closeZone: ({ commit }) => commit('setOpened', null),
+    closeZone({ commit }) {
+      commit('setOpened', null);
+    },
   },
 };
