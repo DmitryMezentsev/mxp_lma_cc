@@ -20,19 +20,23 @@
         <small>{{ scope.row.recipient.contacts.phone }}</small>
       </template>
     </el-table-column>
-    <el-table-column v-if="clientWidth > 579" :label="$t('cod')" key="col-price-declared">
-      <template slot-scope="scope">{{
-        scope.row.cashOnDelivery.priceDeclared | currency
-      }}</template>
+    <el-table-column v-if="clientWidth > 579" key="col-price-declared-or-proceeds">
+      <template slot="header">
+        {{ $t('cod') }}&nbsp;/<br />{{ $t('proceeds') }}
+      </template>
+      <template slot-scope="scope">
+        {{ scope.row.cashOnDelivery.priceDeclared | currency }}<br />
+        {{ 0 | currency }}</template
+      >
     </el-table-column>
     <el-table-column
-      v-if="clientWidth > 879"
+      v-if="clientWidth > 1149"
       prop="sender.brandName"
       :label="$t('shop')"
       key="col-shop"
     />
     <el-table-column
-      v-if="clientWidth > 479"
+      v-if="clientWidth > 559"
       prop="status.name"
       :label="$t('status')"
       key="col-status"
@@ -46,7 +50,21 @@
       key="col-delivery-address"
     />
     <el-table-column
-      v-if="mode === 'courier' && clientWidth > 379"
+      v-if="mode === 'courier' && clientWidth > 1365"
+      :label="$t('deliveryAddress')"
+      key="col-delivery-courier-or-zone"
+    >
+      <template slot="header">
+        {{ $t('courier') }}&nbsp;/<br />
+        {{ $t('zone') }}</template
+      >
+      <template slot-scope="scope">
+        {{ scope.row.serviceInfo.courierName || '—' }}<br />
+        {{ scope.row.serviceInfo.deliveryZoneName || '—' }}
+      </template>
+    </el-table-column>
+    <el-table-column
+      v-if="mode === 'courier' && clientWidth > 419"
       prop=""
       width="155"
       key="col-delivery-date"
@@ -116,10 +134,6 @@
         />
         <div v-else-if="scope.row.serviceType === ORDER_TYPE_POINT"></div>
       </template>
-    </el-table-column>
-
-    <el-table-column v-if="clientWidth > 1365" :label="$t('proceeds')" key="col-proceeds">
-      <template slot-scope="scope"> </template>
     </el-table-column>
   </el-table>
 </template>

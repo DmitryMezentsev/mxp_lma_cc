@@ -4,6 +4,9 @@
     <br />
     <Map v-if="list" @init="mapInit" height="700px" />
     <Waiting v-else />
+
+    <SelectCourierToZoneDialog />
+    <SelectCourierToOrderDialog />
   </div>
 </template>
 
@@ -13,12 +16,20 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 import RoutingMapFilters from 'Components/filters/RoutingMapFilters';
 import Map from 'Components/Map';
 import Waiting from 'Components/Waiting';
+import SelectCourierToZoneDialog from 'Components/dialog/SelectCourierToZoneDialog';
+import SelectCourierToOrderDialog from 'Components/dialog/SelectCourierToOrderDialog';
 import { centerCoordsFromGeometry } from 'Common/js/helpers';
 import { BLUE_COLOR } from 'Constants/colors';
 
 export default {
   name: 'RoutingMapPage',
-  components: { Waiting, RoutingMapFilters, Map },
+  components: {
+    SelectCourierToZoneDialog,
+    SelectCourierToOrderDialog,
+    Waiting,
+    RoutingMapFilters,
+    Map,
+  },
   data() {
     return {
       map: null,
@@ -28,7 +39,7 @@ export default {
     ...mapState('geo', ['list']),
   },
   methods: {
-    ...mapMutations('geo', ['setSelectCourierDialogData']),
+    ...mapMutations('geo', ['setSelectCourierToZone', 'setSelectCourierToOrder']),
     ...mapActions('geo', ['loadList']),
     mapInit(map) {
       this.map = map;
@@ -74,13 +85,13 @@ export default {
       this.map.data.setStyle({ fillColor: BLUE_COLOR, strokeWeight: 1 });
 
       this.map.data.addListener('click', e => {
-        this.setSelectCourierDialogData({
+        this.setSelectCourierToZone({
           id: e.feature.getProperty('geoId'),
           name: e.feature.getProperty('name'),
         });
       });
     },
-    drawPoints() {},
+    drawOrders() {},
   },
   beforeRouteEnter(to, from, next) {
     next(vm => vm.loadZones(to.query));
