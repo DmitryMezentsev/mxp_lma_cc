@@ -1,6 +1,6 @@
 <template>
-  <el-tag :disable-transitions="true" :type="checked ? null : 'info'" :class="{ active }">
-    <i class="fas" :class="{ 'fa-check': checked, 'fa-times': !checked }"></i>{{ $t(label) }}
+  <el-tag :disable-transitions="true" :type="checked ? 'success' : 'info'">
+    <fa-icon icon="check" v-show="checked" />{{ $t(label) }}
   </el-tag>
 </template>
 
@@ -10,7 +10,6 @@ export default {
   props: {
     label: { type: String, required: true },
     checked: { type: Boolean },
-    active: { type: Boolean },
   },
 };
 </script>
@@ -19,16 +18,7 @@ export default {
 .el-tag {
   margin: 0 0.5em 0.5em 0;
 
-  &.active {
-    cursor: pointer;
-    user-select: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  i {
+  svg {
     margin-right: 0.5em;
   }
 }

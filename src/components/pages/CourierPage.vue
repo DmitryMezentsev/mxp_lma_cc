@@ -139,7 +139,7 @@
               <template slot-scope="scope">
                 <el-tooltip :content="$t('remove')" placement="left">
                   <el-button type="danger" size="mini" @click="removeDocument(scope.$index)">
-                    <i class="fas fa-trash"></i>
+                    <fa-icon icon="trash" />
                   </el-button>
                 </el-tooltip>
               </template>
@@ -168,7 +168,7 @@
               type="danger"
               class="to-archive"
             >
-              <i class="fas fa-archive btn-margin"></i>{{ $t('toArchive') }}
+              <fa-icon icon="archive" class="btn-margin" />{{ $t('toArchive') }}
             </el-button>
             <el-button
               v-else
@@ -178,7 +178,7 @@
               type="primary"
               class="restore"
             >
-              <i class="fas fa-redo-alt btn-margin"></i>{{ $t('restore') }}
+              <fa-icon icon="redo-alt" class="btn-margin" />{{ $t('restore') }}
             </el-button>
             <el-button :disabled="!!processing" @click="sendNewPassword" class="send-new-password">
               {{ $t('sendNewPasswordInSMS') }}

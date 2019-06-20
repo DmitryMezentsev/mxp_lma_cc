@@ -2,13 +2,11 @@
   <div class="courier-calculation-table">
     <div class="sum">
       <div class="total-orders">
-        {{ $tc('orders', 2) }}: {{ get(data, 'orders.length', 0) | number }}
-      </div>
+        {{ $t('orders2') }}: {{ get(data, 'orders.length', 0) | number }}</div><!-- eslint-disable-line -->
       <el-progress :stroke-width="20" :percentage="acquiringPercent" :show-text="false" />
       <div class="labels">
         <div class="acquiring-sum">
-          {{ $t('acquiringSum') }}: {{ get(data, 'totalCardCOD') | currency }}
-        </div>
+          {{ $t('acquiringSum') }}: {{ get(data, 'totalCardCOD') | currency }}</div><!-- eslint-disable-line -->
         <div class="cash-sum">{{ $t('cashSum') }}: {{ get(data, 'totalCashCOD') | currency }}</div>
       </div>
     </div>

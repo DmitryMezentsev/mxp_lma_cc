@@ -22,8 +22,8 @@
           </div>
           <div class="values-section">
             <Value :name="$t('estimatedCost')" inner>
-              {{ order.cashOnDelivery.estimatedCost | currency }}
-            </Value>
+              {{ order.cashOnDelivery.estimatedCost | currency }}</Value
+            >
           </div>
         </el-col>
         <el-col :span="12" :xs="24">
@@ -152,17 +152,14 @@
         <h4>{{ $t('services') }}:</h4>
         <div class="services-list">
           <div class="tags-wrap">
-            <TagChecked label="opening" :checked="false" />
-            <TagChecked label="fitting" :checked="false" />
-            <TagChecked label="partialIssue" :checked="false" />
-            <TagChecked label="attachedDocuments" :checked="true" v-show="false" />
             <TagChecked
-              label="printDocument"
-              :checked="false"
-              :active="false"
-              @click="printDocument()"
+              v-for="(service, i) in services"
+              :key="i"
+              :label="service.name"
+              :checked="service.completed"
             />
           </div>
+          <div v-show="!services.length">{{ $t('noServices') }}.</div>
         </div>
       </div>
       <hr class="margin-top-x2 margin-bottom-x2" />
@@ -180,8 +177,8 @@
               <div class="dimensions">
                 <div class="label">{{ $t('declared') }}:</div>
                 <Dimensions :values="scope.row.dimensions" />
-                ({{ scope.row.dimensions.weight / 1000 }} {{ $t('kg') }})
-              </div>
+                <!-- eslint-disable-next-line -->
+                ({{ scope.row.dimensions.weight / 1000 }} {{ $t('kg') }})</div>
               <div class="dimensions">
                 <div class="label">{{ $t('actual') }}:</div>
                 <Dimensions
@@ -191,8 +188,8 @@
                     length: scope.row.dimensions.lengthFact,
                   }"
                 />
-                ({{ scope.row.dimensions.weightFact / 1000 }} {{ $t('kg') }})
-              </div>
+                <!-- eslint-disable-next-line -->
+                ({{ scope.row.dimensions.weightFact / 1000 }} {{ $t('kg') }})</div>
             </template>
           </el-table-column>
         </el-table>
@@ -220,9 +217,11 @@
                 size="mini"
                 placeholder="1"
                 class="compact"
+                v-if="editGoods"
                 :min="1"
                 :max="9999"
               />
+              <span v-else>{{ scope.row.counting.count }} {{ $t('pc') }}</span>
             </template>
           </el-table-column>
           <el-table-column v-if="clientWidth > 479" :label="$t('price')" key="col-price">
@@ -233,20 +232,18 @@
               (scope.row.price * scope.row.counting.count) | currency
             }}</template>
           </el-table-column>
-          <el-table-column fixed="right" width="65" key="col-actions">
+          <el-table-column fixed="right" width="65" key="col-actions" v-if="editGoods">
             <template slot-scope="scope">
               <el-tooltip :content="$t('remove')" placement="left">
-                <el-button @click="removeGoods(scope.$index)" type="danger" size="mini">
-                  <i class="fas fa-trash"></i>
+                <el-button @click="removeGoodsItem(scope.$index)" type="danger" size="mini">
+                  <fa-icon icon="trash" />
                 </el-button>
               </el-tooltip>
             </template>
           </el-table-column>
         </el-table>
         <br />
-        <Value :name="$t('totalGoodsPrice')" inner>
-          {{ goodsSum | currency }}
-        </Value>
+        <Value :name="$t('totalGoodsPrice')" inner>{{ goodsSum | currency }}</Value>
       </div>
       <el-button class="hidden" native-type="submit" @click.prevent="save" />
     </el-form>
@@ -254,21 +251,24 @@
       <el-button @click="setOpened(null)">
         {{ $t('close') }}
       </el-button>
-      <el-button @click="partialIssue" :v-if="true">
+      <el-button @click="partialIssue" v-if="showPartialIssueBtn">
         {{ $t('partialIssue') }}
       </el-button>
-      <el-button @click="toReturn" type="danger">
+      <el-button @click="toReturn" type="danger" v-if="showReturnBtn">
         {{ $t('return') }}
       </el-button>
-      <el-button @click="toIssue" type="success">
+      <el-button @click="toIssue" type="success" v-if="showToIssueBtn">
         {{ $t('toIssue') }}
+      </el-button>
+      <el-button type="success" @click="save" v-if="!order.currentStatus.statusInfo.isEnd">
+        {{ $t('save') }}
       </el-button>
     </span>
   </el-dialog>
 </template>
 
 <script>
-import { mapState, mapMutations, mapGetters } from 'vuex';
+import { mapState, mapMutations, mapGetters, mapActions } from 'vuex';
 import cloneDeep from 'lodash/cloneDeep';
 
 import mixins from 'Common/js/mixins';
@@ -277,7 +277,7 @@ import Dimensions from 'Components/Dimensions';
 import TagChecked from 'Components/TagChecked';
 import Value from 'Components/Value';
 import CourierSelect from 'Components/form-elements/CourierSelect';
-import { ORDER_TYPE_COURIER, ORDER_TYPE_POINT } from 'Constants/data';
+import { ORDER_TYPE_COURIER, ORDER_TYPE_POINT, PARTIAL_ISSUE_SERVICE_ID } from 'Constants/data';
 import RoutingZoneSelect from 'Components/form-elements/RoutingZoneSelect';
 import DatePicker from 'Components/form-elements/DatePicker';
 import { currency } from 'Common/js/filters';
@@ -294,10 +294,11 @@ export default {
       ORDER_TYPE_POINT,
       order: null,
       rules: {},
+      editGoods: false,
     };
   },
   computed: {
-    ...mapState('common', ['clientWidth']),
+    ...mapState('common', ['clientWidth', 'deliveryServices']),
     ...mapState('orders', {
       orders: 'list',
       opened: 'opened',
@@ -311,6 +312,24 @@ export default {
         this.setOpened(null);
       },
     },
+    // Список услуг для раздела "Услуги"
+    services() {
+      const services = [];
+
+      this.order.additionalDeliveryServices.forEach(({ deliveryServiceId }) => {
+        let checked = false;
+        const { name } = this.deliveryServices[deliveryServiceId];
+
+        this.order.completedAdditionalDeliveryServices.forEach(completedService => {
+          if (completedService.deliveryServiceId === deliveryServiceId) checked = true;
+        });
+
+        services.push({ checked, name });
+      });
+
+      return services;
+    },
+    // Сумма товаров
     goodsSum() {
       let sum = 0;
       this.order.goods.forEach(item => {
@@ -318,27 +337,92 @@ export default {
       });
       return sum;
     },
+    // Наличие услуги "Частичная выдача"
+    partialIssueAllowed() {
+      let exists = false;
+      this.order.additionalDeliveryServices.forEach(({ deliveryServiceId }) => {
+        if (deliveryServiceId === PARTIAL_ISSUE_SERVICE_ID) exists = true;
+      });
+      return exists;
+    },
+    // Показывать кнопку "Частичная выдача"
+    showPartialIssueBtn() {
+      return (
+        this.order.currentStatus.statusInfo.stageId === 4 &&
+        !this.order.currentStatus.statusInfo.isEnd &&
+        this.partialIssueAllowed &&
+        !this.editGoods
+      );
+    },
+    // Показывать кнопку "Возврат"
+    showReturnBtn() {
+      return (
+        this.order.currentStatus.statusInfo.stageId === 4 &&
+        !this.order.currentStatus.statusInfo.isEnd &&
+        !this.editGoods
+      );
+    },
+    // Показывать кнопку "Выдать"
+    showToIssueBtn() {
+      return (
+        (this.order.currentStatus.statusInfo.stageId === 4 &&
+          !this.order.currentStatus.statusInfo.isEnd) ||
+        this.editGoods
+      );
+    },
   },
   methods: {
     ...mapMutations('orders', ['setOpened']),
+    ...mapActions('common', ['loadDeliveryServices']),
+    // Сохранение изменений в заказе
     save() {
       // this.$refs.order.validate(valid => {
       // if (valid) {}
       // });
     },
-    printDocument() {},
-    removeGoods() {},
-    partialIssue() {},
-    toIssue() {},
+    // Удаление товара из заказа
+    removeGoodsItem(index) {
+      this.order.goods.splice(index, 1);
+    },
+    // Включение режима частичной выдачи
+    partialIssue() {
+      this.editGoods = true;
+    },
+    // Выдача
+    toIssue() {
+      // Выбор способа оплаты
+      this.$confirm(this.$t('paymentIsMadeByCard'), this.$t('paymentType'), {
+        confirmButtonText: this.$t('byCard'),
+        cancelButtonText: this.$t('inCash'),
+        distinguishCancelAndClose: true,
+        closeOnPressEscape: false,
+      })
+        // Картой
+        .then(() => {
+          console.log('Картой');
+        })
+        // Наличными
+        .catch(action => {
+          if (action === 'cancel') {
+            console.log('Наличными');
+          }
+        });
+    },
+    // Возврат
     toReturn() {},
+  },
+  created() {
+    this.loadDeliveryServices();
   },
   watch: {
     opened: {
       handler(opened) {
+        this.editGoods = false;
+
         // eslint-disable-next-line
         this.order = opened !== null
-            ? cloneDeep(this.orders.data[opened])
-            : null;
+          ? cloneDeep(this.orders.data[opened])
+          : null;
       },
       immediate: true,
     },

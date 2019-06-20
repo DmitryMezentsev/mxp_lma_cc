@@ -49,9 +49,7 @@ module.exports = (env = {}) => {
           html5: true,
         },
       }),
-      new WebappWebpackPlugin(
-        path.join(__dirname, 'src/common/img/favicon.png'),
-      ),
+      new WebappWebpackPlugin(path.join(__dirname, 'src/common/img/favicon.png')),
       new VueLoaderPlugin(),
       new webpack.DefinePlugin({
         BUILD_IS_DEV: isDev,
@@ -104,6 +102,11 @@ module.exports = (env = {}) => {
           ],
         },
         {
+          test: /\.scss$/,
+          exclude: /node_modules/,
+          use: ['style-loader', 'css-loader', 'sass-loader'],
+        },
+        {
           test: /\.css$/,
           use: ['style-loader', 'css-loader'],
         },
@@ -114,7 +117,7 @@ module.exports = (env = {}) => {
       ],
     },
     resolve: {
-      extensions: ['.vue', '.js', '.less', '.css'],
+      extensions: ['.vue', '.js', '.less', '.css', '.scss'],
       alias: {
         Base: path.resolve(__dirname, 'src/'),
         Common: path.resolve(__dirname, 'src/common/'),

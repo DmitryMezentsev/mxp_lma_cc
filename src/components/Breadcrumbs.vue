@@ -1,16 +1,16 @@
 <template>
   <el-breadcrumb separator-class="el-icon-arrow-right">
     <el-breadcrumb-item :to="{ name: homeRoute.name }">
-      {{ getRoutePageName(homeRoute) }}
-    </el-breadcrumb-item>
+      {{ getRoutePageName(homeRoute) }}</el-breadcrumb-item
+    >
     <el-breadcrumb-item
       v-for="(route, i) in path"
       v-if="!route.meta.isHome"
       :to="!route.redirect ? { name: route.name } : null"
       :key="i"
     >
-      {{ getRoutePageName(route) }}
-    </el-breadcrumb-item>
+      {{ getRoutePageName(route) }}</el-breadcrumb-item
+    >
   </el-breadcrumb>
 </template>
 

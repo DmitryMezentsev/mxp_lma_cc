@@ -47,7 +47,7 @@
       <el-button @click="closeZone" :disabled="waiting">
         {{ $t('close') }}
       </el-button>
-      <el-button type="primary" @click="save" :disabled="waiting" :loading="waiting">
+      <el-button type="success" @click="save" :disabled="waiting" :loading="waiting">
         {{ $t('save') }}
       </el-button>
     </span>
@@ -60,7 +60,7 @@ import get from 'lodash/get';
 import { mapState, mapActions } from 'vuex';
 
 import { centerCoordsFromGeometry } from 'Common/js/helpers';
-import { DANGER_COLOR, SUCCESS_COLOR } from 'Constants/colors';
+import { BLUE_COLOR, DANGER_COLOR, SUCCESS_COLOR } from 'Constants/colors';
 import mixins from 'Common/js/mixins';
 import Waiting from 'Components/Waiting';
 import Map from 'Components/Map';
@@ -133,6 +133,8 @@ export default {
           if (center) this.map.setCenter(centerCoordsFromGeometry(newGeometry));
         }
       });
+
+      this.map.data.setStyle({ fillColor: BLUE_COLOR, strokeWeight: 1 });
     },
     save() {
       this.$refs.zone.validate(valid => {

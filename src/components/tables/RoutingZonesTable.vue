@@ -15,12 +15,12 @@
           v-if="scope.row.properties.isOperating"
         >
           <el-button type="danger" size="mini" @click="setZoneActive(scope.row.geoId, false)">
-            <i class="fas fa-archive"></i>
+            <fa-icon icon="archive" />
           </el-button>
         </el-tooltip>
         <el-tooltip :content="$t('restore')" placement="left" v-else>
           <el-button type="primary" size="mini" @click="setZoneActive(scope.row.geoId, true)">
-            <i class="fas fa-redo-alt"></i>
+            <fa-icon icon="redo-alt" />
           </el-button>
         </el-tooltip>
       </template>

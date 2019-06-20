@@ -18,7 +18,7 @@
       <template slot="header" slot-scope="scope">
         {{ $t('pickupDate') }}&nbsp;
         <el-tooltip :content="$t('clientTimezoneMsg')" placement="top">
-          <i class="far fa-question-circle"></i>
+          <fa-icon icon="question-circle" />
         </el-tooltip>
       </template>
       <template slot-scope="scope">

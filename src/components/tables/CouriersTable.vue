@@ -31,7 +31,7 @@
               size="mini"
               @click="setCourierActive(scope.row.courierId, false)"
             >
-              <i class="fas fa-archive"></i>
+              <fa-icon icon="archive" />
             </el-button>
           </el-tooltip>
           <el-tooltip :content="$t('restore')" placement="left" v-else>
@@ -40,12 +40,12 @@
               size="mini"
               @click="setCourierActive(scope.row.courierId, true)"
             >
-              <i class="fas fa-redo-alt"></i>
+              <fa-icon icon="redo-alt" />
             </el-button>
           </el-tooltip>
           <el-tooltip :content="$t('printBadge')" placement="top" v-if="scope.row.isActive">
             <el-button type="primary" size="mini" @click="printBadge(scope.row.courierId)">
-              <i class="fas fa-id-badge"></i>
+              <fa-icon icon="id-badge" />
             </el-button>
           </el-tooltip>
         </el-button-group>

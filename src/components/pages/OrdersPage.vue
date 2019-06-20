@@ -8,8 +8,10 @@
       class="total"
     >
       {{ $t('totalOrders') }}: {{ list.totalCount | number }}. {{ $t('totalPriceDeclared') }}:
-      {{ list.sumPriceDeclared | currency }}. {{ $t('totalRevenues') }}: {{ 0 | currency }}.
-    </div>
+      <!-- eslint-disable-next-line -->
+      {{ list.sumPriceDeclared | currency }}.
+      {{ $t('totalRevenues') }}:
+      {{ 0 | currency }}.</div>
     <br />
     <el-button
       v-if="$route.params.type === 'courier' && list.data && list.data.length"
