@@ -219,7 +219,7 @@
                 class="compact"
                 v-if="editGoods"
                 :min="1"
-                :max="9999"
+                :max="maxGoodsCounts[scope.row.itemId]"
               />
               <span v-else>{{ scope.row.counting.count }} {{ $t('pc') }}</span>
             </template>
@@ -328,6 +328,16 @@ export default {
       });
 
       return services;
+    },
+    // Максимальные значения количества товаров
+    maxGoodsCounts() {
+      const max = {};
+      if (this.opened !== null) {
+        this.orders.data[this.opened].goods.forEach(item => {
+          max[item.itemId] = item.counting.count;
+        });
+      }
+      return max;
     },
     // Сумма товаров
     goodsSum() {
