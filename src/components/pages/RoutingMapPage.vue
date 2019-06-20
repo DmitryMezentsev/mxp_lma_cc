@@ -31,14 +31,20 @@ export default {
     ...mapActions('geo', ['loadList']),
     mapInit(map) {
       this.map = map;
+      this.drawZones();
     },
     loadZones() {
       this.loadList();
     },
-    drawZones(data) {
+    drawZones() {
+      if (!this.list.data) return;
+
+      // Очистка карты от имеющихся зон
+      this.map.data.forEach(poly => this.map.data.remove(poly));
+
       const center = { lat: 0, lng: 0 };
 
-      data.forEach(({ type, geometry }) => {
+      this.list.data.forEach(({ type, geometry }) => {
         const zone = {
           type: 'FeatureCollection',
           features: [{ type, geometry, properties: {} }],
@@ -51,8 +57,8 @@ export default {
         center.lng += zoneCenter.lng;
       });
 
-      center.lat /= data.length;
-      center.lng /= data.length;
+      center.lat /= this.list.data.length;
+      center.lng /= this.list.data.length;
 
       this.map.setCenter(center);
       this.map.data.setStyle({ fillColor: BLUE_COLOR, strokeWeight: 1 });
@@ -66,8 +72,8 @@ export default {
     next();
   },
   watch: {
-    list(list) {
-      if (list.data) this.drawZones(list.data);
+    list() {
+      this.drawZones();
     },
   },
 };
