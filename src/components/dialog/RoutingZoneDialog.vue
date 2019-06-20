@@ -41,13 +41,13 @@
       <el-button @click.prevent="save" native-type="submit" class="hidden" />
     </el-form>
     <span v-if="zone" slot="footer" class="dialog-footer">
-      <el-button @click="clearMap" :disabled="waiting">
+      <el-button @click="clearMap" :disabled="waiting" v-autoblur>
         {{ $t('clearMap') }}
       </el-button>
       <el-button @click="closeZone" :disabled="waiting">
         {{ $t('close') }}
       </el-button>
-      <el-button type="success" @click="save" :disabled="waiting" :loading="waiting">
+      <el-button type="primary" @click="save" :disabled="waiting" :loading="waiting">
         {{ $t('save') }}
       </el-button>
     </span>
@@ -64,9 +64,11 @@ import { BLUE_COLOR, DANGER_COLOR, SUCCESS_COLOR } from 'Constants/colors';
 import mixins from 'Common/js/mixins';
 import Waiting from 'Components/Waiting';
 import Map from 'Components/Map';
+import autoblur from 'Directives/autoblur';
 
 export default {
   name: 'RoutingZoneDialog',
+  directives: { autoblur },
   components: { Waiting, Map },
   mixins: [mixins],
   data() {

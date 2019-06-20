@@ -196,7 +196,7 @@
             :loading="processing === 'saving'"
             @click.prevent="submit"
             native-type="submit"
-            type="success"
+            type="primary"
           >
             {{ $t(isAdd ? 'createCourier' : 'saveChanges') }}
           </el-button>

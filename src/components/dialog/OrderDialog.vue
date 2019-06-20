@@ -260,7 +260,7 @@
       <el-button @click="toIssue" type="success" v-if="showToIssueBtn">
         {{ $t('toIssue') }}
       </el-button>
-      <el-button type="success" @click="save" v-if="!order.currentStatus.statusInfo.isEnd">
+      <el-button type="primary" @click="save" v-if="!order.currentStatus.statusInfo.isEnd">
         {{ $t('save') }}
       </el-button>
     </span>
