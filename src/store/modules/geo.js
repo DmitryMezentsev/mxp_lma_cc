@@ -10,6 +10,7 @@ export default {
       pageCount: 0,
     },
     opened: null,
+    selectCourierDialogData: null,
   },
   mutations: {
     clearList(state) {
@@ -24,6 +25,9 @@ export default {
     },
     setOpened(state, payload) {
       state.opened = payload;
+    },
+    setSelectCourierDialogData(state, payload) {
+      state.selectCourierDialogData = payload;
     },
   },
   actions: {

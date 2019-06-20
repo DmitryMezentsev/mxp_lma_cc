@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
 
 import RoutingMapFilters from 'Components/filters/RoutingMapFilters';
 import Map from 'Components/Map';
@@ -28,13 +28,17 @@ export default {
     ...mapState('geo', ['list']),
   },
   methods: {
+    ...mapMutations('geo', ['setSelectCourierDialogData']),
     ...mapActions('geo', ['loadList']),
     mapInit(map) {
       this.map = map;
       this.drawZones();
     },
     loadZones() {
-      this.loadList();
+      this.loadList({
+        isOperating: true,
+        perPage: 0,
+      });
     },
     drawZones() {
       if (!this.list.data) return;
@@ -44,10 +48,16 @@ export default {
 
       const center = { lat: 0, lng: 0 };
 
-      this.list.data.forEach(({ type, geometry }) => {
+      this.list.data.forEach(({ type, geometry, geoId, properties: { name } }) => {
         const zone = {
           type: 'FeatureCollection',
-          features: [{ type, geometry, properties: {} }],
+          features: [
+            {
+              type,
+              geometry,
+              properties: { geoId, name },
+            },
+          ],
         };
 
         this.map.data.addGeoJson(zone);
@@ -62,6 +72,13 @@ export default {
 
       this.map.setCenter(center);
       this.map.data.setStyle({ fillColor: BLUE_COLOR, strokeWeight: 1 });
+
+      this.map.data.addListener('click', e => {
+        this.setSelectCourierDialogData({
+          id: e.feature.getProperty('geoId'),
+          name: e.feature.getProperty('name'),
+        });
+      });
     },
     drawPoints() {},
   },
