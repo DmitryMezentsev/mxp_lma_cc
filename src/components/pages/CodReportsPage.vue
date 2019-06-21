@@ -1,17 +1,17 @@
 <template>
   <div>
-    <ReportingStatementsTable :loading="loading" :data="reports" />
+    <CodReportsTable :loading="loading" :data="reports" />
     <Pagination :total="total" />
   </div>
 </template>
 
 <script>
-import ReportingStatementsTable from 'Components/tables/ReportingStatementsTable';
+import CodReportsTable from 'Components/tables/CodReportsTable';
 import Pagination from 'Components/Pagination';
 
 export default {
-  name: 'ReportingStatementsPage',
-  components: { Pagination, ReportingStatementsTable },
+  name: 'CodReportsPage',
+  components: { Pagination, CodReportsTable },
   data() {
     return {
       loading: false,

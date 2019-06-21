@@ -13,7 +13,9 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import { mapState, mapMutations, mapActions } from 'vuex';
+import * as VueGoogleMaps from 'vue2-google-maps';
 
 import locale from 'element-ui/lib/locale';
 import elementLocaleRU from 'element-ui/lib/locale/lang/ru-RU';
@@ -23,6 +25,7 @@ import elementLocaleZH from 'element-ui/lib/locale/lang/zh-CN';
 import mixins from 'Common/js/mixins';
 import Breadcrumbs from 'Components/Breadcrumbs';
 import Sidebar from 'Components/Sidebar';
+import { GOOGLE_MAPS_API_KEY } from 'Common/js/env';
 
 const elementLocalesMap = {
   RU: elementLocaleRU,
@@ -81,7 +84,12 @@ export default {
         this.setPageTitle(this.getRoutePageName());
 
         // Подключение Google Maps
-        window.app.includeGoogleMaps(user.locale.toLowerCase());
+        Vue.use(VueGoogleMaps, {
+          load: {
+            key: GOOGLE_MAPS_API_KEY,
+            language: user.locale.toLowerCase(),
+          },
+        });
       }
     },
   },

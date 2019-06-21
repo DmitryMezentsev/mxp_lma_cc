@@ -2,7 +2,7 @@
   <div class="sidebar" :class="{ collapsed }">
     <div class="wrap">
       <router-link class="logo" :to="{ name: 'home' }">
-        <img src="../common/img/logo.png" alt="MXP" />
+        <img src="~Common/img/logo.png" alt="MXP" />
       </router-link>
       <div class="search">
         <el-input
@@ -23,23 +23,15 @@
         @open="submenuOpen"
         @close="submenuClose"
       >
-        <el-submenu index="0">
-          <template slot="title">
-            <fa-icon icon="user" />
-            <span slot="title">{{ $t('account') }}</span>
-          </template>
-          <el-menu-item
-            index="0-1"
-            @click="scrollTop"
-            :route="{ name: 'accountSettings' }"
-            v-is-route="'accountSettings'"
-          >
-            <span slot="title">{{ $t('settings') }}</span>
-          </el-menu-item>
-          <el-menu-item index="0-2" @click="clearToken">
-            <span slot="title">{{ $t('logout') }}</span>
-          </el-menu-item>
-        </el-submenu>
+        <el-menu-item
+          index="0"
+          @click="scrollTop"
+          :route="{ name: 'settings' }"
+          v-is-route="'settings'"
+        >
+          <fa-icon icon="cogs" />
+          <span slot="title">{{ $t('settings') }}</span>
+        </el-menu-item>
         <el-submenu index="1">
           <template slot="title">
             <fa-icon icon="file-alt" />
@@ -139,10 +131,10 @@
           <el-menu-item
             index="7-2"
             @click="scrollTop"
-            :route="{ name: 'reportingStatements' }"
-            v-is-route="'reportingStatements'"
+            :route="{ name: 'codReports' }"
+            v-is-route="'codReports'"
           >
-            <span slot="title">{{ $t('reportingStatements') }}</span>
+            <span slot="title">{{ $t('codReports') }}</span>
           </el-menu-item>
           <el-menu-item
             index="7-3"
@@ -153,6 +145,10 @@
             <span slot="title">{{ $t('serviceActs') }}</span>
           </el-menu-item>
         </el-submenu>
+        <el-menu-item index="8" @click="clearToken">
+          <fa-icon icon="sign-out-alt" />
+          <span slot="title">{{ $t('logout') }}</span>
+        </el-menu-item>
       </el-menu>
     </div>
   </div>
@@ -298,18 +294,60 @@ export default {
       &.svg-inline--fa {
         margin-right: 0.75em;
 
-        &.fa-file-alt {
-          font-size: 1.25em;
+        &.fa-cogs {
+          margin-right: 0.5em;
         }
 
-        &.fa-warehouse,
-        &.fa-users {
+        &.fa-truck-loading {
+          margin-right: 0.6em;
+        }
+
+        &.fa-file-alt {
+          font-size: 1.25em;
+          margin-right: 0.7em;
+        }
+
+        &.fa-warehouse {
           font-size: 0.96em;
+          margin-right: 0.625em;
+        }
+
+        &.fa-users {
+          margin-right: 0.55em;
         }
 
         &.fa-user-tie {
           font-size: 1.17em;
+          margin-right: 0.65em;
         }
+
+        &.fa-map-marked-alt {
+          margin-right: 0.65em;
+        }
+
+        &.fa-book {
+          margin-right: 0.82em;
+          font-size: 1.06em;
+        }
+
+        &.fa-sign-out-alt {
+          margin-right: 0.61em;
+          font-size: 1.12em;
+        }
+      }
+    }
+  }
+
+  .el-submenu__title,
+  .el-menu-item {
+    height: 40px;
+    line-height: 37px;
+  }
+
+  .el-submenu {
+    .el-menu {
+      .el-menu-item {
+        padding-left: 35px !important;
       }
     }
   }
@@ -355,6 +393,8 @@ export default {
 
     .el-menu-item {
       color: @primary-text-color;
+      height: 40px;
+      line-height: 37px;
 
       &:hover {
         color: @blue-color;

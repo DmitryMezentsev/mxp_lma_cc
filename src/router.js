@@ -1,8 +1,7 @@
 import VueRouter from 'vue-router';
 
 import HomePage from 'Components/pages/HomePage';
-import AccountPage from 'Components/pages/AccountPage';
-import AccountSettingsPage from 'Components/pages/AccountSettingsPage';
+import SettingsPage from 'Components/pages/SettingsPage';
 import OrdersPage from 'Components/pages/OrdersPage';
 import PickupsPage from 'Components/pages/PickupsPage';
 import ClientsPage from 'Components/pages/ClientsPage';
@@ -12,7 +11,7 @@ import CourierPage from 'Components/pages/CourierPage';
 import RoutingPage from 'Components/pages/RoutingPage';
 import ReportingPage from 'Components/pages/ReportingPage';
 import CourierCalculationPage from 'Components/pages/CourierCalculationPage';
-import ReportingStatementsPage from 'Components/pages/ReportingStatementsPage';
+import CodReportsPage from 'Components/pages/CodReportsPage';
 import ServiceActsPage from 'Components/pages/ServiceActsPage';
 import RoutingMapPage from 'Components/pages/RoutingMapPage';
 import RoutingSummaryPage from 'Components/pages/RoutingSummaryPage';
@@ -27,17 +26,9 @@ export default new VueRouter({
       meta: { isHome: true },
     },
     {
-      name: 'account',
-      path: '/account',
-      component: AccountPage,
-      redirect: '/account/settings',
-      children: [
-        {
-          name: 'accountSettings',
-          path: 'settings',
-          component: AccountSettingsPage,
-        },
-      ],
+      name: 'settings',
+      path: '/settings',
+      component: SettingsPage,
     },
     {
       name: 'orders',
@@ -138,9 +129,9 @@ export default new VueRouter({
           component: CourierCalculationPage,
         },
         {
-          name: 'reportingStatements',
-          path: 'reporting-statements',
-          component: ReportingStatementsPage,
+          name: 'codReports',
+          path: 'cod',
+          component: CodReportsPage,
         },
         {
           name: 'serviceActs',
