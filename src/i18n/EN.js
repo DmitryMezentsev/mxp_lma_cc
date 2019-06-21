@@ -39,7 +39,6 @@ export default {
   reportDate: 'Report date',
   creatingDate: 'Creating date',
   payDate: 'Pay date',
-  report: 'Report',
   paySum: 'Pay sum',
   noReports: 'No reports',
   save: 'Save',

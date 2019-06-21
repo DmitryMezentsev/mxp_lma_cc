@@ -39,7 +39,6 @@ export default {
   reportDate: 'Дата отчета',
   creatingDate: 'Дата создания',
   payDate: 'Дата оплаты',
-  report: 'Отчет',
   paySum: 'Сумма к оплате',
   noReports: 'Нет отчетов для отображения',
   save: 'Сохранить',
