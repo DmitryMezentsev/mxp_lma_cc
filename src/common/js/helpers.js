@@ -38,7 +38,7 @@ export const getExtensionFromBase64 = base64 => {
     'image/bmp': 'bmp',
     'image/tiff': 'tiff',
     'application/pdf': 'pdf',
-    'application/vnd.ms-excel': 'xlsx',
+    'application/vnd.ms-excel': 'xls',
   };
 
   return extensions[mime];
