@@ -18,6 +18,7 @@ import {
   faQuestionCircle,
   faSignOutAlt,
   faCogs,
+  faDownload,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faCheck);
@@ -35,5 +36,6 @@ library.add(faIdBadge);
 library.add(faQuestionCircle);
 library.add(faSignOutAlt);
 library.add(faCogs);
+library.add(faDownload);
 
 Vue.component('fa-icon', FontAwesomeIcon);

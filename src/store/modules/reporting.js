@@ -43,7 +43,7 @@ export default {
     loadCodReports({ commit }, params) {
       commit('clearCodReports', null);
 
-      api.get('/CODReport', { params }).then(({ data, headers }) => {
+      api.get('/report', { params }).then(({ data, headers }) => {
         commit('setCodReports', {
           data,
           totalCount: Number(headers[HEADER_PG_TOTAL_COUNT]),

@@ -213,4 +213,5 @@ export default {
   deliveryServicesLoadingError: '',
   noServices: '',
   paymentIsMadeByCard: '',
+  downloadReport: '',
 };

@@ -214,4 +214,5 @@ export default {
   deliveryServicesLoadingError: 'Delivery services loading error',
   noServices: 'No services',
   paymentIsMadeByCard: 'Payment is made by card?',
+  downloadReport: 'Download report',
 };

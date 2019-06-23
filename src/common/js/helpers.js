@@ -26,7 +26,7 @@ export const generateRandomString = (len = 8) => {
 // Возвращает MIME-type из base64
 export const getMimeFromBase64 = base64 => {
   const mime = base64.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/);
-  return mime && mime.length ? mime[1] : null;
+  return get(mime, '[1]', null);
 };
 
 // Определяет расширение файла по base64
@@ -38,6 +38,7 @@ export const getExtensionFromBase64 = base64 => {
     'image/bmp': 'bmp',
     'image/tiff': 'tiff',
     'application/pdf': 'pdf',
+    'application/vnd.ms-excel': 'xlsx',
   };
 
   return extensions[mime];

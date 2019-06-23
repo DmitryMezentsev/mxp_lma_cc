@@ -215,4 +215,5 @@ export default {
   deliveryServicesLoadingError: 'Ошибка загрузки списка услуг',
   noServices: 'Нет услуг',
   paymentIsMadeByCard: 'Оплата будет произведена картой?',
+  downloadReport: 'Скачать отчет',
 };

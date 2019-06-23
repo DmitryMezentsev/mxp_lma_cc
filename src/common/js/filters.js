@@ -34,6 +34,8 @@ export const currency = (val = 0) => {
 
 // Выводит в отформатированном виде дату (и время)
 export const formatDate = (date, showTime) => {
+  if (!date) return '—';
+
   const { locale, timezone } = getStore().getters['auth/getCurrentUser'];
 
   switch (locale) {
