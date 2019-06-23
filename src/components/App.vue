@@ -54,6 +54,9 @@ export default {
   },
   methods: {
     ...mapMutations('common', ['setClientWidth']),
+    ...mapMutations('geo', { setOpenedZone: 'setOpened' }),
+    ...mapMutations('orders', { setOpenedOrder: 'setOpened' }),
+    ...mapMutations('pickups', { setOpenedPickup: 'setOpened' }),
     ...mapActions('auth', ['getToken', 'loadCurrentUser']),
   },
   mounted() {
@@ -91,6 +94,12 @@ export default {
           },
         });
       }
+    },
+    $route() {
+      // Закрытие открытых модальных окон при изменении роута
+      this.setOpenedZone(null);
+      this.setOpenedOrder(null);
+      this.setOpenedPickup(null);
     },
   },
 };
