@@ -1,5 +1,5 @@
 <template>
-  <el-table v-loading="data === null" :data="data" :empty-text="$t('noReports')">
+  <el-table v-loading="loading" :data="data" :empty-text="$t(loading ? 'pleaseWait' : 'noReports')">
     <el-table-column :label="$t('reportDate')" key="col-report-date">
       <template slot-scope="scope">{{ scope.row.info.date | formatDate }}</template>
     </el-table-column>
@@ -40,6 +40,9 @@ export default {
   },
   computed: {
     ...mapState('common', ['clientWidth']),
+    loading() {
+      return this.data === null;
+    },
   },
   methods: {
     download({ _id, info }) {
