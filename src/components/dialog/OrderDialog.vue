@@ -64,7 +64,14 @@
           </el-col>
           <el-col :span="14" :xs="24">
             <el-form-item :label="$t('deliveryAddress')">
+              <el-autocomplete
+                v-if="currentUser.locale === 'RU' && !order.currentStatus.statusInfo.isEnd"
+                v-model="order.recipient.address.value"
+                :fetch-suggestions="dadataCleanAddress"
+                :debounce="700"
+              />
               <el-input
+                v-else
                 class="custom-readonly"
                 v-model="order.recipient.address.value"
                 :readonly="order.currentStatus.statusInfo.isEnd"
@@ -298,6 +305,7 @@ export default {
     };
   },
   computed: {
+    ...mapState('auth', ['currentUser']),
     ...mapState('common', ['clientWidth', 'deliveryServices']),
     ...mapState('orders', {
       orders: 'list',
@@ -502,6 +510,10 @@ h4 {
 
 .el-input-group {
   vertical-align: 2px;
+}
+
+.el-autocomplete {
+  display: block;
 }
 
 @media (max-width: 767px) {
