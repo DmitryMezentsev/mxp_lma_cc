@@ -1,5 +1,5 @@
 import api from 'Common/js/api';
-import { HEADER_PG_PAGE_COUNT, HEADER_PG_TOTAL_COUNT } from 'Constants/config';
+import { HEADER_PG_PAGE_COUNT } from 'Constants/config';
 
 export default {
   namespaced: true,
@@ -7,8 +7,7 @@ export default {
     courierCalculation: null,
     codReports: {
       data: null,
-      totalCount: 0,
-      pageCount: 0,
+      pages: 0,
     },
   },
   mutations: {
@@ -21,8 +20,7 @@ export default {
     clearCodReports(state) {
       state.codReports = {
         data: null,
-        totalCount: 0,
-        pageCount: 0,
+        pages: 0,
       };
     },
   },
@@ -46,8 +44,7 @@ export default {
       api.get('/report', { params }).then(({ data, headers }) => {
         commit('setCodReports', {
           data,
-          totalCount: Number(headers[HEADER_PG_TOTAL_COUNT]),
-          pageCount: Number(headers[HEADER_PG_PAGE_COUNT]),
+          pages: Number(headers[HEADER_PG_PAGE_COUNT]),
         });
       });
     },

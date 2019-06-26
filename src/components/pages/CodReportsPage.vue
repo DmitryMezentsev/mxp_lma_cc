@@ -1,7 +1,7 @@
 <template>
   <div>
     <CodReportsTable :data="codReports.data" />
-    <Pagination :total="codReports.totalCount" :max-page="codReports.pageCount" />
+    <Pagination :max-page="codReports.pages" />
   </div>
 </template>
 

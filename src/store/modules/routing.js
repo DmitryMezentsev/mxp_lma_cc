@@ -1,31 +1,29 @@
 import api from 'Common/js/api';
-import { HEADER_PG_PAGE_COUNT, HEADER_PG_TOTAL_COUNT } from 'Constants/config';
+import { HEADER_PG_PAGE_COUNT } from 'Constants/config';
 
 export default {
   namespaced: true,
   state: {
-    list: {
+    zonesList: {
       data: null,
-      totalCount: 0,
-      pageCount: 0,
+      pages: 0,
     },
-    opened: null,
+    openedZone: null,
     selectCourierToZone: null,
     selectCourierToOrder: null,
   },
   mutations: {
-    clearList(state) {
-      state.list = {
+    clearZonesList(state) {
+      state.zonesList = {
         data: null,
-        totalCount: 0,
-        pageCount: 0,
+        pages: 0,
       };
     },
-    setList(state, payload) {
-      state.list = payload;
+    setZonesList(state, payload) {
+      state.zonesList = payload;
     },
-    setOpened(state, payload) {
-      state.opened = payload;
+    setOpenedZone(state, payload) {
+      state.openedZone = payload;
     },
     setSelectCourierToZone(state, payload) {
       state.selectCourierToZone = payload;
@@ -35,14 +33,13 @@ export default {
     },
   },
   actions: {
-    loadList({ commit }, params) {
-      commit('clearList');
+    loadZonesList({ commit }, params) {
+      commit('clearZonesList');
 
       api.get('geo', { params }).then(({ data, headers }) => {
-        commit('setList', {
+        commit('setZonesList', {
           data,
-          totalCount: Number(headers[HEADER_PG_TOTAL_COUNT]),
-          pageCount: Number(headers[HEADER_PG_PAGE_COUNT]),
+          pages: Number(headers[HEADER_PG_PAGE_COUNT]),
         });
       });
     },
@@ -64,7 +61,7 @@ export default {
         .catch(() => callback());
     },
     createNewZone({ commit }) {
-      commit('setOpened', {
+      commit('setOpenedZone', {
         properties: {
           name: '',
           isOperating: true,
@@ -74,12 +71,12 @@ export default {
       });
     },
     openZone({ commit }, id) {
-      commit('setOpened', null);
+      commit('setOpenedZone', null);
 
-      api.get(`geo/${id}`).then(({ data }) => commit('setOpened', data));
+      api.get(`geo/${id}`).then(({ data }) => commit('setOpenedZone', data));
     },
     closeZone({ commit }) {
-      commit('setOpened', null);
+      commit('setOpenedZone', null);
     },
   },
 };

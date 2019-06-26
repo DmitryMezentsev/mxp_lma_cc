@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     ...mapMutations('common', ['setClientWidth']),
-    ...mapMutations('geo', { setOpenedZone: 'setOpened' }),
+    ...mapMutations('routing', ['setOpenedZone']),
     ...mapMutations('orders', { setOpenedOrder: 'setOpened' }),
     ...mapMutations('pickups', { setOpenedPickup: 'setOpened' }),
     ...mapActions('auth', ['getToken', 'loadCurrentUser']),

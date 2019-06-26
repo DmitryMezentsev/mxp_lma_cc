@@ -1,12 +1,12 @@
 <template>
-  <div class="pagination-wrap" v-if="total && total > pageSize">
+  <div class="pagination-wrap" v-if="maxPage > 1">
     <el-pagination
       background
       layout="prev, pager, next"
       :pager-count="5"
       :current-page="page"
       :page-size="pageSize"
-      :total="total"
+      :page-count="maxPage"
       @current-change="change"
     />
   </div>
@@ -23,7 +23,6 @@ export default {
   mixins: [mixins],
   props: {
     pageSize: { type: Number, default: PER_PAGE_DEFAULT },
-    total: { type: Number },
     maxPage: { type: Number },
   },
   data() {

@@ -13,8 +13,8 @@
       </el-col>
     </el-row>
     <br />
-    <RoutingZonesTable :data="list.data" @update="loadZones($route.query)" />
-    <Pagination :total="list.totalCount" :max-page="list.pageCount" />
+    <RoutingZonesTable :data="zonesList.data" @update="loadZones($route.query)" />
+    <Pagination :max-page="zonesList.pages" />
 
     <RoutingZoneDialog @update="loadZones($route.query)" />
   </div>
@@ -33,12 +33,12 @@ export default {
   name: 'RoutingZonesPage',
   components: { Pagination, RoutingZonesFilters, RoutingZonesTable, RoutingZoneDialog },
   computed: {
-    ...mapState('geo', ['list']),
+    ...mapState('routing', ['zonesList']),
   },
   methods: {
-    ...mapActions('geo', ['loadList', 'createNewZone']),
+    ...mapActions('routing', ['loadZonesList', 'createNewZone']),
     loadZones(query) {
-      this.loadList({
+      this.loadZonesList({
         perPage: PER_PAGE_DEFAULT,
         fields: ['geoId', 'properties', 'type'],
         page: query.page,

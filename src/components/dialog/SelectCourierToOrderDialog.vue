@@ -8,7 +8,7 @@ import { mapState } from 'vuex';
 export default {
   name: 'SelectCourierToOrderDialog',
   computed: {
-    ...mapState('geo', ['selectCourierToOrder']),
+    ...mapState('routing', ['selectCourierToOrder']),
   },
 };
 </script>

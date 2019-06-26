@@ -22,7 +22,7 @@
     >
       {{ $t('setCourier') }}
     </el-button>
-    <Pagination :total="list.totalCount" :max-page="list.pageCount" />
+    <Pagination :max-page="list.pages" />
 
     <OrderDialog @update="loadOrders($route)" />
 

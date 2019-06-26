@@ -36,11 +36,11 @@ export default {
     };
   },
   computed: {
-    ...mapState('geo', ['list']),
+    ...mapState('routing', ['zonesList']),
   },
   methods: {
-    ...mapMutations('geo', ['setSelectCourierToZone', 'setSelectCourierToOrder']),
-    ...mapActions('geo', ['loadList']),
+    ...mapMutations('routing', ['setSelectCourierToZone', 'setSelectCourierToOrder']),
+    ...mapActions('routing', ['loadZonesList']),
     mapInit(map) {
       this.map = map;
       this.drawZones();

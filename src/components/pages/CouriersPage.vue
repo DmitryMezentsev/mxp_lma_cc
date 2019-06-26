@@ -15,7 +15,7 @@
       </el-row>
       <br />
       <CouriersTable :data="list.data" @update="loadCouriers($route.query)" />
-      <Pagination :total="list.totalCount" :max-page="list.pageCount" />
+      <Pagination :max-page="list.pages" />
     </div>
 
     <router-view />

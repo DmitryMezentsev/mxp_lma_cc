@@ -45,7 +45,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('geo', ['openZone', 'patchZone']),
+    ...mapActions('routing', ['openZone', 'patchZone']),
     setZoneActive(id, isOperating) {
       this.confirm(
         this.$t(isOperating ? 'restoreZoneConfirmation' : 'toArchiveZoneConfirmation'),

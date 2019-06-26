@@ -13,7 +13,7 @@
     >
       {{ $t('setCourier') }}
     </el-button>
-    <Pagination :total="list.totalCount" :max-page="list.pageCount" />
+    <Pagination :max-page="list.pages" />
 
     <PickupDialog @update="loadPickups($route.query)" />
     <SelectCourierDialog

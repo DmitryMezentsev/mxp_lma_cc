@@ -1,13 +1,12 @@
 import api from 'Common/js/api';
-import { HEADER_PG_PAGE_COUNT, HEADER_PG_TOTAL_COUNT } from 'Constants/config';
+import { HEADER_PG_PAGE_COUNT } from 'Constants/config';
 
 export default {
   namespaced: true,
   state: {
     list: {
       data: null,
-      totalCount: 0,
-      pageCount: 0,
+      pages: 0,
     },
     opened: null,
     selected: [],
@@ -16,8 +15,7 @@ export default {
     clearList(state) {
       state.list = {
         data: null,
-        totalCount: 0,
-        pageCount: 0,
+        pages: 0,
       };
     },
     setList(state, payload) {
@@ -40,8 +38,7 @@ export default {
       api.get('pickup', { params }).then(({ data, headers }) => {
         commit('setList', {
           data,
-          totalCount: Number(headers[HEADER_PG_TOTAL_COUNT]),
-          pageCount: Number(headers[HEADER_PG_PAGE_COUNT]),
+          pages: Number(headers[HEADER_PG_PAGE_COUNT]),
         });
       });
     },

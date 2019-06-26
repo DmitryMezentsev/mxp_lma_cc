@@ -8,7 +8,7 @@ import { mapState } from 'vuex';
 export default {
   name: 'SelectCourierToZoneDialog',
   computed: {
-    ...mapState('geo', ['selectCourierToZone']),
+    ...mapState('routing', ['selectCourierToZone']),
   },
 };
 </script>

@@ -83,8 +83,8 @@ export default {
     };
   },
   computed: {
-    ...mapState('geo', {
-      zone: 'opened',
+    ...mapState('routing', {
+      zone: 'openedZone',
     }),
     title() {
       // eslint-disable-next-line
@@ -94,7 +94,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('geo', ['closeZone', 'saveZone']),
+    ...mapActions('routing', ['closeZone', 'saveZone']),
     mapInit(map) {
       const refreshGeoJson = () => {
         map.data.toGeoJson(geo => {

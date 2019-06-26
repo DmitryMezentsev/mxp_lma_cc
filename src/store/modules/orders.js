@@ -6,8 +6,8 @@ export default {
   state: {
     list: {
       data: null,
+      pages: 0,
       totalCount: 0,
-      pageCount: 0,
       sumPriceDeclared: 0,
     },
     opened: null,
@@ -17,8 +17,8 @@ export default {
     clearList(state) {
       state.list = {
         data: null,
+        pages: 0,
         totalCount: 0,
-        pageCount: 0,
         sumPriceDeclared: 0,
       };
     },
@@ -42,8 +42,8 @@ export default {
       api.get('order', { params }).then(({ data, headers }) => {
         commit('setList', {
           data,
+          pages: Number(headers[HEADER_PG_PAGE_COUNT]),
           totalCount: Number(headers[HEADER_PG_TOTAL_COUNT]),
-          pageCount: Number(headers[HEADER_PG_PAGE_COUNT]),
           sumPriceDeclared: parseFloat(headers['x-sum-price-declared']),
         });
       });
