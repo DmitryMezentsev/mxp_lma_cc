@@ -2,7 +2,7 @@
   <div>
     <RoutingMapFilters />
     <br />
-    <Map v-if="list" @init="mapInit" height="700px" />
+    <Map v-if="zonesList" @init="mapInit" height="700px" />
     <Waiting v-else />
 
     <SelectCourierToZoneDialog />
@@ -47,14 +47,14 @@ export default {
       this.drawOrders();
     },
     loadZones() {
-      this.loadList({
+      this.loadZonesList({
         isOperating: true,
         perPage: 0,
       });
     },
     // Отрисовка на карте зон
     drawZones() {
-      if (!this.list.data) return;
+      if (!this.zonesList.data) return;
 
       // Очистка карты от имеющихся зон
       this.map.data.forEach(i => {
@@ -63,7 +63,7 @@ export default {
 
       const center = { lat: 0, lng: 0 };
 
-      this.list.data.forEach(({ type, geometry, geoId, properties: { name } }) => {
+      this.zonesList.data.forEach(({ type, geometry, geoId, properties: { name } }) => {
         const zone = {
           type: 'FeatureCollection',
           features: [
@@ -82,8 +82,8 @@ export default {
         center.lng += zoneCenter.lng;
       });
 
-      center.lat /= this.list.data.length;
-      center.lng /= this.list.data.length;
+      center.lat /= this.zonesList.data.length;
+      center.lng /= this.zonesList.data.length;
       this.map.setCenter(center);
 
       this.map.data.setStyle({ fillColor: BLUE_COLOR, strokeWeight: 1 });
@@ -117,9 +117,11 @@ export default {
     next();
   },
   watch: {
-    list() {
-      this.drawZones();
-      this.drawOrders();
+    zonesList() {
+      this.$nextTick(() => {
+        this.drawZones();
+        this.drawOrders();
+      });
     },
   },
 };
