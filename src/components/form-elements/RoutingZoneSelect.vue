@@ -88,11 +88,26 @@ export default {
       parallel(
         ids.map(id => {
           return callback => {
-            api.get(`geo/${id}`).then(({ data }) => callback(null, data));
+            api
+              .get(`geo/${id}`)
+              .then(({ data }) => callback(null, data))
+              .catch(() => callback(null, id));
           };
         }),
         (err, zones) => {
-          this.zones = zones;
+          // Удаление значений с некорректными ID
+          // Чтобы в случае, когда зона была перенесена в архив, в селект не вываливался ID этой зоны
+          zones.forEach(zone => {
+            if (typeof zone === 'string') {
+              if (typeof this.model === 'string' && this.model === zone) {
+                this.value = null;
+              } else {
+                this.value = this.value.filter(val => val !== zone);
+              }
+            }
+          });
+
+          this.zones = zones.filter(zone => typeof zone === 'object');
           this.$nextTick(() => {
             this.zones = [];
           });

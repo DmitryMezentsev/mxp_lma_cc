@@ -86,10 +86,14 @@ export default {
       api
         .get('order', {
           params: {
+            courierId: params.courier,
+            statusId: params.status,
+            deliveryZoneId: params.zone,
+            deliveryDateFrom: params.date,
+            deliveryDateTo: params.date,
             perPage: 0,
             serviceType: 0,
             fields: ['_id', 'recipient.address.latitude', 'recipient.address.longitude'],
-            ...params,
           },
         })
         .then(({ data }) => {
