@@ -2,14 +2,15 @@
   <el-form class="filters">
     <div class="filter">
       <el-form-item :label="$t('date')">
-        <DatePicker name="date" :model="filters.date" @change="change" />
+        <DatePicker width="100%" name="date" :model="filters.date" @change="change" />
       </el-form-item>
     </div>
     <div class="filter">
-      <el-form-item :label="$t('courier')">
-        <CourierSelect
-          name="courier"
-          :model="filters.courier"
+      <el-form-item :label="$t('status')">
+        <StatusSelect
+          name="status"
+          width="100%"
+          :model="filters.status"
           :noSelectPlaceholder="$t('all')"
           clearable
           multiple
@@ -18,10 +19,11 @@
       </el-form-item>
     </div>
     <div class="filter">
-      <el-form-item :label="$t('status')">
-        <StatusSelect
-          name="status"
-          :model="filters.status"
+      <el-form-item :label="$t('courier')">
+        <CourierSelect
+          name="courier"
+          width="100%"
+          :model="filters.courier"
           :noSelectPlaceholder="$t('all')"
           clearable
           multiple
@@ -33,6 +35,7 @@
       <el-form-item :label="$t('zone')">
         <RoutingZoneSelect
           name="zone"
+          width="100%"
           :model="filters.zone"
           :noSelectPlaceholder="$t('all')"
           clearable
@@ -86,6 +89,20 @@ export default {
   flex-wrap: wrap;
 
   .filter {
+    width: 25%;
+    box-sizing: border-box;
+
+    @media (max-width: 1599px) {
+      width: 33.3333%;
+    }
+
+    @media (max-width: 1199px) {
+      width: 50%;
+    }
+
+    @media (max-width: 719px) {
+      width: 100%;
+    }
   }
 }
 </style>

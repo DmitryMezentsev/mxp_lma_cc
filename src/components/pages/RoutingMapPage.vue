@@ -36,11 +36,11 @@ export default {
     };
   },
   computed: {
-    ...mapState('routing', ['zonesList']),
+    ...mapState('routing', ['zonesList', 'ordersList']),
   },
   methods: {
     ...mapMutations('routing', ['setSelectCourierToZone', 'setSelectCourierToOrder']),
-    ...mapActions('routing', ['loadZonesList']),
+    ...mapActions('routing', ['loadZonesList', 'loadOrdersList']),
     mapInit(map) {
       this.map = map;
       this.drawZones();
@@ -51,6 +51,9 @@ export default {
         isOperating: true,
         perPage: 0,
       });
+    },
+    loadOrders(query) {
+      this.loadOrdersList(query);
     },
     // Отрисовка на карте зон
     drawZones() {
@@ -111,9 +114,13 @@ export default {
     drawOrders() {},
   },
   beforeRouteEnter(to, from, next) {
-    next(vm => vm.loadZones(to.query));
+    next(vm => {
+      vm.loadZones(to.query);
+      vm.loadOrders(to.query);
+    });
   },
   beforeRouteUpdate(to, from, next) {
+    this.loadOrders(to.query);
     next();
   },
   watch: {

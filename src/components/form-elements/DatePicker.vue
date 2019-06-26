@@ -12,6 +12,7 @@
     :end-placeholder="endPlaceholder"
     :range-separator="rangeSeparator"
     :picker-options="{ firstDayOfWeek: 1 }"
+    :style="{ width }"
   />
 </template>
 
@@ -27,6 +28,7 @@ export default {
     model: { type: [String, Array] },
     className: { type: String },
     name: { type: String },
+    width: { type: String },
     clearable: { type: Boolean, default: true },
     readonly: { type: Boolean },
     startPlaceholder: { type: String },

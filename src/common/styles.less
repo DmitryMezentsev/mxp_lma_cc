@@ -57,13 +57,13 @@ a {
   }
 
   .filter {
-    @margin: .5em;
+    @padding: .5em;
 
     float: left;
-    margin-top: @margin;
+    padding-top: @padding;
 
     &:not(:last-child) {
-      margin-right: @margin;
+      padding-right: @padding;
     }
 
     .el-form-item {
@@ -163,6 +163,10 @@ svg {
 
       .el-input__suffix i { cursor: default; }
     }
+  }
+
+  .el-select__tags {
+    overflow: hidden;
   }
 }
 

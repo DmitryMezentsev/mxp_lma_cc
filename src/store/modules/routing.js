@@ -8,6 +8,7 @@ export default {
       data: null,
       pages: 0,
     },
+    ordersList: [],
     openedZone: null,
     selectCourierToZone: null,
     selectCourierToOrder: null,
@@ -30,6 +31,9 @@ export default {
     },
     setSelectCourierToOrder(state, payload) {
       state.selectCourierToOrder = payload;
+    },
+    setOrdersList(state, payload) {
+      state.ordersList = payload;
     },
   },
   actions: {
@@ -77,6 +81,20 @@ export default {
     },
     closeZone({ commit }) {
       commit('setOpenedZone', null);
+    },
+    loadOrdersList({ commit }, params) {
+      api
+        .get('order', {
+          params: {
+            perPage: 0,
+            serviceType: 0,
+            fields: ['_id', 'recipient.address.latitude', 'recipient.address.longitude'],
+            ...params,
+          },
+        })
+        .then(({ data }) => {
+          commit('setOrdersList', data);
+        });
     },
   },
 };
