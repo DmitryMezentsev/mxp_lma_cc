@@ -1,12 +1,15 @@
 <template>
   <div>
-    <GmapMap
-      ref="map"
-      :center="MAP_CENTER"
-      :zoom="zoom"
-      :options="mapOptions"
-      :style="{ height }"
-    />
+    <GmapMap ref="map" :center="MAP_CENTER" :zoom="zoom" :options="mapOptions" :style="{ height }">
+      <GmapMarker
+        v-for="(marker, i) in markers"
+        :key="i"
+        :title="marker.title"
+        :position="{ lat: marker.lat, lng: marker.lng }"
+        clickable
+        @click="markerClick(i)"
+      />
+    </GmapMap>
     <div class="help" v-if="help">{{ help }}</div>
   </div>
 </template>
@@ -20,6 +23,7 @@ export default {
     height: { type: String, default: '400px' },
     zoom: { type: Number, default: 7 },
     help: { type: String },
+    markers: { type: Array, default: () => [] },
   },
   data() {
     return {
@@ -43,6 +47,11 @@ export default {
         ],
       },
     };
+  },
+  methods: {
+    markerClick(i) {
+      this.$emit('marker-click', i);
+    },
   },
   mounted() {
     this.$refs.map.$mapPromise.then(map => {

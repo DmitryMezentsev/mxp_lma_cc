@@ -10,8 +10,8 @@ export default {
     },
     ordersList: [],
     openedZone: null,
-    selectCourierToZone: null,
-    selectCourierToOrder: null,
+    mapZoneDetails: null,
+    mapOrderDetails: null,
   },
   mutations: {
     clearZonesList(state) {
@@ -26,11 +26,11 @@ export default {
     setOpenedZone(state, payload) {
       state.openedZone = payload;
     },
-    setSelectCourierToZone(state, payload) {
-      state.selectCourierToZone = payload;
+    setMapZoneDetails(state, payload) {
+      state.mapZoneDetails = payload;
     },
-    setSelectCourierToOrder(state, payload) {
-      state.selectCourierToOrder = payload;
+    setMapOrderDetails(state, payload) {
+      state.mapOrderDetails = payload;
     },
     setOrdersList(state, payload) {
       state.ordersList = payload;
@@ -93,7 +93,16 @@ export default {
             deliveryDateTo: params.date,
             perPage: 0,
             serviceType: 0,
-            fields: ['_id', 'recipient.address.latitude', 'recipient.address.longitude'],
+            fields: [
+              '_id',
+              'internalNumber',
+              'sender.internalNumber',
+              'recipient.address.latitude',
+              'recipient.address.longitude',
+              'recipient.address.value',
+              'deliveryOrder.dateTimeInterval',
+              'serviceInfo.courierId',
+            ],
           },
         })
         .then(({ data }) => {

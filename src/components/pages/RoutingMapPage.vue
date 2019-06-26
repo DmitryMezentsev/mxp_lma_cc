@@ -1,12 +1,12 @@
 <template>
   <div>
     <RoutingMapFilters />
-    <br />
-    <Map v-if="zonesList" @init="mapInit" height="700px" />
+    <div v-if="zonesList && ordersList" class="map-wrap">
+      <Map height="700px" :markers="ordersMarkers" @init="mapInit" @marker-click="openOrder" />
+    </div>
     <Waiting v-else />
 
-    <SelectCourierToZoneDialog />
-    <SelectCourierToOrderDialog />
+    <RoutingMapOrderDetails />
   </div>
 </template>
 
@@ -16,16 +16,14 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 import RoutingMapFilters from 'Components/filters/RoutingMapFilters';
 import Map from 'Components/Map';
 import Waiting from 'Components/Waiting';
-import SelectCourierToZoneDialog from 'Components/dialog/SelectCourierToZoneDialog';
-import SelectCourierToOrderDialog from 'Components/dialog/SelectCourierToOrderDialog';
+import RoutingMapOrderDetails from 'Components/RoutingMapOrderDetails';
 import { centerCoordsFromGeometry } from 'Common/js/helpers';
 import { BLUE_COLOR, SUCCESS_COLOR } from 'Constants/colors';
 
 export default {
   name: 'RoutingMapPage',
   components: {
-    SelectCourierToZoneDialog,
-    SelectCourierToOrderDialog,
+    RoutingMapOrderDetails,
     Waiting,
     RoutingMapFilters,
     Map,
@@ -37,23 +35,28 @@ export default {
   },
   computed: {
     ...mapState('routing', ['zonesList', 'ordersList']),
+    ordersMarkers() {
+      return this.ordersList.map(order => {
+        return {
+          title: order.internalNumber,
+          lat: parseFloat(order.recipient.address.latitude),
+          lng: parseFloat(order.recipient.address.longitude),
+        };
+      });
+    },
   },
   methods: {
-    ...mapMutations('routing', ['setSelectCourierToZone', 'setSelectCourierToOrder']),
+    ...mapMutations('routing', ['setMapZoneDetails', 'setMapOrderDetails']),
     ...mapActions('routing', ['loadZonesList', 'loadOrdersList']),
     mapInit(map) {
       this.map = map;
       this.drawZones();
-      this.drawOrders();
     },
     loadZones() {
       this.loadZonesList({
         isOperating: true,
         perPage: 0,
       });
-    },
-    loadOrders(query) {
-      this.loadOrdersList(query);
     },
     // Отрисовка на карте зон
     drawZones() {
@@ -93,7 +96,7 @@ export default {
 
       // Открытие окна назначения курьера по клику по зоне
       this.map.data.addListener('click', e => {
-        this.setSelectCourierToZone({
+        this.setMapZoneDetails({
           id: e.feature.getProperty('geoId'),
           name: e.feature.getProperty('name'),
         });
@@ -110,26 +113,35 @@ export default {
         this.map.data.revertStyle();
       });
     },
-    // Отрисовка на карте заказов
-    drawOrders() {},
+    openOrder(i) {
+      this.setMapOrderDetails(this.ordersList[i]);
+    },
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
       vm.loadZones(to.query);
-      vm.loadOrders(to.query);
+      vm.loadOrdersList(to.query);
     });
   },
   beforeRouteUpdate(to, from, next) {
-    this.loadOrders(to.query);
+    this.loadOrdersList(to.query);
+    next();
+  },
+  beforeRouteLeave(to, from, next) {
+    this.setMapZoneDetails(null);
+    this.setMapOrderDetails(null);
     next();
   },
   watch: {
     zonesList() {
-      this.$nextTick(() => {
-        this.drawZones();
-        this.drawOrders();
-      });
+      this.$nextTick(this.drawZones);
     },
   },
 };
 </script>
+
+<style lang="less" scoped>
+.map-wrap {
+  margin-top: 20px;
+}
+</style>
