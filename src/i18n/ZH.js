@@ -214,4 +214,5 @@ export default {
   noServices: '',
   paymentIsMadeByCard: '',
   downloadReport: '',
+  chatWithSupport: '',
 };

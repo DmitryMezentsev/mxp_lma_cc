@@ -41,6 +41,7 @@ export default {
           title: order.internalNumber,
           lat: parseFloat(order.recipient.address.latitude),
           lng: parseFloat(order.recipient.address.longitude),
+          color: order.serviceInfo.courierId ? 'green' : 'red',
         };
       });
     },

@@ -216,4 +216,5 @@ export default {
   noServices: 'Нет услуг',
   paymentIsMadeByCard: 'Оплата будет произведена картой?',
   downloadReport: 'Скачать отчет',
+  chatWithSupport: 'Чат с поддержкой',
 };

@@ -46,6 +46,7 @@ import OrderDialog from 'Components/dialog/OrderDialog';
 import SelectCourierDialog from 'Components/dialog/SelectCourierDialog';
 import api from 'Common/js/api';
 import { number, currency } from 'Common/js/filters';
+import { value2Array } from 'Common/js/helpers';
 
 export default {
   name: 'OrdersPage',
@@ -78,7 +79,7 @@ export default {
         search: params.type === 'search' ? query.q : null,
         deliveryDateFrom: get(query, 'deliveryDate[0]'),
         deliveryDateTo: get(query, 'deliveryDate[1]'),
-        status: query.status,
+        statusId: value2Array(query.status),
       });
     },
     setCourier(courierId) {

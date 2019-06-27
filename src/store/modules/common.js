@@ -5,6 +5,7 @@ export default {
   state: {
     clientWidth: null,
     deliveryServices: null,
+    showZammadChat: localStorage.showZammadChat === 'true' || false,
   },
   mutations: {
     setClientWidth(state, payload) {
@@ -12,6 +13,10 @@ export default {
     },
     setDeliveryServices(state, payload) {
       state.deliveryServices = payload;
+    },
+    toggleShowZammadChat(state) {
+      state.showZammadChat = !state.showZammadChat;
+      localStorage.showZammadChat = state.showZammadChat;
     },
   },
   actions: {

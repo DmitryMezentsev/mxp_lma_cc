@@ -21,3 +21,6 @@ export const MAP_CENTER = {
 
 // URL панели склада
 export const WAREHOUSE_URL = '';
+
+// Путь к скрипту чата ZammadChat
+export const ZAMMAD_CHAT_JS = '';

@@ -145,7 +145,16 @@
             <span slot="title">{{ $t('serviceActs') }}</span>
           </el-menu-item>
         </el-submenu>
-        <el-menu-item index="8" @click="clearToken">
+        <el-menu-item
+          index="8"
+          @click.native="toggleShowZammadChat"
+          class="support-toggle"
+          disabled
+        >
+          <fa-icon icon="headset" />
+          <span slot="title">{{ $t('chatWithSupport') }}</span>
+        </el-menu-item>
+        <el-menu-item index="9" @click="clearToken()">
           <fa-icon icon="sign-out-alt" />
           <span slot="title">{{ $t('logout') }}</span>
         </el-menu-item>
@@ -157,7 +166,7 @@
 <script>
 import trim from 'lodash/trim';
 import Cookies from 'js-cookie';
-import { mapActions } from 'vuex';
+import { mapMutations, mapActions } from 'vuex';
 
 import isRoute from 'Directives/is-route';
 import { COOKIES_EXP_DAYS } from 'Constants/config';
@@ -188,6 +197,7 @@ export default {
     },
   },
   methods: {
+    ...mapMutations('common', ['toggleShowZammadChat']),
     ...mapActions('auth', ['clearToken']),
     toWarehouse: () => window.open(WAREHOUSE_URL),
     searchChange(q) {
@@ -371,6 +381,13 @@ export default {
     svg,
     i {
       color: @white-color;
+    }
+
+    &.support-toggle {
+      &.is-disabled {
+        opacity: 1;
+        cursor: pointer;
+      }
     }
   }
 

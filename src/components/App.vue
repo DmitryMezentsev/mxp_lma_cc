@@ -8,6 +8,8 @@
       <div class="wrap">
         <router-view />
       </div>
+
+      <ZammadChat />
     </el-main>
   </el-container>
 </template>
@@ -25,6 +27,7 @@ import elementLocaleZH from 'element-ui/lib/locale/lang/zh-CN';
 import mixins from 'Common/js/mixins';
 import Breadcrumbs from 'Components/Breadcrumbs';
 import Sidebar from 'Components/Sidebar';
+import ZammadChat from 'Components/ZammadChat';
 import { GOOGLE_MAPS_API_KEY } from 'Common/js/env';
 
 const elementLocalesMap = {
@@ -36,7 +39,7 @@ const elementLocalesMap = {
 export default {
   name: 'App',
   mixins: [mixins],
-  components: { Breadcrumbs, Sidebar },
+  components: { ZammadChat, Breadcrumbs, Sidebar },
   data() {
     return {
       loader: null,

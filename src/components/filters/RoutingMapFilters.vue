@@ -54,6 +54,7 @@ import CourierSelect from 'Components/form-elements/CourierSelect';
 import DatePicker from 'Components/form-elements/DatePicker';
 import StatusSelect from 'Components/form-elements/StatusSelect';
 import RoutingZoneSelect from 'Components/form-elements/RoutingZoneSelect';
+import { value2Array } from 'Common/js/helpers';
 
 export default {
   name: 'RoutingMapFilters',
@@ -61,17 +62,11 @@ export default {
   mixins: [mixins],
   computed: {
     filters() {
-      function getMultiple(val) {
-        if (!val) return [];
-
-        return Array.isArray(val) ? val : [val];
-      }
-
       return {
         date: this.$route.query.date,
-        courier: getMultiple(this.$route.query.courier),
-        status: getMultiple(this.$route.query.status),
-        zone: getMultiple(this.$route.query.zone),
+        courier: value2Array(this.$route.query.courier),
+        status: value2Array(this.$route.query.status),
+        zone: value2Array(this.$route.query.zone),
       };
     },
   },

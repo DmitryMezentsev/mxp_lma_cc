@@ -1,5 +1,6 @@
 import api from 'Common/js/api';
 import { HEADER_PG_PAGE_COUNT } from 'Constants/config';
+import { value2Array } from 'Common/js/helpers';
 
 export default {
   namespaced: true,
@@ -86,9 +87,9 @@ export default {
       api
         .get('order', {
           params: {
-            courierId: params.courier,
-            statusId: params.status,
-            deliveryZoneId: params.zone,
+            courierId: value2Array(params.courier),
+            statusId: value2Array(params.status),
+            deliveryZoneId: value2Array(params.zone),
             deliveryDateFrom: params.date,
             deliveryDateTo: params.date,
             perPage: 0,

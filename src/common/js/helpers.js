@@ -74,3 +74,20 @@ export const centerCoordsFromGeometry = geometry => {
 
   return center;
 };
+
+// Подключает JS к странице
+export const addScript = (src, onload) => {
+  const script = document.createElement('script');
+
+  script.setAttribute('src', src);
+  document.body.appendChild(script);
+
+  if (onload) script.onload = onload;
+};
+
+// Помещает значение в массив в случае, если оно не является массивом
+export const value2Array = val => {
+  if (!val) return [];
+
+  return Array.isArray(val) ? val : [val];
+};

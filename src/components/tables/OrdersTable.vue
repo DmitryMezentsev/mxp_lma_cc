@@ -37,7 +37,7 @@
     />
     <el-table-column
       v-if="clientWidth > 559"
-      prop="status.name"
+      prop="currentStatus.statusInfo.name"
       :label="$t('status')"
       key="col-status"
     />

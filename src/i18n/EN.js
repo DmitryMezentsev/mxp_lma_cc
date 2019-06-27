@@ -215,4 +215,5 @@ export default {
   noServices: 'No services',
   paymentIsMadeByCard: 'Payment is made by card?',
   downloadReport: 'Download report',
+  chatWithSupport: 'Chat with support',
 };
