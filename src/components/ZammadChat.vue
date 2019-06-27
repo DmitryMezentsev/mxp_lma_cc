@@ -32,8 +32,18 @@ export default {
     },
     destroy() {
       if (this.zammadChat) {
-        this.zammadChat.destroy();
-        this.zammadChat = null;
+        // Если чат открыт, его сначала надо закрыть, потому что иначе destroy() не сработает
+        if (this.zammadChat.isOpen) {
+          this.zammadChat.close();
+
+          setTimeout(() => {
+            this.zammadChat.destroy();
+            this.zammadChat = null;
+          }, 850);
+        } else {
+          this.zammadChat.destroy();
+          this.zammadChat = null;
+        }
       }
     },
   },
