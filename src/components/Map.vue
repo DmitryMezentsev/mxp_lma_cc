@@ -45,6 +45,8 @@ export default {
         fullscreenControl: false,
         clickableIcons: false,
         gestureHandling: 'cooperative',
+        maxZoom: 18,
+        minZoom: 5,
         // Выключаем ненужные рекламные точки на карте
         styles: [
           {
