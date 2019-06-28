@@ -29,12 +29,12 @@
         {{ 0 | currency }}</template
       >
     </el-table-column>
-    <el-table-column
-      v-if="clientWidth > 1149"
-      prop="sender.brandName"
-      :label="$t('shop')"
-      key="col-shop"
-    />
+    <el-table-column v-if="clientWidth > 1149" :label="$t('shop')" key="col-shop">
+      <template slot-scope="scope">
+        <div>{{ scope.row.sender.legalPersonName || '&mdash;' }}</div>
+        <div>{{ scope.row.sender.brandName || '&mdash;' }}</div>
+      </template>
+    </el-table-column>
     <el-table-column
       v-if="clientWidth > 559"
       prop="currentStatus.statusInfo.name"
