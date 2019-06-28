@@ -46,8 +46,8 @@ export default {
         .catch(() => callback());
     },
     // Отображение окна с ворнингом
-    warning(message) {
-      this.$alert(message, this.$t('warning'), {
+    warning(message, title) {
+      this.$alert(message, title || this.$t('warning'), {
         type: 'warning',
       }).catch(() => {});
     },

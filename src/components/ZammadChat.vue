@@ -2,14 +2,16 @@
 
 <script>
 /* global ZammadChat */
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 
 import { addScript } from 'Common/js/helpers';
 import { ZAMMAD_CHAT_JS } from 'Common/js/env';
 import { BLUE_COLOR } from 'Constants/colors';
+import mixins from 'Common/js/mixins';
 
 export default {
   name: 'ZammadChat',
+  mixins: [mixins],
   data() {
     return {
       zammadChat: null,
@@ -19,6 +21,7 @@ export default {
     ...mapState('common', ['showZammadChat']),
   },
   methods: {
+    ...mapMutations('common', ['closeZammadChat']),
     init() {
       if (!this.zammadChat) {
         this.zammadChat = new ZammadChat({
@@ -28,6 +31,11 @@ export default {
           flat: true,
           chatId: 1,
         });
+
+        this.zammadChat.onError = err => {
+          this.warning(err, this.$t('chatWithSupport'));
+          this.closeZammadChat();
+        };
       }
     },
     destroy() {

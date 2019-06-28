@@ -14,6 +14,10 @@ export default {
     setDeliveryServices(state, payload) {
       state.deliveryServices = payload;
     },
+    closeZammadChat(state) {
+      state.showZammadChat = false;
+      localStorage.showZammadChat = false;
+    },
     toggleShowZammadChat(state) {
       state.showZammadChat = !state.showZammadChat;
       localStorage.showZammadChat = state.showZammadChat;
