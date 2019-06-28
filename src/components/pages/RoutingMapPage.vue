@@ -6,7 +6,7 @@
     </div>
     <Waiting v-else />
 
-    <RoutingMapOrderDetails />
+    <RoutingMapOrderDetails @update="onOrderUpdate" />
   </div>
 </template>
 
@@ -116,6 +116,9 @@ export default {
     },
     openOrder(i) {
       this.setMapOrderDetails(this.ordersList[i]);
+    },
+    onOrderUpdate() {
+      this.loadOrdersList(this.$route.query);
     },
   },
   beforeRouteEnter(to, from, next) {

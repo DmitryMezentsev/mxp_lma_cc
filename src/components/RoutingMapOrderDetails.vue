@@ -9,7 +9,7 @@
         <div>{{ mapOrderDetails.recipient.address.value }}</div>
       </section>
       <hr />
-      <section class="delivery-date">
+      <section>
         <div class="label">{{ $t('deliveryDate') }}:</div>
         <OrderDeliveryDate
           :date-time-interval="mapOrderDetails.deliveryOrder.dateTimeInterval"
@@ -76,6 +76,7 @@ export default {
             type: 'success',
           });
 
+          this.$emit('update');
           this.close();
         });
     },
@@ -87,3 +88,13 @@ export default {
   },
 };
 </script>
+
+<style lang="less" scoped>
+section {
+  .label {
+    @media (max-height: 459px) {
+      display: none;
+    }
+  }
+}
+</style>
