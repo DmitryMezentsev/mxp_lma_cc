@@ -54,6 +54,21 @@ export default {
       this.$emit('change', { name: this.name, value: this.value });
       this.$emit('update:model', this.value);
     },
+    setValue(value) {
+      this.value = this.multiple ? [] : null;
+
+      this.couriers.forEach(({ courierId }) => {
+        // Проверка, есть ли курьер с переданным в селект ID в загруженном списке
+        // Чтобы в случае, когда курьер был перенесен в архив, в селект не вываливался ID этого курьера
+        if (this.multiple) {
+          if ((Array.isArray(value) && value.includes(courierId)) || courierId === value) {
+            this.value.push(courierId);
+          }
+        } else if (courierId === value) {
+          this.value = value;
+        }
+      });
+    },
   },
   created() {
     api
@@ -62,27 +77,13 @@ export default {
       })
       .then(({ data }) => {
         this.couriers = data;
-
-        data.forEach(({ courierId }) => {
-          // Проверка, есть ли курьер с переданным в селект ID в загруженном списке
-          // Чтобы в случае, когда курьер был перенесен в архив, в селект не вываливался ID этого курьера
-          if (this.multiple) {
-            if (
-              (Array.isArray(this.model) && this.model.includes(courierId)) ||
-              courierId === this.model
-            ) {
-              this.value.push(courierId);
-            }
-          } else if (courierId === this.model) {
-            this.value = this.model;
-          }
-        });
+        this.setValue(this.model);
       });
   },
   watch: {
     model: {
       handler(model) {
-        if (this.couriers) this.value = model;
+        if (this.couriers) this.setValue(model);
       },
       immediate: true,
     },
