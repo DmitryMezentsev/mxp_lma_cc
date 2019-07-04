@@ -129,6 +129,8 @@ export default {
   },
   beforeRouteUpdate(to, from, next) {
     this.loadOrdersList(to.query);
+    this.setMapZoneDetails(null);
+    this.setMapOrderDetails(null);
     next();
   },
   beforeRouteLeave(to, from, next) {
