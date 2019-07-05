@@ -79,7 +79,7 @@ export default {
         .get(`courier/${id}`)
         .then(({ data }) => commit('setCourier', data))
         .catch(({ response }) => {
-          if (response.status === 404) window.app.$router.push({ name: 'couriers' });
+          if (response.status === 404) window.app.$router.push({ name: 'lmaCouriers' });
         });
     },
     saveCourier({ commit }, { courier, callback }) {

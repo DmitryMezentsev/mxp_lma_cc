@@ -1,4 +1,6 @@
 export default {
+  lma: 'LMA',
+  cc: 'CC',
   home: 'Home',
   editClient: 'Edit client',
   addClient: 'New client',

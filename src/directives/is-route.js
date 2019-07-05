@@ -8,6 +8,8 @@ export default (() => {
   return {
     bind(el, binding) {
       function testRoute(route) {
+        if (!binding.value) return false;
+
         if (typeof binding.value === 'string') return route.name === binding.value;
 
         if (

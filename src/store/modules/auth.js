@@ -1,10 +1,5 @@
-import Cookies from 'js-cookie';
-
 import api from 'Common/js/api';
 import { getParam, redirectToAuth } from 'Common/js/helpers';
-import { COOKIES_EXP_DAYS } from 'Constants/config';
-
-const TOKEN_COOKIE_NAME = 'token';
 
 export default {
   namespaced: true,
@@ -16,7 +11,7 @@ export default {
     setToken(state, payload) {
       state.token = payload;
       api.defaults.headers.common.Authorization = `Bearer ${payload}`;
-      Cookies.set(TOKEN_COOKIE_NAME, payload, { expires: COOKIES_EXP_DAYS });
+      localStorage.mxpSSOToken = payload;
     },
     setCurrentUser(state, payload) {
       state.currentUser = payload;
@@ -24,7 +19,7 @@ export default {
   },
   actions: {
     getToken({ commit }) {
-      const token = getParam('access_token', Cookies.get(TOKEN_COOKIE_NAME));
+      const token = getParam('access_token', localStorage.mxpSSOToken);
 
       // Если токен есть, задействуем его
       if (token) commit('setToken', token);
@@ -32,7 +27,7 @@ export default {
       else redirectToAuth();
     },
     clearToken() {
-      Cookies.remove('token');
+      localStorage.removeItem('mxpSSOToken');
       redirectToAuth();
     },
     loadCurrentUser({ commit }) {

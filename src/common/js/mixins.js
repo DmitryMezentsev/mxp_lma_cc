@@ -5,9 +5,25 @@ import { APP_TITLE } from 'Constants/config';
 
 export default {
   methods: {
-    // Устанавливает название страницы в <title>
-    setPageTitle: title => {
-      document.title = `${APP_TITLE} :: ${title}`;
+    isLMA() {
+      return this.$route.matched[0].name === 'lma';
+    },
+    isCC() {
+      return this.$route.matched[0].name === 'cc';
+    },
+    // Устанавливает название страницы в <title> вместе с названием текущего раздела
+    setPageTitle(title) {
+      let section = '';
+
+      if (this.$route.matched.length > 1) {
+        if (this.isLMA()) {
+          section = `${this.$t('lma')} /`;
+        } else if (this.isCC()) {
+          section = `${this.$t('cc')} /`;
+        }
+      }
+
+      document.title = `${APP_TITLE} :: ${section} ${title}`;
     },
     // Добавляет к текущим GET-параметрам в URL новые
     replaceRouteQueryParams(params) {

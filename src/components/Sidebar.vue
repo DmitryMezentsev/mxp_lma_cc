@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar" :class="{ collapsed }">
     <div class="wrap">
-      <router-link class="logo" :to="{ name: 'home' }">
+      <router-link class="logo" :to="{ name: homeName }">
         <img src="~Common/img/logo.png" alt="MXP" />
       </router-link>
       <div class="search">
@@ -23,141 +23,46 @@
         @open="submenuOpen"
         @close="submenuClose"
       >
-        <el-menu-item
-          index="0"
-          @click="scrollTop"
-          :route="{ name: 'settings' }"
-          v-is-route="'settings'"
-        >
-          <fa-icon icon="cogs" />
-          <span slot="title">{{ $t('settings') }}</span>
-        </el-menu-item>
-        <el-submenu index="1">
-          <template slot="title">
-            <fa-icon icon="file-alt" />
-            <span slot="title">{{ $t('orders') }}</span>
-          </template>
+        <div v-for="(item, i) in menu">
+          <el-submenu v-if="item.submenu" :index="i.toString()">
+            <template slot="title">
+              <fa-icon :icon="item.icon" />
+              <span slot="title">{{ $t(item.title) }}</span>
+            </template>
+            <el-menu-item
+              v-for="(subitem, j) in item.submenu"
+              v-is-route="subitem.isRoute || subitem.route"
+              :key="j"
+              :index="`${i.toString()}-${j.toString()}`"
+              :route="subitem.route"
+              @click="scrollTop"
+            >
+              <span slot="title">{{ $t(subitem.title) }}</span>
+            </el-menu-item>
+          </el-submenu>
           <el-menu-item
-            index="1-1"
+            v-else-if="item.route"
+            v-is-route="item.isRoute || item.route"
+            :key="i"
+            :index="i.toString()"
+            :route="item.route"
             @click="scrollTop"
-            :route="{ name: 'ordersList', params: { type: 'courier' } }"
-            v-is-route="{ name: 'ordersList', params: { type: 'courier' } }"
           >
-            <span slot="title">{{ $t('courierOrders') }}</span>
+            <fa-icon :icon="item.icon" />
+            <span slot="title">{{ $t(item.title) }}</span>
           </el-menu-item>
           <el-menu-item
-            index="1-2"
-            @click="scrollTop"
-            :route="{ name: 'ordersList', params: { type: 'point' } }"
-            v-is-route="{ name: 'ordersList', params: { type: 'point' } }"
+            v-else
+            :key="i"
+            :index="i.toString()"
+            @click.native="item.click()"
+            class="clickable"
+            disabled
           >
-            <span slot="title">{{ $t('pointOrders') }}</span>
+            <fa-icon :icon="item.icon" />
+            <span slot="title">{{ $t(item.title) }}</span>
           </el-menu-item>
-        </el-submenu>
-        <el-menu-item
-          index="2"
-          @click="scrollTop"
-          :route="{ name: 'pickups' }"
-          v-is-route="'pickups'"
-        >
-          <fa-icon icon="truck-loading" />
-          <span slot="title">{{ $t('pickups') }}</span>
-        </el-menu-item>
-        <el-menu-item index="3" @click="toWarehouse">
-          <fa-icon icon="warehouse" />
-          <span slot="title">{{ $t('warehouse') }}</span>
-        </el-menu-item>
-        <el-menu-item
-          index="4"
-          @click="scrollTop"
-          :route="{ name: 'clients' }"
-          v-is-route="{ name: ['clients', 'addClient', 'editClient'] }"
-        >
-          <fa-icon icon="users" />
-          <span slot="title">{{ $t('clients') }}</span>
-        </el-menu-item>
-        <el-menu-item
-          index="5"
-          @click="scrollTop"
-          :route="{ name: 'couriers' }"
-          v-is-route="{ name: ['couriers', 'addCourier', 'editCourier'] }"
-        >
-          <fa-icon icon="user-tie" />
-          <span slot="title">{{ $t('couriers') }}</span>
-        </el-menu-item>
-        <el-submenu index="6">
-          <template slot="title">
-            <fa-icon icon="map-marked-alt" />
-            <span slot="title">{{ $t('routing') }}</span>
-          </template>
-          <el-menu-item
-            index="6-1"
-            @click="scrollTop"
-            :route="{ name: 'routingMap' }"
-            v-is-route="'routingMap'"
-          >
-            <span slot="title">{{ $t('map') }}</span>
-          </el-menu-item>
-          <el-menu-item
-            index="6-2"
-            @click="scrollTop"
-            :route="{ name: 'routingSummary' }"
-            v-is-route="'routingSummary'"
-          >
-            <span slot="title">{{ $t('summary') }}</span>
-          </el-menu-item>
-          <el-menu-item
-            index="6-3"
-            @click="scrollTop"
-            :route="{ name: 'routingZones' }"
-            v-is-route="'routingZones'"
-          >
-            <span slot="title">{{ $t('zones') }}</span>
-          </el-menu-item>
-        </el-submenu>
-        <el-submenu index="7">
-          <template slot="title">
-            <fa-icon icon="book" />
-            <span slot="title">{{ $t('reporting') }}</span>
-          </template>
-          <el-menu-item
-            index="7-1"
-            @click="scrollTop"
-            :route="{ name: 'courierCalculation' }"
-            v-is-route="'courierCalculation'"
-          >
-            <span slot="title">{{ $t('courierCalculation') }}</span>
-          </el-menu-item>
-          <el-menu-item
-            index="7-2"
-            @click="scrollTop"
-            :route="{ name: 'codReports' }"
-            v-is-route="'codReports'"
-          >
-            <span slot="title">{{ $t('codReports') }}</span>
-          </el-menu-item>
-          <el-menu-item
-            index="7-3"
-            @click="scrollTop"
-            :route="{ name: 'serviceActs' }"
-            v-is-route="'serviceActs'"
-          >
-            <span slot="title">{{ $t('serviceActs') }}</span>
-          </el-menu-item>
-        </el-submenu>
-        <el-menu-item
-          index="8"
-          @click.native="toggleShowZammadChat"
-          class="support-toggle"
-          disabled
-        >
-          <fa-icon icon="headset" />
-          <span slot="title">{{ $t('chatWithSupport') }}</span>
-        </el-menu-item>
-        <el-menu-item index="9" @click="clearToken()">
-          <fa-icon icon="sign-out-alt" />
-          <span slot="title">{{ $t('logout') }}</span>
-        </el-menu-item>
+        </div>
       </el-menu>
     </div>
   </div>
@@ -165,20 +70,18 @@
 
 <script>
 import trim from 'lodash/trim';
-import Cookies from 'js-cookie';
 import { mapMutations, mapActions } from 'vuex';
 
 import isRoute from 'Directives/is-route';
-import { COOKIES_EXP_DAYS } from 'Constants/config';
 import { WHITE_COLOR } from 'Constants/colors';
 import { WAREHOUSE_URL } from 'Common/js/env';
+import mixins from 'Common/js/mixins';
 
-const SIDEBAR_STATE_COOKIE_NAME = 'sidebarSubmenu';
-
-const isSearchRoute = route => route.name === 'ordersList' && route.params.type === 'search';
+const isSearchRoute = route => route.name === 'lmaOrdersList' && route.params.type === 'search';
 
 export default {
   name: 'Sidebar',
+  mixins: [mixins],
   props: {
     collapsed: { type: Boolean, default: false },
   },
@@ -190,37 +93,158 @@ export default {
     };
   },
   computed: {
+    // Пункты меню
+    menu() {
+      const commonItems = {
+        support: {
+          icon: 'headset',
+          title: 'chatWithSupport',
+          click: this.toggleShowZammadChat,
+        },
+        logout: {
+          icon: 'sign-out-alt',
+          title: 'logout',
+          click: this.clearToken,
+        },
+      };
+
+      if (this.isCC()) {
+        return [commonItems.support, commonItems.logout];
+      }
+
+      return [
+        {
+          route: { name: 'lmaSettings' },
+          isRoute: 'lmaSettings',
+          icon: 'cogs',
+          title: 'settings',
+        },
+        {
+          icon: 'file-alt',
+          title: 'orders',
+          submenu: [
+            {
+              route: { name: 'lmaOrdersList', params: { type: 'courier' } },
+              title: 'courierOrders',
+            },
+            {
+              route: { name: 'lmaOrdersList', params: { type: 'point' } },
+              title: 'pointOrders',
+            },
+          ],
+        },
+        {
+          route: { name: 'lmaPickups' },
+          isRoute: 'lmaPickups',
+          icon: 'truck-loading',
+          title: 'pickups',
+        },
+        {
+          icon: 'warehouse',
+          title: 'warehouse',
+          click: this.toWarehouse,
+        },
+        {
+          route: { name: 'lmaClients' },
+          isRoute: { name: ['lmaClients', 'lmaAddClient', 'lmaEditClient'] },
+          icon: 'users',
+          title: 'clients',
+        },
+        {
+          route: { name: 'lmaCouriers' },
+          isRoute: { name: ['lmaCouriers', 'lmaAddCourier', 'lmaEditCourier'] },
+          icon: 'user-tie',
+          title: 'couriers',
+        },
+
+        {
+          icon: 'map-marked-alt',
+          title: 'routing',
+          submenu: [
+            {
+              route: { name: 'lmaRoutingMap' },
+              isRoute: 'lmaRoutingMap',
+              title: 'map',
+            },
+            {
+              route: { name: 'lmaRoutingSummary' },
+              isRoute: 'lmaRoutingSummary',
+              title: 'summary',
+            },
+            {
+              route: { name: 'lmaRoutingZones' },
+              isRoute: 'lmaRoutingZones',
+              title: 'zones',
+            },
+          ],
+        },
+        {
+          icon: 'book',
+          title: 'reporting',
+          submenu: [
+            {
+              route: { name: 'lmaCourierCalculation' },
+              isRoute: 'lmaCourierCalculation',
+              title: 'courierCalculation',
+            },
+            {
+              route: { name: 'lmaCodReports' },
+              isRoute: 'lmaCodReports',
+              title: 'codReports',
+            },
+            {
+              route: { name: 'lmaServiceActs' },
+              isRoute: 'lmaServiceActs',
+              title: 'serviceActs',
+            },
+          ],
+        },
+        commonItems.support,
+        commonItems.logout,
+      ];
+    },
     // Открытые изначально подменю
     defaultOpened() {
-      const sidebarSubmenu = Cookies.getJSON(SIDEBAR_STATE_COOKIE_NAME);
-      return sidebarSubmenu ? Object.keys(sidebarSubmenu).filter(i => sidebarSubmenu[i]) : [];
+      const state = this.getSavedSidebarState();
+      return Object.keys(state).filter(i => state[i]);
+    },
+    // Название роута главной страницы текущего раздела кабинета
+    homeName() {
+      return this.isCC() ? 'cc' : 'lma';
     },
   },
   methods: {
     ...mapMutations('common', ['toggleShowZammadChat']),
     ...mapActions('auth', ['clearToken']),
-    toWarehouse: () => window.open(WAREHOUSE_URL),
+    // Открывает в новой вкладке панель WMS
+    toWarehouse() {
+      window.open(WAREHOUSE_URL);
+    },
     searchChange(q) {
-      // eslint-disable-next-line
-      q = trim(q);
+      q = trim(q); // eslint-disable-line no-param-reassign
 
       if (q) {
-        this.$router.push({ name: 'ordersList', params: { type: 'search' }, query: { q } });
+        this.$router.push({ name: 'lmaOrdersList', params: { type: 'search' }, query: { q } });
       } else {
-        this.$router.push({ name: 'home' });
+        this.$router.push({ name: this.homeName });
       }
     },
-    submenuStateSave(index, opened) {
-      const sidebarSubmenu = Cookies.getJSON(SIDEBAR_STATE_COOKIE_NAME) || {};
-
-      sidebarSubmenu[index] = opened;
-      Cookies.set(SIDEBAR_STATE_COOKIE_NAME, sidebarSubmenu, { expires: COOKIES_EXP_DAYS });
+    // Возвращает текущее состояние сайдбара, сохраненное в браузере
+    getSavedSidebarState() {
+      // eslint-disable-next-line
+      return JSON.parse((this.isCC() ? localStorage.sidebarStateCC : localStorage.sidebarStateLMA) || '{}');
+    },
+    // Сохраняет состояние сайдбара в браузере
+    sidebarStateSave(index, opened) {
+      const state = this.getSavedSidebarState();
+      state[index] = opened;
+      localStorage[this.isCC() ? 'sidebarStateCC' : 'sidebarStateLMA'] = JSON.stringify(state);
     },
     submenuOpen(i) {
-      this.submenuStateSave(i, true);
+      this.sidebarStateSave(i, true);
     },
     submenuClose(i) {
-      this.submenuStateSave(i, false);
+      this.sidebarStateSave(i, false);
     },
     scrollTop() {
       window.scrollTo(0, 0);
@@ -383,8 +407,8 @@ export default {
       color: @white-color;
     }
 
-    &.support-toggle {
-      &.is-disabled {
+    &.is-disabled {
+      &.clickable {
         opacity: 1;
         cursor: pointer;
       }

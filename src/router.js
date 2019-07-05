@@ -1,144 +1,175 @@
 import VueRouter from 'vue-router';
 
-import HomePage from 'Components/pages/HomePage';
-import SettingsPage from 'Components/pages/SettingsPage';
-import OrdersPage from 'Components/pages/OrdersPage';
-import PickupsPage from 'Components/pages/PickupsPage';
-import ClientsPage from 'Components/pages/ClientsPage';
-import ClientPage from 'Components/pages/ClientPage';
-import CouriersPage from 'Components/pages/CouriersPage';
-import CourierPage from 'Components/pages/CourierPage';
-import RoutingPage from 'Components/pages/RoutingPage';
-import ReportingPage from 'Components/pages/ReportingPage';
-import CourierCalculationPage from 'Components/pages/CourierCalculationPage';
-import CodReportsPage from 'Components/pages/CodReportsPage';
-import ServiceActsPage from 'Components/pages/ServiceActsPage';
-import RoutingMapPage from 'Components/pages/RoutingMapPage';
-import RoutingSummaryPage from 'Components/pages/RoutingSummaryPage';
-import RoutingZonesPage from 'Components/pages/RoutingZonesPage';
+import BasePage from 'Components/pages/BasePage';
+// LMA
+import LMAHomePage from 'Components/pages/LMA/LMAHomePage';
+import LMASettingsPage from 'Components/pages/LMA/LMASettingsPage';
+import LMAOrdersPage from 'Components/pages/LMA/LMAOrdersPage';
+import LMAPickupsPage from 'Components/pages/LMA/LMAPickupsPage';
+import LMAClientsPage from 'Components/pages/LMA/LMAClientsPage';
+import LMAClientPage from 'Components/pages/LMA/LMAClientPage';
+import LMACouriersPage from 'Components/pages/LMA/LMACouriersPage';
+import LMACourierPage from 'Components/pages/LMA/LMACourierPage';
+import LMARoutingPage from 'Components/pages/LMA/LMARoutingPage';
+import LMAReportingPage from 'Components/pages/LMA/LMAReportingPage';
+import LMACourierCalculationPage from 'Components/pages/LMA/LMACourierCalculationPage';
+import LMACodReportsPage from 'Components/pages/LMA/LMACodReportsPage';
+import LMAServiceActsPage from 'Components/pages/LMA/LMAServiceActsPage';
+import LMARoutingMapPage from 'Components/pages/LMA/LMARoutingMapPage';
+import LMARoutingSummaryPage from 'Components/pages/LMA/LMARoutingSummaryPage';
+import LMARoutingZonesPage from 'Components/pages/LMA/LMARoutingZonesPage';
+// CC
+import CCHomePage from 'Components/pages/CC/CCHomePage';
 
 export default new VueRouter({
   routes: [
     {
-      name: 'home',
+      name: 'base',
       path: '/',
-      component: HomePage,
-      meta: { isHome: true },
+      component: BasePage,
+      meta: { isBase: true },
     },
     {
-      name: 'settings',
-      path: '/settings',
-      component: SettingsPage,
-    },
-    {
-      name: 'orders',
-      path: '/orders',
-      component: OrdersPage,
-      redirect: '/orders/courier',
+      name: 'lma',
+      path: '/lma',
+      component: LMAHomePage,
       children: [
         {
-          name: 'ordersList',
-          path: ':type(courier|point|search)',
-          meta: {
-            pageName: {
-              param: 'type',
-              values: {
-                courier: 'courierOrders',
-                point: 'pointOrders',
-                search: 'ordersSearchResult',
+          name: 'lmaSettings',
+          path: 'settings',
+          component: LMASettingsPage,
+          meta: { pageName: 'settings' },
+        },
+        {
+          name: 'lmaOrders',
+          path: 'orders',
+          component: LMAOrdersPage,
+          redirect: 'orders/courier',
+          meta: { pageName: 'orders' },
+          children: [
+            {
+              name: 'lmaOrdersList',
+              path: ':type(courier|point|search)',
+              meta: {
+                pageName: {
+                  param: 'type',
+                  values: {
+                    courier: 'courierOrders',
+                    point: 'pointOrders',
+                    search: 'ordersSearchResult',
+                  },
+                },
               },
             },
-          },
+          ],
+        },
+        {
+          name: 'lmaPickups',
+          path: 'pickups',
+          component: LMAPickupsPage,
+          meta: { pageName: 'pickups' },
+        },
+        {
+          name: 'lmaClients',
+          path: 'clients',
+          component: LMAClientsPage,
+          meta: { pageName: 'clients' },
+          children: [
+            {
+              name: 'lmaAddClient',
+              path: 'add',
+              component: LMAClientPage,
+              meta: { pageName: 'addClient' },
+            },
+            {
+              name: 'lmaEditClient',
+              path: ':id',
+              component: LMAClientPage,
+              meta: { pageName: 'editClient' },
+            },
+          ],
+        },
+        {
+          name: 'lmaCouriers',
+          path: 'couriers',
+          component: LMACouriersPage,
+          meta: { pageName: 'couriers' },
+          children: [
+            {
+              name: 'lmaAddCourier',
+              path: 'add',
+              component: LMACourierPage,
+              meta: { pageName: 'addCourier' },
+            },
+            {
+              name: 'lmaEditCourier',
+              path: ':id',
+              component: LMACourierPage,
+              meta: { pageName: 'editCourier' },
+            },
+          ],
+        },
+        {
+          name: 'lmaRouting',
+          path: 'routing',
+          component: LMARoutingPage,
+          meta: { pageName: 'routing' },
+          redirect: '/routing/map',
+          children: [
+            {
+              name: 'lmaRoutingMap',
+              path: 'map',
+              component: LMARoutingMapPage,
+              meta: { pageName: 'map' },
+            },
+            {
+              name: 'lmaRoutingSummary',
+              path: 'summary',
+              component: LMARoutingSummaryPage,
+              meta: { pageName: 'summary' },
+            },
+            {
+              name: 'lmaRoutingZones',
+              path: 'zones',
+              component: LMARoutingZonesPage,
+              meta: { pageName: 'zones' },
+            },
+          ],
+        },
+        {
+          name: 'lmaReporting',
+          path: 'reporting',
+          component: LMAReportingPage,
+          meta: { pageName: 'reporting' },
+          redirect: '/reporting/courier-calculation',
+          children: [
+            {
+              name: 'lmaCourierCalculation',
+              path: 'courier-calculation',
+              component: LMACourierCalculationPage,
+              meta: { pageName: 'courierCalculation' },
+            },
+            {
+              name: 'lmaCodReports',
+              path: 'cod',
+              component: LMACodReportsPage,
+              meta: { pageName: 'codReports' },
+            },
+            {
+              name: 'lmaServiceActs',
+              path: 'service-acts',
+              component: LMAServiceActsPage,
+              meta: { pageName: 'serviceActs' },
+            },
+          ],
         },
       ],
     },
     {
-      name: 'pickups',
-      path: '/pickups',
-      component: PickupsPage,
-    },
-    {
-      name: 'clients',
-      path: '/clients',
-      component: ClientsPage,
-      children: [
-        {
-          name: 'addClient',
-          path: 'add',
-          component: ClientPage,
-        },
-        {
-          name: 'editClient',
-          path: ':id',
-          component: ClientPage,
-        },
-      ],
-    },
-    {
-      name: 'couriers',
-      path: '/couriers',
-      component: CouriersPage,
-      children: [
-        {
-          name: 'addCourier',
-          path: 'add',
-          component: CourierPage,
-        },
-        {
-          name: 'editCourier',
-          path: ':id',
-          component: CourierPage,
-        },
-      ],
-    },
-    {
-      name: 'routing',
-      path: '/routing',
-      component: RoutingPage,
-      redirect: '/routing/map',
-      children: [
-        {
-          name: 'routingMap',
-          path: 'map',
-          component: RoutingMapPage,
-          meta: { pageName: 'map' },
-        },
-        {
-          name: 'routingSummary',
-          path: 'summary',
-          component: RoutingSummaryPage,
-          meta: { pageName: 'summary' },
-        },
-        {
-          name: 'routingZones',
-          path: 'zones',
-          component: RoutingZonesPage,
-          meta: { pageName: 'zones' },
-        },
-      ],
-    },
-    {
-      name: 'reporting',
-      path: '/reporting',
-      component: ReportingPage,
-      redirect: '/reporting/courier-calculation',
-      children: [
-        {
-          name: 'courierCalculation',
-          path: 'courier-calculation',
-          component: CourierCalculationPage,
-        },
-        {
-          name: 'codReports',
-          path: 'cod',
-          component: CodReportsPage,
-        },
-        {
-          name: 'serviceActs',
-          path: 'service-acts',
-          component: ServiceActsPage,
-        },
-      ],
+      name: 'cc',
+      path: '/cc',
+      component: CCHomePage,
+      children: [],
     },
     {
       path: '*',

@@ -1,11 +1,8 @@
 // Название приложения
-export const APP_TITLE = 'MXP LMA';
+export const APP_TITLE = 'MXP';
 
 // Формат даты для отправки в API
 export const DATE_API_FORMAT = 'yyyy-MM-dd';
-
-// Время хранения Cookies
-export const COOKIES_EXP_DAYS = 365;
 
 // Число результатов на странице по умолчанию
 export const PER_PAGE_DEFAULT = 10;

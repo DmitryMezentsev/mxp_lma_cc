@@ -1,11 +1,8 @@
 <template>
   <el-breadcrumb separator-class="el-icon-arrow-right">
-    <el-breadcrumb-item :to="{ name: homeRoute.name }">
-      {{ getRoutePageName(homeRoute) }}</el-breadcrumb-item
-    >
     <el-breadcrumb-item
       v-for="(route, i) in path"
-      v-if="!route.meta.isHome"
+      v-if="!route.meta.isBase"
       :to="!route.redirect ? { name: route.name } : null"
       :key="i"
     >
@@ -24,11 +21,6 @@ export default {
     return {
       path: [],
     };
-  },
-  computed: {
-    homeRoute() {
-      return this.$router.options.routes.find(r => r.meta.isHome);
-    },
   },
   mounted() {
     this.path = this.$router.history.current.matched;
