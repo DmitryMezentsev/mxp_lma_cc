@@ -4,6 +4,12 @@
       <router-link class="logo" :to="{ name: homeName }">
         <img src="~Common/img/logo.png" alt="MXP" />
       </router-link>
+      <div class="mode-toggle">
+        <router-link :to="{ name: 'cc' }" :class="{ active: isCC() }">{{ $t('cc') }}</router-link>
+        <router-link :to="{ name: 'lma' }" :class="{ active: isLMA() }">{{
+          $t('lma')
+        }}</router-link>
+      </div>
       <div class="search">
         <el-input
           :placeholder="$t('orderSearch')"
@@ -309,6 +315,59 @@ export default {
 
     img {
       width: 70%;
+    }
+  }
+
+  .mode-toggle {
+    font-size: 0.85rem;
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    margin: 0 15px 12px;
+
+    a {
+      text-decoration: none;
+      color: @white-color;
+      flex-grow: 1;
+      flex-shrink: 0;
+      position: relative;
+      padding-bottom: 3px;
+
+      &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        background-color: @white-color;
+        height: 2px;
+        bottom: 0;
+        opacity: 0.6;
+        width: 0;
+        transition: width 0.2s ease;
+      }
+
+      &:first-child {
+        &:before {
+          left: 0;
+        }
+      }
+
+      &:last-child {
+        &:before {
+          right: 0;
+        }
+      }
+
+      &:hover {
+        &:before {
+          width: 100%;
+        }
+      }
+
+      &.active {
+        &:before {
+          width: 100%;
+        }
+      }
     }
   }
 
