@@ -3,6 +3,9 @@
     :title="$t('viewOrder')"
     :visible.sync="visible"
     :width="clientWidth > 719 ? '700px' : '100%'"
+    :show-close="!lock"
+    :close-on-press-escape="!lock"
+    :close-on-click-modal="!lock"
     top="5vh"
   >
     <el-form v-if="order" :model="order" :rules="rules" ref="order" class="compact-form">
@@ -16,7 +19,7 @@
             <Value :name="$t('shop')" :value="order.sender.brandName" />
             <Value
               :name="$t('issuePoint')"
-              :value="order.deliveryOrder.orderServicePointId"
+              :value="''"
               v-if="order.serviceType === ORDER_TYPE_POINT"
             />
           </div>
@@ -47,7 +50,7 @@
         <hr class="margin-top margin-bottom-x2" />
         <el-row :gutter="10">
           <el-col :span="10" :xs="24">
-            <el-form-item :label="$t('courier')">
+            <el-form-item :label="$t('courier')" prop="serviceInfo.courierId">
               <CourierSelect
                 v-if="!order.currentStatus.statusInfo.isEnd"
                 width="100%"
@@ -63,7 +66,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="14" :xs="24">
-            <el-form-item :label="$t('deliveryAddress')">
+            <el-form-item :label="$t('deliveryAddress')" prop="recipient.address.value">
               <el-autocomplete
                 v-if="currentUser.locale === 'RU' && !order.currentStatus.statusInfo.isEnd"
                 v-model="order.recipient.address.value"
@@ -81,7 +84,7 @@
         </el-row>
         <el-row :gutter="10">
           <el-col :span="14" :xs="24">
-            <el-form-item :label="$t('deliveryZone')">
+            <el-form-item :label="$t('deliveryZone')" prop="serviceInfo.deliveryZoneId">
               <!-- todo: убрать true, когда появится serviceInfo.deliveryZoneName -->
               <RoutingZoneSelect
                 v-if="true || !currentStatus.statusInfo.isEnd"
@@ -99,7 +102,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="10" :xs="24">
-            <el-form-item :label="$t('deliveryDate')">
+            <el-form-item :label="$t('deliveryDate')" prop="deliveryOrder.dateTimeInterval.date">
               <DatePicker
                 class="custom-readonly"
                 name="deliveryDate"
@@ -114,14 +117,18 @@
       <hr class="margin-top margin-bottom" />
       <el-row :gutter="10">
         <el-col :span="14" :xs="24">
-          <el-form-item :label="$t('recipient')">
+          <el-form-item :label="$t('recipient')" prop="recipient.contacts.name">
             <el-input
               class="custom-readonly"
               v-model="order.recipient.contacts.name"
               :readonly="!isAdmin || order.currentStatus.statusInfo.isEnd"
             />
           </el-form-item>
-          <el-form-item :label="$t('city')" v-if="order.serviceType === ORDER_TYPE_POINT">
+          <el-form-item
+            :label="$t('city')"
+            v-if="order.serviceType === ORDER_TYPE_POINT"
+            prop="recipient.address.city"
+          >
             <el-input
               class="custom-readonly"
               v-model="order.recipient.address.city"
@@ -130,7 +137,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="10" :xs="24">
-          <el-form-item :label="$t('phone')">
+          <el-form-item :label="$t('phone')" prop="recipient.contacts.phone">
             <el-input
               type="tel"
               class="custom-readonly"
@@ -144,7 +151,7 @@
       <hr class="margin-bottom" />
       <el-row :gutter="10">
         <el-col>
-          <el-form-item :label="$t('comment')">
+          <el-form-item :label="$t('comment')" prop="recipient.notes">
             <el-input
               type="textarea"
               class="custom-readonly"
@@ -252,22 +259,28 @@
         <br />
         <Value :name="$t('totalGoodsPrice')" inner>{{ goodsSum | currency }}</Value>
       </div>
-      <el-button class="hidden" native-type="submit" @click.prevent="save" />
+      <el-button class="hidden" native-type="submit" @click.prevent="save" :disabled="!!lock" />
     </el-form>
     <span v-if="order" slot="footer" class="dialog-footer">
-      <el-button @click="setOpened(null)">
+      <el-button @click="setOpened(null)" :disabled="!!lock">
         {{ $t('close') }}
       </el-button>
-      <el-button @click="partialIssue" v-if="showPartialIssueBtn">
+      <el-button @click="partialIssue" v-if="showPartialIssueBtn" :disabled="!!lock">
         {{ $t('partialIssue') }}
       </el-button>
-      <el-button @click="toReturn" type="danger" v-if="showReturnBtn">
+      <el-button @click="toReturn" type="danger" v-if="showReturnBtn" :disabled="!!lock">
         {{ $t('return') }}
       </el-button>
-      <el-button @click="toIssue" type="success" v-if="showToIssueBtn">
+      <el-button @click="toIssue" type="success" v-if="showToIssueBtn" :disabled="!!lock">
         {{ $t('toIssue') }}
       </el-button>
-      <el-button type="primary" @click="save" v-if="!order.currentStatus.statusInfo.isEnd">
+      <el-button
+        type="primary"
+        @click="save"
+        v-if="!order.currentStatus.statusInfo.isEnd"
+        :loading="lock === 'saving'"
+        :disabled="!!lock"
+      >
         {{ $t('save') }}
       </el-button>
     </span>
@@ -300,8 +313,11 @@ export default {
       ORDER_TYPE_COURIER,
       ORDER_TYPE_POINT,
       order: null,
-      rules: {},
+      rules: {
+        'recipient.contacts.phone': [this.validationRule('phone')],
+      },
       editGoods: false,
+      lock: false,
     };
   },
   computed: {
@@ -394,9 +410,12 @@ export default {
     ...mapActions('common', ['loadDeliveryServices']),
     // Сохранение изменений в заказе
     save() {
-      // this.$refs.order.validate(valid => {
-      // if (valid) {}
-      // });
+      this.$refs.order.validate(valid => {
+        if (valid) {
+          this.lock = 'saving';
+          console.log(this.order);
+        }
+      });
     },
     // Удаление товара из заказа
     removeGoodsItem(index) {
