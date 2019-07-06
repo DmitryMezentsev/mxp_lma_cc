@@ -29,7 +29,7 @@
         @open="submenuOpen"
         @close="submenuClose"
       >
-        <div v-for="(item, i) in menu">
+        <div v-for="(item, i) in menu" :key="`${i}_${homeName}`">
           <el-submenu v-if="item.submenu" :index="i.toString()">
             <template slot="title">
               <fa-icon :icon="item.icon" />
@@ -49,7 +49,6 @@
           <el-menu-item
             v-else-if="item.route"
             v-is-route="item.isRoute || item.route"
-            :key="i"
             :index="i.toString()"
             :route="item.route"
             @click="scrollTop"
@@ -59,7 +58,6 @@
           </el-menu-item>
           <el-menu-item
             v-else
-            :key="i"
             :index="i.toString()"
             @click.native="item.click()"
             class="clickable"
@@ -115,7 +113,22 @@ export default {
       };
 
       if (this.isCC()) {
-        return [commonItems.support, commonItems.logout];
+        return [
+          {
+            route: { name: 'ccSettings' },
+            isRoute: 'ccSettings',
+            icon: 'cogs',
+            title: 'settings',
+          },
+          {
+            route: { name: 'ccOrders' },
+            isRoute: 'ccOrders',
+            icon: 'file-alt',
+            title: 'orders',
+          },
+          commonItems.support,
+          commonItems.logout,
+        ];
       }
 
       return [

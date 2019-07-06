@@ -20,6 +20,8 @@ import LMARoutingSummaryPage from 'Components/pages/LMA/LMARoutingSummaryPage';
 import LMARoutingZonesPage from 'Components/pages/LMA/LMARoutingZonesPage';
 // CC
 import CCHomePage from 'Components/pages/CC/CCHomePage';
+import CCSettingsPage from 'Components/pages/CC/CCSettingsPage';
+import CCOrdersPage from 'Components/pages/CC/CCOrdersPage';
 
 export default new VueRouter({
   routes: [
@@ -169,7 +171,20 @@ export default new VueRouter({
       name: 'cc',
       path: '/cc',
       component: CCHomePage,
-      children: [],
+      children: [
+        {
+          name: 'ccSettings',
+          path: 'settings',
+          component: CCSettingsPage,
+          meta: { pageName: 'settings' },
+        },
+        {
+          name: 'ccOrders',
+          path: 'orders',
+          component: CCOrdersPage,
+          meta: { pageName: 'orders' },
+        },
+      ],
     },
     {
       path: '*',

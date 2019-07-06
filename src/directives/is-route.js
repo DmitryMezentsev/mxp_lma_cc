@@ -3,8 +3,6 @@ import router from 'Base/router';
 const CLASS_NAME = 'active-route';
 
 export default (() => {
-  let removeAfterEach;
-
   return {
     bind(el, binding) {
       function testRoute(route) {
@@ -30,7 +28,7 @@ export default (() => {
         return false;
       }
 
-      removeAfterEach = router.afterEach(to => {
+      el.removeAfterEach = router.afterEach(to => {
         setTimeout(() => {
           if (testRoute(to)) {
             el.classList.add(CLASS_NAME);
@@ -42,8 +40,8 @@ export default (() => {
 
       if (testRoute(router.currentRoute)) el.classList.add(CLASS_NAME);
     },
-    unbind() {
-      if (removeAfterEach) removeAfterEach();
+    unbind(el) {
+      if (el.removeAfterEach) el.removeAfterEach();
     },
   };
 })();
