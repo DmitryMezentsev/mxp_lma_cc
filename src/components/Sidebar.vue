@@ -300,6 +300,10 @@ export default {
       width: 64px;
     }
 
+    .mode-toggle {
+      margin: 8px 0 12px;
+    }
+
     .search {
       display: none;
     }
@@ -312,6 +316,13 @@ export default {
     .el-submenu {
       svg {
         margin-right: 0 !important;
+      }
+
+      .el-submenu__title {
+        span[slot='title'],
+        .el-submenu__icon-arrow {
+          display: none;
+        }
       }
     }
   }
