@@ -115,29 +115,23 @@ export default {
       if (this.isCC()) {
         return [
           {
-            route: { name: 'ccSettings' },
-            isRoute: 'ccSettings',
-            icon: 'cogs',
-            title: 'settings',
-          },
-          {
             route: { name: 'ccOrders' },
             isRoute: 'ccOrders',
             icon: 'file-alt',
             title: 'orders',
           },
           commonItems.support,
+          {
+            route: { name: 'ccSettings' },
+            isRoute: 'ccSettings',
+            icon: 'cogs',
+            title: 'settings',
+          },
           commonItems.logout,
         ];
       }
 
       return [
-        {
-          route: { name: 'lmaSettings' },
-          isRoute: 'lmaSettings',
-          icon: 'cogs',
-          title: 'settings',
-        },
         {
           icon: 'file-alt',
           title: 'orders',
@@ -219,6 +213,12 @@ export default {
           ],
         },
         commonItems.support,
+        {
+          route: { name: 'lmaSettings' },
+          isRoute: 'lmaSettings',
+          icon: 'cogs',
+          title: 'settings',
+        },
         commonItems.logout,
       ];
     },
