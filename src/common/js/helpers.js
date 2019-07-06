@@ -53,6 +53,15 @@ export const redirectToAuth = () => {
 // Возвращает название браузера пользователя
 export const getBrowserName = () => Bowser.getParser(window.navigator.userAgent).getBrowserName();
 
+// Анимированно скроллит страницу до указанной позиции
+export const scrollToPos = top => {
+  if (getBrowserName().name === 'Microsoft Edge') {
+    window.scrollTo(0, top);
+  } else {
+    window.scrollTo({ top, behavior: 'smooth' });
+  }
+};
+
 // Находит координаты средней точки для установки центра карты
 export const centerCoordsFromGeometry = geometry => {
   const center = { lng: 0, lat: 0 };

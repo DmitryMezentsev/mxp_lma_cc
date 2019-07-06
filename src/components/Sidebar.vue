@@ -73,13 +73,14 @@
 </template>
 
 <script>
-import trim from 'lodash/trim';
 import { mapMutations, mapActions } from 'vuex';
+import trim from 'lodash/trim';
 
 import isRoute from 'Directives/is-route';
+import mixins from 'Common/js/mixins';
 import { WHITE_COLOR } from 'Constants/colors';
 import { WAREHOUSE_URL } from 'Common/js/env';
-import mixins from 'Common/js/mixins';
+import { scrollToPos } from 'Common/js/helpers';
 
 const isSearchRoute = route => route.name === 'lmaOrdersList' && route.params.type === 'search';
 
@@ -266,7 +267,9 @@ export default {
       this.sidebarStateSave(i, false);
     },
     scrollTop() {
-      window.scrollTo(0, 0);
+      setTimeout(() => {
+        scrollToPos(0);
+      }, 100);
     },
   },
   mounted() {
