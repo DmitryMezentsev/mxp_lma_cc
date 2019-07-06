@@ -325,6 +325,7 @@ export default {
     display: block;
     text-align: center;
     margin: 0.75em 0 0.5em;
+    user-select: none;
 
     img {
       width: 70%;
