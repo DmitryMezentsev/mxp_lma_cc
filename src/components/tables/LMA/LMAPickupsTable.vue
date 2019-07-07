@@ -1,5 +1,6 @@
 <template>
   <el-table
+    ref="table"
     v-loading="loading"
     :data="data"
     :empty-text="$t(loading ? 'pleaseWait' : 'noPickups')"
@@ -70,6 +71,7 @@ export default {
   },
   computed: {
     ...mapState('common', ['clientWidth']),
+    ...mapState('pickups', ['selected']),
     loading() {
       return this.data === null;
     },
@@ -77,12 +79,16 @@ export default {
   methods: {
     ...mapMutations('pickups', ['setOpened', 'setSelected', 'clearSelected']),
     onSelectionChange(selection) {
-      const ids = selection.map(item => item.pickupId);
-      this.setSelected(ids);
+      this.setSelected(selection.map(item => item.pickupId));
     },
   },
   destroyed() {
     this.clearSelected();
+  },
+  watch: {
+    selected(selected) {
+      if (!selected.length) this.$refs.table.clearSelection();
+    },
   },
 };
 </script>

@@ -4,15 +4,6 @@
     <br />
     <LMAPickupsTable :data="list.data" />
     <br />
-    <el-button
-      v-if="list.data && list.data.length"
-      size="mini"
-      type="primary"
-      :disabled="!selected.length"
-      @click="selectCourierDialog = true"
-    >
-      {{ $t('setCourier') }}
-    </el-button>
     <Pagination :max-page="list.pages" />
 
     <LMAPickupDialog @update="loadPickups($route.query)" />
@@ -21,12 +12,14 @@
       @select="setCourier"
       @cancel="selectCourierDialog = false"
     />
+
+    <ActionsPanel :actions="actions" />
   </div>
 </template>
 
 <script>
+import { mapState, mapMutations, mapActions } from 'vuex';
 import { parallel } from 'async';
-import { mapState, mapActions } from 'vuex';
 
 import { PER_PAGE_DEFAULT } from 'Constants/config';
 
@@ -35,10 +28,12 @@ import LMAPickupsTable from 'Components/tables/LMA/LMAPickupsTable';
 import LMAPickupDialog from 'Components/dialog/LMA/LMAPickupDialog';
 import Pagination from 'Components/Pagination';
 import SelectCourierDialog from 'Components/dialog/SelectCourierDialog';
+import ActionsPanel from 'Components/ActionsPanel';
 
 export default {
   name: 'LMAPickupsPage',
   components: {
+    ActionsPanel,
     LMAPickupDialog,
     LMAPickupsTable,
     LMAPickupsFilters,
@@ -52,8 +47,31 @@ export default {
   },
   computed: {
     ...mapState('pickups', ['list', 'selected']),
+    actions() {
+      if (this.selected.length) {
+        return [
+          [
+            {
+              name: this.$t('clearSelection'),
+              btnType: 'default',
+              callback: this.clearSelected,
+              hideWidth: 459,
+            },
+            {
+              name: this.$t('setCourier'),
+              callback: () => {
+                this.selectCourierDialog = true;
+              },
+            },
+          ],
+        ];
+      }
+
+      return null;
+    },
   },
   methods: {
+    ...mapMutations('pickups', ['clearSelected']),
     ...mapActions('pickups', ['loadList', 'patchPickup', 'updatePickup']),
     loadPickups(query) {
       this.loadList({

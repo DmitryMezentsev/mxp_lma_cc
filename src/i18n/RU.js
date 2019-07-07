@@ -219,4 +219,5 @@ export default {
   paymentIsMadeByCard: 'Оплата будет произведена картой?',
   downloadReport: 'Скачать отчет',
   chatWithSupport: 'Чат с поддержкой',
+  clearSelection: 'Снять выделение',
 };

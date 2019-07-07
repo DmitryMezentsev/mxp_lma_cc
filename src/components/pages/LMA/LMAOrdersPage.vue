@@ -2,7 +2,7 @@
   <div>
     <LMAOrdersFilters v-if="$route.params.type === 'courier' || $route.params.type === 'point'" />
     <br />
-    <LMAOrdersTable :data="list.data" :mode="$route.params.type" />
+    <LMAOrdersTable :data="list.data" :mode="$route.params.type" :key="$route.params.type" />
     <div
       v-if="list.totalCount && ($route.params.type === 'courier' || $route.params.type === 'point')"
       class="total"
@@ -12,16 +12,6 @@
       {{ list.sumPriceDeclared | currency }}.
       {{ $t('totalRevenues') }}:
       {{ 0 | currency }}.</div>
-    <br />
-    <el-button
-      v-if="$route.params.type === 'courier' && list.data && list.data.length"
-      size="mini"
-      type="primary"
-      :disabled="!selected.length"
-      @click="selectCourierDialog = true"
-    >
-      {{ $t('setCourier') }}
-    </el-button>
     <Pagination :max-page="list.pages" />
 
     <LMAOrderDialog @update="loadOrders($route)" />
@@ -31,11 +21,13 @@
       @select="setCourier"
       @cancel="selectCourierDialog = false"
     />
+
+    <ActionsPanel :actions="actions" />
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
 import get from 'lodash/get';
 
 import { PER_PAGE_DEFAULT } from 'Constants/config';
@@ -47,10 +39,18 @@ import SelectCourierDialog from 'Components/dialog/SelectCourierDialog';
 import api from 'Common/js/api';
 import { number, currency } from 'Common/js/filters';
 import { value2Array } from 'Common/js/helpers';
+import ActionsPanel from 'Components/ActionsPanel';
 
 export default {
   name: 'LMAOrdersPage',
-  components: { LMAOrderDialog, Pagination, LMAOrdersTable, LMAOrdersFilters, SelectCourierDialog },
+  components: {
+    ActionsPanel,
+    LMAOrderDialog,
+    Pagination,
+    LMAOrdersTable,
+    LMAOrdersFilters,
+    SelectCourierDialog,
+  },
   filters: { number, currency },
   data() {
     return {
@@ -59,8 +59,31 @@ export default {
   },
   computed: {
     ...mapState('orders', ['list', 'selected']),
+    actions() {
+      if (this.selected.length) {
+        return [
+          [
+            {
+              name: this.$t('clearSelection'),
+              btnType: 'default',
+              callback: this.clearSelected,
+              hideWidth: 459,
+            },
+            {
+              name: this.$t('setCourier'),
+              callback: () => {
+                this.selectCourierDialog = true;
+              },
+            },
+          ],
+        ];
+      }
+
+      return null;
+    },
   },
   methods: {
+    ...mapMutations('orders', ['clearSelected']),
     ...mapActions('orders', ['loadList']),
     loadOrders({ query, params }) {
       this.loadList({

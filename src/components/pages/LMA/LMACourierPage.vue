@@ -156,54 +156,11 @@
           />
         </div>
       </div>
-
-      <div class="buttons-panel">
-        <div>
-          <div v-if="!isAdd">
-            <el-button
-              v-if="courier.isActive"
-              :disabled="!!processing"
-              :loading="processing === 'changeActive'"
-              @click="changeActive(false)"
-              type="danger"
-              class="to-archive"
-            >
-              <fa-icon icon="archive" class="btn-margin" />{{ $t('toArchive') }}
-            </el-button>
-            <el-button
-              v-else
-              :disabled="!!processing"
-              :loading="processing === 'changeActive'"
-              @click="changeActive(true)"
-              type="primary"
-              class="restore"
-            >
-              <fa-icon icon="redo-alt" class="btn-margin" />{{ $t('restore') }}
-            </el-button>
-            <el-button :disabled="!!processing" @click="sendNewPassword" class="send-new-password">
-              {{ $t('sendNewPasswordInSMS') }}
-            </el-button>
-          </div>
-        </div>
-        <div>
-          <router-link :to="{ name: 'lmaCouriers' }">
-            <el-button :disabled="!!processing" class="cancel">
-              {{ $t('cancel') }}
-            </el-button>
-          </router-link>
-          <el-button
-            :disabled="!!processing"
-            :loading="processing === 'saving'"
-            @click.prevent="submit"
-            native-type="submit"
-            type="primary"
-          >
-            {{ $t(isAdd ? 'createCourier' : 'saveChanges') }}
-          </el-button>
-        </div>
-      </div>
+      <el-button native-type="submit" @click.prevent="submit" class="hidden" />
     </el-form>
     <Waiting v-else />
+
+    <ActionsPanel :actions="actions" />
   </div>
 </template>
 
@@ -222,6 +179,7 @@ import Waiting from 'Components/Waiting';
 import InputFile from 'Components/form-elements/InputFile';
 import LMAUploadCourierDocumentDialog from 'Components/dialog/LMA/LMAUploadCourierDocumentDialog';
 import DatePicker from 'Components/form-elements/DatePicker';
+import ActionsPanel from 'Components/ActionsPanel';
 import { formatDate } from 'Common/js/filters';
 
 // Минимальная длина пароля при создании нового курьера
@@ -229,7 +187,7 @@ const minPasswordLength = 6;
 
 export default {
   name: 'LMACourierPage',
-  components: { DatePicker, LMAUploadCourierDocumentDialog, InputFile, Waiting },
+  components: { ActionsPanel, DatePicker, LMAUploadCourierDocumentDialog, InputFile, Waiting },
   mixins: [mixins],
   filters: { formatDate },
   directives: { inputmask, autoblur },
@@ -264,6 +222,68 @@ export default {
     ...mapState('common', ['clientWidth']),
     ...mapState('auth', ['currentUser']),
     ...mapState('couriers', ['courier']),
+    actions() {
+      const actions = [[], []];
+      const disabled = Boolean(this.processing) || !this.courier;
+
+      // Отмена
+      actions[0].push({
+        disabled,
+        callback: () => this.$router.back(),
+        hideWidth: 849,
+        btnType: 'default',
+        name: this.$t('cancel'),
+        key: 'cancel',
+      });
+      // Сохранить
+      actions[0].push({
+        disabled,
+        loading: this.processing === 'saving',
+        callback: this.submit,
+        name: this.$t(this.isAdd ? 'createCourier' : 'saveChanges'),
+        key: 'save',
+      });
+
+      // Только для страницы добавления нового курьера
+      if (this.courier && !this.isAdd) {
+        if (this.courier.isActive) {
+          // В архив
+          actions[1].push({
+            disabled,
+            loading: this.processing === 'changeActive',
+            callback: () => this.changeActive(false),
+            btnType: 'danger',
+            hideWidth: 849,
+            icon: 'archive',
+            name: this.$t('toArchive'),
+            key: 'toArchive',
+          });
+        } else {
+          // Восстановить
+          actions[1].push({
+            disabled,
+            loading: this.processing === 'changeActive',
+            callback: () => this.changeActive(true),
+            hideWidth: 849,
+            icon: 'redo-alt',
+            name: this.$t('restore'),
+            key: 'restore',
+          });
+        }
+
+        // Отправить новый пароль в SMS
+        actions[1].push({
+          disabled,
+          callback: this.sendNewPassword,
+          name: this.$t('sendNewPasswordInSMS'),
+          key: 'sendNewPasswordInSMS',
+          btnType: 'default',
+          hideWidth: 579,
+        });
+      }
+
+      return actions;
+    },
   },
   methods: {
     ...mapActions('couriers', ['createNewCourier', 'openCourier', 'saveCourier', 'patchCourier']),
@@ -284,8 +304,7 @@ export default {
       downloadjs(data, `courier${id}-doc-${type}.${ext}`);
     },
     carBrands(query, cb) {
-      // eslint-disable-next-line
-      query = query.trim().toLowerCase();
+      query = query.trim().toLowerCase(); // eslint-disable-line no-param-reassign
 
       const result =
         query.length > 1
@@ -355,7 +374,7 @@ export default {
     },
   },
   created() {
-    if (this.$route.name === 'lmaEditCourier') {
+    if (!this.isAdd) {
       this.openCourier(this.$route.params.id);
     } else {
       this.createNewCourier();
@@ -401,26 +420,6 @@ export default {
     .upload-button-wrap {
       margin: 1em 0;
       text-align: right;
-    }
-  }
-}
-
-.buttons-panel {
-  .to-archive,
-  .restore,
-  .cancel {
-    @media (max-width: 849px) {
-      display: none;
-    }
-  }
-
-  .send-new-password {
-    @media (max-width: 849px) {
-      margin-left: 0;
-    }
-
-    @media (max-width: 579px) {
-      display: none;
     }
   }
 }

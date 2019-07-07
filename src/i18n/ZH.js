@@ -217,4 +217,5 @@ export default {
   paymentIsMadeByCard: '',
   downloadReport: '',
   chatWithSupport: '',
+  clearSelection: '',
 };

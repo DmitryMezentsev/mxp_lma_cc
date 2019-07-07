@@ -1,5 +1,6 @@
 <template>
   <el-table
+    ref="table"
     v-loading="loading"
     :data="data"
     :empty-text="$t(loading ? 'pleaseWait' : 'noOrders')"
@@ -163,6 +164,7 @@ export default {
   },
   computed: {
     ...mapState('common', ['clientWidth']),
+    ...mapState('orders', ['selected']),
     loading() {
       return this.data === null;
     },
@@ -170,12 +172,16 @@ export default {
   methods: {
     ...mapMutations('orders', ['setOpened', 'setSelected', 'clearSelected']),
     onSelectionChange(selection) {
-      // eslint-disable-next-line
-      this.setSelected(selection.map(item => item._id));
+      this.setSelected(selection.map(item => item._id)); // eslint-disable-line
     },
   },
   destroyed() {
     this.clearSelected();
+  },
+  watch: {
+    selected(selected) {
+      if (!selected.length) this.$refs.table.clearSelection();
+    },
   },
 };
 </script>
