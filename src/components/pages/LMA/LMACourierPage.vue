@@ -229,7 +229,7 @@ export default {
       // Отмена
       actions[0].push({
         disabled,
-        callback: () => this.$router.back(),
+        callback: () => this.$router.push({ name: 'lmaCouriers' }),
         hideWidth: 849,
         btnType: 'default',
         name: this.$t('cancel'),
