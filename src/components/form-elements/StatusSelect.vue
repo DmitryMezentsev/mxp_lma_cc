@@ -4,14 +4,21 @@
     :class="className"
     :no-data-text="$t('noStatuses')"
     :placeholder="placeholder"
-    :loading="!statuses"
+    :loading="!stages"
     :clearable="clearable"
     :disabled="disabled"
     :multiple="multiple"
     :style="{ width }"
     @change="onChange"
   >
-    <el-option v-for="(status, i) in statuses" :key="i" :label="status.name" :value="status.id" />
+    <el-option-group v-for="(stage, i) in stages" :key="i" :label="stage.name">
+      <el-option
+        v-for="(status, j) in stage.statuses"
+        :key="j"
+        :label="status.name"
+        :value="status.id"
+      />
+    </el-option-group>
   </el-select>
 </template>
 
@@ -34,14 +41,12 @@ export default {
   data() {
     return {
       value: this.multiple ? [] : null,
-      statuses: null,
+      stages: null,
     };
   },
   computed: {
     placeholder() {
-      return this.statuses
-        ? this.noSelectPlaceholder || this.$tc('noSelect', 1)
-        : this.$t('loading');
+      return this.stages ? this.noSelectPlaceholder || this.$tc('noSelect', 1) : this.$t('loading');
     },
   },
   methods: {
@@ -52,17 +57,33 @@ export default {
   },
   created() {
     api.get(`statuses/${this.type}`).then(({ data }) => {
-      this.statuses = data.map(s =>
-        // Перевод всех ID в строки
-        ({ id: String(s.id), name: s.name }),
-      );
+      const stages = [];
+
+      data.forEach(status => {
+        let i = null;
+
+        stages.forEach((stage, j) => {
+          if (stage.name === status.stage) i = j;
+        });
+
+        if (i) {
+          stages[i].statuses.push({ id: String(status.id), name: status.name });
+        } else {
+          stages.push({
+            name: status.stage,
+            statuses: [{ id: String(status.id), name: status.name }],
+          });
+        }
+      });
+
+      this.stages = stages;
       this.value = this.model;
     });
   },
   watch: {
     model: {
       handler(model) {
-        if (this.statuses) this.value = model;
+        if (this.stages) this.value = model;
       },
       immediate: true,
     },
