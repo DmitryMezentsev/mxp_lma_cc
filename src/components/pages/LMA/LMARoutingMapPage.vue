@@ -36,14 +36,16 @@ export default {
   computed: {
     ...mapState('routing', ['zonesList', 'ordersList']),
     ordersMarkers() {
-      return this.ordersList.map(order => {
-        return {
-          title: order.internalNumber,
-          lat: parseFloat(order.recipient.address.latitude),
-          lng: parseFloat(order.recipient.address.longitude),
-          color: order.serviceInfo.courierId ? 'green' : 'red',
-        };
-      });
+      return this.ordersList
+        .filter(order => !order.currentStatus.statusInfo.isEnd)
+        .map(order => {
+          return {
+            title: order.internalNumber,
+            lat: parseFloat(order.recipient.address.latitude),
+            lng: parseFloat(order.recipient.address.longitude),
+            color: order.serviceInfo.courierId ? 'green' : 'red',
+          };
+        });
     },
   },
   methods: {

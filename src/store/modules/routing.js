@@ -103,6 +103,7 @@ export default {
               'recipient.address.value',
               'deliveryOrder.dateTimeInterval',
               'serviceInfo.courierId',
+              'currentStatus.statusInfo.isEnd',
             ],
           },
         })
