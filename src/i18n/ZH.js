@@ -17,7 +17,7 @@ export default {
   couriers: '',
   orderSearch: '',
   reporting: '',
-  courierCalculation: '',
+  acceptanceCodFromCourier: '',
   codReports: '',
   serviceActs: '',
   settings: '',

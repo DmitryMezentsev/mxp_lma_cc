@@ -22,7 +22,7 @@ import CourierSelect from 'Components/form-elements/CourierSelect';
 import DatePicker from 'Components/form-elements/DatePicker';
 
 export default {
-  name: 'LMACourierCalculationFilters',
+  name: 'LMAAcceptanceCodFromCourierFilters',
   components: { DatePicker, CourierSelect },
   mixins: [mixins],
   computed: {

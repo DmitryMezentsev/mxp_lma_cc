@@ -1,5 +1,5 @@
 <template>
-  <div class="courier-calculation-table">
+  <div class="acceptance-cod-from-courier-table">
     <div class="sum">
       <div class="total-orders">
         {{ $t('orders2') }}: {{ get(data, 'orders.length', 0) | number }}</div><!-- eslint-disable-line -->
@@ -54,7 +54,7 @@ import { currency, number } from 'Common/js/filters';
 import PaymentType from 'Components/PaymentType';
 
 export default {
-  name: 'LMACourierCalculationTable',
+  name: 'LMAAcceptanceCodFromCourierTable',
   components: { PaymentType },
   filters: { currency, number },
   props: {
@@ -80,7 +80,7 @@ export default {
 </script>
 
 <style lang="less">
-.courier-calculation-table {
+.acceptance-cod-from-courier-table {
   .sum {
     margin: 1.35em auto;
     max-width: 800px;

@@ -4,15 +4,15 @@ import { HEADER_PG_PAGE_COUNT } from 'Constants/config';
 export default {
   namespaced: true,
   state: {
-    courierCalculation: null,
+    acceptanceCodFromCourier: null,
     codReports: {
       data: null,
       pages: 0,
     },
   },
   mutations: {
-    setCourierCalculation(state, payload) {
-      state.courierCalculation = payload;
+    setAcceptanceCodFromCourier(state, payload) {
+      state.acceptanceCodFromCourier = payload;
     },
     setCodReports(state, payload) {
       state.codReports = payload;
@@ -25,13 +25,13 @@ export default {
     },
   },
   actions: {
-    loadCourierCalculation({ commit }, params) {
-      commit('setCourierCalculation', null);
+    loadAcceptanceCodFromCourier({ commit }, params) {
+      commit('setAcceptanceCodFromCourier', null);
 
       api
         .get('courier/closeBillingDay', { params })
         .then(({ data: { _meta: { totalCardCOD, totalCashCOD }, data } }) => {
-          commit('setCourierCalculation', {
+          commit('setAcceptanceCodFromCourier', {
             totalCardCOD,
             totalCashCOD,
             orders: data,

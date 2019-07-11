@@ -12,7 +12,7 @@ import LMACouriersPage from 'Components/pages/LMA/LMACouriersPage';
 import LMACourierPage from 'Components/pages/LMA/LMACourierPage';
 import LMARoutingPage from 'Components/pages/LMA/LMARoutingPage';
 import LMAReportingPage from 'Components/pages/LMA/LMAReportingPage';
-import LMACourierCalculationPage from 'Components/pages/LMA/LMACourierCalculationPage';
+import LMAAcceptanceCodFromCourierPage from 'Components/pages/LMA/LMAAcceptanceCodFromCourierPage';
 import LMACodReportsPage from 'Components/pages/LMA/LMACodReportsPage';
 import LMAServiceActsPage from 'Components/pages/LMA/LMAServiceActsPage';
 import LMARoutingMapPage from 'Components/pages/LMA/LMARoutingMapPage';
@@ -143,13 +143,13 @@ export default new VueRouter({
           path: 'reporting',
           component: LMAReportingPage,
           meta: { pageName: 'reporting' },
-          redirect: '/reporting/courier-calculation',
+          redirect: '/reporting/acceptance-cod-from-courier',
           children: [
             {
-              name: 'lmaCourierCalculation',
-              path: 'courier-calculation',
-              component: LMACourierCalculationPage,
-              meta: { pageName: 'courierCalculation' },
+              name: 'lmaAcceptanceCodFromCourier',
+              path: 'acceptance-cod-from-courier',
+              component: LMAAcceptanceCodFromCourierPage,
+              meta: { pageName: 'acceptanceCodFromCourier' },
             },
             {
               name: 'lmaCodReports',

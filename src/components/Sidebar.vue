@@ -197,9 +197,9 @@ export default {
           title: 'reporting',
           submenu: [
             {
-              route: { name: 'lmaCourierCalculation' },
-              isRoute: 'lmaCourierCalculation',
-              title: 'courierCalculation',
+              route: { name: 'lmaAcceptanceCodFromCourier' },
+              isRoute: 'lmaAcceptanceCodFromCourier',
+              title: 'acceptanceCodFromCourier',
             },
             {
               route: { name: 'lmaCodReports' },
