@@ -218,4 +218,5 @@ export default {
   downloadReport: '',
   chatWithSupport: '',
   clearSelection: '',
+  statusesHistory: '',
 };

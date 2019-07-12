@@ -59,22 +59,32 @@ export default {
     api.get(`statuses/${this.type}`).then(({ data }) => {
       const stages = [];
 
-      data.forEach(status => {
-        let i = null;
+      // eslint-disable-next-line no-param-reassign
+      data = data.map(status => ({
+        ...status,
+        id: String(status.id),
+      }));
 
-        stages.forEach((stage, j) => {
-          if (stage.name === status.stage) i = j;
-        });
+      if (this.type === 'order') {
+        data.forEach(status => {
+          let i = null;
 
-        if (i) {
-          stages[i].statuses.push({ id: String(status.id), name: status.name });
-        } else {
-          stages.push({
-            name: status.stage,
-            statuses: [{ id: String(status.id), name: status.name }],
+          stages.forEach((stage, j) => {
+            if (stage.name === status.stage) i = j;
           });
-        }
-      });
+
+          if (i) {
+            stages[i].statuses.push(status);
+          } else {
+            stages.push({
+              name: status.stage,
+              statuses: [status],
+            });
+          }
+        });
+      } else {
+        stages.push({ statuses: data });
+      }
 
       this.stages = stages;
       this.value = this.model;

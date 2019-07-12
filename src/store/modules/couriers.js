@@ -4,10 +4,12 @@ import { HEADER_PG_PAGE_COUNT } from 'Constants/config';
 export default {
   namespaced: true,
   state: {
+    // Данные для списка курьеров
     list: {
-      data: null,
-      pages: 0,
+      data: null, // Сам список
+      pages: 0, // К-во страниц
     },
+    // Данные для страницы создания/редактирования курьера
     courier: null,
   },
   mutations: {

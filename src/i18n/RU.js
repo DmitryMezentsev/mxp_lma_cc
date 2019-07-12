@@ -220,4 +220,5 @@ export default {
   downloadReport: 'Скачать отчет',
   chatWithSupport: 'Чат с поддержкой',
   clearSelection: 'Снять выделение',
+  statusesHistory: 'История статусов',
 };

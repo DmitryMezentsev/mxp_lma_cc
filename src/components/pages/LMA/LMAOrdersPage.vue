@@ -15,6 +15,7 @@
     <Pagination :max-page="list.pages" />
 
     <LMAOrderDialog @update="loadOrders($route)" />
+    <OrderStatusesHistoryDialog />
 
     <SelectCourierDialog
       :visible="selectCourierDialog"
@@ -30,20 +31,22 @@
 import { mapState, mapMutations, mapActions } from 'vuex';
 import get from 'lodash/get';
 
+import api from 'Common/js/api';
 import { PER_PAGE_DEFAULT } from 'Constants/config';
 import LMAOrdersFilters from 'Components/filters/LMA/LMAOrdersFilters';
 import LMAOrdersTable from 'Components/tables/LMA/LMAOrdersTable';
 import Pagination from 'Components/Pagination';
 import LMAOrderDialog from 'Components/dialog/LMA/LMAOrderDialog';
 import SelectCourierDialog from 'Components/dialog/SelectCourierDialog';
-import api from 'Common/js/api';
+import ActionsPanel from 'Components/ActionsPanel';
+import OrderStatusesHistoryDialog from 'Components/dialog/OrderStatusesHistoryDialog';
 import { number, currency } from 'Common/js/filters';
 import { value2Array } from 'Common/js/helpers';
-import ActionsPanel from 'Components/ActionsPanel';
 
 export default {
   name: 'LMAOrdersPage',
   components: {
+    OrderStatusesHistoryDialog,
     ActionsPanel,
     LMAOrderDialog,
     Pagination,

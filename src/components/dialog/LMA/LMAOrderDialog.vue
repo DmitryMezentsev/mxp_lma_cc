@@ -16,6 +16,14 @@
             <Value :name="$t('shopNumber')" :value="order.sender.internalNumber" />
           </div>
           <div class="values-section">
+            <Value
+              :name="$t('status')"
+              :value="order.currentStatus.statusInfo.name"
+              :active="order.statuses && order.statuses.length > 1"
+              @click="setStatusesHistory(order.statuses)"
+            />
+          </div>
+          <div class="values-section">
             <Value :name="$t('shop')" :value="order.sender.brandName" />
             <Value
               :name="$t('issuePoint')"
@@ -406,7 +414,7 @@ export default {
     },
   },
   methods: {
-    ...mapMutations('orders', ['setOpened']),
+    ...mapMutations('orders', ['setOpened', 'setStatusesHistory']),
     ...mapActions('common', ['loadDeliveryServices']),
     // Сохранение изменений в заказе
     save() {

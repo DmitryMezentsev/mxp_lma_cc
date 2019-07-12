@@ -3,8 +3,11 @@ import api from 'Common/js/api';
 export default {
   namespaced: true,
   state: {
+    // Текущая ширина окна браузера
     clientWidth: null,
+    // Список услуг из справочника
     deliveryServices: null,
+    // Флаг отображения чата с поддержкой
     showZammadChat: localStorage.showZammadChat === 'true' || false,
   },
   mutations: {

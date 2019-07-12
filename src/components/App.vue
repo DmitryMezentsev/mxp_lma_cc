@@ -58,7 +58,10 @@ export default {
   methods: {
     ...mapMutations('common', ['setClientWidth']),
     ...mapMutations('routing', ['setOpenedZone']),
-    ...mapMutations('orders', { setOpenedOrder: 'setOpened' }),
+    ...mapMutations('orders', {
+      setOpenedOrder: 'setOpened',
+      setOrderStatusesHistory: 'setStatusesHistory',
+    }),
     ...mapMutations('pickups', { setOpenedPickup: 'setOpened' }),
     ...mapActions('auth', ['getToken', 'loadCurrentUser']),
   },
@@ -102,6 +105,7 @@ export default {
       // Закрытие открытых модальных окон при изменении роута
       this.setOpenedZone(null);
       this.setOpenedOrder(null);
+      this.setOrderStatusesHistory(null);
       this.setOpenedPickup(null);
     },
   },

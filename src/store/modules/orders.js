@@ -4,14 +4,19 @@ import { HEADER_PG_PAGE_COUNT, HEADER_PG_TOTAL_COUNT } from 'Constants/config';
 export default {
   namespaced: true,
   state: {
+    // Данные для списка заказов
     list: {
-      data: null,
-      pages: 0,
-      totalCount: 0,
-      sumPriceDeclared: 0,
+      data: null, // Сам список
+      pages: 0, // К-во страниц
+      totalCount: 0, // Общее число заказов
+      sumPriceDeclared: 0, // Сумма наложенного платежа
     },
+    // Открытый заказ из списка
     opened: null,
+    // Выбранные в таблице списка заказы
     selected: [],
+    // История статусов заказа для всплывающего окна
+    statusesHistory: null,
   },
   mutations: {
     clearList(state) {
@@ -33,6 +38,9 @@ export default {
     },
     clearSelected(state) {
       state.selected = [];
+    },
+    setStatusesHistory(state, payload) {
+      state.statusesHistory = payload;
     },
   },
   actions: {

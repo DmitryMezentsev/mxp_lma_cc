@@ -4,11 +4,14 @@ import { HEADER_PG_PAGE_COUNT } from 'Constants/config';
 export default {
   namespaced: true,
   state: {
+    // Данные для списка заборов
     list: {
-      data: null,
-      pages: 0,
+      data: null, // Сам список
+      pages: 0, // К-во страниц
     },
+    // Открытый забор из списка
     opened: null,
+    // Выбранные в таблице списка заборы
     selected: [],
   },
   mutations: {

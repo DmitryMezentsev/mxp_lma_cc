@@ -311,3 +311,32 @@ svg {
     max-width: 100%;
   }
 }
+
+.el-timeline {
+  &.huge {
+    .el-timeline-item {
+      .el-timeline-item__node {
+        @size: 24px;
+
+        width: @size;
+        height: @size;
+        left: -7px;
+        top: -5px;
+      }
+
+      .el-timeline-item__icon {
+        font-size: 15px;
+      }
+    }
+  }
+
+  &.blue {
+    .el-timeline-item__node {
+      background-color: @blue-color;
+    }
+
+    .el-timeline-item__tail {
+      border-color: @blue-color;
+    }
+  }
+}

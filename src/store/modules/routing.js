@@ -5,13 +5,17 @@ import { value2Array } from 'Common/js/helpers';
 export default {
   namespaced: true,
   state: {
+    // Данные для списка зон
     zonesList: {
-      data: null,
-      pages: 0,
+      data: null, // Сам список
+      pages: 0, // К-во страниц
     },
     ordersList: [],
+    // Открытая зона из списка
     openedZone: null,
+    // Информация о зоне для боковой панели страницы "Роутинг / Карта"
     mapZoneDetails: null,
+    // Информация о заказе для боковой панели страницы "Роутинг / Карта"
     mapOrderDetails: null,
   },
   mutations: {

@@ -219,4 +219,5 @@ export default {
   downloadReport: 'Download report',
   chatWithSupport: 'Chat with support',
   clearSelection: 'Clear selection',
+  statusesHistory: 'Statuses history',
 };
