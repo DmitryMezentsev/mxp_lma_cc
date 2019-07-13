@@ -218,7 +218,7 @@
 
 <script>
 import { mapState, mapActions, mapGetters, mapMutations } from 'vuex';
-import cloneDeep from 'lodash/cloneDeep';
+import { cloneDeep } from 'lodash';
 
 import mixins from 'Common/js/mixins';
 import inputmask from 'Directives/inputmask';

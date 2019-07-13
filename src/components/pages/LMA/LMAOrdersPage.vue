@@ -29,7 +29,7 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex';
-import get from 'lodash/get';
+import { get } from 'lodash';
 
 import api from 'Common/js/api';
 import { PER_PAGE_DEFAULT } from 'Constants/config';

@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import pick from 'lodash/pick';
+import { pick } from 'lodash';
 
 import mixins from 'Common/js/mixins';
 import DatePicker from 'Components/form-elements/DatePicker';

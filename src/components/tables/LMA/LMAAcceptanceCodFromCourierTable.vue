@@ -48,7 +48,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import get from 'lodash/get';
+import { get } from 'lodash';
 
 import { currency, number } from 'Common/js/filters';
 import PaymentType from 'Components/PaymentType';

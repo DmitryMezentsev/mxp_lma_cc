@@ -297,8 +297,10 @@
 
 <script>
 import { mapState, mapMutations, mapGetters, mapActions } from 'vuex';
-import cloneDeep from 'lodash/cloneDeep';
+import { cloneDeep, get } from 'lodash';
+import { parallel } from 'async';
 
+import api from 'Common/js/api';
 import mixins from 'Common/js/mixins';
 import inputmask from 'Directives/inputmask';
 import Dimensions from 'Components/Dimensions';
@@ -309,6 +311,7 @@ import { ORDER_TYPE_COURIER, ORDER_TYPE_POINT, PARTIAL_ISSUE_SERVICE_ID } from '
 import RoutingZoneSelect from 'Components/form-elements/RoutingZoneSelect';
 import DatePicker from 'Components/form-elements/DatePicker';
 import { currency } from 'Common/js/filters';
+import { coreRequestHeaders } from 'Constants/config';
 
 export default {
   name: 'LMAOrderDialog',
@@ -420,8 +423,83 @@ export default {
     save() {
       this.$refs.order.validate(valid => {
         if (valid) {
+          // Проверяет, было ли изменено свойство заказа
+          const isUpdated = prop =>
+            get(this.order, prop) !== get(this.orders.data[this.opened], prop);
+
+          const requests = [];
+
+          // Изменен курьер
+          if (isUpdated('serviceInfo.courierId')) {
+            requests.push({
+              api: 'serviceInfo/courierId',
+              data: { value: this.order.serviceInfo.courierId },
+            });
+          }
+          // Изменен адрес
+          if (isUpdated('recipient.address.value')) {
+            requests.push({
+              api: 'recipient/address',
+              data: { unrestricted_value: this.order.recipient.address.value },
+            });
+          }
+          // Изменены контакты получателя
+          if (isUpdated('recipient.contacts.name') || isUpdated('recipient.contacts.phone')) {
+            requests.push({
+              api: 'recipient/contacts',
+              data: {
+                name: this.order.recipient.contacts.name,
+                phone: this.order.recipient.contacts.phone,
+              },
+            });
+          }
+          // Изменена дата доставки
+          if (isUpdated('deliveryOrder.dateTimeInterval.date')) {
+            requests.push({
+              api: 'orderDelivery/date',
+              data: { date: this.order.deliveryOrder.dateTimeInterval.date },
+            });
+          }
+          // Изменена зона доставки
+          if (isUpdated('serviceInfo.deliveryZoneId')) {
+            requests.push({
+              api: 'serviceInfo/deliveryZoneId',
+              data: { value: this.order.serviceInfo.deliveryZoneId },
+            });
+          }
+          // Изменен комментарий
+          if (isUpdated('recipient.notes')) {
+            requests.push({
+              api: 'deliverer/notes',
+              data: { value: this.order.recipient.notes },
+            });
+          }
+
           this.lock = 'saving';
-          console.log(this.order);
+
+          parallel(
+            requests.map(request => callback => {
+              api
+                .patch(
+                  // eslint-disable-next-line no-underscore-dangle
+                  `/orders/${this.order._id}/${request.api}`,
+                  request.data,
+                  {
+                    headers: coreRequestHeaders,
+                  },
+                )
+                .then(() => callback())
+                .catch(err => callback(err));
+            }),
+            err => {
+              this.lock = false;
+
+              if (!err) {
+                this.setOpened(null);
+                this.changesSavedMessage();
+              }
+            },
+          );
         }
       });
     },

@@ -74,7 +74,7 @@
 
 <script>
 import { mapMutations, mapActions } from 'vuex';
-import trim from 'lodash/trim';
+import { trim } from 'lodash';
 
 import isRoute from 'Directives/is-route';
 import mixins from 'Common/js/mixins';

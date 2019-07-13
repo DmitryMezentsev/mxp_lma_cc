@@ -15,8 +15,7 @@
 </template>
 
 <script>
-import debounce from 'lodash/debounce';
-import pick from 'lodash/pick';
+import { debounce, pick } from 'lodash';
 
 import { str2Bool } from 'Common/js/helpers';
 import mixins from 'Common/js/mixins';

@@ -1,4 +1,4 @@
-import get from 'lodash/get';
+import { get } from 'lodash';
 
 import api from 'Common/js/api';
 import { APP_TITLE } from 'Constants/config';

@@ -56,8 +56,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import isEqual from 'lodash/isEqual';
-import get from 'lodash/get';
+import { get, isEqual } from 'lodash';
 
 import { centerCoordsFromGeometry } from 'Common/js/helpers';
 import { BLUE_COLOR, DANGER_COLOR, SUCCESS_COLOR } from 'Constants/colors';

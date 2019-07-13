@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import pick from 'lodash/pick';
+import { pick } from 'lodash';
 
 import mixins from 'Common/js/mixins';
 import StatusSelect from 'Components/form-elements/StatusSelect';
