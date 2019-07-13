@@ -13,5 +13,5 @@ export const HEADER_PG_PAGE_COUNT = 'x-pagination-page-count';
 
 // Заголовки, добавляемые к запросу в случае отправки запроса в ядро
 export const coreRequestHeaders = {
-  'X-PATCH-HEADER': 1,
+  'X-CORE-REQUEST-HEADER': 1,
 };
