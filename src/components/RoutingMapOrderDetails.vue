@@ -68,7 +68,7 @@ export default {
       api
         .post('/order/setCourierToOrders', {
           courierId: this.newCourier,
-          orderIds: [this.mapOrderDetails._id], // eslint-disable-line
+          orderIds: [this.mapOrderDetails._id], // eslint-disable-line no-underscore-dangle
         })
         .then(() => {
           this.$message({

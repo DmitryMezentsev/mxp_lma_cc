@@ -172,7 +172,7 @@ export default {
   methods: {
     ...mapMutations('orders', ['setOpened', 'setSelected', 'clearSelected']),
     onSelectionChange(selection) {
-      this.setSelected(selection.map(item => item._id)); // eslint-disable-line
+      this.setSelected(selection.map(item => item._id)); // eslint-disable-line no-underscore-dangle
     },
   },
   destroyed() {
