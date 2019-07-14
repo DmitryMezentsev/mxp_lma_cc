@@ -447,11 +447,7 @@ export default {
           if (isUpdated('recipient.contacts.name') || isUpdated('recipient.contacts.phone')) {
             requests.push({
               api: 'recipient/contacts',
-              data: {
-                ...this.order.recipient.contacts,
-                name: this.order.recipient.contacts.name,
-                phone: this.order.recipient.contacts.phone,
-              },
+              data: this.order.recipient.contacts,
             });
           }
           // Изменена дата доставки
