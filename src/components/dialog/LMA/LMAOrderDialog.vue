@@ -448,6 +448,7 @@ export default {
             requests.push({
               api: 'recipient/contacts',
               data: {
+                ...this.order.recipient.contacts,
                 name: this.order.recipient.contacts.name,
                 phone: this.order.recipient.contacts.phone,
               },
