@@ -93,9 +93,8 @@
         <el-row :gutter="10">
           <el-col :span="14" :xs="24">
             <el-form-item :label="$t('deliveryZone')" prop="serviceInfo.deliveryZoneId">
-              <!-- todo: убрать true, когда появится serviceInfo.deliveryZoneName -->
               <RoutingZoneSelect
-                v-if="true || !currentStatus.statusInfo.isEnd"
+                v-if="!order.currentStatus.statusInfo.isEnd"
                 :model.sync="order.serviceInfo.deliveryZoneId"
                 :no-select-placeholder="$tc('noSelect', 2)"
                 width="100%"
