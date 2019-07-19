@@ -36,13 +36,13 @@ export default {
           locale: data.locale.language,
           currency: data.locale.currency,
           timezone: data.locale.timeZone,
-          role: data.credentials.lma,
+          roles: data.roles,
         });
       });
     },
   },
   getters: {
     getCurrentUser: state => state.currentUser,
-    isAdmin: state => state.currentUser && state.currentUser.role === 'admin',
+    isAdmin: state => state.currentUser && state.currentUser.roles.includes('admin'),
   },
 };
