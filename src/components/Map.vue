@@ -1,23 +1,27 @@
 <template>
   <div>
     <GmapMap ref="map" :center="MAP_CENTER" :zoom="zoom" :options="mapOptions" :style="{ height }">
-      <GmapMarker
-        v-for="(marker, i) in markers"
-        :key="i"
-        :title="marker.title"
-        :icon="getMarkerIcon(i)"
-        :position="{ lat: marker.lat, lng: marker.lng }"
-        clickable
-        @mouseover="markerHover(i)"
-        @mouseout="markerHover(i, true)"
-        @click="markerClick(i)"
-      />
+      <GmapCluster>
+        <GmapMarker
+          v-for="(marker, i) in markers"
+          :key="i"
+          :title="marker.title"
+          :icon="getMarkerIcon(i)"
+          :position="{ lat: marker.lat, lng: marker.lng }"
+          clickable
+          @mouseover="markerHover(i)"
+          @mouseout="markerHover(i, true)"
+          @click="markerClick(i)"
+        />
+      </GmapCluster>
     </GmapMap>
     <div class="help" v-if="help">{{ help }}</div>
   </div>
 </template>
 
 <script>
+import GmapCluster from 'vue2-google-maps/dist/components/cluster';
+
 import { MAP_CENTER } from 'Common/js/env';
 import markerIconGreen from 'Common/img/gmap-marker-green.png';
 import markerIconHoverGreen from 'Common/img/gmap-marker-hover-green.png';
@@ -32,6 +36,7 @@ export default {
     help: { type: String },
     markers: { type: Array, default: () => [] },
   },
+  components: { GmapCluster },
   data() {
     return {
       MAP_CENTER,
