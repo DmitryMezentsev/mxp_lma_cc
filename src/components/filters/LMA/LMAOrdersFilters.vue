@@ -15,11 +15,13 @@
     <div class="filter">
       <el-form-item :label="$t('status')">
         <StatusSelect
+          width="100%"
           name="status"
           :model.sync="filters.status"
           :noSelectPlaceholder="$t('all')"
-          clearable
           @change="change"
+          clearable
+          multiple
         />
       </el-form-item>
     </div>
