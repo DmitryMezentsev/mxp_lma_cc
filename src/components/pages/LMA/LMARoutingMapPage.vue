@@ -19,6 +19,7 @@ import Waiting from 'Components/Waiting';
 import RoutingMapOrderDetails from 'Components/RoutingMapOrderDetails';
 import { centerCoordsFromGeometry } from 'Common/js/helpers';
 import { BLUE_COLOR, SUCCESS_COLOR } from 'Constants/colors';
+import { MAP_CENTER } from 'Common/js/env';
 
 export default {
   name: 'LMARoutingMapPage',
@@ -63,37 +64,41 @@ export default {
     },
     // Отрисовка на карте зон
     drawZones() {
-      if (!this.zonesList.data) return;
+      if (!this.zonesList.data || !this.map) return;
 
       // Очистка карты от имеющихся зон
       this.map.data.forEach(i => {
         if (i.getProperty('type') === 'zone') this.map.data.remove(i);
       });
 
-      const center = { lat: 0, lng: 0 };
+      if (this.zonesList.data.length) {
+        const center = { lat: 0, lng: 0 };
 
-      this.zonesList.data.forEach(({ type, geometry, geoId, properties: { name } }) => {
-        const zone = {
-          type: 'FeatureCollection',
-          features: [
-            {
-              type,
-              geometry,
-              properties: { type: 'zone', geoId, name },
-            },
-          ],
-        };
+        this.zonesList.data.forEach(({ type, geometry, geoId, properties: { name } }) => {
+          const zone = {
+            type: 'FeatureCollection',
+            features: [
+              {
+                type,
+                geometry,
+                properties: { type: 'zone', geoId, name },
+              },
+            ],
+          };
 
-        this.map.data.addGeoJson(zone);
+          this.map.data.addGeoJson(zone);
 
-        const zoneCenter = centerCoordsFromGeometry(zone);
-        center.lat += zoneCenter.lat;
-        center.lng += zoneCenter.lng;
-      });
+          const zoneCenter = centerCoordsFromGeometry(zone);
+          center.lat += zoneCenter.lat;
+          center.lng += zoneCenter.lng;
+        });
 
-      center.lat /= this.zonesList.data.length;
-      center.lng /= this.zonesList.data.length;
-      this.map.setCenter(center);
+        center.lat /= this.zonesList.data.length;
+        center.lng /= this.zonesList.data.length;
+        this.map.setCenter(center);
+      } else {
+        this.map.setCenter(MAP_CENTER);
+      }
 
       this.map.data.setStyle({ fillColor: BLUE_COLOR, strokeWeight: 1 });
 
