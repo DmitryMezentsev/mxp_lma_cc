@@ -13,7 +13,7 @@
         :key="i"
         :timestamp="status.sourceCreatedAt | formatDate(true)"
       >
-        {{ status.orderStatusModelId }}</el-timeline-item
+        {{ status.name }}</el-timeline-item
       >
     </el-timeline>
   </el-dialog>
