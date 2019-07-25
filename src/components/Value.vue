@@ -39,7 +39,8 @@ export default {
 @import '~Common/colors';
 
 .value-label {
-  color: @secondary-text-color;
+  color: @regular-text-color;
+  font-weight: 600;
 }
 
 .active {
