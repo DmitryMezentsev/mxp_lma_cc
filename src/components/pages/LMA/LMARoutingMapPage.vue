@@ -105,12 +105,13 @@ export default {
 
       this.map.data.setStyle({ fillColor: BLUE_COLOR, strokeWeight: 1 });
 
-      // Открытие окна назначения курьера по клику по зоне
+      // Открытие панели назначения курьера по клику по зоне
       this.map.data.addListener('click', e => {
         this.setMapZoneDetails({
           id: e.feature.getProperty('geoId'),
           name: e.feature.getProperty('name'),
         });
+        this.setMapOrderDetails(null);
       });
 
       // Изменение цвета зоны при наведении курсора
@@ -126,6 +127,7 @@ export default {
     },
     openOrder(i) {
       this.setMapOrderDetails(this.ordersList[i]);
+      this.setMapZoneDetails(null);
     },
     onOrdersUpdate() {
       this.loadOrdersList(this.$route.query);
