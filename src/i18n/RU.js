@@ -222,4 +222,5 @@ export default {
   clearSelection: 'Снять выделение',
   statusesHistory: 'История статусов',
   youAreLoggedInAs: 'Вы авторизованы как',
+  ordersCount: 'Число заказов',
 };

@@ -10,6 +10,7 @@ export default {
       data: null, // Сам список
       pages: 0, // К-во страниц
     },
+    // Список заказов для карты роутинга
     ordersList: [],
     // Открытая зона из списка
     openedZone: null,

@@ -221,4 +221,5 @@ export default {
   clearSelection: 'Clear selection',
   statusesHistory: 'Statuses history',
   youAreLoggedInAs: 'You are logged in as',
+  ordersCount: 'Orders count',
 };
