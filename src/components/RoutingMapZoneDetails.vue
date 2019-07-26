@@ -31,6 +31,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
+import { geoContains } from 'd3-geo';
 
 import CourierSelect from 'Components/form-elements/CourierSelect';
 import api from 'Common/js/api';
@@ -47,7 +48,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('routing', ['mapZoneDetails']),
+    ...mapState('routing', ['mapZoneDetails', 'zonesList']),
   },
   methods: {
     ...mapMutations('routing', ['setMapZoneDetails']),
@@ -55,20 +56,40 @@ export default {
       this.setMapZoneDetails(null);
     },
     save() {
-      api
-        .post('/order/setCourierToOrders', {
-          courierId: this.courierId,
-          orderIds: this.orders,
-        })
-        .then(() => {
-          this.$message({
-            message: this.$t('courierAreSet'),
-            type: 'success',
-          });
+      const ordersInZone = []; // Заказы (только ID), расположенные в зоне
+      const ordersOutZone = []; // Заказы, координаты которых находятся вне зоны
 
-          this.$emit('update');
-          this.close();
-        });
+      this.orders.forEach(order => {
+        if (
+          // Проверка, что координаты заказа расположены внутри полигона зоны
+          geoContains(this.zonesList.data[this.mapZoneDetails.index], [order.lng, order.lat])
+        ) {
+          ordersInZone.push(order.id);
+        } else {
+          ordersOutZone.push(order);
+        }
+      });
+
+      if (ordersInZone.length) {
+        api
+          .post('/order/setCourierToOrders', {
+            courierId: this.courierId,
+            orderIds: ordersInZone,
+          })
+          .then(() => {
+            this.$message({
+              message: this.$t('courierAreSet'),
+              type: 'success',
+            });
+
+            this.$emit('update');
+            this.close();
+          });
+      }
+
+      if (ordersOutZone.length) {
+        console.log(ordersOutZone);
+      }
     },
     fetchZoneOrders() {
       api
@@ -79,7 +100,14 @@ export default {
           },
         })
         .then(({ data }) => {
-          this.orders = data.map(order => order._id); // eslint-disable-line no-underscore-dangle
+          this.orders = data.map(order => ({
+            id: order._id, // eslint-disable-line no-underscore-dangle
+            lat: order.recipient.address.latitude,
+            lng: order.recipient.address.longitude,
+            address: order.recipient.address.value,
+            internalNumber: order.internalNumber,
+            senderInternalNumber: order.sender.internalNumber,
+          }));
         });
     },
   },

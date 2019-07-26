@@ -77,14 +77,14 @@ export default {
       if (this.zonesList.data.length) {
         const center = { lat: 0, lng: 0 };
 
-        this.zonesList.data.forEach(({ type, geometry, geoId, properties: { name } }) => {
+        this.zonesList.data.forEach(({ type, geometry, geoId, properties: { name } }, index) => {
           const zone = {
             type: 'FeatureCollection',
             features: [
               {
                 type,
                 geometry,
-                properties: { type: 'zone', geoId, name },
+                properties: { type: 'zone', geoId, name, index },
               },
             ],
           };
@@ -106,10 +106,11 @@ export default {
       this.map.data.setStyle({ fillColor: BLUE_COLOR, strokeWeight: 1 });
 
       // Открытие панели назначения курьера по клику по зоне
-      this.map.data.addListener('click', e => {
+      this.map.data.addListener('click', ({ feature }) => {
         this.setMapZoneDetails({
-          id: e.feature.getProperty('geoId'),
-          name: e.feature.getProperty('name'),
+          id: feature.getProperty('geoId'),
+          name: feature.getProperty('name'),
+          index: feature.getProperty('index'),
         });
         this.setMapOrderDetails(null);
       });
