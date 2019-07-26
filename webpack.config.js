@@ -1,7 +1,7 @@
 const path = require('path');
 
 const webpack = require('webpack');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebappWebpackPlugin = require('webapp-webpack-plugin');
 const Autoprefixer = require('autoprefixer');
@@ -39,7 +39,7 @@ module.exports = (env = {}) => {
       publicPath: '/',
     },
     plugins: [
-      new CleanWebpackPlugin(path.join(__dirname, 'build/**/*.*')),
+      new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         filename: 'index.html',
         template: path.join(__dirname, 'src/index.html'),
