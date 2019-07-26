@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebappWebpackPlugin = require('webapp-webpack-plugin');
 const Autoprefixer = require('autoprefixer');
 const CSSnano = require('cssnano');
-const WebpackAutoInject = require('webpack-auto-inject-version');
+const WebpackAutoInjectVersion = require('webpack-auto-inject-version');
 const { VueLoaderPlugin } = require('vue-loader');
 
 const autoprefixer = Autoprefixer({
@@ -55,7 +55,7 @@ module.exports = (env = {}) => {
       new webpack.DefinePlugin({
         BUILD_IS_DEV: isDev,
       }),
-      new WebpackAutoInject({
+      new WebpackAutoInjectVersion({
         SILENT: true,
         components: {
           AutoIncreaseVersion: false,
