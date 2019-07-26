@@ -177,7 +177,7 @@ export default {
   clientTimezoneMsg: 'Дата и время указаны в часовом поясе получателя',
   setCourier: 'Назначить курьера',
   selectCourier: 'Выберите курьера',
-  courierAreSet: 'Курьер назначен | Курьеры назначены',
+  courierAreSet: 'Курьер назначен',
   viewPickup: 'Просмотр забора',
   contactName: 'Имя контакта',
   edit: 'Редактировать',

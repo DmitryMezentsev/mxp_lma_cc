@@ -6,7 +6,8 @@
     </div>
     <Waiting v-else />
 
-    <RoutingMapOrderDetails @update="onOrderUpdate" />
+    <RoutingMapOrderDetails @update="onOrdersUpdate" />
+    <RoutingMapZoneDetails @update="onOrdersUpdate" />
   </div>
 </template>
 
@@ -17,6 +18,7 @@ import LMARoutingMapFilters from 'Components/filters/LMA/LMARoutingMapFilters';
 import Map from 'Components/Map';
 import Waiting from 'Components/Waiting';
 import RoutingMapOrderDetails from 'Components/RoutingMapOrderDetails';
+import RoutingMapZoneDetails from 'Components/RoutingMapZoneDetails';
 import { centerCoordsFromGeometry } from 'Common/js/helpers';
 import { BLUE_COLOR, SUCCESS_COLOR } from 'Constants/colors';
 import { MAP_CENTER } from 'Common/js/env';
@@ -24,6 +26,7 @@ import { MAP_CENTER } from 'Common/js/env';
 export default {
   name: 'LMARoutingMapPage',
   components: {
+    RoutingMapZoneDetails,
     RoutingMapOrderDetails,
     Waiting,
     LMARoutingMapFilters,
@@ -124,7 +127,7 @@ export default {
     openOrder(i) {
       this.setMapOrderDetails(this.ordersList[i]);
     },
-    onOrderUpdate() {
+    onOrdersUpdate() {
       this.loadOrdersList(this.$route.query);
     },
   },

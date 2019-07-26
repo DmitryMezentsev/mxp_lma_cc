@@ -176,7 +176,7 @@ export default {
   clientTimezoneMsg: 'Date and time are in the recipient’s time zone',
   setCourier: 'Set courier',
   selectCourier: 'Select courier',
-  courierAreSet: 'Courier are set | Couriers are set',
+  courierAreSet: 'Courier are set',
   viewPickup: 'View pickup',
   contactName: 'Contact name',
   edit: 'Edit',

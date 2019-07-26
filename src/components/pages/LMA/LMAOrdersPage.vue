@@ -118,7 +118,7 @@ export default {
           this.loadOrders(this.$route);
 
           this.$message({
-            message: this.$tc('courierAreSet', this.selected.length > 1 ? 2 : 1),
+            message: this.$t('courierAreSet'),
             type: 'success',
           });
         })

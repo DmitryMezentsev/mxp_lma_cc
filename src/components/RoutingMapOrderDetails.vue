@@ -72,7 +72,7 @@ export default {
         })
         .then(() => {
           this.$message({
-            message: this.$tc('courierAreSet', 1),
+            message: this.$t('courierAreSet'),
             type: 'success',
           });
 
