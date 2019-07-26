@@ -457,7 +457,7 @@ export default {
           if (isUpdated('deliveryOrder.dateTimeInterval.date')) {
             requests.push({
               api: 'orderDelivery/date',
-              data: { date: this.order.deliveryOrder.dateTimeInterval.date },
+              data: this.order.deliveryOrder.dateTimeInterval,
             });
           }
           // Изменена зона доставки
