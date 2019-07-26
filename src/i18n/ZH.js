@@ -219,4 +219,5 @@ export default {
   chatWithSupport: '',
   clearSelection: '',
   statusesHistory: '',
+  youAreLoggedInAs: '',
 };

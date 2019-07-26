@@ -33,6 +33,6 @@ export default {
 
 <style lang="less" scoped>
 .el-breadcrumb__item {
-  line-height: 1.5em;
+  line-height: 1.4rem;
 }
 </style>

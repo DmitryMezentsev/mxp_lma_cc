@@ -93,21 +93,22 @@
         <el-row :gutter="10">
           <el-col :span="14" :xs="24">
             <el-form-item :label="$t('deliveryZone')" prop="serviceInfo.deliveryZoneId">
-              <el-input
-                v-if="
-                  order.currentStatus.statusInfo.isEnd ||
-                    (order.recipient.address.longitude && order.recipient.address.longitude)
-                "
-                class="custom-readonly"
-                v-model="order.serviceInfo.deliveryZoneName"
-                readonly
-              />
               <RoutingZoneSelect
-                v-else
+                v-if="
+                  !order.currentStatus.statusInfo.isEnd &&
+                    (isAdmin ||
+                      (!order.recipient.address.longitude || !order.recipient.address.longitude))
+                "
                 :model.sync="order.serviceInfo.deliveryZoneId"
                 :no-select-placeholder="$tc('noSelect', 2)"
                 width="100%"
                 clearable
+              />
+              <el-input
+                v-else
+                class="custom-readonly"
+                v-model="order.serviceInfo.deliveryZoneName"
+                readonly
               />
             </el-form-item>
           </el-col>

@@ -31,12 +31,13 @@ export default {
       redirectToAuth();
     },
     loadCurrentUser({ commit }) {
-      api.post('token/decode').then(({ data: { data } }) => {
+      api.post('token/decode').then(({ data: { data, sub } }) => {
         commit('setCurrentUser', {
           locale: data.locale.language,
           currency: data.locale.currency,
           timezone: data.locale.timeZone,
           roles: data.roles,
+          login: sub,
         });
       });
     },

@@ -220,4 +220,5 @@ export default {
   chatWithSupport: 'Chat with support',
   clearSelection: 'Clear selection',
   statusesHistory: 'Statuses history',
+  youAreLoggedInAs: 'You are logged in as',
 };

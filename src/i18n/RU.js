@@ -221,4 +221,5 @@ export default {
   chatWithSupport: 'Чат с поддержкой',
   clearSelection: 'Снять выделение',
   statusesHistory: 'История статусов',
+  youAreLoggedInAs: 'Вы авторизованы как',
 };
