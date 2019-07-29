@@ -221,4 +221,5 @@ export default {
   statusesHistory: '',
   youAreLoggedInAs: '',
   ordersCount: '',
+  ordersOutZoneMessage: '',
 };

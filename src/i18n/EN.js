@@ -222,4 +222,6 @@ export default {
   statusesHistory: 'Statuses history',
   youAreLoggedInAs: 'You are logged in as',
   ordersCount: 'Orders count',
+  ordersOutZoneMessage:
+    'The coordinates of the following orders were outside of the landfill zones | Information about these orders has been added to the "Summary" section',
 };
