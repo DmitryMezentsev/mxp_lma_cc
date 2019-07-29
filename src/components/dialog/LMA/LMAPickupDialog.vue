@@ -30,7 +30,6 @@
               class-name="custom-disabled"
               width="100%"
               :model.sync="pickup.serviceInfo.status"
-              :disabled="lock"
             />
           </el-form-item>
         </el-col>
@@ -39,7 +38,6 @@
             <CourierSelect
               width="100%"
               class-name="custom-disabled"
-              :disabled="lock"
               :model.sync="pickup.serviceInfo.courierId"
               clearable
             />
@@ -56,7 +54,6 @@
               name="pickupDate"
               :model.sync="pickup.pickup.date"
               :clearable="false"
-              :readonly="lock"
             />
             <div class="hint hidden-xs-only">{{ $t('dateTimeZoneHint') }}</div>
           </el-form-item>
@@ -67,8 +64,7 @@
               class="custom-readonly"
               v-model="pickup.pickup.time.from"
               :clearable="false"
-              :readonly="lock"
-              :picker-options="getTimePickerOptions('from')"
+              :picker-options="getTimePickerOptions('from', pickup.pickup.time.to)"
             />
           </el-form-item>
         </el-col>
@@ -78,8 +74,7 @@
               class="custom-readonly"
               v-model="pickup.pickup.time.to"
               :clearable="false"
-              :readonly="lock"
-              :picker-options="getTimePickerOptions('to')"
+              :picker-options="getTimePickerOptions('to', pickup.pickup.time.from)"
             />
           </el-form-item>
         </el-col>
@@ -106,7 +101,7 @@
         required
       >
         <el-autocomplete
-          v-if="currentUser.locale === 'RU' && !lock"
+          v-if="currentUser.locale === 'RU'"
           v-model="pickup.sender.warehouseAddress"
           :fetch-suggestions="dadataCleanAddress"
           :debounce="700"
@@ -117,7 +112,6 @@
           v-model="pickup.sender.warehouseAddress"
           class="custom-readonly"
           name="warehouseAddress"
-          :readonly="lock"
         />
       </el-form-item>
       <el-row :gutter="10">
@@ -127,7 +121,6 @@
               class="custom-readonly"
               name="contactName"
               v-model="pickup.sender.contacts.name"
-              :readonly="lock"
             />
           </el-form-item>
         </el-col>
@@ -139,7 +132,6 @@
               type="tel"
               v-inputmask
               v-model="pickup.sender.contacts.phone"
-              :readonly="lock"
             />
           </el-form-item>
         </el-col>
@@ -150,7 +142,6 @@
           class="custom-readonly"
           name="notes"
           v-model="pickup.sender.notes"
-          :readonly="lock"
         />
       </el-form-item>
 
@@ -186,7 +177,7 @@
         :width.sync="pickup.dimensions.widthFact"
         :height.sync="pickup.dimensions.heightFact"
         :length.sync="pickup.dimensions.lengthFact"
-        :readonly="lock || !isAdmin"
+        :readonly="!isAdmin"
       />
       <el-row :gutter="10">
         <el-col :span="8" :xs="24">
@@ -195,7 +186,7 @@
               name="weightFact"
               className="custom-readonly"
               :model.sync="pickup.dimensions.weightFact"
-              :readonly="lock || !isAdmin"
+              :readonly="!isAdmin"
             />
           </el-form-item>
         </el-col>
@@ -206,11 +197,8 @@
       <el-button @click="setOpened(null)" :disabled="waiting">
         {{ $t('close') }}
       </el-button>
-      <el-button type="primary" @click="save" :loading="waiting" v-show="!lock">
+      <el-button type="primary" @click="save" :loading="waiting">
         {{ $t('save') }}
-      </el-button>
-      <el-button type="primary" @click="lock = false" v-show="lock">
-        {{ $t('edit') }}
       </el-button>
     </span>
   </el-dialog>
@@ -246,7 +234,6 @@ export default {
   data() {
     return {
       pickup: null,
-      lock: true,
       waiting: false,
       rules: {
         'sender.contacts.name': [this.validationRule('required')],
@@ -283,21 +270,6 @@ export default {
   methods: {
     ...mapMutations('pickups', ['setOpened']),
     ...mapActions('pickups', ['updatePickup']),
-    getTimePickerOptions(input) {
-      const options = {
-        step: '00:15',
-        start: '00:00',
-        end: '23:45',
-      };
-
-      if (input === 'from' && this.pickup.pickup.time.to) {
-        options.end = this.pickup.pickup.time.to;
-      } else if (input === 'to' && this.pickup.pickup.time.from) {
-        options.start = this.pickup.pickup.time.from;
-      }
-
-      return options;
-    },
     save() {
       this.$refs.pickup.validate(valid => {
         if (valid) {
@@ -322,7 +294,6 @@ export default {
   watch: {
     opened: {
       handler(opened) {
-        this.lock = true;
         this.waiting = false;
 
         // eslint-disable-next-line

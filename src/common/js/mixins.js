@@ -128,5 +128,21 @@ export default {
       // Чтобы скрыть процесс загрузки результатов, callback вызываем сразу
       callback([]);
     },
+    // Возвращает настройки для <el-time-select> для выбора временного интервала "от" / "до"
+    getTimePickerOptions(type, otherVal) {
+      const options = {
+        step: '00:15',
+        start: '00:00',
+        end: '23:45',
+      };
+
+      if (type === 'from' && otherVal) {
+        options.end = otherVal;
+      } else if (type === 'to' && otherVal) {
+        options.start = otherVal;
+      }
+
+      return options;
+    },
   },
 };

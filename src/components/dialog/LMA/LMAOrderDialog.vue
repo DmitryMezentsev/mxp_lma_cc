@@ -91,7 +91,7 @@
           </el-col>
         </el-row>
         <el-row :gutter="10">
-          <el-col :span="14" :xs="24">
+          <el-col :span="10" :xs="24">
             <el-form-item :label="$t('deliveryZone')" prop="serviceInfo.deliveryZoneId">
               <RoutingZoneSelect
                 v-if="
@@ -112,15 +112,44 @@
               />
             </el-form-item>
           </el-col>
-          <el-col :span="10" :xs="24">
+          <el-col :span="6" :xs="24">
             <el-form-item :label="$t('deliveryDate')" prop="deliveryOrder.dateTimeInterval.date">
               <DatePicker
                 class="custom-readonly"
                 name="deliveryDate"
+                :clearable="false"
                 :model.sync="order.deliveryOrder.dateTimeInterval.date"
                 :readonly="order.currentStatus.statusInfo.isEnd"
               />
               <div class="hint hidden-xs-only">{{ $t('dateTimeZoneHint') }}</div>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4" :xs="12">
+            <el-form-item
+              :label="$tc('from', 2)"
+              prop="deliveryOrder.dateTimeInterval.timeInterval.from"
+            >
+              <el-time-select
+                v-model="order.deliveryOrder.dateTimeInterval.timeInterval.from"
+                :clearable="false"
+                :picker-options="
+                  getTimePickerOptions('from', order.deliveryOrder.dateTimeInterval.timeInterval.to)
+                "
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="4" :xs="12">
+            <el-form-item
+              :label="$tc('to', 2)"
+              prop="deliveryOrder.dateTimeInterval.timeInterval.to"
+            >
+              <el-time-select
+                v-model="order.deliveryOrder.dateTimeInterval.timeInterval.to"
+                :clearable="false"
+                :picker-options="
+                  getTimePickerOptions('to', order.deliveryOrder.dateTimeInterval.timeInterval.from)
+                "
+              />
             </el-form-item>
           </el-col>
         </el-row>
@@ -453,8 +482,12 @@ export default {
               data: this.order.recipient.contacts,
             });
           }
-          // Изменена дата доставки
-          if (isUpdated('deliveryOrder.dateTimeInterval.date')) {
+          // Изменены дата или время доставки
+          if (
+            isUpdated('deliveryOrder.dateTimeInterval.date') ||
+            isUpdated('deliveryOrder.dateTimeInterval.timeInterval.from') ||
+            isUpdated('deliveryOrder.dateTimeInterval.timeInterval.to')
+          ) {
             requests.push({
               api: 'orderDelivery/date',
               data: this.order.deliveryOrder.dateTimeInterval,
