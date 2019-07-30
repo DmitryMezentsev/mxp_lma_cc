@@ -357,7 +357,9 @@ export default {
       ORDER_TYPE_POINT,
       order: null,
       rules: {
-        'recipient.contacts.phone': [this.validationRule('phone')],
+        'recipient.address.value': [this.validationRule('required')],
+        'recipient.contacts.name': [this.validationRule('required')],
+        'recipient.contacts.phone': [this.validationRule('required'), this.validationRule('phone')],
       },
       editGoods: false,
       lock: false,
