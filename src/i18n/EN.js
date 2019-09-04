@@ -224,4 +224,15 @@ export default {
   ordersCount: 'Orders count',
   ordersOutZoneMessage:
     'The coordinates of the following orders were outside of the landfill zones | Information about these orders has been added to the "Summary" section',
+  ordersImport: 'Orders Import',
+  importTemplates: 'Import templates',
+  templates: 'Templates',
+  templatesManagement: 'Templates management',
+  addOrder: 'Add order',
+  addTemplate: 'Add template',
+  editTemplate: 'Edit template',
+  noTemplates: 'No templates',
+  numberOfUses: 'Number of uses',
+  applyTemplate: 'Apply template',
+  removeTemplateConfirmation: 'Remove the template?',
 };

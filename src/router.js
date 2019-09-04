@@ -22,6 +22,10 @@ import LMARoutingZonesPage from 'Components/pages/LMA/LMARoutingZonesPage';
 import CCHomePage from 'Components/pages/CC/CCHomePage';
 import CCSettingsPage from 'Components/pages/CC/CCSettingsPage';
 import CCOrdersPage from 'Components/pages/CC/CCOrdersPage';
+import CCOrdersImportPage from 'Components/pages/CC/CCOrdersImportPage';
+import CCOrdersImportTemplatesPage from 'Components/pages/CC/CCOrdersImportTemplatesPage';
+import CCOrdersImportTemplatePage from 'Components/pages/CC/CCOrdersImportTemplatePage';
+import CCOrderPage from 'Components/pages/CC/CCOrderPage';
 
 export default new VueRouter({
   routes: [
@@ -183,6 +187,42 @@ export default new VueRouter({
           path: 'orders',
           component: CCOrdersPage,
           meta: { pageName: 'orders' },
+          children: [
+            {
+              name: 'ccOrdersImport',
+              path: 'import',
+              component: CCOrdersImportPage,
+              meta: { pageName: 'ordersImport' },
+              children: [
+                {
+                  name: 'ccOrdersImportTemplates',
+                  path: 'templates',
+                  component: CCOrdersImportTemplatesPage,
+                  meta: { pageName: 'templates' },
+                  children: [
+                    {
+                      name: 'ccOrdersAddImportTemplate',
+                      path: 'add',
+                      component: CCOrdersImportTemplatePage,
+                      meta: { pageName: 'addTemplate' },
+                    },
+                    {
+                      name: 'ccOrdersEditImportTemplate',
+                      path: ':id',
+                      component: CCOrdersImportTemplatePage,
+                      meta: { pageName: 'editTemplate' },
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              name: 'ccAddOrder',
+              path: 'add',
+              component: CCOrderPage,
+              meta: { pageName: 'addOrder' },
+            },
+          ],
         },
       ],
     },

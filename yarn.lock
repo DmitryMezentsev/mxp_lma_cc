@@ -8360,6 +8360,11 @@ vue-eslint-parser@^5.0.0:
     esquery "^1.0.1"
     lodash "^4.17.11"
 
+vue-filter-pluralize@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/vue-filter-pluralize/-/vue-filter-pluralize-1.0.3.tgz#ae6ae5dfd0360c3d0188ce2f723919a9dfd84995"
+  integrity sha512-FnwGsMHjNW27ImGwi6RppO8YBf1wtqJ+0v4U2UkCl0hLLf1jvaMHISlHpLD3k+MaRLF/c67pTPK057uthQ01Dg==
+
 vue-hot-reload-api@^2.3.0:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.3.tgz#2756f46cb3258054c5f4723de8ae7e87302a1ccf"

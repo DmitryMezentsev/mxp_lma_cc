@@ -117,7 +117,17 @@ export default {
         return [
           {
             route: { name: 'ccOrders' },
-            isRoute: 'ccOrders',
+            isRoute: {
+              name: [
+                'ccOrders',
+                'ccAddOrder',
+                'ccEditOrder',
+                'ccOrdersImport',
+                'ccOrdersImportTemplates',
+                'ccOrdersAddImportTemplate',
+                'ccOrdersEditImportTemplate',
+              ],
+            },
             icon: 'file-alt',
             title: 'orders',
           },

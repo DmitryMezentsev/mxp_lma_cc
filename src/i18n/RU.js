@@ -225,4 +225,15 @@ export default {
   ordersCount: 'Число заказов',
   ordersOutZoneMessage:
     'Координаты следующих заказов оказались за пределами полигона зоны | Информация об этих заказах добавлена в раздел "Сводка"',
+  ordersImport: 'Импорт заказов',
+  importTemplates: 'Шаблоны импорта',
+  templates: 'Шаблоны',
+  templatesManagement: 'Управление шаблонами',
+  addOrder: 'Новый заказ',
+  addTemplate: 'Новый шаблон',
+  editTemplate: 'Редактирование шаблона',
+  noTemplates: 'Нет шаблонов',
+  numberOfUses: 'Использован раз',
+  applyTemplate: 'Применить шаблон',
+  removeTemplateConfirmation: 'Удалить этот шаблон?',
 };

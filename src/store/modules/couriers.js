@@ -42,7 +42,7 @@ export default {
       /* eslint-enable */
     },
     patchCourier(context, { id, params, callback }) {
-      // eslint-disable-next-line
+      // eslint-disable-next-line prettier/prettier
       api
         .patch(`courier/${id}`, { ...params })
         .then(({ data }) => callback(data.status === 'ok'));

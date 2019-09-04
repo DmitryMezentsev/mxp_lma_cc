@@ -44,6 +44,12 @@ a {
 
 .hidden { display: none !important; }
 
+.no-select {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
 .filters {
   &:after {
     content: '';
@@ -152,7 +158,11 @@ a {
 
 svg {
   &.svg-inline--fa {
-    &.btn-margin { margin-right: 7px; }
+    &.btn-margin {
+      margin-right: 7px;
+      vertical-align: -1px;
+      margin-bottom: -1px;
+    }
   }
 }
 

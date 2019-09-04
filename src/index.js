@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 import VueI18n from 'vue-i18n';
 import 'babel-polyfill'; // for IE11
 import jQuery from 'jquery/dist/jquery.min'; // for ZammadChat
+import VueFilterPluralize from 'vue-filter-pluralize';
 
 import 'Common/styles';
 import 'Common/element-custom.scss';
@@ -17,6 +18,7 @@ import App from 'Components/App';
 Vue.use(VueI18n);
 Vue.use(VueRouter);
 Vue.use(Vuex);
+Vue.use(VueFilterPluralize);
 
 window.jQuery = jQuery;
 
