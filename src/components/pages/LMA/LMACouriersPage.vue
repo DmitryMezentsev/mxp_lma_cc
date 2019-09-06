@@ -49,7 +49,9 @@ export default {
     },
   },
   beforeRouteEnter(to, from, next) {
-    next(vm => vm.loadCouriers(to.query));
+    next(vm => {
+      if (to.name === 'lmaCouriers') vm.loadCouriers(to.query);
+    });
   },
   beforeRouteUpdate(to, from, next) {
     if (to.name === 'lmaCouriers') this.loadCouriers(to.query);

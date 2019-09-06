@@ -54,18 +54,18 @@ export default {
       });
     },
     patchZone(context, { id, params, callback }) {
-      // eslint-disable-next-line
+      // eslint-disable-next-line prettier/prettier
       api
         .patch(`geo/${id}`, { ...params })
         .then(({ data }) => callback(data.status === 'ok'));
     },
     saveZone(context, { zone, callback }) {
-      // eslint-disable-next-line
+      // eslint-disable-next-line prettier/prettier
       const req = zone.geoId
         ? api.put(`geo/${zone.geoId}`, zone)
         : api.post('geo', zone);
 
-      // eslint-disable-next-line
+      // eslint-disable-next-line prettier/prettier
       req
         .then(({ data }) => callback(data.status === 'ok'))
         .catch(() => callback());

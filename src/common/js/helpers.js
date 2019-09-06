@@ -100,3 +100,6 @@ export const value2Array = val => {
 
   return Array.isArray(val) ? val : [val];
 };
+
+// Возвращает только данные из строки с base64
+export const trimBase64Data = base64 => base64.replace(/^[^;]*;base64,/, '');

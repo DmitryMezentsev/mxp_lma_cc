@@ -35,16 +35,19 @@ export default {
     ...mapActions('ordersTemplates', ['loadList']),
     loadTemplates(query) {
       this.loadList({
+        fields: ['_id', 'name', 'used'],
         perPage: PER_PAGE_DEFAULT,
         page: query.page,
       });
     },
   },
   beforeRouteEnter(to, from, next) {
-    next(vm => vm.loadTemplates(to.query));
+    next(vm => {
+      if (to.name === 'ccOrdersImportTemplates') vm.loadTemplates(to.query);
+    });
   },
   beforeRouteUpdate(to, from, next) {
-    this.loadTemplates(to.query);
+    if (to.name === 'ccOrdersImportTemplates') this.loadTemplates(to.query);
     next();
   },
 };

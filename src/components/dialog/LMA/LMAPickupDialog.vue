@@ -296,7 +296,7 @@ export default {
       handler(opened) {
         this.waiting = false;
 
-        // eslint-disable-next-line
+        // eslint-disable-next-line prettier/prettier
         this.pickup = opened !== null
           ? cloneDeep(this.pickups.data[opened])
           : null;

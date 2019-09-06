@@ -86,7 +86,7 @@ export default {
       zone: 'openedZone',
     }),
     title() {
-      // eslint-disable-next-line
+      // eslint-disable-next-line prettier/prettier
       return this.zone
         ? this.$t(this.zone.geoId ? 'editingZone' : 'newZone')
         : null;

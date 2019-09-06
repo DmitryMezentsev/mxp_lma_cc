@@ -577,7 +577,7 @@ export default {
       handler(opened) {
         this.editGoods = false;
 
-        // eslint-disable-next-line
+        // eslint-disable-next-line prettier/prettier
         this.order = opened !== null
           ? cloneDeep(this.orders.data[opened])
           : null;

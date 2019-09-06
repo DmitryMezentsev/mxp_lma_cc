@@ -33,7 +33,7 @@ hr {
   &.margin-bottom-x2 { margin-bottom: 20px; }
 }
 
-a {
+a, .link {
   color: @blue-color;
   cursor: pointer;
 
@@ -362,4 +362,12 @@ svg {
       border-color: @blue-color;
     }
   }
+}
+
+.actions-form-wrap {
+  padding-bottom: 45px;
+}
+
+.show-if-first:not(:first-child) {
+  display: none;
 }

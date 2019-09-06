@@ -1,5 +1,5 @@
 import api from 'Common/js/api';
-import { HEADER_PG_PAGE_COUNT, HEADER_PG_TOTAL_COUNT } from 'Constants/config';
+import { HEADER_PG_PAGE_COUNT } from 'Constants/config';
 
 export default {
   namespaced: true,
@@ -8,7 +8,6 @@ export default {
     list: {
       data: null, // Сам список
       pages: 0, // К-во страниц
-      totalCount: 0, // Общее число шаблонов
     },
     // Данные для страницы создания/редактирования шаблона
     template: null,
@@ -18,7 +17,6 @@ export default {
       state.list = {
         data: null,
         pages: 0,
-        totalCount: 0,
       };
     },
     setList(state, payload) {
@@ -36,7 +34,6 @@ export default {
         commit('setList', {
           data,
           pages: Number(headers[HEADER_PG_PAGE_COUNT]),
-          totalCount: Number(headers[HEADER_PG_TOTAL_COUNT]),
         });
       });
     },
@@ -45,6 +42,31 @@ export default {
       api
         .delete(`order-template/${id}`)
         .then(({ data }) => callback(data.status === 'ok'));
+    },
+    createNewTemplate({ commit }) {
+      commit('setTemplate', {
+        name: '',
+        template: {},
+        file: '',
+        filename: '',
+      });
+    },
+    openTemplate({ commit }, id) {
+      commit('setTemplate', null);
+
+      api
+        .get(`order-template/${id}`)
+        .then(({ data }) => commit('setTemplate', data))
+        .catch(({ response }) => {
+          if (response.status === 404) window.app.$router.push({ name: 'ccOrdersImportTemplates' });
+        });
+    },
+    saveTemplate(context, { template, callback }) {
+      const req = template._id // eslint-disable-line no-underscore-dangle
+        ? api.put(`order-template/${template._id}`, template) // eslint-disable-line
+        : api.post('order-template', template);
+
+      req.then(({ data }) => callback(data.status === 'ok')).catch(() => callback());
     },
   },
 };

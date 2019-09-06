@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-form v-if="courier" ref="courier" :model="courier" :rules="rules">
-      <div class="form-wrap">
+      <div class="actions-form-wrap">
         <el-row :gutter="10">
           <el-col :span="8" :xs="24">
             <h4>{{ $t('basic') }}</h4>
@@ -386,41 +386,37 @@ export default {
 <style lang="less" scoped>
 @import '~Common/colors';
 
-.form-wrap {
-  padding-bottom: 45px;
+.passport-photo {
+  @img-margin: 8px;
 
-  .passport-photo {
-    @img-margin: 8px;
+  font-size: 0;
+  margin-bottom: -@img-margin;
 
-    font-size: 0;
-    margin-bottom: -@img-margin;
-
-    * {
-      vertical-align: top;
-    }
-
-    img {
-      max-width: 100px;
-      max-height: 120px;
-      margin-right: @img-margin;
-      margin-bottom: @img-margin;
-    }
+  * {
+    vertical-align: top;
   }
 
-  .autocomplete-form-item {
-    .el-autocomplete {
-      display: block;
-    }
+  img {
+    max-width: 100px;
+    max-height: 120px;
+    margin-right: @img-margin;
+    margin-bottom: @img-margin;
   }
+}
 
-  .documents {
-    margin-top: 2em;
-    border-top: 1px solid @light-border-color;
+.autocomplete-form-item {
+  .el-autocomplete {
+    display: block;
+  }
+}
 
-    .upload-button-wrap {
-      margin: 1em 0;
-      text-align: right;
-    }
+.documents {
+  margin-top: 2em;
+  border-top: 1px solid @light-border-color;
+
+  .upload-button-wrap {
+    margin: 1em 0;
+    text-align: right;
   }
 }
 </style>

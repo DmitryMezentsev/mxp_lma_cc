@@ -254,15 +254,20 @@ export default {
       q = trim(q); // eslint-disable-line no-param-reassign
 
       if (q) {
-        this.$router.push({ name: 'lmaOrdersList', params: { type: 'search' }, query: { q } });
+        this.$router.push({
+          name: this.isLMA() ? 'lmaOrdersList' : 'ccOrders',
+          params: { type: 'search' },
+          query: { q },
+        });
       } else {
         this.$router.push({ name: this.homeName });
       }
     },
     // Возвращает текущее состояние сайдбара, сохраненное в браузере
     getSavedSidebarState() {
-      // eslint-disable-next-line
-      return JSON.parse((this.isCC() ? localStorage.sidebarStateCC : localStorage.sidebarStateLMA) || '{}');
+      return JSON.parse(
+        (this.isCC() ? localStorage.sidebarStateCC : localStorage.sidebarStateLMA) || '{}',
+      );
     },
     // Сохраняет состояние сайдбара в браузере
     sidebarStateSave(index, opened) {

@@ -30,16 +30,12 @@ export default {
     loadList({ commit }, params) {
       commit('clearList');
 
-      /* eslint-disable */
-      api
-        .get('courier', { params })
-        .then(({ data, headers }) => {
-          commit('setList', {
-            data,
-            pages: Number(headers[HEADER_PG_PAGE_COUNT]),
-          });
+      api.get('courier', { params }).then(({ data, headers }) => {
+        commit('setList', {
+          data,
+          pages: Number(headers[HEADER_PG_PAGE_COUNT]),
         });
-      /* eslint-enable */
+      });
     },
     patchCourier(context, { id, params, callback }) {
       // eslint-disable-next-line prettier/prettier

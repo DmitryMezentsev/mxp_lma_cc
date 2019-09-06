@@ -44,7 +44,7 @@ export default {
       immediate: true,
     },
     filters: {
-      // eslint-disable-next-line
+      // eslint-disable-next-line func-names
       handler: debounce(function({ fullname, inArchive }) {
         this.replaceRouteQueryParams({
           fullname,

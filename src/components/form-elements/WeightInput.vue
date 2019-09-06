@@ -47,9 +47,9 @@ export default {
   watch: {
     model: {
       handler(model) {
-        // eslint-disable-next-line
+        // eslint-disable-next-line no-param-reassign
         model = parseFloat(model);
-        // eslint-disable-next-line
+        // eslint-disable-next-line prettier/prettier
         this.value = (model || model === 0)
           ? model / 1000
           : null;

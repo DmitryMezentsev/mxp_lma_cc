@@ -45,7 +45,7 @@ export default {
     },
     // Возвращает название страницы для переданного или текущего роута
     getRoutePageName(route) {
-      // eslint-disable-next-line
+      // eslint-disable-next-line no-param-reassign
       if (!route) route = this.$route;
 
       if (typeof route.meta.pageName === 'object')
@@ -115,7 +115,7 @@ export default {
     },
     // Приводит в порядок вводимый в input адрес с помощью сервиса dadata.ru
     dadataCleanAddress(address, callback) {
-      // eslint-disable-next-line
+      // eslint-disable-next-line no-param-reassign
       address = address.trim();
 
       if (address.length) {

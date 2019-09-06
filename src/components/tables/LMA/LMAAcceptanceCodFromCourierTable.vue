@@ -65,7 +65,7 @@ export default {
     acquiringPercent() {
       if (!this.data) return 0;
 
-      // eslint-disable-next-line
+      // eslint-disable-next-line prettier/prettier
       const percent = this.data.totalCardCOD / ((this.data.totalCardCOD + this.data.totalCashCOD) / 100);
       return Number.isNaN(percent) ? 0 : percent;
     },

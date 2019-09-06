@@ -79,7 +79,7 @@ export default {
     this.$nextTick(() => {
       this.value = this.model;
 
-      // eslint-disable-next-line
+      // eslint-disable-next-line no-nested-ternary, prettier/prettier
       const ids = Array.isArray(this.model)
         ? this.model
         : this.model ? [this.model] : [];

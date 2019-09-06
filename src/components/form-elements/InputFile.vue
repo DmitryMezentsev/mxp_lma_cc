@@ -2,7 +2,7 @@
   <span>
     <input type="file" @change="onFileSelect" />
     <el-button @click="browse">
-      {{ fileName || $t('browse') + '...' }}
+      {{ buttonText || $t('browse') + '...' }}
     </el-button>
   </span>
 </template>
@@ -17,11 +17,12 @@ export default {
     model: { type: String, required: true },
     allowedTypes: { type: Array },
     maxFileSize: { type: Number }, // В Кб
+    filename: { type: String },
   },
   mixins: [mixins],
   data() {
     return {
-      fileName: null,
+      buttonText: null,
     };
   },
   methods: {
@@ -53,7 +54,9 @@ export default {
           // Все ок, обновление модели
           this.$emit('update:model', reader.result);
           // Установка имени файла на кнопку загрузки
-          this.fileName = target.files[0].name;
+          this.buttonText = target.files[0].name;
+          // Отправка имени файла через API компонента
+          this.$emit('update:filename', target.files[0].name);
 
           return true;
         },
@@ -65,7 +68,7 @@ export default {
   },
   watch: {
     model(model) {
-      if (!model) this.fileName = null;
+      if (!model) this.buttonText = null;
     },
   },
 };

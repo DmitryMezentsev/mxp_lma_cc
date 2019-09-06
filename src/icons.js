@@ -23,6 +23,7 @@ import {
   faFileUpload,
   faPencilAlt,
   faReply,
+  faFileExcel,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faCheck);
@@ -45,5 +46,6 @@ library.add(faHeadset);
 library.add(faFileUpload);
 library.add(faPencilAlt);
 library.add(faReply);
+library.add(faFileExcel);
 
 Vue.component('fa-icon', FontAwesomeIcon);

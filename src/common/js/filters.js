@@ -4,7 +4,7 @@ import getStore from 'Base/store';
 
 // Разбивает число на разряды
 export const number = num => {
-  // eslint-disable-next-line
+  // eslint-disable-next-line prettier/prettier, eqeqeq
   return (num || num == 0)
     ? num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
     : '—';
