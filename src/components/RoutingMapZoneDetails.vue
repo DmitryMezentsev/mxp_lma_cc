@@ -20,7 +20,7 @@
           <el-button
             type="primary"
             @click="save"
-            :disabled="!courierId || !orders.length"
+            :disabled="!courierId || !orders || !orders.length"
             :loading="!orders"
           >
             {{ $t('save') }}
