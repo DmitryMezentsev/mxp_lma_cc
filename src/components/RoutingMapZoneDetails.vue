@@ -7,12 +7,13 @@
         <div v-if="orders">
           <hr />
           <section>{{ $t('ordersCount') }}: {{ orders.length | number }}.</section>
+          <hr />
+          <section>
+            <div class="label">{{ $t('courier') }}:</div>
+            <CourierSelect width="100%" :model.sync="courierId" name="courier" />
+          </section>
         </div>
-        <hr />
-        <section>
-          <div class="label">{{ $t('courier') }}:</div>
-          <CourierSelect width="100%" :model.sync="courierId" name="courier" />
-        </section>
+        <Waiting v-else min-padding />
       </div>
       <footer>
         <el-button-group>
@@ -52,13 +53,14 @@ import { mapState, mapMutations } from 'vuex';
 import { geoContains } from 'd3-geo';
 
 import CourierSelect from 'Components/form-elements/CourierSelect';
+import Waiting from 'Components/Waiting';
 import api from 'Common/js/api';
 import { number } from 'Common/js/filters';
 
 export default {
   name: 'RoutingMapZoneDetails',
   filters: { number },
-  components: { CourierSelect },
+  components: { Waiting, CourierSelect },
   data() {
     return {
       courierId: null,

@@ -135,7 +135,11 @@ export default {
         }
       });
 
-      this.map.data.setStyle({ fillColor: BLUE_COLOR, strokeWeight: 1 });
+      this.map.data.setStyle({
+        fillColor: BLUE_COLOR,
+        strokeWeight: 1,
+        editable: true,
+      });
     },
     save() {
       this.$refs.zone.validate(valid => {
