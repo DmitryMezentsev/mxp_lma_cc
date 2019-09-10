@@ -256,7 +256,7 @@ export default {
     item_costVat: 'НДС',
     extraParams_DopRecno: 'Дополн. номер заказа',
   },
-  selectXlsxFile: 'Выберите файл XLS / XLSX / CSV',
+  selectXlsxFile: 'Выберите файл XLS / XLSX',
   saveAndUse: 'Сохранить и применить',
   fieldMappingSettings: 'Настройки сопоставления полей',
   fieldFromFile: 'Поле из файла',

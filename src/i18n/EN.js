@@ -255,7 +255,7 @@ export default {
     item_costVat: 'VAT',
     extraParams_DopRecno: 'Additional order ID',
   },
-  selectXlsxFile: 'Select XLS / XLSX / CSV file',
+  selectXlsxFile: 'Select XLS / XLSX file',
   saveAndUse: 'Save and use',
   fieldMappingSettings: 'Field mapping settings',
   fieldFromFile: 'Field from file',
