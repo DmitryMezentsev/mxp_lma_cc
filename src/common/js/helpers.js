@@ -29,16 +29,26 @@ export const getMimeFromBase64 = base64 => {
   return get(mime, '[1]', null);
 };
 
+// Возвращает только данные из строки с base64
+export const trimBase64Data = base64 => base64.replace(/^[^;]*;base64,/, '');
+
 // Определяет расширение файла по base64
 export const getExtensionFromBase64 = base64 => {
   const mime = getMimeFromBase64(base64);
   const extensions = {
+    // Images
     'image/jpeg': 'jpg',
     'image/png': 'png',
     'image/bmp': 'bmp',
     'image/tiff': 'tiff',
+    // Documents
     'application/pdf': 'pdf',
+    // Excel
     'application/vnd.ms-excel': 'xls',
+    'application/excel': 'xls',
+    'application/x-excel': 'xls',
+    'application/x-msexcel': 'xls',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'xlsx',
   };
 
   return extensions[mime];
@@ -100,6 +110,3 @@ export const value2Array = val => {
 
   return Array.isArray(val) ? val : [val];
 };
-
-// Возвращает только данные из строки с base64
-export const trimBase64Data = base64 => base64.replace(/^[^;]*;base64,/, '');
