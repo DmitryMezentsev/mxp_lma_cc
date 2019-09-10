@@ -13,6 +13,7 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex';
+import moment from 'moment';
 
 import LMARoutingMapFilters from 'Components/filters/LMA/LMARoutingMapFilters';
 import Map from 'Components/Map';
@@ -22,6 +23,8 @@ import RoutingMapZoneDetails from 'Components/RoutingMapZoneDetails';
 import { centerCoordsFromGeometry } from 'Common/js/helpers';
 import { BLUE_COLOR, SUCCESS_COLOR } from 'Constants/colors';
 import { MAP_CENTER } from 'Common/js/env';
+
+const today = moment().format('YYYY-MM-DD');
 
 export default {
   name: 'LMARoutingMapPage',
@@ -135,16 +138,26 @@ export default {
     },
   },
   beforeRouteEnter(to, from, next) {
-    next(vm => {
-      vm.loadZones(to.query);
-      vm.loadOrdersList(to.query);
-    });
+    if (!to.query.date) {
+      to.query.date = today; // eslint-disable-line no-param-reassign
+      next(to);
+    } else {
+      next(vm => {
+        vm.loadZones(to.query);
+        vm.loadOrdersList(to.query);
+      });
+    }
   },
   beforeRouteUpdate(to, from, next) {
-    this.loadOrdersList(to.query);
-    this.setMapZoneDetails(null);
-    this.setMapOrderDetails(null);
-    next();
+    if (!to.query.date) {
+      to.query.date = today; // eslint-disable-line no-param-reassign
+      next(to);
+    } else {
+      this.loadOrdersList(to.query);
+      this.setMapZoneDetails(null);
+      this.setMapOrderDetails(null);
+      next();
+    }
   },
   beforeRouteLeave(to, from, next) {
     this.setMapZoneDetails(null);

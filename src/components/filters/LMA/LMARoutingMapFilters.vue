@@ -2,7 +2,13 @@
   <el-form class="filters">
     <div class="filter">
       <el-form-item :label="$t('date')">
-        <DatePicker width="100%" name="date" :model="filters.date" @change="change" />
+        <DatePicker
+          width="100%"
+          name="date"
+          :model="filters.date"
+          :clearable="false"
+          @change="change"
+        />
       </el-form-item>
     </div>
     <div class="filter">

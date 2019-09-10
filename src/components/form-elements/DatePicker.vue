@@ -10,6 +10,7 @@
     :value-format="DATE_API_FORMAT"
     :start-placeholder="startPlaceholder"
     :end-placeholder="endPlaceholder"
+    :placeholder="placeholder"
     :range-separator="rangeSeparator"
     :picker-options="{ firstDayOfWeek: 1 }"
     :style="{ width }"
@@ -33,6 +34,7 @@ export default {
     readonly: { type: Boolean },
     startPlaceholder: { type: String },
     endPlaceholder: { type: String },
+    placeholder: { type: String },
     rangeSeparator: { type: String, default: '—' },
   },
   data() {
