@@ -89,7 +89,9 @@ export default {
         ids.map(id => {
           return callback => {
             api
-              .get(`geo/${id}`)
+              .get(`geo/${id}`, {
+                params: { fields: ['geoId', 'properties'] },
+              })
               .then(({ data }) => callback(null, data))
               .catch(() => callback(null, id));
           };
