@@ -20,6 +20,16 @@
             <el-form-item :label="$t('livingArea')" prop="livingArea" required>
               <el-input v-model="courier.livingArea" name="livingArea" />
             </el-form-item>
+            <el-form-item :label="$t('legalPerson')" prop="permissions.legalpersonId" required>
+              <LegalPersonSelect :model.sync="courier.permissions.legalpersonId" width="100%" />
+            </el-form-item>
+            <el-form-item :label="$t('warehouse')" prop="permissions.warehouseIds" required>
+              <WarehouseSelect
+                :model.sync="courier.permissions.warehouseIds"
+                width="100%"
+                multiple
+              />
+            </el-form-item>
           </el-col>
           <el-col :span="8" :xs="24">
             <h4>{{ $t('passportData') }}</h4>
@@ -168,11 +178,12 @@
 import { mapState, mapActions } from 'vuex';
 import downloadjs from 'downloadjs';
 
-import api from 'Common/js/api';
 import { PASSPORT, VEHICLE_PASSPORT, DRIVERS_LICENSE } from 'Constants/courier-document-types';
+import api from 'Common/js/api';
 import mixins from 'Common/js/mixins';
 import { generateRandomString, getExtensionFromBase64 } from 'Common/js/helpers';
 import cars from 'Common/js/cars';
+import { formatDate } from 'Common/js/filters';
 import inputmask from 'Directives/inputmask';
 import autoblur from 'Directives/autoblur';
 import Waiting from 'Components/Waiting';
@@ -180,14 +191,23 @@ import InputFile from 'Components/form-elements/InputFile';
 import LMAUploadCourierDocumentDialog from 'Components/dialog/LMA/LMAUploadCourierDocumentDialog';
 import DatePicker from 'Components/form-elements/DatePicker';
 import ActionsPanel from 'Components/ActionsPanel';
-import { formatDate } from 'Common/js/filters';
+import LegalPersonSelect from 'Components/form-elements/LegalPersonSelect';
+import WarehouseSelect from 'Components/form-elements/WarehouseSelect';
 
 // Минимальная длина пароля при создании нового курьера
 const minPasswordLength = 6;
 
 export default {
   name: 'LMACourierPage',
-  components: { ActionsPanel, DatePicker, LMAUploadCourierDocumentDialog, InputFile, Waiting },
+  components: {
+    WarehouseSelect,
+    LegalPersonSelect,
+    ActionsPanel,
+    DatePicker,
+    LMAUploadCourierDocumentDialog,
+    InputFile,
+    Waiting,
+  },
   mixins: [mixins],
   filters: { formatDate },
   directives: { inputmask, autoblur },
@@ -206,6 +226,8 @@ export default {
         phone1: [this.validationRule('required'), this.validationRule('phone')],
         phone2: [this.validationRule('phone')],
         livingArea: [this.validationRule('required')],
+        'permissions.legalpersonId': [this.validationRule('selectRequired')],
+        'permissions.warehouseIds': [this.validationRule('selectRequired')],
         'passport.address': [this.validationRule('required')],
         'passport.series': [this.validationRule('required')],
         'passport.issueInfo': [this.validationRule('required')],

@@ -51,6 +51,10 @@ export default {
         phone1: '',
         phone2: '',
         livingArea: '',
+        permissions: {
+          legalpersonId: '',
+          warehouseIds: [],
+        },
         passport: {
           photo: '',
           series: '',
