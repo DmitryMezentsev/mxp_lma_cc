@@ -4,6 +4,7 @@
     :no-data-text="$t('noData')"
     :placeholder="$tc('noSelect', 1)"
     :clearable="clearable"
+    :multiple="multiple"
     :disabled="disabled"
     :style="{ width }"
     @change="onChange"
@@ -21,12 +22,13 @@ export default {
   props: {
     clearable: { type: Boolean },
     disabled: { type: Boolean },
-    model: { type: String },
+    model: { type: [String, Array] },
     width: { type: String, default: '220px' },
+    multiple: { type: Boolean },
   },
   data() {
     return {
-      value: null,
+      value: this.multiple ? [] : null,
     };
   },
   computed: {
