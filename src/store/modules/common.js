@@ -29,16 +29,16 @@ export default {
   actions: {
     loadDeliveryServices({ commit, state }) {
       if (!state.deliveryServices) {
-        api.get('/deliveryServiceCodes').then(({ data }) => {
-          if (data.status === 'ok') {
-            commit('setDeliveryServices', data.codes.deliveryServices);
-          } else {
-            window.app.$message({
-              message: window.app.$t('deliveryServicesLoadingError'),
-              type: 'error',
-            });
-          }
-        });
+        api
+          .get('/delivery-service')
+          .then(({ data }) => {
+            const services = {};
+            data.forEach(s => (services[s._id] = s)); // eslint-disable-line
+            commit('setDeliveryServices', services);
+          })
+          .catch(() => {
+            console.error(window.app.$t('deliveryServicesLoadingError'));
+          });
       }
     },
   },
