@@ -263,4 +263,6 @@ export default {
   valueExamples: 'Примеры значений',
   needField: 'Необходимое поле',
   dataFromFile: 'Данные взяты из файла',
+  noData: 'Нет данных',
+  legalPerson: 'Юр. лицо',
 };

@@ -260,4 +260,6 @@ export default {
   valueExamples: '',
   needField: '',
   dataFromFile: '',
+  noData: '',
+  legalPerson: '',
 };

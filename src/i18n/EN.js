@@ -262,4 +262,6 @@ export default {
   valueExamples: 'Value examples',
   needField: 'Need field',
   dataFromFile: 'Data from file',
+  noData: 'No data',
+  legalPerson: 'Legal person',
 };

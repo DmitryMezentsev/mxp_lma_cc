@@ -11,8 +11,8 @@
     top="5vh"
   >
     <el-form v-if="zone" ref="zone" :model="zone" :rules="rules">
-      <el-row>
-        <el-col :span="14" :xs="24">
+      <el-row :gutter="10">
+        <el-col :md="6" :sm="12">
           <el-form-item :label="$tc('name', 0)" prop="properties.name" required>
             <el-input
               class="custom-readonly"
@@ -22,7 +22,25 @@
             />
           </el-form-item>
         </el-col>
-        <el-col :span="10" :xs="24">
+        <el-col :md="5" :sm="12">
+          <el-form-item :label="$t('legalPerson')" prop="properties.legalpersonId" required>
+            <LegalPersonSelect
+              width="100%"
+              :model.sync="zone.properties.legalpersonId"
+              :readonly="waiting"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :md="5" :sm="12">
+          <el-form-item :label="$t('warehouse')" prop="properties.warehouseId" required>
+            <WarehouseSelect
+              width="100%"
+              :model.sync="zone.properties.warehouseId"
+              :readonly="waiting"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :md="8" :sm="12">
           <el-form-item prop="properties.isOperating" class="active-switch">
             <el-switch
               v-model="zone.properties.isOperating"
@@ -58,17 +76,19 @@
 import { mapState, mapActions } from 'vuex';
 import { get, isEqual } from 'lodash';
 
-import { centerCoordsFromGeometry } from 'Common/js/helpers';
 import { BLUE_COLOR, DANGER_COLOR, SUCCESS_COLOR } from 'Constants/colors';
+import { centerCoordsFromGeometry } from 'Common/js/helpers';
 import mixins from 'Common/js/mixins';
+import autoblur from 'Directives/autoblur';
 import Waiting from 'Components/Waiting';
 import Map from 'Components/Map';
-import autoblur from 'Directives/autoblur';
+import LegalPersonSelect from 'Components/form-elements/LegalPersonSelect';
+import WarehouseSelect from 'Components/form-elements/WarehouseSelect';
 
 export default {
   name: 'LMARoutingZoneDialog',
   directives: { autoblur },
-  components: { Waiting, Map },
+  components: { WarehouseSelect, LegalPersonSelect, Waiting, Map },
   mixins: [mixins],
   data() {
     return {
@@ -76,6 +96,8 @@ export default {
       map: null,
       rules: {
         'properties.name': [this.validationRule('required')],
+        'properties.legalpersonId': [this.validationRule('required')],
+        'properties.warehouseId': [this.validationRule('required')],
       },
       DANGER_COLOR,
       SUCCESS_COLOR,
