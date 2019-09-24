@@ -58,6 +58,8 @@ export default {
   cm: 'см',
   estimatedCost: 'Оценочная стоимость',
   comment: 'Комментарий',
+  recipientComment: 'Комментарий получателя',
+  delivererComment: 'Комментарий доставщика',
   services: 'Услуги',
   partialIssue: 'Частичная выдача',
   goods: 'Товары',

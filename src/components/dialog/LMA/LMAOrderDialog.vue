@@ -191,11 +191,19 @@
       <hr class="margin-bottom" />
       <el-row :gutter="10">
         <el-col>
-          <el-form-item :label="$t('comment')" prop="recipient.notes">
+          <el-form-item :label="$t('recipientComment')" v-if="order.recipient.notes">
             <el-input
               type="textarea"
               class="custom-readonly"
               v-model="order.recipient.notes"
+              readonly
+            />
+          </el-form-item>
+          <el-form-item :label="$t('delivererComment')" prop="deliverer.notes">
+            <el-input
+              type="textarea"
+              class="custom-readonly"
+              v-model="order.deliverer.notes"
               :readonly="!isAdmin || order.currentStatus.statusInfo.isEnd"
             />
           </el-form-item>
@@ -503,10 +511,10 @@ export default {
             });
           }
           // Изменен комментарий
-          if (isUpdated('recipient.notes')) {
+          if (isUpdated('deliverer.notes')) {
             requests.push({
               api: 'deliverer/notes',
-              data: { value: this.order.recipient.notes },
+              data: { value: this.order.deliverer.notes },
             });
           }
 

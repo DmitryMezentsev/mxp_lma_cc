@@ -58,6 +58,8 @@ export default {
   cm: 'cm',
   estimatedCost: 'Estimated cost',
   comment: 'Comment',
+  recipientComment: 'Recipient comment',
+  delivererComment: 'Deliverer comment',
   services: 'Services',
   partialIssue: 'Partial issue',
   goods: 'Goods',
