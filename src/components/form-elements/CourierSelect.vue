@@ -16,7 +16,7 @@
       v-for="(courier, i) in couriers"
       :key="i"
       :label="courier.fullname"
-      :value="courier.courierId"
+      :value="courier.access.coreSsoId"
     />
   </el-select>
 </template>
@@ -57,14 +57,14 @@ export default {
     setValue(value) {
       this.value = this.multiple ? [] : null;
 
-      this.couriers.forEach(({ courierId }) => {
+      this.couriers.forEach(({ access: { coreSsoId } }) => {
         // Проверка, есть ли курьер с переданным в селект ID в загруженном списке
         // Чтобы в случае, когда курьер был перенесен в архив, в селект не вываливался ID этого курьера
         if (this.multiple) {
-          if ((Array.isArray(value) && value.includes(courierId)) || courierId === value) {
-            this.value.push(courierId);
+          if ((Array.isArray(value) && value.includes(coreSsoId)) || coreSsoId === value) {
+            this.value.push(coreSsoId);
           }
-        } else if (courierId === value) {
+        } else if (coreSsoId === value) {
           this.value = value;
         }
       });
@@ -73,7 +73,10 @@ export default {
   created() {
     api
       .get('courier', {
-        params: { perPage: 0 },
+        params: {
+          perPage: 0,
+          fields: ['fullname', 'access.coreSsoId'],
+        },
       })
       .then(({ data }) => {
         this.couriers = data;
