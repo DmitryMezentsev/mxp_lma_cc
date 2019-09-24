@@ -130,11 +130,13 @@
               prop="deliveryOrder.dateTimeInterval.timeInterval.from"
             >
               <el-time-select
+                class="custom-readonly"
                 v-model="order.deliveryOrder.dateTimeInterval.timeInterval.from"
                 :clearable="false"
                 :picker-options="
                   getTimePickerOptions('from', order.deliveryOrder.dateTimeInterval.timeInterval.to)
                 "
+                :readonly="order.currentStatus.statusInfo.isEnd"
               />
             </el-form-item>
           </el-col>
@@ -144,11 +146,13 @@
               prop="deliveryOrder.dateTimeInterval.timeInterval.to"
             >
               <el-time-select
+                class="custom-readonly"
                 v-model="order.deliveryOrder.dateTimeInterval.timeInterval.to"
                 :clearable="false"
                 :picker-options="
                   getTimePickerOptions('to', order.deliveryOrder.dateTimeInterval.timeInterval.from)
                 "
+                :readonly="order.currentStatus.statusInfo.isEnd"
               />
             </el-form-item>
           </el-col>
