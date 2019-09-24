@@ -12,7 +12,7 @@
     :end-placeholder="endPlaceholder"
     :placeholder="placeholder"
     :range-separator="rangeSeparator"
-    :picker-options="{ firstDayOfWeek: 1 }"
+    :picker-options="{ ...options, firstDayOfWeek: 1 }"
     :style="{ width }"
   />
 </template>
@@ -36,6 +36,7 @@ export default {
     endPlaceholder: { type: String },
     placeholder: { type: String },
     rangeSeparator: { type: String, default: '—' },
+    options: { type: Object },
   },
   data() {
     return {

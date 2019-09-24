@@ -321,6 +321,23 @@ svg {
   }
 }
 
+.el-date-picker {
+  .el-date-table {
+    td {
+      &.disabled {
+        cursor: default;
+
+        &.current {
+          span {
+            color: @white-color;
+            background-color: @info-color;
+          }
+        }
+      }
+    }
+  }
+}
+
 .el-message {
   @media (max-width: 400px) { min-width: 320px; }
 }

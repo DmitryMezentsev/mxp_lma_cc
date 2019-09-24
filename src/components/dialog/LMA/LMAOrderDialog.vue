@@ -117,6 +117,7 @@
               <DatePicker
                 class="custom-readonly"
                 name="deliveryDate"
+                :options="deliveryDateOptions"
                 :clearable="false"
                 :model.sync="order.deliveryOrder.dateTimeInterval.date"
                 :readonly="order.currentStatus.statusInfo.isEnd"
@@ -343,6 +344,7 @@
 import { mapState, mapMutations, mapGetters, mapActions } from 'vuex';
 import { cloneDeep, get } from 'lodash';
 import { parallel } from 'async';
+import moment from 'moment';
 
 import { CORE_REQUEST_HEADERS } from 'Constants/config';
 import { ORDER_TYPE_COURIER, ORDER_TYPE_POINT, PARTIAL_ISSUE_SERVICE_ID } from 'Constants/data';
@@ -364,10 +366,16 @@ export default {
   components: { DatePicker, RoutingZoneSelect, CourierSelect, Value, TagChecked, Dimensions },
   directives: { inputmask },
   data() {
+    // Timestamp начала текущего дня
+    const today = Number(moment(moment().format('YYYY-MM-DD')).format('x'));
+
     return {
       ORDER_TYPE_COURIER,
       ORDER_TYPE_POINT,
       order: null,
+      deliveryDateOptions: {
+        disabledDate: time => time.getTime() < today,
+      },
       rules: {
         'recipient.address.value': [this.validationRule('required')],
         'recipient.contacts.name': [this.validationRule('required')],
