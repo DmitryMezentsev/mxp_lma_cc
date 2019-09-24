@@ -540,6 +540,7 @@ export default {
               if (!err) {
                 this.setOpened(null);
                 this.changesSavedMessage();
+                this.$emit('update');
               }
             },
           );
