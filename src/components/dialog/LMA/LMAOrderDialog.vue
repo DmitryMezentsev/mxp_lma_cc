@@ -332,18 +332,18 @@ import { mapState, mapMutations, mapGetters, mapActions } from 'vuex';
 import { cloneDeep, get } from 'lodash';
 import { parallel } from 'async';
 
+import { CORE_REQUEST_HEADERS } from 'Constants/config';
+import { ORDER_TYPE_COURIER, ORDER_TYPE_POINT, PARTIAL_ISSUE_SERVICE_ID } from 'Constants/data';
 import api from 'Common/js/api';
 import mixins from 'Common/js/mixins';
+import { currency } from 'Common/js/filters';
 import inputmask from 'Directives/inputmask';
 import Dimensions from 'Components/Dimensions';
 import TagChecked from 'Components/TagChecked';
 import Value from 'Components/Value';
 import CourierSelect from 'Components/form-elements/CourierSelect';
-import { ORDER_TYPE_COURIER, ORDER_TYPE_POINT, PARTIAL_ISSUE_SERVICE_ID } from 'Constants/data';
 import RoutingZoneSelect from 'Components/form-elements/RoutingZoneSelect';
 import DatePicker from 'Components/form-elements/DatePicker';
-import { currency } from 'Common/js/filters';
-import { coreRequestHeaders } from 'Constants/config';
 
 export default {
   name: 'LMAOrderDialog',
@@ -520,7 +520,7 @@ export default {
                   `/orders/${this.order._id}/${request.api}`,
                   request.data,
                   {
-                    headers: coreRequestHeaders,
+                    headers: CORE_REQUEST_HEADERS,
                   },
                 )
                 .then(() => callback())

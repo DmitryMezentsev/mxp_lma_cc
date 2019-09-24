@@ -41,9 +41,10 @@
 <script>
 import { mapState, mapMutations } from 'vuex';
 
+import { CORE_REQUEST_HEADERS } from 'Constants/config';
+import api from 'Common/js/api';
 import OrderDeliveryDate from 'Components/OrderDeliveryDate';
 import CourierSelect from 'Components/form-elements/CourierSelect';
-import api from 'Common/js/api';
 
 export default {
   name: 'RoutingMapOrderDetails',
@@ -66,10 +67,16 @@ export default {
     },
     save() {
       api
-        .post('/order/setCourierToOrders', {
-          courierId: this.newCourier,
-          orderIds: [this.mapOrderDetails._id], // eslint-disable-line no-underscore-dangle
-        })
+        .patch(
+          'orders/serviceInfo/courierId',
+          {
+            courierId: this.newCourier,
+            orderIds: [this.mapOrderDetails._id], // eslint-disable-line no-underscore-dangle
+          },
+          {
+            headers: CORE_REQUEST_HEADERS,
+          },
+        )
         .then(() => {
           this.$message({
             message: this.$t('courierAreSet'),

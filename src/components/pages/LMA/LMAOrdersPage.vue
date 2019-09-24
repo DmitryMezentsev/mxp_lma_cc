@@ -32,7 +32,7 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 import { get } from 'lodash';
 
 import api from 'Common/js/api';
-import { PER_PAGE_DEFAULT } from 'Constants/config';
+import { PER_PAGE_DEFAULT, CORE_REQUEST_HEADERS } from 'Constants/config';
 import LMAOrdersFilters from 'Components/filters/LMA/LMAOrdersFilters';
 import LMAOrdersTable from 'Components/tables/LMA/LMAOrdersTable';
 import Pagination from 'Components/Pagination';
@@ -110,10 +110,16 @@ export default {
     },
     setCourier(courierId) {
       api
-        .post('/order/setCourierToOrders', {
-          courierId,
-          orderIds: this.selected,
-        })
+        .patch(
+          'orders/serviceInfo/courierId',
+          {
+            courierId,
+            orderIds: this.selected,
+          },
+          {
+            headers: CORE_REQUEST_HEADERS,
+          },
+        )
         .then(() => {
           this.loadOrders(this.$route);
 

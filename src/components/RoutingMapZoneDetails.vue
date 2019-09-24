@@ -52,6 +52,7 @@
 import { mapState, mapMutations } from 'vuex';
 import { geoContains } from 'd3-geo';
 
+import { CORE_REQUEST_HEADERS } from 'Constants/config';
 import CourierSelect from 'Components/form-elements/CourierSelect';
 import Waiting from 'Components/Waiting';
 import api from 'Common/js/api';
@@ -96,10 +97,16 @@ export default {
 
       if (this.ordersInZone.length) {
         api
-          .post('/order/setCourierToOrders', {
-            courierId: this.courierId,
-            orderIds: this.ordersInZone,
-          })
+          .patch(
+            'orders/serviceInfo/courierId',
+            {
+              courierId: this.courierId,
+              orderIds: this.ordersInZone,
+            },
+            {
+              headers: CORE_REQUEST_HEADERS,
+            },
+          )
           .then(() => {
             this.$message({
               message: this.$t('courierAreSet'),
