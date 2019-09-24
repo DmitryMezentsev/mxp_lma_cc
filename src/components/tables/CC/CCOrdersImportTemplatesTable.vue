@@ -56,7 +56,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('ordersTemplates', ['removeTemplate']),
+    ...mapActions('import', ['removeTemplate']),
     remove(id) {
       this.confirm(this.$t('removeTemplateConfirmation'), ok => {
         if (ok) {

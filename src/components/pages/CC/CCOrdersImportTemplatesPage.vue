@@ -9,9 +9,9 @@
         </router-link>
       </div>
       <br />
-      <CCOrdersImportTemplatesTable :data="list.data" @update="loadTemplates($route.query)" />
+      <CCOrdersImportTemplatesTable :data="templates.data" @update="loadList($route.query)" />
       <br />
-      <Pagination :max-page="list.pages" />
+      <Pagination :max-page="templates.pages" />
     </div>
 
     <router-view />
@@ -29,12 +29,12 @@ export default {
   name: 'CCOrdersImportTemplatesPage',
   components: { CCOrdersImportTemplatesTable, Pagination },
   computed: {
-    ...mapState('ordersTemplates', ['list']),
+    ...mapState('import', ['templates']),
   },
   methods: {
-    ...mapActions('ordersTemplates', ['loadList']),
-    loadTemplates(query) {
-      this.loadList({
+    ...mapActions('import', ['loadTemplates']),
+    loadList(query) {
+      this.loadTemplates({
         fields: ['_id', 'name', 'used'],
         perPage: PER_PAGE_DEFAULT,
         page: query.page,
@@ -43,11 +43,11 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      if (to.name === 'ccOrdersImportTemplates') vm.loadTemplates(to.query);
+      if (to.name === 'ccOrdersImportTemplates') vm.loadList(to.query);
     });
   },
   beforeRouteUpdate(to, from, next) {
-    if (to.name === 'ccOrdersImportTemplates') this.loadTemplates(to.query);
+    if (to.name === 'ccOrdersImportTemplates') this.loadList(to.query);
     next();
   },
 };

@@ -7,7 +7,7 @@ import pickups from './modules/pickups';
 import couriers from './modules/couriers';
 import routing from './modules/routing';
 import reporting from './modules/reporting';
-import ordersTemplates from './modules/orders-templates';
+import ordersImport from './modules/import';
 
 export default () =>
   new Vuex.Store({
@@ -19,6 +19,6 @@ export default () =>
       couriers,
       routing,
       reporting,
-      ordersTemplates,
+      import: ordersImport,
     },
   });

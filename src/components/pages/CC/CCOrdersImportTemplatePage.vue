@@ -130,7 +130,7 @@ export default {
   },
   computed: {
     ...mapState('common', ['clientWidth']),
-    ...mapState('ordersTemplates', ['template']),
+    ...mapState('import', ['template']),
     fileData() {
       if (this.template.file) {
         const workbook = XLSX.read(trimBase64Data(this.template.file), { type: 'base64' });
@@ -192,7 +192,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('ordersTemplates', ['createNewTemplate', 'openTemplate', 'saveTemplate']),
+    ...mapActions('import', ['createNewTemplate', 'openTemplate', 'saveTemplate']),
     get,
     save() {
       this.$refs.template.validate(valid => {
