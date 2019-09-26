@@ -3,7 +3,6 @@
     <LMAPickupsFilters />
     <br />
     <LMAPickupsTable :data="list.data" />
-    <br />
     <Pagination :max-page="list.pages" />
 
     <LMAPickupDialog @update="loadPickups($route.query)" />

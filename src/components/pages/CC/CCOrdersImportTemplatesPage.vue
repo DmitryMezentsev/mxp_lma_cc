@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="$route.name === 'ccOrdersImportTemplates'">
-      <div class="text-right">
+      <div class="top-buttons-right">
         <router-link :to="{ name: 'ccOrdersAddImportTemplate' }">
           <el-button type="primary">
             {{ $t('addTemplate') }}
@@ -10,7 +10,6 @@
       </div>
       <br />
       <CCOrdersImportTemplatesTable :data="templates.data" @update="loadList($route.query)" />
-      <br />
       <Pagination :max-page="templates.pages" />
     </div>
 

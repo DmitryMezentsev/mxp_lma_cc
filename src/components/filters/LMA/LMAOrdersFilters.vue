@@ -30,9 +30,8 @@
 </template>
 
 <script>
-import { pick } from 'lodash';
-
 import mixins from 'Common/js/mixins';
+import { value2Array } from 'Common/js/helpers';
 import StatusSelect from 'Components/form-elements/StatusSelect';
 import DatePicker from 'Components/form-elements/DatePicker';
 
@@ -42,7 +41,10 @@ export default {
   mixins: [mixins],
   computed: {
     filters() {
-      return pick(this.$route.query, ['deliveryDate', 'status']);
+      return {
+        deliveryDate: this.$route.query.deliveryDate,
+        status: value2Array(this.$route.query.status),
+      };
     },
   },
   methods: {

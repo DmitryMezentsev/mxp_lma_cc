@@ -24,11 +24,11 @@ import elementLocaleRU from 'element-ui/lib/locale/lang/ru-RU';
 import elementLocaleEN from 'element-ui/lib/locale/lang/en';
 import elementLocaleZH from 'element-ui/lib/locale/lang/zh-CN';
 
+import { GOOGLE_MAPS_API_KEY } from 'Common/js/env';
 import mixins from 'Common/js/mixins';
 import Breadcrumbs from 'Components/Breadcrumbs';
 import Sidebar from 'Components/Sidebar';
 import ZammadChat from 'Components/ZammadChat';
-import { GOOGLE_MAPS_API_KEY } from 'Common/js/env';
 
 const elementLocalesMap = {
   RU: elementLocaleRU,
@@ -57,12 +57,6 @@ export default {
   },
   methods: {
     ...mapMutations('common', ['setClientWidth']),
-    ...mapMutations('routing', ['setOpenedZone']),
-    ...mapMutations('orders', {
-      setOpenedOrder: 'setOpened',
-      setOrderStatusesHistory: 'setStatusesHistory',
-    }),
-    ...mapMutations('pickups', { setOpenedPickup: 'setOpened' }),
     ...mapActions('auth', ['getToken', 'loadCurrentUser']),
   },
   mounted() {
@@ -100,13 +94,6 @@ export default {
           },
         });
       }
-    },
-    $route() {
-      // Закрытие открытых модальных окон при изменении роута
-      this.setOpenedZone(null);
-      this.setOpenedOrder(null);
-      this.setOrderStatusesHistory(null);
-      this.setOpenedPickup(null);
     },
   },
 };

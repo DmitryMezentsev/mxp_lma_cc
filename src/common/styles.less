@@ -40,14 +40,31 @@ a, .link {
   &:hover {
     color: @light-blue-color;
   }
+
+  &[disabled] {
+    color: @placeholder-text-color;
+    pointer-events: none;
+    user-select: none;
+  }
 }
 
 .hidden { display: none !important; }
 
-.no-select {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
+.top-buttons-right {
+  @btn-margins: 7px;
+
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  margin-bottom: -@btn-margins;
+
+  > * {
+    margin-bottom: @btn-margins !important;
+
+    &:not(:first-child) {
+      margin-left: @btn-margins !important;
+    }
+  }
 }
 
 .filters {
@@ -86,7 +103,12 @@ a, .link {
   margin: 12px 0;
 }
 
-.text-right { text-align: right }
+.text-right { text-align: right; }
+
+.text-success { color: @success-color; }
+.text-error { color: @danger-color; }
+.text-warning { color: @warning-color; }
+.text-blue { color: @blue-color; }
 
 .page-center-message {
   color: @info-color;

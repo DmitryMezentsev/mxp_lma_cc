@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
 import { get, isEqual } from 'lodash';
 
 import { BLUE_COLOR, DANGER_COLOR, SUCCESS_COLOR } from 'Constants/colors';
@@ -115,6 +115,7 @@ export default {
     },
   },
   methods: {
+    ...mapMutations('routing', ['setOpenedZone']),
     ...mapActions('routing', ['closeZone', 'saveZone']),
     mapInit(map) {
       const refreshGeoJson = () => {
@@ -191,12 +192,18 @@ export default {
       this.waiting = false;
     },
   },
+  destroyed() {
+    this.setOpenedZone(null);
+  },
   watch: {
     'zone.geometry': {
       handler(geometry) {
         if (this.map && this.zone) this.updateMap(this.zone.type, geometry);
       },
       deep: true,
+    },
+    $route() {
+      this.setOpenedZone(null);
     },
   },
 };

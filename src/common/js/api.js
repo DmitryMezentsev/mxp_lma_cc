@@ -1,39 +1,32 @@
 import axios from 'axios';
 import { get } from 'lodash';
 
-import { redirectToAuth } from 'Common/js/helpers';
 import { API_PATH } from 'Common/js/env';
+import { redirectToAuth } from 'Common/js/helpers';
 
 const api = axios.create({
   baseURL: API_PATH,
 });
 
-api.interceptors.response.use(
-  res => {
-    // Вывод ошибки с бэка
-    if (get(res, 'data.status') === 'error') {
-      const message = get(res, 'data.message', window.app.$t('serverError'));
-      window.app.$message({ message, type: 'error' });
-    }
+api.interceptors.response.use(null, err => {
+  // Ошибка авторизации
+  if (err.response.status === 401) return redirectToAuth();
 
-    return res;
-  },
-  err => {
-    const status = get(err, 'response.status');
+  if (err.response.status !== 404) {
+    // Код ошибки
+    const code = get(err, 'response.data.code');
+    // Получение текста сообщения об ошибке по коду
+    let message = code ? window.app.$t(`serverErrors.${code}`) : null;
 
-    // Ошибка авторизации
-    if (status === 401) return redirectToAuth();
+    // Если текст сообщения для данного кода ошибки не найден
+    if (!message || message === `serverErrors.${code}`)
+      // Вывести сообщение по умолчанию
+      message = window.app.$t('serverError');
 
-    if (status !== 404) {
-      // Вывод сообщения об ошибке подключения к серверу
-      window.app.$message({
-        message: window.app.$t('serverError'),
-        type: 'error',
-      });
-    }
+    window.app.$message({ message, type: 'error' });
+  }
 
-    return Promise.reject(err);
-  },
-);
+  return Promise.reject(err);
+});
 
 export default api;

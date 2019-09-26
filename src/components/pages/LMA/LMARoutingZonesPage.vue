@@ -5,7 +5,7 @@
         <LMARoutingZonesFilters />
       </el-col>
       <el-col :span="12" :xs="15">
-        <div class="text-right">
+        <div class="top-buttons-right">
           <el-button type="primary" @click="createNewZone">{{ $t('newZone') }}</el-button>
         </div>
       </el-col>

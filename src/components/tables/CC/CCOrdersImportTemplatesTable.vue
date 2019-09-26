@@ -20,7 +20,7 @@
       <template slot-scope="scope">
         <el-button-group>
           <el-tooltip :content="$t('applyTemplate')" placement="left">
-            <el-button type="primary" size="mini">
+            <el-button type="primary" size="mini" @click="applyTemplate(scope.row._id)">
               <fa-icon icon="reply" />
             </el-button>
           </el-tooltip>
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
 
 import { number } from 'Common/js/filters';
 import mixins from 'Common/js/mixins';
@@ -56,7 +56,12 @@ export default {
     },
   },
   methods: {
+    ...mapMutations('import', ['showImportDialog']),
     ...mapActions('import', ['removeTemplate']),
+    applyTemplate(tpl) {
+      this.$router.push({ name: 'ccOrdersImport' });
+      this.$nextTick(() => this.showImportDialog(tpl));
+    },
     remove(id) {
       this.confirm(this.$t('removeTemplateConfirmation'), ok => {
         if (ok) {

@@ -109,5 +109,13 @@ export default {
   methods: {
     ...mapMutations('orders', ['setStatusesHistory']),
   },
+  destroyed() {
+    this.setStatusesHistory(null);
+  },
+  watch: {
+    $route() {
+      this.setStatusesHistory(null);
+    },
+  },
 };
 </script>

@@ -21,7 +21,6 @@ import {
   faDownload,
   faHeadset,
   faFileUpload,
-  faPencilAlt,
   faReply,
   faFileExcel,
 } from '@fortawesome/free-solid-svg-icons';
@@ -44,7 +43,6 @@ library.add(faCogs);
 library.add(faDownload);
 library.add(faHeadset);
 library.add(faFileUpload);
-library.add(faPencilAlt);
 library.add(faReply);
 library.add(faFileExcel);
 

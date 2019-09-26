@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
 import XLSX from 'xlsx';
 import { forEach, get } from 'lodash';
 import downloadjs from 'downloadjs';
@@ -192,24 +192,40 @@ export default {
     },
   },
   methods: {
+    ...mapMutations('import', ['showImportDialog']),
     ...mapActions('import', ['createNewTemplate', 'openTemplate', 'saveTemplate']),
     get,
-    save() {
+    // Валидация формы и отправка на сервер запроса для сохранения
+    validateAndSubmitForm(callback) {
       this.$refs.template.validate(valid => {
         if (valid) {
           this.saving = true;
 
           this.saveTemplate({
             template: this.template,
-            callback: success => {
+            callback: id => {
               this.saving = false;
-              if (success) this.$router.push({ name: 'ccOrdersImportTemplates' });
+              callback(id);
             },
           });
         }
       });
     },
-    saveAndUse() {},
+    // Сохранить шаблон
+    save() {
+      this.validateAndSubmitForm(id => {
+        if (id) this.$router.push({ name: 'ccOrdersImportTemplates' });
+      });
+    },
+    // Сохранить и применить шаблон
+    saveAndUse() {
+      this.validateAndSubmitForm(id => {
+        if (id) {
+          this.$nextTick(() => this.showImportDialog(id));
+          this.$router.push({ name: 'ccOrdersImport' });
+        }
+      });
+    },
     openFile() {
       downloadjs(this.template.file, this.template.filename);
     },

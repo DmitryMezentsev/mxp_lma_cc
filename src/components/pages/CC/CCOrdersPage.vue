@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="$route.name === 'ccOrders'">
-      <div class="text-right no-select">
+      <div class="top-buttons-right">
         <router-link :to="{ name: 'ccOrdersImport' }">
           <el-button type="primary">
             <fa-icon icon="file-upload" class="btn-margin" />{{ $t('ordersImport') }}

@@ -6,7 +6,7 @@
           <LMACouriersFilters />
         </el-col>
         <el-col :span="12" :xs="15">
-          <div class="text-right">
+          <div class="top-buttons-right">
             <router-link :to="{ name: 'lmaAddCourier' }">
               <el-button type="primary">{{ $t('addCourier') }}</el-button>
             </router-link>

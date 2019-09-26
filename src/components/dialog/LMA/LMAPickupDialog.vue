@@ -291,6 +291,9 @@ export default {
       });
     },
   },
+  destroyed() {
+    this.setOpened(null);
+  },
   watch: {
     opened: {
       handler(opened) {
@@ -302,6 +305,9 @@ export default {
           : null;
       },
       immediate: true,
+    },
+    $route() {
+      this.setOpened(null);
     },
   },
 };

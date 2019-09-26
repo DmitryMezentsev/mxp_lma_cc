@@ -11,6 +11,13 @@ export default {
     },
     // Данные для страницы создания/редактирования шаблона
     template: null,
+    // История импортов
+    history: {
+      data: null, // Сам список
+      pages: 0, // К-во страниц
+    },
+    // Флаг отображения окна импорта / ID выбранного по умолчанию шаблона импорта
+    importDialog: false,
   },
   mutations: {
     clearTemplates(state) {
@@ -24,6 +31,21 @@ export default {
     },
     setTemplate(state, payload) {
       state.template = payload;
+    },
+    clearHistory(state) {
+      state.history = {
+        data: null,
+        pages: 0,
+      };
+    },
+    setHistory(state, payload) {
+      state.history = payload;
+    },
+    showImportDialog(state, payload) {
+      state.importDialog = payload || true;
+    },
+    closeImportDialog(state) {
+      state.importDialog = false;
     },
   },
   actions: {
@@ -41,7 +63,8 @@ export default {
       // eslint-disable-next-line prettier/prettier
       api
         .delete(`import/template/${id}`)
-        .then(({ data }) => callback(data.status === 'ok'));
+        .then(() => callback(true))
+        .catch(() => callback());
     },
     createNewTemplate({ commit }) {
       commit('setTemplate', {
@@ -66,7 +89,23 @@ export default {
         ? api.put(`import/template/${template._id}`, template) // eslint-disable-line
         : api.post('import/template', template);
 
-      req.then(({ data }) => callback(data.status === 'ok')).catch(() => callback());
+      req.then(({ data }) => callback(data.orderTemplateId)).catch(() => callback());
+    },
+    loadHistory({ commit }, params) {
+      commit('clearHistory');
+
+      api.get('import/history', { params }).then(({ data, headers }) => {
+        commit('setHistory', {
+          data,
+          pages: Number(headers[HEADER_PG_PAGE_COUNT]),
+        });
+      });
+    },
+    import(context, { data, callback }) {
+      api
+        .post('import/upload', data)
+        .then(() => callback(true))
+        .catch(() => callback());
     },
   },
 };

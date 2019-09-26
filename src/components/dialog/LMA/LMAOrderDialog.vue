@@ -593,6 +593,9 @@ export default {
   created() {
     this.loadDeliveryServices();
   },
+  destroyed() {
+    this.setOpened(null);
+  },
   watch: {
     opened: {
       handler(opened) {
@@ -604,6 +607,9 @@ export default {
           : null;
       },
       immediate: true,
+    },
+    $route() {
+      this.setOpened(null);
     },
   },
 };

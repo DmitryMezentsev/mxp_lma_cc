@@ -317,13 +317,15 @@ export default {
       });
     },
     removeDocument(i) {
-      this.courier.documents.splice(i, 1);
+      this.confirm(this.$t('removeDocumentConfirmation'), confirm => {
+        if (confirm) this.courier.documents.splice(i, 1);
+      });
     },
     openDocument({ data, type }) {
       const ext = getExtensionFromBase64(data);
       const id = this.courier.courierId || '';
 
-      downloadjs(data, `courier${id}-doc-${type}.${ext}`);
+      downloadjs(data, `courier${id}_doc_${type}.${ext}`);
     },
     carBrands(query, cb) {
       query = query.trim().toLowerCase(); // eslint-disable-line no-param-reassign
