@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 
-import api from 'Common/js/api';
 import { APP_TITLE } from 'Constants/config';
+import api from 'Common/js/api';
 
 export default {
   methods: {

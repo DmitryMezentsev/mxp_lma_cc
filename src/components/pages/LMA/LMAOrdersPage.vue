@@ -19,7 +19,7 @@
 
     <SelectCourierDialog
       :visible="selectCourierDialog"
-      @select="setCourier"
+      @select="setCourierToOrders"
       @cancel="selectCourierDialog = false"
     />
 
@@ -31,8 +31,7 @@
 import { mapState, mapMutations, mapActions } from 'vuex';
 import { get } from 'lodash';
 
-import api from 'Common/js/api';
-import { PER_PAGE_DEFAULT, CORE_REQUEST_HEADERS } from 'Constants/config';
+import { PER_PAGE_DEFAULT } from 'Constants/config';
 import LMAOrdersFilters from 'Components/filters/LMA/LMAOrdersFilters';
 import LMAOrdersTable from 'Components/tables/LMA/LMAOrdersTable';
 import Pagination from 'Components/Pagination';
@@ -87,7 +86,7 @@ export default {
   },
   methods: {
     ...mapMutations('orders', ['clearSelected']),
-    ...mapActions('orders', ['loadList']),
+    ...mapActions('orders', ['loadList', 'setCourier']),
     loadOrders({ query, params }) {
       this.loadList({
         perPage: PER_PAGE_DEFAULT,
@@ -108,29 +107,23 @@ export default {
         statusId: value2Array(query.status),
       });
     },
-    setCourier(courierId) {
-      api
-        .patch(
-          'orders/serviceInfo/courierId',
-          {
-            courierId,
-            orderIds: this.selected,
-          },
-          {
-            headers: CORE_REQUEST_HEADERS,
-          },
-        )
-        .then(() => {
-          this.loadOrders(this.$route);
+    setCourierToOrders(courierId) {
+      this.setCourier({
+        courierId,
+        orderIds: this.selected,
+        callback: success => {
+          if (success) {
+            this.loadOrders(this.$route);
 
-          this.$message({
-            message: this.$t('courierAreSet'),
-            type: 'success',
-          });
-        })
-        .finally(() => {
+            this.$message({
+              message: this.$t('courierAreSet'),
+              type: 'success',
+            });
+          }
+
           this.selectCourierDialog = false;
-        });
+        },
+      });
     },
   },
   beforeRouteEnter(to, from, next) {

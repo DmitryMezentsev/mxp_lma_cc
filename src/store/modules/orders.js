@@ -1,5 +1,9 @@
 import api from 'Common/js/api';
-import { HEADER_PG_PAGE_COUNT, HEADER_PG_TOTAL_COUNT } from 'Constants/config';
+import {
+  HEADER_PG_PAGE_COUNT,
+  HEADER_PG_TOTAL_COUNT,
+  CORE_REQUEST_HEADERS,
+} from 'Constants/config';
 
 export default {
   namespaced: true,
@@ -55,6 +59,22 @@ export default {
           sumPriceDeclared: parseFloat(headers['x-sum-price-declared']),
         });
       });
+    },
+    // Назначает курьера на группу заказов
+    setCourier(context, { courierId, orderIds, callback }) {
+      api
+        .patch(
+          'orders/serviceInfo/courierId',
+          {
+            courierId,
+            orderIds,
+          },
+          {
+            headers: CORE_REQUEST_HEADERS,
+          },
+        )
+        .then(() => callback(true))
+        .catch(() => callback());
     },
   },
 };

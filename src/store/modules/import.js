@@ -1,5 +1,5 @@
-import api from 'Common/js/api';
 import { HEADER_PG_PAGE_COUNT } from 'Constants/config';
+import api from 'Common/js/api';
 
 export default {
   namespaced: true,

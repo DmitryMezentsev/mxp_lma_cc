@@ -39,10 +39,8 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
 
-import { CORE_REQUEST_HEADERS } from 'Constants/config';
-import api from 'Common/js/api';
 import OrderDeliveryDate from 'Components/OrderDeliveryDate';
 import CourierSelect from 'Components/form-elements/CourierSelect';
 
@@ -59,6 +57,7 @@ export default {
   },
   methods: {
     ...mapMutations('routing', ['setMapOrderDetails']),
+    ...mapActions('orders', ['setCourier']),
     close() {
       this.setMapOrderDetails(null);
     },
@@ -66,26 +65,21 @@ export default {
       this.newCourier = value;
     },
     save() {
-      api
-        .patch(
-          'orders/serviceInfo/courierId',
-          {
-            courierId: this.newCourier,
-            orderIds: [this.mapOrderDetails._id], // eslint-disable-line no-underscore-dangle
-          },
-          {
-            headers: CORE_REQUEST_HEADERS,
-          },
-        )
-        .then(() => {
-          this.$message({
-            message: this.$t('courierAreSet'),
-            type: 'success',
-          });
+      this.setCourier({
+        courierId: this.newCourier,
+        orderIds: [this.mapOrderDetails._id], // eslint-disable-line no-underscore-dangle
+        callback: success => {
+          if (success) {
+            this.$message({
+              message: this.$t('courierAreSet'),
+              type: 'success',
+            });
 
-          this.$emit('update');
-          this.close();
-        });
+            this.$emit('update');
+            this.close();
+          }
+        },
+      });
     },
   },
   watch: {

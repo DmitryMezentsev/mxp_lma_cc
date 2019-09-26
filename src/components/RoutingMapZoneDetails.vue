@@ -49,14 +49,13 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
 import { geoContains } from 'd3-geo';
 
-import { CORE_REQUEST_HEADERS } from 'Constants/config';
-import CourierSelect from 'Components/form-elements/CourierSelect';
-import Waiting from 'Components/Waiting';
 import api from 'Common/js/api';
 import { number } from 'Common/js/filters';
+import CourierSelect from 'Components/form-elements/CourierSelect';
+import Waiting from 'Components/Waiting';
 
 export default {
   name: 'RoutingMapZoneDetails',
@@ -77,6 +76,7 @@ export default {
   },
   methods: {
     ...mapMutations('routing', ['setMapZoneDetails']),
+    ...mapActions('orders', ['setCourier']),
     close() {
       this.setMapZoneDetails(null);
     },
@@ -96,26 +96,21 @@ export default {
       });
 
       if (this.ordersInZone.length) {
-        api
-          .patch(
-            'orders/serviceInfo/courierId',
-            {
-              courierId: this.courierId,
-              orderIds: this.ordersInZone,
-            },
-            {
-              headers: CORE_REQUEST_HEADERS,
-            },
-          )
-          .then(() => {
-            this.$message({
-              message: this.$t('courierAreSet'),
-              type: 'success',
-            });
+        this.setCourier({
+          courierId: this.courierId,
+          orderIds: this.ordersInZone,
+          callback: success => {
+            if (success) {
+              this.$message({
+                message: this.$t('courierAreSet'),
+                type: 'success',
+              });
 
-            this.$emit('update');
-            this.close();
-          });
+              this.$emit('update');
+              this.close();
+            }
+          },
+        });
       }
 
       if (this.ordersOutZone.length) {
