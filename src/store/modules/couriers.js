@@ -41,7 +41,8 @@ export default {
       // eslint-disable-next-line prettier/prettier
       api
         .patch(`courier/${id}`, { ...params })
-        .then(({ data }) => callback(data.status === 'ok'));
+        .then(() => callback(true))
+        .catch(() => callback());
     },
     createNewCourier({ commit }) {
       commit('setCourier', {
@@ -91,7 +92,7 @@ export default {
         ? api.put(`courier/${courier.courierId}`, courier)
         : api.post('courier', courier);
 
-      req.then(({ data }) => callback(data.status === 'ok')).catch(() => callback());
+      req.then(() => callback(true)).catch(() => callback());
     },
   },
 };

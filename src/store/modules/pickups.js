@@ -48,13 +48,13 @@ export default {
     patchPickup(context, { id, params, callback }) {
       api
         .patch(`pickup/${id}`, { ...params })
-        .then(({ data }) => callback(data.status === 'ok'))
+        .then(() => callback(true))
         .catch(() => callback());
     },
     updatePickup(context, { pickup, callback }) {
       api
         .put(`pickup/${pickup.pickupId}`, pickup)
-        .then(({ data }) => callback(data.status === 'ok'))
+        .then(() => callback(true))
         .catch(() => callback());
     },
   },

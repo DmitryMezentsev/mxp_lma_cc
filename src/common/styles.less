@@ -68,6 +68,11 @@ a, .link {
 }
 
 .filters {
+  @margins: 8px;
+
+  margin-top: -@margins;
+  margin-right: -@margins;
+
   &:after {
     content: '';
     clear: both;
@@ -80,13 +85,11 @@ a, .link {
   }
 
   .filter {
-    @padding: .5em;
-
     float: left;
-    padding-top: @padding;
+    padding-top: @margins;
 
     &:not(:last-child) {
-      padding-right: @padding;
+      padding-right: @margins;
     }
 
     .el-form-item {

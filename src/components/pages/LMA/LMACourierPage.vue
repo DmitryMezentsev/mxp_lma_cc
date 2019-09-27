@@ -366,13 +366,11 @@ export default {
         this.$t('sendPasswordDialogText'),
         ok => {
           if (ok) {
-            api.post(`/courier/${this.courier.courierId}/send-password-by-sms`).then(({ data }) => {
-              if (data.status === 'ok') {
-                this.$message({
-                  message: this.$t('newPasswordSentToCourier'),
-                  type: 'success',
-                });
-              }
+            api.post(`courier/${this.courier.courierId}/send-password-by-sms`).then(() => {
+              this.$message({
+                message: this.$t('newPasswordSentToCourier'),
+                type: 'success',
+              });
             });
           }
         },

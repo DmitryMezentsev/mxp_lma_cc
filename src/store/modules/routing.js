@@ -54,10 +54,10 @@ export default {
       });
     },
     patchZone(context, { id, params, callback }) {
-      // eslint-disable-next-line prettier/prettier
       api
         .patch(`geo/${id}`, { ...params })
-        .then(({ data }) => callback(data.status === 'ok'));
+        .then(() => callback(true))
+        .catch(() => callback());
     },
     saveZone(context, { zone, callback }) {
       // eslint-disable-next-line prettier/prettier
@@ -65,10 +65,7 @@ export default {
         ? api.put(`geo/${zone.geoId}`, zone)
         : api.post('geo', zone);
 
-      // eslint-disable-next-line prettier/prettier
-      req
-        .then(({ data }) => callback(data.status === 'ok'))
-        .catch(() => callback());
+      req.then(() => callback(true)).catch(() => callback());
     },
     createNewZone({ commit }) {
       commit('setOpenedZone', {

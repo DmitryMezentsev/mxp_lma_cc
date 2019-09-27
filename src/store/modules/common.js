@@ -30,15 +30,13 @@ export default {
     loadDeliveryServices({ commit, state }) {
       if (!state.deliveryServices) {
         api
-          .get('/delivery-service')
+          .get('delivery-service')
           .then(({ data }) => {
             const services = {};
             data.forEach(s => (services[s._id] = s)); // eslint-disable-line
             commit('setDeliveryServices', services);
           })
-          .catch(() => {
-            console.error(window.app.$t('deliveryServicesLoadingError'));
-          });
+          .catch(() => commit('setDeliveryServices', false));
       }
     },
   },

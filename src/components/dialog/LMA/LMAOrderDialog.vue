@@ -218,15 +218,25 @@
       <div class="services">
         <h4>{{ $t('services') }}:</h4>
         <div class="services-list">
-          <div class="tags-wrap">
-            <TagChecked
-              v-for="(service, i) in services"
-              :key="i"
-              :label="service.name"
-              :checked="service.completed"
+          <div v-if="services">
+            <div class="tags-wrap">
+              <TagChecked
+                v-for="(service, i) in services"
+                :key="i"
+                :label="service.name"
+                :checked="service.completed"
+              />
+            </div>
+            <div v-show="!services.length">{{ $t('noServices') }}.</div>
+          </div>
+          <div v-else>
+            <el-alert
+              type="error"
+              :title="$t('deliveryServicesLoadingError')"
+              :closable="false"
+              show-icon
             />
           </div>
-          <div v-show="!services.length">{{ $t('noServices') }}.</div>
         </div>
       </div>
       <hr class="margin-top-x2 margin-bottom-x2" />
@@ -403,6 +413,8 @@ export default {
     },
     // Список услуг для раздела "Услуги"
     services() {
+      if (!this.deliveryServices) return null;
+
       const services = [];
 
       this.order.additionalDeliveryServices.forEach(({ deliveryServiceId }) => {
@@ -537,7 +549,7 @@ export default {
               api
                 .patch(
                   // eslint-disable-next-line no-underscore-dangle
-                  `/orders/${this.order._id}/${request.api}`,
+                  `orders/${this.order._id}/${request.api}`,
                   request.data,
                   {
                     headers: CORE_REQUEST_HEADERS,

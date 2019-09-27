@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     download({ _id, info }) {
-      api.get(`/report/load-file/${_id}`).then(({ data }) => {
+      api.get(`report/load-file/${_id}`).then(({ data }) => {
         const ext = getExtensionFromBase64(data);
         downloadjs(data, `cod_report_${info.date}.${ext}`);
       });
