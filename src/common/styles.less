@@ -21,6 +21,11 @@ input, textarea {
   font-family: inherit;
 }
 
+textarea {
+  min-height: 60px;
+  max-height: 500px;
+}
+
 hr {
   height: 1px;
   background: @lighter-border-color;
@@ -194,6 +199,13 @@ svg {
 
 
 .el-dialog {
+  .el-dialog__header {
+    .el-dialog__title {
+      display: inline-block;
+      min-height: 18px;
+    }
+  }
+
   .el-dialog__body {
     word-break: normal;
   }
@@ -236,6 +248,16 @@ svg {
 
   .el-select__tags {
     overflow: hidden;
+  }
+}
+
+.el-radio-group {
+  .el-radio-button {
+    user-select: none;
+
+    &:focus {
+      box-shadow: none !important;
+    }
   }
 }
 

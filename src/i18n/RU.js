@@ -218,7 +218,6 @@ export default {
   safeTransaction: 'Безопасная сделка',
   deliveryServicesLoadingError: 'Ошибка загрузки списка услуг',
   noServices: 'Нет услуг',
-  paymentIsMadeByCard: 'Оплата будет произведена картой?',
   downloadReport: 'Скачать отчет',
   chatWithSupport: 'Чат с поддержкой',
   clearSelection: 'Снять выделение',
@@ -280,4 +279,6 @@ export default {
   serverErrors: {
     500: 'Ошибка при импорте заказов',
   },
+  orderReturn: 'Возврат заказа',
+  orderIssue: 'Выдача заказа',
 };
