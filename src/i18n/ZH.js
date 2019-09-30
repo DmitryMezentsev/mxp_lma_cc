@@ -216,7 +216,6 @@ export default {
   safeTransaction: '',
   deliveryServicesLoadingError: '',
   noServices: '',
-  paymentIsMadeByCard: '',
   downloadReport: '',
   chatWithSupport: '',
   clearSelection: '',
@@ -277,4 +276,6 @@ export default {
   serverErrors: {
     500: '',
   },
+  orderReturn: '',
+  orderIssue: '',
 };

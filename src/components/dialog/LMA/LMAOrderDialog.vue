@@ -294,7 +294,7 @@
                 size="mini"
                 placeholder="1"
                 class="compact"
-                v-if="editGoods"
+                v-if="partialIssueMode"
                 :min="1"
                 :max="maxGoodsCounts[scope.row.itemId]"
               />
@@ -309,7 +309,7 @@
               (scope.row.price * scope.row.counting.count) | currency
             }}</template>
           </el-table-column>
-          <el-table-column fixed="right" width="65" key="col-actions" v-if="editGoods">
+          <el-table-column fixed="right" width="65" key="col-actions" v-if="partialIssueMode">
             <template slot-scope="scope">
               <el-tooltip :content="$t('remove')" placement="left">
                 <el-button @click="removeGoodsItem(scope.$index)" type="danger" size="mini">
@@ -325,28 +325,44 @@
       <el-button class="hidden" native-type="submit" @click.prevent="save" :disabled="!!lock" />
     </el-form>
     <span v-if="order" slot="footer" class="dialog-footer">
-      <el-button @click="setOpened(null)" :disabled="!!lock">
-        {{ $t('close') }}
-      </el-button>
-      <el-button @click="partialIssue" v-if="showPartialIssueBtn" :disabled="!!lock">
-        {{ $t('partialIssue') }}
-      </el-button>
-      <el-button @click="toReturn" type="danger" v-if="showReturnBtn" :disabled="!!lock">
-        {{ $t('return') }}
-      </el-button>
-      <el-button @click="toIssue" type="success" v-if="showToIssueBtn" :disabled="!!lock">
-        {{ $t('toIssue') }}
-      </el-button>
+      <el-button @click="setOpened(null)" :disabled="!!lock" key="close-btn">{{
+        $t('close')
+      }}</el-button>
+      <el-button
+        @click="partialIssueMode = true"
+        v-if="showPartialIssueBtn"
+        :disabled="!!lock"
+        key="partial-issue-btn"
+        >{{ $t('partialIssue') }}</el-button
+      >
+      <el-button
+        @click="endDialog = 'return'"
+        type="danger"
+        v-if="showReturnBtn"
+        :disabled="!!lock"
+        key="return-btn"
+        >{{ $t('return') }}</el-button
+      >
+      <el-button
+        @click="endDialog = 'issue'"
+        type="success"
+        v-if="showToIssueBtn"
+        :disabled="!!lock || !order.goods.length"
+        key="to-issue-btn"
+        >{{ $t('toIssue') }}</el-button
+      >
       <el-button
         type="primary"
         @click="save"
-        v-if="!order.currentStatus.statusInfo.isEnd"
+        v-if="showSaveBtn"
         :loading="lock === 'saving'"
         :disabled="!!lock"
+        key="save-btn"
+        >{{ $t('save') }}</el-button
       >
-        {{ $t('save') }}
-      </el-button>
     </span>
+
+    <LMAOrderEndDialog :mode="endDialog" @end="end" @cancel="endDialog = null" />
   </el-dialog>
 </template>
 
@@ -368,12 +384,21 @@ import Value from 'Components/Value';
 import CourierSelect from 'Components/form-elements/CourierSelect';
 import RoutingZoneSelect from 'Components/form-elements/RoutingZoneSelect';
 import DatePicker from 'Components/form-elements/DatePicker';
+import LMAOrderEndDialog from 'Components/dialog/LMA/LMAOrderEndDialog';
 
 export default {
   name: 'LMAOrderDialog',
   mixins: [mixins],
   filters: { currency },
-  components: { DatePicker, RoutingZoneSelect, CourierSelect, Value, TagChecked, Dimensions },
+  components: {
+    LMAOrderEndDialog,
+    DatePicker,
+    RoutingZoneSelect,
+    CourierSelect,
+    Value,
+    TagChecked,
+    Dimensions,
+  },
   directives: { inputmask },
   data() {
     // Timestamp начала текущего дня
@@ -391,8 +416,9 @@ export default {
         'recipient.contacts.name': [this.validationRule('required')],
         'recipient.contacts.phone': [this.validationRule('required'), this.validationRule('phone')],
       },
-      editGoods: false,
+      partialIssueMode: false, // Режим частичной выдачи
       lock: false,
+      endDialog: null, // Окно завершения (выдачи / отмены) заказа
     };
   },
   computed: {
@@ -462,7 +488,7 @@ export default {
         this.order.currentStatus.statusInfo.stageId === 4 &&
         !this.order.currentStatus.statusInfo.isEnd &&
         this.partialIssueAllowed &&
-        !this.editGoods
+        !this.partialIssueMode
       );
     },
     // Показывать кнопку "Возврат"
@@ -470,7 +496,7 @@ export default {
       return (
         this.order.currentStatus.statusInfo.stageId === 4 &&
         !this.order.currentStatus.statusInfo.isEnd &&
-        !this.editGoods
+        !this.partialIssueMode
       );
     },
     // Показывать кнопку "Выдать"
@@ -478,8 +504,12 @@ export default {
       return (
         (this.order.currentStatus.statusInfo.stageId === 4 &&
           !this.order.currentStatus.statusInfo.isEnd) ||
-        this.editGoods
+        this.partialIssueMode
       );
+    },
+    // Показывать кнопку "Сохранить"
+    showSaveBtn() {
+      return !this.partialIssueMode && !this.order.currentStatus.statusInfo.isEnd;
     },
   },
   methods: {
@@ -575,32 +605,8 @@ export default {
     removeGoodsItem(index) {
       this.order.goods.splice(index, 1);
     },
-    // Включение режима частичной выдачи
-    partialIssue() {
-      this.editGoods = true;
-    },
-    // Выдача
-    toIssue() {
-      // Выбор способа оплаты
-      this.$confirm(this.$t('paymentIsMadeByCard'), this.$t('paymentType'), {
-        confirmButtonText: this.$t('byCard'),
-        cancelButtonText: this.$t('inCash'),
-        distinguishCancelAndClose: true,
-        closeOnPressEscape: false,
-      })
-        // Картой
-        .then(() => {
-          console.log('Картой');
-        })
-        // Наличными
-        .catch(action => {
-          if (action === 'cancel') {
-            console.log('Наличными');
-          }
-        });
-    },
-    // Возврат
-    toReturn() {},
+    // Запрос на завершение заказа (Выдача / Частичная выдача / Возврат)
+    end() {},
   },
   created() {
     this.loadDeliveryServices();
@@ -611,7 +617,8 @@ export default {
   watch: {
     opened: {
       handler(opened) {
-        this.editGoods = false;
+        this.partialIssueMode = false;
+        this.issueParams = null;
 
         // eslint-disable-next-line prettier/prettier
         this.order = opened !== null

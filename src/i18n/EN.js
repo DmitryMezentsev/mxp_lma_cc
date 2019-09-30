@@ -217,7 +217,6 @@ export default {
   safeTransaction: 'Safe',
   deliveryServicesLoadingError: 'Delivery services loading error',
   noServices: 'No services',
-  paymentIsMadeByCard: 'Payment is made by card?',
   downloadReport: 'Download report',
   chatWithSupport: 'Chat with support',
   clearSelection: 'Clear selection',
@@ -279,4 +278,6 @@ export default {
   serverErrors: {
     500: 'Orders import error',
   },
+  orderReturn: 'Order return',
+  orderIssue: 'Order issue',
 };
