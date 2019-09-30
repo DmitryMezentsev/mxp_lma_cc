@@ -80,24 +80,26 @@ export default {
       if (this.zonesList.data.length) {
         const center = { lat: 0, lng: 0 };
 
-        this.zonesList.data.forEach(({ type, geometry, geoId, properties: { name } }, index) => {
-          const zone = {
-            type: 'FeatureCollection',
-            features: [
-              {
-                type,
-                geometry,
-                properties: { type: 'zone', geoId, name, index },
-              },
-            ],
-          };
+        this.zonesList.data.forEach(
+          ({ type, geometry, coreSsoId, properties: { name } }, index) => {
+            const zone = {
+              type: 'FeatureCollection',
+              features: [
+                {
+                  type,
+                  geometry,
+                  properties: { type: 'zone', coreSsoId, name, index },
+                },
+              ],
+            };
 
-          this.map.data.addGeoJson(zone);
+            this.map.data.addGeoJson(zone);
 
-          const zoneCenter = centerCoordsFromGeometry(zone);
-          center.lat += zoneCenter.lat;
-          center.lng += zoneCenter.lng;
-        });
+            const zoneCenter = centerCoordsFromGeometry(zone);
+            center.lat += zoneCenter.lat;
+            center.lng += zoneCenter.lng;
+          },
+        );
 
         center.lat /= this.zonesList.data.length;
         center.lng /= this.zonesList.data.length;
@@ -111,7 +113,7 @@ export default {
       // Открытие панели назначения курьера по клику по зоне
       this.map.data.addListener('click', ({ feature }) => {
         this.setMapZoneDetails({
-          id: feature.getProperty('geoId'),
+          id: feature.getProperty('coreSsoId'),
           name: feature.getProperty('name'),
           index: feature.getProperty('index'),
         });

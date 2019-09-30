@@ -19,7 +19,7 @@
       v-for="(zone, i) in zones"
       :key="i"
       :label="zone.properties.name"
-      :value="zone.geoId"
+      :value="zone.coreSsoId"
     />
   </el-select>
 </template>
@@ -55,7 +55,7 @@ export default {
         api
           .get('geo', {
             params: {
-              fields: ['geoId', 'properties'],
+              fields: ['coreSsoId', 'properties'],
               name,
             },
           })
@@ -90,7 +90,7 @@ export default {
           return callback => {
             api
               .get(`geo/${id}`, {
-                params: { fields: ['geoId', 'properties'] },
+                params: { fields: ['coreSsoId', 'properties'] },
               })
               .then(({ data }) => callback(null, data))
               .catch(() => callback(null, id));
