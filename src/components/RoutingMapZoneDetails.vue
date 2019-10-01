@@ -125,6 +125,11 @@ export default {
           params: {
             perPage: 0,
             deliveryZoneId: [this.mapZoneDetails.id],
+            // Доп. фильтры, примененные к карте
+            deliveryDateFrom: this.mapZoneDetails.date,
+            deliveryDateTo: this.mapZoneDetails.date,
+            statusId: this.mapZoneDetails.status,
+            courierId: this.mapZoneDetails.courier,
           },
         })
         .then(({ data }) => {

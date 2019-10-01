@@ -2,7 +2,13 @@
   <div>
     <LMARoutingMapFilters />
     <div v-if="zonesList && ordersList" class="map-wrap">
-      <Map height="700px" :markers="ordersMarkers" @init="mapInit" @marker-click="openOrder" />
+      <Map
+        height="700px"
+        :markers="ordersMarkers"
+        :zoom="10"
+        @init="mapInit"
+        @marker-click="openOrder"
+      />
     </div>
     <Waiting v-else />
 
@@ -20,7 +26,7 @@ import Map from 'Components/Map';
 import Waiting from 'Components/Waiting';
 import RoutingMapOrderDetails from 'Components/RoutingMapOrderDetails';
 import RoutingMapZoneDetails from 'Components/RoutingMapZoneDetails';
-import { centerCoordsFromGeometry } from 'Common/js/helpers';
+import { centerCoordsFromGeometry, value2Array } from 'Common/js/helpers';
 import { BLUE_COLOR, SUCCESS_COLOR } from 'Constants/colors';
 import { MAP_CENTER } from 'Common/js/env';
 
@@ -116,6 +122,10 @@ export default {
           id: feature.getProperty('coreSsoId'),
           name: feature.getProperty('name'),
           index: feature.getProperty('index'),
+          // Доп. фильтры, примененные к карте
+          date: this.$route.query.date,
+          status: value2Array(this.$route.query.status),
+          courier: value2Array(this.$route.query.courier),
         });
         this.setMapOrderDetails(null);
       });
