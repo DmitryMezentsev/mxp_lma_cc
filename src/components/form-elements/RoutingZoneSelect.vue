@@ -2,7 +2,7 @@
   <el-select
     v-model="value"
     :class="className"
-    :placeholder="noSelectPlaceholder || $tc('noSelect', 1)"
+    :placeholder="noSelectPlaceholder || $tc('noSelect', 2)"
     :loading="zones === null"
     :remote-method="remoteMethod"
     :clearable="clearable"

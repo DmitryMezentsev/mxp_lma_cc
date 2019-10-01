@@ -100,7 +100,6 @@
                       (!order.recipient.address.longitude || !order.recipient.address.longitude))
                 "
                 :model.sync="order.serviceInfo.deliveryZoneId"
-                :no-select-placeholder="$tc('noSelect', 2)"
                 width="100%"
                 clearable
               />
