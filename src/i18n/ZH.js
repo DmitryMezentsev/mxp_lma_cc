@@ -278,5 +278,10 @@ export default {
   },
   orderReturn: '',
   orderIssue: '',
+  orderCancel: '',
   couriersNotFound: '',
+  orderIssued: '',
+  orderCancelled: '',
+  orderReturned: '',
+  orderCancelConfirmation: '',
 };

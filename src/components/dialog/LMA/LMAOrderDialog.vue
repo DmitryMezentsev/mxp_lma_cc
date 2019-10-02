@@ -2,7 +2,7 @@
   <el-dialog
     :title="$t('viewOrder')"
     :visible.sync="visible"
-    :width="clientWidth > 719 ? '700px' : '100%'"
+    :width="clientWidth > 819 ? '800px' : '100%'"
     :show-close="!lock"
     :close-on-press-escape="!lock"
     :close-on-click-modal="!lock"
@@ -328,11 +328,12 @@
         $t('close')
       }}</el-button>
       <el-button
-        @click="partialIssueMode = true"
-        v-if="showPartialIssueBtn"
+        @click="cancel"
+        type="danger"
+        v-if="showCancelBtn"
         :disabled="!!lock"
-        key="partial-issue-btn"
-        >{{ $t('partialIssue') }}</el-button
+        key="cancel-btn"
+        >{{ $t('cancel') }}</el-button
       >
       <el-button
         @click="endDialog = 'return'"
@@ -341,6 +342,14 @@
         :disabled="!!lock"
         key="return-btn"
         >{{ $t('return') }}</el-button
+      >
+      <el-button
+        @click="partialIssueMode = true"
+        type="success"
+        v-if="showPartialIssueBtn"
+        :disabled="!!lock"
+        key="partial-issue-btn"
+        >{{ $t('partialIssue') }}</el-button
       >
       <el-button
         @click="endDialog = 'issue'"
@@ -490,6 +499,16 @@ export default {
         !this.partialIssueMode
       );
     },
+    // Показывать кнопку "Отмена"
+    showCancelBtn() {
+      return (
+        this.order.currentStatus.statusInfo.stageId === 4 &&
+        !this.order.currentStatus.statusInfo.isEnd &&
+        !['420000', '419000', '417000'].includes(this.order.currentStatus.orderStatusModelId) &&
+        this.isAdmin &&
+        !this.partialIssueMode
+      );
+    },
     // Показывать кнопку "Возврат"
     showReturnBtn() {
       return (
@@ -514,6 +533,12 @@ export default {
   methods: {
     ...mapMutations('orders', ['setOpened', 'setStatusesHistory']),
     ...mapActions('common', ['loadDeliveryServices']),
+    // Отмена заказа
+    cancel() {
+      this.confirm(this.$t('orderCancelConfirmation'), ok => {
+        if (ok) this.endDialog = 'cancel';
+      });
+    },
     // Сохранение изменений в заказе
     save() {
       this.$refs.order.validate(valid => {
@@ -604,8 +629,48 @@ export default {
     removeGoodsItem(index) {
       this.order.goods.splice(index, 1);
     },
-    // Запрос на завершение заказа (Выдача / Частичная выдача / Возврат)
-    end() {},
+    // Запрос на завершение заказа (Выдача / Частичная выдача / Возврат / Отмена)
+    end(values) {
+      const params = { query: values };
+
+      if (this.endDialog === 'issue' && !this.partialIssueMode) {
+        // Выдача
+        params.route = 'delivered';
+        params.successMessage = 'orderIssued';
+      } else if (this.endDialog === 'issue') {
+        // Частичная выдача
+        params.route = 'partial-delivered';
+        params.query.goods = this.order.goods.map(item => ({
+          itemId: item.itemId,
+          count: item.counting.count,
+        }));
+        params.successMessage = 'orderIssued';
+      } else if (this.endDialog === 'return') {
+        // Возврат
+        params.route = 'return';
+        params.successMessage = 'orderReturned';
+      } else if (this.endDialog === 'cancel') {
+        // Отмена
+        params.route = 'cancel';
+        params.successMessage = 'orderCancelled';
+      }
+
+      api
+        .put(`order/${this.order._id}/${params.route}`, params.query) // eslint-disable-line no-underscore-dangle
+        .then(() => {
+          this.endDialog = null;
+          this.setOpened(null);
+          this.$emit('update');
+
+          this.$message({
+            message: this.$t(params.successMessage),
+            type: 'success',
+          });
+        })
+        .catch(() => {
+          this.endDialog = null;
+        });
+    },
   },
   created() {
     this.loadDeliveryServices();

@@ -280,5 +280,10 @@ export default {
   },
   orderReturn: 'Order return',
   orderIssue: 'Order issue',
+  orderCancel: 'Order cancel',
   couriersNotFound: 'Couriers not found',
+  orderIssued: 'Order issued',
+  orderCancelled: 'Order cancelled',
+  orderReturned: 'Order returned',
+  orderCancelConfirmation: 'Are you sure you want to cancel this order?',
 };

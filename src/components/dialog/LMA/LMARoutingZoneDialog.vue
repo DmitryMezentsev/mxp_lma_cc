@@ -227,7 +227,8 @@ export default {
         .then(({ data }) => {
           // Отфильтровываем текущую зону из загруженного списка
           this.otherZones = data.filter(({ geoId }) => geoId !== this.zone.geoId);
-        });
+        })
+        .catch(() => {});
     },
     save() {
       this.$refs.zone.validate(valid => {
