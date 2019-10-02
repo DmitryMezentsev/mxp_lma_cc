@@ -280,4 +280,5 @@ export default {
   },
   orderReturn: 'Order return',
   orderIssue: 'Order issue',
+  couriersNotFound: 'Couriers not found',
 };

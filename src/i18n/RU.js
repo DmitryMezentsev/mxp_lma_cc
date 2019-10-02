@@ -281,4 +281,5 @@ export default {
   },
   orderReturn: 'Возврат заказа',
   orderIssue: 'Выдача заказа',
+  couriersNotFound: 'Курьеры не найдены',
 };

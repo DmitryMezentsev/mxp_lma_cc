@@ -86,6 +86,7 @@ export default {
         api
           .get('geo', {
             params: {
+              perPage: 0,
               fields: ['coreSsoId', 'properties'],
               name,
             },
