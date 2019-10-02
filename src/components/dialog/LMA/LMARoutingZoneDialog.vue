@@ -104,8 +104,8 @@ export default {
       map: null,
       rules: {
         'properties.name': [this.validationRule('required')],
-        'properties.legalpersonId': [this.validationRule('required')],
-        'properties.warehouseId': [this.validationRule('required')],
+        'properties.legalpersonId': [this.validationRule('selectRequired')],
+        'properties.warehouseId': [this.validationRule('selectRequired')],
       },
       DANGER_COLOR,
       SUCCESS_COLOR,
