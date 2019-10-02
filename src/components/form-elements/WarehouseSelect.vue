@@ -1,5 +1,6 @@
 <template>
   <el-select
+    class="custom-disabled"
     v-model="value"
     :no-data-text="$t('noData')"
     :placeholder="$tc('noSelect', 1)"

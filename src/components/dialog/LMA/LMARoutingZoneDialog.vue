@@ -27,7 +27,7 @@
             <LegalPersonSelect
               width="100%"
               :model.sync="zone.properties.legalpersonId"
-              :readonly="waiting"
+              :disabled="waiting"
             />
           </el-form-item>
         </el-col>
@@ -36,7 +36,7 @@
             <WarehouseSelect
               width="100%"
               :model.sync="zone.properties.warehouseId"
-              :readonly="waiting"
+              :disabled="waiting"
             />
           </el-form-item>
         </el-col>
@@ -74,9 +74,17 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex';
-import { get, isEqual } from 'lodash';
+import { get, isEqual, clone } from 'lodash';
 
-import { BLUE_COLOR, DANGER_COLOR, SUCCESS_COLOR } from 'Constants/colors';
+import {
+  BLUE_COLOR,
+  DANGER_COLOR,
+  INFO_COLOR,
+  PLACEHOLDER_TEXT_COLOR,
+  SUCCESS_COLOR,
+} from 'Constants/colors';
+import { MAP_CENTER } from 'Common/js/env';
+import api from 'Common/js/api';
 import { centerCoordsFromGeometry } from 'Common/js/helpers';
 import mixins from 'Common/js/mixins';
 import autoblur from 'Directives/autoblur';
@@ -101,6 +109,7 @@ export default {
       },
       DANGER_COLOR,
       SUCCESS_COLOR,
+      otherZones: [],
     };
   },
   computed: {
@@ -120,49 +129,105 @@ export default {
     mapInit(map) {
       const refreshGeoJson = () => {
         map.data.toGeoJson(geo => {
-          if (geo.features.length > 1) this.warning(this.$t('polygonsCantBeSeveral'));
+          const zones = [];
 
-          this.zone.type = get(geo, 'features[0].type', '');
-          this.zone.geometry = get(geo, 'features[0].geometry', null);
+          geo.features.forEach(feature => {
+            // Пропуск других (серых) зон
+            if (!feature.properties.isOther) zones.push(feature);
+          });
+
+          // Предупреждение, что полигонов на одну зону не может быть несколько
+          if (zones.length > 1) this.warning(this.$t('polygonsCantBeSeveral'));
+          // Оставляем лишь 1 полигон, даже если их больше
+          this.zone.type = get(zones, '[0].type', '');
+          this.zone.geometry = get(zones, '[0].geometry', null);
         });
       };
 
       map.data.setControls(['Polygon']);
-      map.data.setStyle({ editable: true });
       map.data.addListener('addfeature', refreshGeoJson);
       map.data.addListener('removefeature', refreshGeoJson);
       map.data.addListener('setgeometry', refreshGeoJson);
 
       this.map = map;
-      this.updateMap(this.zone.type, this.zone.geometry, true);
+      this.updateMap(true);
     },
     clearMap() {
       this.zone.type = '';
       this.zone.geometry = null;
     },
-    updateMap(type, geometry, center) {
-      const newGeometry = {
+    updateMap(center) {
+      if (!this.zone || !this.map) return;
+
+      // Редактируемые
+      const editableGeometry = {
         type: 'FeatureCollection',
-        features: geometry ? [{ type, geometry, properties: {} }] : [],
+        features: this.zone.geometry
+          ? [{ type: this.zone.type, geometry: this.zone.geometry, properties: {} }]
+          : [],
       };
 
+      // Все отображаемые на карте
+      const allGeometry = clone(editableGeometry);
+      // Добавление других (серых) зон
+      allGeometry.features = allGeometry.features.concat(
+        this.otherZones.map(({ type, geometry }) => ({
+          type,
+          geometry,
+          properties: { isOther: true },
+        })),
+      );
+
+      // Обновление карты
       this.map.data.toGeoJson(currentGeometry => {
-        if (!isEqual(currentGeometry.features, newGeometry.features)) {
+        // Защита от бесконечной перерисовки
+        if (!isEqual(currentGeometry.features, allGeometry.features)) {
           // Снос прежних полигонов
           this.map.data.forEach(poly => this.map.data.remove(poly));
-
-          // Добавление нового полигона
-          this.map.data.addGeoJson(newGeometry);
-
-          if (center) this.map.setCenter(centerCoordsFromGeometry(newGeometry));
+          // Добавление новых полигонов
+          this.map.data.addGeoJson(allGeometry);
+          // Центрирование карты
+          if (center) {
+            if (editableGeometry.features.length) {
+              // По координатам редактируемой зоны, если они есть
+              this.map.setCenter(centerCoordsFromGeometry(editableGeometry));
+            } else {
+              // По координатам других зон, либо по умолчанию
+              this.map.setCenter(
+                centerCoordsFromGeometry(allGeometry.features.length ? allGeometry : MAP_CENTER),
+              );
+            }
+          }
         }
       });
 
-      this.map.data.setStyle({
-        fillColor: BLUE_COLOR,
-        strokeWeight: 1,
-        editable: true,
+      // Установка стилей для полигонов
+      this.map.data.setStyle(feature => {
+        return feature.getProperty('isOther')
+          ? {
+              fillColor: PLACEHOLDER_TEXT_COLOR,
+              strokeColor: INFO_COLOR,
+              strokeWeight: 1,
+              cursor: 'hand',
+            }
+          : {
+              fillColor: BLUE_COLOR,
+              strokeWeight: 1,
+              cursor: 'hand',
+              editable: true,
+            };
       });
+    },
+    // Загружает все остальные зоны, чтобы отобразить их в виде серых полигонов на карте
+    loadOtherZones() {
+      api
+        .get('geo', {
+          params: { perPage: 0 },
+        })
+        .then(({ data }) => {
+          // Отфильтровываем текущую зону из загруженного списка
+          this.otherZones = data.filter(({ geoId }) => geoId !== this.zone.geoId);
+        });
     },
     save() {
       this.$refs.zone.validate(valid => {
@@ -190,6 +255,7 @@ export default {
     },
     onOpen() {
       this.waiting = false;
+      this.loadOtherZones();
     },
   },
   destroyed() {
@@ -197,10 +263,13 @@ export default {
   },
   watch: {
     'zone.geometry': {
-      handler(geometry) {
-        if (this.map && this.zone) this.updateMap(this.zone.type, geometry);
+      handler() {
+        this.updateMap();
       },
       deep: true,
+    },
+    otherZones() {
+      this.updateMap();
     },
     $route() {
       this.setOpenedZone(null);
