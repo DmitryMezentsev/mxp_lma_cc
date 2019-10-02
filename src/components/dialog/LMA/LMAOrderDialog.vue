@@ -60,7 +60,7 @@
           <el-col :span="10" :xs="24">
             <el-form-item :label="$t('courier')" prop="serviceInfo.courierId">
               <CourierSelect
-                v-if="!order.currentStatus.statusInfo.isEnd"
+                v-if="editAllowed"
                 width="100%"
                 :model.sync="order.serviceInfo.courierId"
                 clearable
@@ -76,7 +76,7 @@
           <el-col :span="14" :xs="24">
             <el-form-item :label="$t('deliveryAddress')" prop="recipient.address.value">
               <el-autocomplete
-                v-if="currentUser.locale === 'RU' && !order.currentStatus.statusInfo.isEnd"
+                v-if="currentUser.locale === 'RU' && editAllowed"
                 v-model="order.recipient.address.value"
                 :fetch-suggestions="dadataCleanAddress"
                 :debounce="700"
@@ -85,7 +85,7 @@
                 v-else
                 class="custom-readonly"
                 v-model="order.recipient.address.value"
-                :readonly="order.currentStatus.statusInfo.isEnd"
+                :readonly="!editAllowed"
               />
             </el-form-item>
           </el-col>
@@ -95,7 +95,7 @@
             <el-form-item :label="$t('deliveryZone')" prop="serviceInfo.deliveryZoneId">
               <RoutingZoneSelect
                 v-if="
-                  !order.currentStatus.statusInfo.isEnd &&
+                  editAllowed &&
                     (isAdmin ||
                       (!order.recipient.address.longitude || !order.recipient.address.longitude))
                 "
@@ -119,7 +119,7 @@
                 :options="deliveryDateOptions"
                 :clearable="false"
                 :model.sync="order.deliveryOrder.dateTimeInterval.date"
-                :readonly="order.currentStatus.statusInfo.isEnd"
+                :readonly="!editAllowed"
               />
               <div class="hint hidden-xs-only">{{ $t('dateTimeZoneHint') }}</div>
             </el-form-item>
@@ -136,7 +136,7 @@
                 :picker-options="
                   getTimePickerOptions('from', order.deliveryOrder.dateTimeInterval.timeInterval.to)
                 "
-                :readonly="order.currentStatus.statusInfo.isEnd"
+                :readonly="!editAllowed"
               />
             </el-form-item>
           </el-col>
@@ -152,7 +152,7 @@
                 :picker-options="
                   getTimePickerOptions('to', order.deliveryOrder.dateTimeInterval.timeInterval.from)
                 "
-                :readonly="order.currentStatus.statusInfo.isEnd"
+                :readonly="!editAllowed"
               />
             </el-form-item>
           </el-col>
@@ -165,7 +165,7 @@
             <el-input
               class="custom-readonly"
               v-model="order.recipient.contacts.name"
-              :readonly="!isAdmin || order.currentStatus.statusInfo.isEnd"
+              :readonly="!isAdmin || !editAllowed"
             />
           </el-form-item>
           <el-form-item
@@ -176,7 +176,7 @@
             <el-input
               class="custom-readonly"
               v-model="order.recipient.address.city"
-              :readonly="!isAdmin || order.currentStatus.statusInfo.isEnd"
+              :readonly="!isAdmin || !editAllowed"
             />
           </el-form-item>
         </el-col>
@@ -187,7 +187,7 @@
               class="custom-readonly"
               v-model="order.recipient.contacts.phone"
               v-inputmask
-              :readonly="!isAdmin || order.currentStatus.statusInfo.isEnd"
+              :readonly="!isAdmin || !editAllowed"
             />
           </el-form-item>
         </el-col>
@@ -208,7 +208,7 @@
               type="textarea"
               class="custom-readonly"
               v-model="order.deliverer.notes"
-              :readonly="!isAdmin || order.currentStatus.statusInfo.isEnd"
+              :readonly="!isAdmin || !editAllowed"
             />
           </el-form-item>
         </el-col>
@@ -362,7 +362,7 @@
       <el-button
         type="primary"
         @click="save"
-        v-if="showSaveBtn"
+        v-if="editAllowed"
         :loading="lock === 'saving'"
         :disabled="!!lock"
         key="save-btn"
@@ -490,44 +490,37 @@ export default {
       });
       return exists;
     },
-    // Показывать кнопку "Частичная выдача"
-    showPartialIssueBtn() {
+    // Разрешено ли завершать заказ выдачей / отменой
+    endAllowed() {
       return (
         this.order.currentStatus.statusInfo.stageId === 4 &&
         !this.order.currentStatus.statusInfo.isEnd &&
-        this.partialIssueAllowed &&
-        !this.partialIssueMode
+        !['420', '419', '417'].includes(this.order.currentStatus.orderStatusModelId.substring(0, 3))
       );
+    },
+    // Разрешено ли редактирование заказа
+    editAllowed() {
+      return (
+        !this.partialIssueMode &&
+        this.order.currentStatus.statusInfo.stageId < 5 &&
+        !['420', '419', '417'].includes(this.order.currentStatus.orderStatusModelId.substring(0, 3))
+      );
+    },
+    // Показывать кнопку "Частичная выдача"
+    showPartialIssueBtn() {
+      return this.endAllowed && this.partialIssueAllowed && !this.partialIssueMode;
     },
     // Показывать кнопку "Отмена"
     showCancelBtn() {
-      return (
-        this.order.currentStatus.statusInfo.stageId === 4 &&
-        !this.order.currentStatus.statusInfo.isEnd &&
-        !['420000', '419000', '417000'].includes(this.order.currentStatus.orderStatusModelId) &&
-        this.isAdmin &&
-        !this.partialIssueMode
-      );
+      return this.endAllowed && this.isAdmin && !this.partialIssueMode;
     },
     // Показывать кнопку "Возврат"
     showReturnBtn() {
-      return (
-        this.order.currentStatus.statusInfo.stageId === 4 &&
-        !this.order.currentStatus.statusInfo.isEnd &&
-        !this.partialIssueMode
-      );
+      return this.endAllowed && !this.partialIssueMode;
     },
     // Показывать кнопку "Выдать"
     showToIssueBtn() {
-      return (
-        (this.order.currentStatus.statusInfo.stageId === 4 &&
-          !this.order.currentStatus.statusInfo.isEnd) ||
-        this.partialIssueMode
-      );
-    },
-    // Показывать кнопку "Сохранить"
-    showSaveBtn() {
-      return !this.partialIssueMode && !this.order.currentStatus.statusInfo.isEnd;
+      return this.endAllowed || this.partialIssueMode;
     },
   },
   methods: {
