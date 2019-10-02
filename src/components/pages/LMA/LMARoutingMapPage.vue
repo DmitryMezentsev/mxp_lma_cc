@@ -2,13 +2,7 @@
   <div>
     <LMARoutingMapFilters />
     <div v-if="zonesList && ordersList" class="map-wrap">
-      <Map
-        height="700px"
-        :markers="ordersMarkers"
-        :zoom="10"
-        @init="mapInit"
-        @marker-click="openOrder"
-      />
+      <Map height="700px" :markers="ordersMarkers" @init="mapInit" @marker-click="openOrder" />
     </div>
     <Waiting v-else />
 

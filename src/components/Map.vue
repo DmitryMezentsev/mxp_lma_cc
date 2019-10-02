@@ -28,7 +28,7 @@ export default {
   name: 'Map',
   props: {
     height: { type: String, default: '400px' },
-    zoom: { type: Number, default: 7 },
+    zoom: { type: Number, default: 10 },
     help: { type: String },
     markers: { type: Array, default: () => [] },
   },
