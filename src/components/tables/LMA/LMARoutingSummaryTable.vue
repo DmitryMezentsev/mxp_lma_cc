@@ -57,7 +57,18 @@
         :span-method="ordersForClarificationSpanMethod"
         show-summary
       >
-        <el-table-column prop="internalNumber" :label="$t('orderNumber')" key="col-number" />
+        <el-table-column :label="$t('orderNumber')" key="col-number">
+          <template slot-scope="scope">
+            <router-link
+              :to="{
+                name: 'lmaOrdersList',
+                params: { type: 'search' },
+                query: { q: scope.row.internalNumber },
+              }"
+              >{{ scope.row.internalNumber }}</router-link
+            >
+          </template>
+        </el-table-column>
         <el-table-column width="100" align="right" key="col-orders-count" />
       </el-table>
     </div>
