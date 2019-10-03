@@ -29,8 +29,8 @@
     </div>
     <footer>
       <el-button-group>
-        <el-button @click="close">{{ $t('close') }}</el-button>
-        <el-button type="primary" @click="save" :disabled="!newCourier">
+        <el-button @click="close" :disabled="waiting">{{ $t('close') }}</el-button>
+        <el-button type="primary" @click="save" :disabled="!newCourier" :loading="waiting">
           {{ $t('save') }}
         </el-button>
       </el-button-group>
@@ -50,6 +50,7 @@ export default {
   data() {
     return {
       newCourier: null,
+      waiting: false,
     };
   },
   computed: {
@@ -65,10 +66,14 @@ export default {
       this.newCourier = value;
     },
     save() {
+      this.waiting = true;
+
       this.setCourier({
         courierId: this.newCourier,
         orderIds: [this.mapOrderDetails._id], // eslint-disable-line no-underscore-dangle
         callback: success => {
+          this.waiting = false;
+
           if (success) {
             this.$message({
               message: this.$t('courierAreSet'),
