@@ -76,5 +76,20 @@ export default {
         .then(() => callback(true))
         .catch(() => callback());
     },
+    // Помечает заказы, которым присвоена неправильная зона
+    setBadZone(context, { orderId, callback }) {
+      api
+        .patch(
+          `orders/${orderId}/serviceInfo/qualityAddressCode`,
+          {
+            value: 0,
+          },
+          {
+            headers: CORE_REQUEST_HEADERS,
+          },
+        )
+        .then(() => callback(true))
+        .catch(() => callback());
+    },
   },
 };

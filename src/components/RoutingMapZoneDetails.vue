@@ -76,7 +76,7 @@ export default {
   },
   methods: {
     ...mapMutations('routing', ['setMapZoneDetails']),
-    ...mapActions('orders', ['setCourier']),
+    ...mapActions('orders', ['setCourier', 'setBadZone']),
     close() {
       this.setMapZoneDetails(null);
     },
@@ -115,6 +115,12 @@ export default {
 
       if (this.ordersOutZone.length) {
         this.showOrdersOutZone = true;
+        this.ordersOutZone.forEach(({ id }) =>
+          this.setBadZone({
+            orderId: id,
+            callback() {},
+          }),
+        );
 
         this.close();
       }
