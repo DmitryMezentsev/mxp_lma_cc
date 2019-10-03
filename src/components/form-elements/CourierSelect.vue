@@ -16,8 +16,8 @@
     @change="onChange"
   >
     <el-option
-      v-for="(courier, i) in couriers"
-      :key="i"
+      v-for="courier in couriers"
+      :key="courier.access.coreSsoId"
       :label="courier.fullname"
       :value="courier.access.coreSsoId"
     />
@@ -107,11 +107,8 @@ export default {
     onVisibleChange(visible) {
       if (!visible) this.couriers = [];
     },
-  },
-  mounted() {
-    this.$nextTick(() => {
-      this.value = this.model;
-
+    // Загрузка названий для выбранных изначально значений
+    preloadData() {
       // eslint-disable-next-line no-nested-ternary, prettier/prettier
       const ids = Array.isArray(this.model)
         ? this.model
@@ -151,11 +148,18 @@ export default {
           });
         },
       );
+    },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.value = this.model;
+      this.preloadData();
     });
   },
   watch: {
     model(model) {
       this.value = model;
+      this.preloadData();
     },
   },
 };

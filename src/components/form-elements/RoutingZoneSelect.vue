@@ -16,8 +16,8 @@
     @change="onChange"
   >
     <el-option
-      v-for="(zone, i) in zones"
-      :key="i"
+      v-for="zone in zones"
+      :key="zone.coreSsoId"
       :label="zone.properties.name"
       :value="zone.coreSsoId"
     />
@@ -106,11 +106,8 @@ export default {
     onVisibleChange(visible) {
       if (!visible) this.zones = [];
     },
-  },
-  mounted() {
-    this.$nextTick(() => {
-      this.value = this.model;
-
+    // Загрузка названий для выбранных изначально значений
+    preloadData() {
       // eslint-disable-next-line no-nested-ternary, prettier/prettier
       const ids = Array.isArray(this.model)
         ? this.model
@@ -150,11 +147,18 @@ export default {
           });
         },
       );
+    },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.value = this.model;
+      this.preloadData();
     });
   },
   watch: {
     model(model) {
       this.value = model;
+      this.preloadData();
     },
   },
 };
