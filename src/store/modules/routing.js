@@ -18,6 +18,8 @@ export default {
     mapZoneDetails: null,
     // Информация о заказе для боковой панели страницы "Роутинг / Карта"
     mapOrderDetails: null,
+    // Информация для сводки
+    summary: null,
   },
   mutations: {
     clearZonesList(state) {
@@ -40,6 +42,9 @@ export default {
     },
     setOrdersList(state, payload) {
       state.ordersList = payload;
+    },
+    setSummary(state, payload) {
+      state.summary = payload;
     },
   },
   actions: {
@@ -112,6 +117,13 @@ export default {
         .then(({ data }) => {
           commit('setOrdersList', data);
         });
+    },
+    loadSummary({ commit }, params) {
+      commit('setSummary', null);
+
+      api.get('logistics', { params }).then(({ data }) => {
+        commit('setSummary', data);
+      });
     },
   },
 };

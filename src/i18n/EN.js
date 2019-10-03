@@ -286,4 +286,7 @@ export default {
   orderCancelled: 'Order cancelled',
   orderReturned: 'Order returned',
   orderCancelConfirmation: 'Are you sure you want to cancel this order?',
+  assignedOrders: 'Assigned orders',
+  unassignedOrders: 'Unassigned orders',
+  ordersForClarification: 'Orders for clarification',
 };

@@ -287,4 +287,7 @@ export default {
   orderCancelled: 'Заказ отменен',
   orderReturned: 'Заказ отправлен на возврат',
   orderCancelConfirmation: 'Вы уверены, что хотите отменить этот заказ?',
+  assignedOrders: 'Назначенные заказы',
+  unassignedOrders: 'Неназначенные заказы',
+  ordersForClarification: 'Заказы для уточнения',
 };

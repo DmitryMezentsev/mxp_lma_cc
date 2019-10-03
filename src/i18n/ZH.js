@@ -284,4 +284,7 @@ export default {
   orderCancelled: '',
   orderReturned: '',
   orderCancelConfirmation: '',
+  assignedOrders: '',
+  unassignedOrders: '',
+  ordersForClarification: '',
 };
