@@ -290,5 +290,5 @@ export default {
   closeCourier: '',
   courierShiftNotClosedMessage: '',
   closeCourierConfirmation: '',
-  closeCourierSuccessMessage: '',
+  courierClosed: '',
 };

@@ -291,7 +291,7 @@ export default {
   unassignedOrders: 'Неназначенные заказы',
   ordersForClarification: 'Заказы для уточнения',
   closeCourier: 'Закрыть курьера',
-  courierShiftNotClosedMessage: 'Перед сдачей курьер должен закрыть смену на складе.',
+  courierShiftNotClosedMessage: 'Смена на складе не завершена.',
   closeCourierConfirmation: 'Подтвердите прием денежных средств',
-  closeCourierSuccessMessage: 'Курьер успешно закрыт',
+  courierClosed: 'Курьер закрыт.',
 };

@@ -7,17 +7,17 @@
         class="close-courier-panel"
         v-if="acceptanceCodFromCourier && acceptanceCodFromCourier.orders.length"
       >
-        <el-button
-          v-if="shiftIsClosed"
-          type="primary"
-          :disabled="courierClosed"
-          :loading="closeWaiting"
-          @click="close"
-          >{{ $t('closeCourier') }}</el-button
-        >
-        <el-alert v-else type="error" :closable="false">{{
-          $t('courierShiftNotClosedMessage')
+        <el-alert v-if="courierClosed" type="success" :closable="false">{{
+          $t('courierClosed')
         }}</el-alert>
+        <div v-else>
+          <el-button v-if="shiftIsClosed" type="primary" :loading="closeWaiting" @click="close">{{
+            $t('closeCourier')
+          }}</el-button>
+          <el-alert v-else type="error" :closable="false">{{
+            $t('courierShiftNotClosedMessage')
+          }}</el-alert>
+        </div>
       </div>
 
       <LMAAcceptanceCodFromCourierTable :data="acceptanceCodFromCourier" />
@@ -75,17 +75,15 @@ export default {
           this.closeWaiting = true;
 
           this.closeCourier({
-            orders: this.acceptanceCodFromCourier.orders.map(({ _id }) => _id),
+            orders: this.acceptanceCodFromCourier.orders
+              // Оставляем только незакрытые заказы
+              .filter(({ cashOnDeliveryStatus }) => cashOnDeliveryStatus < 2)
+              // Оставляем только ID заказов
+              .map(({ _id }) => _id),
             callback: success => {
               this.closeWaiting = false;
 
-              if (success) {
-                this.courierClosed = true;
-                this.$message({
-                  message: this.$t('closeCourierSuccessMessage'),
-                  type: 'success',
-                });
-              }
+              if (success) this.courierClosed = true;
             },
           });
         }
@@ -98,6 +96,19 @@ export default {
   beforeRouteUpdate(to, from, next) {
     this.loadData(to.query);
     next();
+  },
+  watch: {
+    acceptanceCodFromCourier(acceptanceCodFromCourier) {
+      if (!acceptanceCodFromCourier) return;
+
+      // Определение, закрыт ли сам курьер
+      let courierClosed = true;
+      acceptanceCodFromCourier.orders.forEach(({ cashOnDeliveryStatus }) => {
+        if (cashOnDeliveryStatus < 2) courierClosed = false;
+      });
+
+      this.courierClosed = courierClosed;
+    },
   },
 };
 </script>

@@ -290,7 +290,7 @@ export default {
   unassignedOrders: 'Unassigned orders',
   ordersForClarification: 'Orders for clarification',
   closeCourier: 'Close courier',
-  courierShiftNotClosedMessage: 'Courier must close the shift at the warehouse.',
+  courierShiftNotClosedMessage: 'Warehouse shift not completed.',
   closeCourierConfirmation: 'Confirm acceptance of funds',
-  closeCourierSuccessMessage: 'Courier successfully closed',
+  courierClosed: 'Courier closed.',
 };
