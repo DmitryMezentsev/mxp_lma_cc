@@ -1,8 +1,8 @@
 // Предоплата
-export const PREPAY = 1;
+export const PREPAY = 0;
 // Наличными
-export const CASH = 2;
+export const CASH = 1;
 // Картой
-export const CARD = 3;
+export const CARD = 2;
 // Безопасная сделка
-export const SAFE = 4;
+export const SAFE = 3;
