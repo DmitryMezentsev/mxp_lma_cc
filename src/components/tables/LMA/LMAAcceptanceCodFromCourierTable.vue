@@ -3,11 +3,11 @@
     <div class="sum">
       <div class="total-orders">
         {{ $t('orders2') }}: {{ get(data, 'orders.length', 0) | number }}</div><!-- eslint-disable-line -->
-      <el-progress :stroke-width="20" :percentage="acquiringPercent" :show-text="false" />
+      <el-progress :stroke-width="20" :percentage="cashPercent" :show-text="false" />
       <div class="labels">
+        <div class="cash-sum">{{ $t('cashSum') }}: {{ get(data, 'totalCashCOD') | currency }}</div>
         <div class="acquiring-sum">
           {{ $t('acquiringSum') }}: {{ get(data, 'totalCardCOD') | currency }}</div><!-- eslint-disable-line -->
-        <div class="cash-sum">{{ $t('cashSum') }}: {{ get(data, 'totalCashCOD') | currency }}</div>
       </div>
     </div>
 
@@ -62,11 +62,11 @@ export default {
   },
   computed: {
     ...mapState('common', ['clientWidth']),
-    acquiringPercent() {
+    cashPercent() {
       if (!this.data) return 0;
 
       // eslint-disable-next-line prettier/prettier
-      const percent = this.data.totalCardCOD / ((this.data.totalCardCOD + this.data.totalCashCOD) / 100);
+      const percent = this.data.totalCashCOD / ((this.data.totalCardCOD + this.data.totalCashCOD) / 100);
       return Number.isNaN(percent) ? 0 : percent;
     },
     loading() {
@@ -98,11 +98,11 @@ export default {
       display: flex;
       justify-content: space-between;
 
-      .acquiring-sum {
+      .cash-sum {
         padding-right: 7px;
       }
 
-      .cash-sum {
+      .acquiring-sum {
         padding-left: 7px;
         text-align: right;
       }
