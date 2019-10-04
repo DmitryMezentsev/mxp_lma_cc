@@ -287,4 +287,8 @@ export default {
   assignedOrders: '',
   unassignedOrders: '',
   ordersForClarification: '',
+  closeCourier: '',
+  courierShiftNotClosedMessage: '',
+  closeCourierConfirmation: '',
+  closeCourierSuccessMessage: '',
 };

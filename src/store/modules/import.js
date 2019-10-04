@@ -52,12 +52,15 @@ export default {
     loadTemplates({ commit }, params) {
       commit('clearTemplates');
 
-      api.get('import/template', { params }).then(({ data, headers }) => {
-        commit('setTemplates', {
-          data,
-          pages: Number(headers[HEADER_PG_PAGE_COUNT]),
-        });
-      });
+      api
+        .get('import/template', { params })
+        .then(({ data, headers }) => {
+          commit('setTemplates', {
+            data,
+            pages: Number(headers[HEADER_PG_PAGE_COUNT]),
+          });
+        })
+        .catch(() => {});
     },
     removeTemplate(context, { id, callback }) {
       // eslint-disable-next-line prettier/prettier
@@ -94,12 +97,15 @@ export default {
     loadHistory({ commit }, params) {
       commit('clearHistory');
 
-      api.get('import/history', { params }).then(({ data, headers }) => {
-        commit('setHistory', {
-          data,
-          pages: Number(headers[HEADER_PG_PAGE_COUNT]),
-        });
-      });
+      api
+        .get('import/history', { params })
+        .then(({ data, headers }) => {
+          commit('setHistory', {
+            data,
+            pages: Number(headers[HEADER_PG_PAGE_COUNT]),
+          });
+        })
+        .catch(() => {});
     },
     import(context, { data, callback }) {
       api

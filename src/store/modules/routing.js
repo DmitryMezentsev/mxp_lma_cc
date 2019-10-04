@@ -51,12 +51,15 @@ export default {
     loadZonesList({ commit }, params) {
       commit('clearZonesList');
 
-      api.get('geo', { params }).then(({ data, headers }) => {
-        commit('setZonesList', {
-          data,
-          pages: Number(headers[HEADER_PG_PAGE_COUNT]),
-        });
-      });
+      api
+        .get('geo', { params })
+        .then(({ data, headers }) => {
+          commit('setZonesList', {
+            data,
+            pages: Number(headers[HEADER_PG_PAGE_COUNT]),
+          });
+        })
+        .catch(() => {});
     },
     patchZone(context, { id, params, callback }) {
       api
@@ -85,7 +88,10 @@ export default {
     openZone({ commit }, id) {
       commit('setOpenedZone', null);
 
-      api.get(`geo/${id}`).then(({ data }) => commit('setOpenedZone', data));
+      api
+        .get(`geo/${id}`)
+        .then(({ data }) => commit('setOpenedZone', data))
+        .catch(() => {});
     },
     closeZone({ commit }) {
       commit('setOpenedZone', null);
@@ -116,14 +122,18 @@ export default {
         })
         .then(({ data }) => {
           commit('setOrdersList', data);
-        });
+        })
+        .catch(() => {});
     },
     loadSummary({ commit }, params) {
       commit('setSummary', null);
 
-      api.get('logistics', { params }).then(({ data }) => {
-        commit('setSummary', data);
-      });
+      api
+        .get('logistics', { params })
+        .then(({ data }) => {
+          commit('setSummary', data);
+        })
+        .catch(() => {});
     },
   },
 };

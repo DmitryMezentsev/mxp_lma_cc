@@ -38,12 +38,15 @@ export default {
     loadList({ commit }, params) {
       commit('clearList');
 
-      api.get('pickup', { params }).then(({ data, headers }) => {
-        commit('setList', {
-          data,
-          pages: Number(headers[HEADER_PG_PAGE_COUNT]),
-        });
-      });
+      api
+        .get('pickup', { params })
+        .then(({ data, headers }) => {
+          commit('setList', {
+            data,
+            pages: Number(headers[HEADER_PG_PAGE_COUNT]),
+          });
+        })
+        .catch(() => {});
     },
     patchPickup(context, { id, params, callback }) {
       api

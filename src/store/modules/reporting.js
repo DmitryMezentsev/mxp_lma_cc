@@ -1,4 +1,4 @@
-import { HEADER_PG_PAGE_COUNT } from 'Constants/config';
+import { CORE_REQUEST_HEADERS, HEADER_PG_PAGE_COUNT } from 'Constants/config';
 import api from 'Common/js/api';
 
 export default {
@@ -38,17 +38,36 @@ export default {
             totalCashCOD,
             orders: data,
           });
-        });
+        })
+        .catch(() => {});
     },
     loadCodReports({ commit }, params) {
       commit('clearCodReports', null);
 
-      api.get('report', { params }).then(({ data, headers }) => {
-        commit('setCodReports', {
-          data,
-          pages: Number(headers[HEADER_PG_PAGE_COUNT]),
-        });
-      });
+      api
+        .get('report', { params })
+        .then(({ data, headers }) => {
+          commit('setCodReports', {
+            data,
+            pages: Number(headers[HEADER_PG_PAGE_COUNT]),
+          });
+        })
+        .catch(() => {});
+    },
+    // Закрытие курьера на странице "Прием НП от курьера"
+    closeCourier(context, { orders, callback }) {
+      api
+        .patch(
+          'orders/2/cashOnDeliveryStatus',
+          {
+            values: orders,
+          },
+          {
+            headers: CORE_REQUEST_HEADERS,
+          },
+        )
+        .then(() => callback(true))
+        .catch(() => callback());
     },
   },
 };

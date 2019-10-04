@@ -51,14 +51,17 @@ export default {
     loadList({ commit }, params) {
       commit('clearList');
 
-      api.get('order', { params }).then(({ data, headers }) => {
-        commit('setList', {
-          data,
-          pages: Number(headers[HEADER_PG_PAGE_COUNT]),
-          totalCount: Number(headers[HEADER_PG_TOTAL_COUNT]),
-          sumPriceDeclared: parseFloat(headers['x-sum-price-declared']),
-        });
-      });
+      api
+        .get('order', { params })
+        .then(({ data, headers }) => {
+          commit('setList', {
+            data,
+            pages: Number(headers[HEADER_PG_PAGE_COUNT]),
+            totalCount: Number(headers[HEADER_PG_TOTAL_COUNT]),
+            sumPriceDeclared: parseFloat(headers['x-sum-price-declared']),
+          });
+        })
+        .catch(() => {});
     },
     // Назначает курьера на группу заказов
     setCourier(context, { courierId, orderIds, callback }) {
