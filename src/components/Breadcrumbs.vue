@@ -3,7 +3,7 @@
     <el-breadcrumb-item
       v-for="(route, i) in path"
       v-if="!route.meta.isBase"
-      :to="!route.redirect ? { name: route.name } : null"
+      :to="!route.redirect && i !== path.length - 1 ? { name: route.name } : null"
       :key="i"
     >
       {{ getRoutePageName(route) }}</el-breadcrumb-item
