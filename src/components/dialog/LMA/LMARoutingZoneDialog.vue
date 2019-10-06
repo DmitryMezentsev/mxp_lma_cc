@@ -55,7 +55,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <Map class="map" height="600px" :help="$t('markOnMapZoneBoundaries')" @init="mapInit" />
+      <Map class="map" height="600px" :help="$t('markOnMapZoneBoundaries')" @init="mapOnInit" />
       <el-button @click.prevent="save" native-type="submit" class="hidden" />
     </el-form>
     <span v-if="zone" slot="footer" class="dialog-footer">
@@ -109,7 +109,8 @@ export default {
       },
       DANGER_COLOR,
       SUCCESS_COLOR,
-      otherZones: [],
+      otherZones: null,
+      mapRuns: false,
     };
   },
   computed: {
@@ -126,9 +127,16 @@ export default {
   methods: {
     ...mapMutations('routing', ['setOpenedZone']),
     ...mapActions('routing', ['closeZone', 'saveZone']),
-    mapInit(map) {
+    mapOnInit(map) {
+      this.map = map;
+
+      if (this.otherZones) this.runMap();
+    },
+    runMap() {
+      this.mapRuns = true;
+
       const refreshGeoJson = () => {
-        map.data.toGeoJson(geo => {
+        this.map.data.toGeoJson(geo => {
           const zones = [];
 
           geo.features.forEach(feature => {
@@ -144,12 +152,11 @@ export default {
         });
       };
 
-      map.data.setControls(['Polygon']);
-      map.data.addListener('addfeature', refreshGeoJson);
-      map.data.addListener('removefeature', refreshGeoJson);
-      map.data.addListener('setgeometry', refreshGeoJson);
+      this.map.data.setControls(['Polygon']);
+      this.map.data.addListener('addfeature', refreshGeoJson);
+      this.map.data.addListener('removefeature', refreshGeoJson);
+      this.map.data.addListener('setgeometry', refreshGeoJson);
 
-      this.map = map;
       this.updateMap(true);
     },
     clearMap() {
@@ -170,13 +177,15 @@ export default {
       // Все отображаемые на карте
       const allGeometry = clone(editableGeometry);
       // Добавление других (серых) зон
-      allGeometry.features = allGeometry.features.concat(
-        this.otherZones.map(({ type, geometry }) => ({
-          type,
-          geometry,
-          properties: { isOther: true },
-        })),
-      );
+      if (this.otherZones) {
+        allGeometry.features = allGeometry.features.concat(
+          this.otherZones.map(({ type, geometry }) => ({
+            type,
+            geometry,
+            properties: { isOther: true },
+          })),
+        );
+      }
 
       // Обновление карты
       this.map.data.toGeoJson(currentGeometry => {
@@ -227,6 +236,9 @@ export default {
         .then(({ data }) => {
           // Отфильтровываем текущую зону из загруженного списка
           this.otherZones = data.filter(({ geoId }) => geoId !== this.zone.geoId);
+
+          if (!this.mapRuns) this.runMap();
+          else this.updateMap();
         })
         .catch(() => {});
     },
@@ -268,9 +280,6 @@ export default {
         this.updateMap();
       },
       deep: true,
-    },
-    otherZones() {
-      this.updateMap();
     },
     $route() {
       this.setOpenedZone(null);
