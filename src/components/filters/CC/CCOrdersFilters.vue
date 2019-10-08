@@ -96,11 +96,9 @@
         </el-form-item>
       </div>
       <div class="filter clear-button">
-        <router-link :to="{ name: 'ccOrders', query: { page: $route.query.page } }">
-          <el-button v-autoblur :size="clientWidth < 469 ? 'small' : null">{{
-            $t('clearFilters')
-          }}</el-button>
-        </router-link>
+        <el-button v-autoblur :size="clientWidth < 469 ? 'small' : null" @click="clearFilters">{{
+          $t('clearFilters')
+        }}</el-button>
       </div>
     </div>
     <el-button @click.prevent native-type="submit" class="hidden" />
@@ -159,6 +157,16 @@ export default {
         // Снятие выбора при клике по уже выбранному варианту
         this.replaceRouteQueryParams({ type: null });
       }
+    },
+    // Сброс фильтров
+    clearFilters() {
+      // Без этого костыля сброс фильтров не срабатывает при применении только одного фильтра
+      this.$router.push(
+        this.$router.resolve({
+          name: 'ccOrders',
+          query: { page: this.$route.query.page },
+        }).href,
+      );
     },
   },
   watch: {
