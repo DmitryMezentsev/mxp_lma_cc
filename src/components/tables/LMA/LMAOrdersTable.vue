@@ -43,7 +43,7 @@
       key="col-status"
     />
 
-    <!-- Только курьерка -->
+    <!-- Только курьерские -->
     <el-table-column
       v-if="mode === 'courier' && clientWidth > 1279"
       prop="recipient.address.value"
@@ -66,7 +66,6 @@
     </el-table-column>
     <el-table-column
       v-if="mode === 'courier' && clientWidth > 419"
-      prop=""
       width="155"
       key="col-delivery-date"
     >
@@ -102,10 +101,10 @@
       key="col-type"
     >
       <template slot-scope="scope">
-        <div v-if="scope.row.serviceType === ORDER_TYPE_COURIER">
+        <div v-if="scope.row.serviceType === COURIER">
           {{ $t('courierOrders') }}
         </div>
-        <div v-else-if="scope.row.serviceType === ORDER_TYPE_POINT">
+        <div v-else-if="scope.row.serviceType === POINT">
           {{ $t('pointOrders') }}
         </div>
         <div v-else>{{ $t('other') }}</div>
@@ -117,10 +116,10 @@
       key="col-delivery-address-or-issue-point"
     >
       <template slot-scope="scope">
-        <div v-if="scope.row.serviceType === ORDER_TYPE_COURIER">
+        <div v-if="scope.row.serviceType === COURIER">
           {{ scope.row.recipient.address.value }}
         </div>
-        <div v-else-if="scope.row.serviceType === ORDER_TYPE_POINT"></div>
+        <div v-else-if="scope.row.serviceType === POINT"></div>
       </template>
     </el-table-column>
     <el-table-column
@@ -130,10 +129,10 @@
     >
       <template slot-scope="scope">
         <OrderDeliveryDate
-          v-if="scope.row.serviceType === ORDER_TYPE_COURIER"
+          v-if="scope.row.serviceType === COURIER"
           :date-time-interval="scope.row.deliveryOrder.dateTimeInterval"
         />
-        <div v-else-if="scope.row.serviceType === ORDER_TYPE_POINT"></div>
+        <div v-else-if="scope.row.serviceType === POINT"></div>
       </template>
     </el-table-column>
   </el-table>
@@ -142,10 +141,10 @@
 <script>
 import { mapState, mapMutations } from 'vuex';
 
+import { COURIER, POINT } from 'Constants/delivery-types';
 import mixins from 'Common/js/mixins';
-import OrderDeliveryDate from 'Components/OrderDeliveryDate';
-import { ORDER_TYPE_COURIER, ORDER_TYPE_POINT } from 'Constants/data';
 import { currency } from 'Common/js/filters';
+import OrderDeliveryDate from 'Components/OrderDeliveryDate';
 
 export default {
   name: 'LMAOrdersTable',
@@ -158,8 +157,8 @@ export default {
   },
   data() {
     return {
-      ORDER_TYPE_COURIER,
-      ORDER_TYPE_POINT,
+      COURIER,
+      POINT,
     };
   },
   computed: {

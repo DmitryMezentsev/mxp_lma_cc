@@ -15,14 +15,14 @@
 import { mapState, mapMutations, mapActions } from 'vuex';
 import moment from 'moment';
 
+import { BLUE_COLOR, SUCCESS_COLOR } from 'Constants/colors';
+import { MAP_CENTER } from 'Common/js/env';
+import { centerCoordsFromGeometry, value2Array } from 'Common/js/helpers';
 import LMARoutingMapFilters from 'Components/filters/LMA/LMARoutingMapFilters';
 import Map from 'Components/Map';
 import Waiting from 'Components/Waiting';
 import RoutingMapOrderDetails from 'Components/RoutingMapOrderDetails';
 import RoutingMapZoneDetails from 'Components/RoutingMapZoneDetails';
-import { centerCoordsFromGeometry, value2Array } from 'Common/js/helpers';
-import { BLUE_COLOR, SUCCESS_COLOR } from 'Constants/colors';
-import { MAP_CENTER } from 'Common/js/env';
 
 const today = moment().format('YYYY-MM-DD');
 

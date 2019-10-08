@@ -65,7 +65,7 @@ export const getBrowserName = () => Bowser.getParser(window.navigator.userAgent)
 
 // Анимированно скроллит страницу до указанной позиции
 export const scrollToPos = top => {
-  if (getBrowserName().name === 'Microsoft Edge') {
+  if (getBrowserName() === 'Microsoft Edge') {
     window.scrollTo(0, top);
   } else {
     window.scrollTo({ top, behavior: 'smooth' });

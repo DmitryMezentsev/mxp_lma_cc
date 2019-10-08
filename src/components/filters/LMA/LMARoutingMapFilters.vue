@@ -1,54 +1,56 @@
 <template>
-  <el-form class="filters">
-    <div class="filter">
-      <el-form-item :label="$t('date')">
-        <DatePicker
-          width="100%"
-          name="date"
-          :model="filters.date"
-          :clearable="false"
-          @change="change"
-        />
-      </el-form-item>
-    </div>
-    <div class="filter">
-      <el-form-item :label="$t('status')">
-        <StatusSelect
-          name="status"
-          width="100%"
-          :model="filters.status"
-          :noSelectPlaceholder="$t('all')"
-          clearable
-          multiple
-          @change="change"
-        />
-      </el-form-item>
-    </div>
-    <div class="filter">
-      <el-form-item :label="$t('courier')">
-        <CourierSelect
-          name="courier"
-          width="100%"
-          :model="filters.courier"
-          :noSelectPlaceholder="$t('all')"
-          clearable
-          multiple
-          @change="change"
-        />
-      </el-form-item>
-    </div>
-    <div class="filter">
-      <el-form-item :label="$t('zone')">
-        <RoutingZoneSelect
-          name="zone"
-          width="100%"
-          :model="filters.zone"
-          :noSelectPlaceholder="$t('all')"
-          clearable
-          multiple
-          @change="change"
-        />
-      </el-form-item>
+  <el-form>
+    <div class="filters">
+      <div class="filter">
+        <el-form-item :label="$t('date')">
+          <DatePicker
+            width="100%"
+            name="date"
+            :model="filters.date"
+            :clearable="false"
+            @change="change"
+          />
+        </el-form-item>
+      </div>
+      <div class="filter">
+        <el-form-item :label="$t('status')">
+          <StatusSelect
+            name="status"
+            width="100%"
+            :model="filters.status"
+            :noSelectPlaceholder="$t('all')"
+            clearable
+            multiple
+            @change="change"
+          />
+        </el-form-item>
+      </div>
+      <div class="filter">
+        <el-form-item :label="$t('courier')">
+          <CourierSelect
+            name="courier"
+            width="100%"
+            :model="filters.courier"
+            :noSelectPlaceholder="$t('all')"
+            clearable
+            multiple
+            @change="change"
+          />
+        </el-form-item>
+      </div>
+      <div class="filter">
+        <el-form-item :label="$t('zone')">
+          <RoutingZoneSelect
+            name="zone"
+            width="100%"
+            :model="filters.zone"
+            :noSelectPlaceholder="$t('all')"
+            clearable
+            multiple
+            @change="change"
+          />
+        </el-form-item>
+      </div>
     </div>
     <el-button @click.prevent native-type="submit" class="hidden" />
   </el-form>
@@ -86,9 +88,6 @@ export default {
 
 <style lang="less" scoped>
 .filters {
-  display: flex;
-  flex-wrap: wrap;
-
   .filter {
     width: 25%;
     box-sizing: border-box;

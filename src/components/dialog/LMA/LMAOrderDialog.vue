@@ -25,11 +25,7 @@
           </div>
           <div class="values-section">
             <Value :name="$t('shop')" :value="order.sender.brandName" />
-            <Value
-              :name="$t('issuePoint')"
-              :value="''"
-              v-if="order.serviceType === ORDER_TYPE_POINT"
-            />
+            <Value :name="$t('issuePoint')" :value="''" v-if="order.serviceType === POINT" />
           </div>
           <div class="values-section">
             <Value :name="$t('estimatedCost')" inner>
@@ -38,7 +34,7 @@
           </div>
         </el-col>
         <el-col :span="12" :xs="24">
-          <div class="values-section" v-if="order.serviceType === ORDER_TYPE_POINT">
+          <div class="values-section" v-if="order.serviceType === POINT">
             <Value :name="$t('storageTime')" :value="''" :suffix="$t('days')" :dot="false" />
             <Value :name="$t('arrivalDate')" :value="''" />
           </div>
@@ -54,7 +50,7 @@
           </div>
         </el-col>
       </el-row>
-      <div v-if="order.serviceType === ORDER_TYPE_COURIER">
+      <div v-if="order.serviceType === COURIER">
         <hr class="margin-top margin-bottom-x2" />
         <el-row :gutter="10">
           <el-col :span="10" :xs="24">
@@ -170,7 +166,7 @@
           </el-form-item>
           <el-form-item
             :label="$t('city')"
-            v-if="order.serviceType === ORDER_TYPE_POINT"
+            v-if="order.serviceType === POINT"
             prop="recipient.address.city"
           >
             <el-input
@@ -381,7 +377,8 @@ import { parallel } from 'async';
 import moment from 'moment';
 
 import { CORE_REQUEST_HEADERS } from 'Constants/config';
-import { ORDER_TYPE_COURIER, ORDER_TYPE_POINT, PARTIAL_ISSUE_SERVICE_ID } from 'Constants/data';
+import { PARTIAL_ISSUE_SERVICE_ID } from 'Constants/services';
+import { COURIER, POINT } from 'Constants/delivery-types';
 import api from 'Common/js/api';
 import mixins from 'Common/js/mixins';
 import { currency } from 'Common/js/filters';
@@ -413,8 +410,8 @@ export default {
     const today = Number(moment(moment().format('YYYY-MM-DD')).format('x'));
 
     return {
-      ORDER_TYPE_COURIER,
-      ORDER_TYPE_POINT,
+      COURIER,
+      POINT,
       order: null,
       deliveryDateOptions: {
         disabledDate: time => time.getTime() < today,

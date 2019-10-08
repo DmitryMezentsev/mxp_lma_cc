@@ -35,9 +35,7 @@
         key="col-status"
       />
       <el-table-column v-if="clientWidth > 719" :label="$t('paymentType')" key="col-payment-type">
-        <template slot-scope="scope">
-          <PaymentType :type="scope.row.paymentType" />
-        </template>
+        <template slot-scope="scope">{{ scope.row.paymentType | paymentType }}</template>
       </el-table-column>
       <el-table-column align="right" :label="$t('sum')" key="col-sum">
         <template slot-scope="scope">{{ scope.row.cod | currency }}</template>
@@ -50,13 +48,11 @@
 import { mapState } from 'vuex';
 import { get } from 'lodash';
 
-import { currency, number } from 'Common/js/filters';
-import PaymentType from 'Components/PaymentType';
+import { currency, number, paymentType } from 'Common/js/filters';
 
 export default {
   name: 'LMAAcceptanceCodFromCourierTable',
-  components: { PaymentType },
-  filters: { currency, number },
+  filters: { currency, number, paymentType },
   props: {
     data: { type: Object },
   },

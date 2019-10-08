@@ -1,6 +1,8 @@
 import moment from 'moment';
 
 import getStore from 'Base/store';
+import { COURIER, DRON, POINT, POST } from 'Constants/delivery-types';
+import { PREPAY, CASH, CARD, SAFE } from 'Constants/payment-types';
 
 // Разбивает число на разряды
 export const number = num => {
@@ -63,4 +65,48 @@ export const formatDate = (date, showTime) => {
   if (showTime) result += ` ${momentDate.format('LT')}`;
 
   return result;
+};
+
+// Тип доставки (самовывоз / курьерская / почта)
+export const deliveryType = type => {
+  switch (Number(type)) {
+    case COURIER:
+      return window.app.$t('courier');
+    case POINT:
+      return window.app.$t('issuePoint');
+    case POST:
+      return window.app.$t('post');
+    case DRON:
+      return window.app.$t('dron');
+    default:
+      return '—';
+  }
+};
+
+// Тип оплаты (предоплата / наличными / картой / безопасная сделка)
+export const paymentType = type => {
+  switch (Number(type)) {
+    case PREPAY:
+      return window.app.$t('prepay');
+    case CASH:
+      return window.app.$t('inCash');
+    case CARD:
+      return window.app.$t('byCard');
+    case SAFE:
+      return window.app.$t('safeTransaction');
+    default:
+      return '—';
+  }
+};
+
+// Выводит название склада по ID
+export const warehouseName = id => {
+  const { permissions } = getStore().getters['auth/getCurrentUser'];
+  return permissions.warehouseIds[id] || '—';
+};
+
+// Выводит название договора по ID
+export const contractName = id => {
+  const { permissions } = getStore().getters['auth/getCurrentUser'];
+  return permissions.contracts[id] || '—';
 };

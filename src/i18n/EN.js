@@ -293,4 +293,10 @@ export default {
   courierShiftNotClosedMessage: 'Warehouse shift not completed.',
   closeCourierConfirmation: 'Confirm acceptance of funds',
   courierClosed: 'Courier closed.',
+  dateOfCreation: 'Date of creation',
+  contract: 'Contract',
+  post: 'Post',
+  clearFilters: 'Clear filters',
+  showFilters: 'Show filters',
+  dron: 'Dron',
 };

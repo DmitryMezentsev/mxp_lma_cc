@@ -189,6 +189,11 @@ export default new VueRouter({
           meta: { pageName: 'orders' },
           children: [
             {
+              name: 'ccOrdersSearch',
+              path: 'search',
+              meta: { pageName: 'ordersSearchResult' },
+            },
+            {
               name: 'ccOrdersImport',
               path: 'import',
               component: CCOrdersImportPage,

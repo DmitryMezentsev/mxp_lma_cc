@@ -291,4 +291,10 @@ export default {
   courierShiftNotClosedMessage: '',
   closeCourierConfirmation: '',
   courierClosed: '',
+  dateOfCreation: '',
+  contract: '',
+  post: '',
+  clearFilters: '',
+  showFilters: '',
+  dron: '',
 };

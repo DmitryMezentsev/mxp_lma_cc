@@ -21,7 +21,6 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 import { parallel } from 'async';
 
 import { PER_PAGE_DEFAULT } from 'Constants/config';
-
 import LMAPickupsFilters from 'Components/filters/LMA/LMAPickupsFilters';
 import LMAPickupsTable from 'Components/tables/LMA/LMAPickupsTable';
 import LMAPickupDialog from 'Components/dialog/LMA/LMAPickupDialog';

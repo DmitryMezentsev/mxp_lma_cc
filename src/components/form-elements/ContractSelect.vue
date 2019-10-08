@@ -5,12 +5,11 @@
     :no-data-text="$t('noData')"
     :placeholder="noSelectPlaceholder || $tc('noSelect', 1)"
     :clearable="clearable"
-    :multiple="multiple"
     :disabled="disabled"
     :style="{ width }"
     @change="onChange"
   >
-    <el-option v-for="(name, id) in warehouses" :key="id" :label="name" :value="id" />
+    <el-option v-for="(name, id) in contracts" :key="id" :label="name" :value="id" />
   </el-select>
 </template>
 
@@ -19,25 +18,24 @@ import { mapState } from 'vuex';
 import { get } from 'lodash';
 
 export default {
-  name: 'WarehouseSelect',
+  name: 'ContractSelect',
   props: {
     clearable: { type: Boolean },
     disabled: { type: Boolean },
-    model: { type: [String, Array] },
+    model: { type: String },
     width: { type: String, default: '220px' },
-    multiple: { type: Boolean },
     name: { type: String },
     noSelectPlaceholder: { type: String },
   },
   data() {
     return {
-      value: this.multiple ? [] : null,
+      value: null,
     };
   },
   computed: {
     ...mapState('auth', ['currentUser']),
-    warehouses() {
-      return get(this.currentUser, 'permissions.warehouseIds', []);
+    contracts() {
+      return get(this.currentUser, 'permissions.contracts', []);
     },
   },
   methods: {

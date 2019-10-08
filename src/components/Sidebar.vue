@@ -82,7 +82,9 @@ import { WHITE_COLOR } from 'Constants/colors';
 import { WAREHOUSE_URL } from 'Common/js/env';
 import { scrollToPos } from 'Common/js/helpers';
 
-const isSearchRoute = route => route.name === 'lmaOrdersList' && route.params.type === 'search';
+const isSearchRoute = route =>
+  (route.name === 'lmaOrdersList' && route.params.type === 'search') ||
+  route.name === 'ccOrdersSearch';
 
 export default {
   name: 'Sidebar',
@@ -120,6 +122,7 @@ export default {
             isRoute: {
               name: [
                 'ccOrders',
+                'ccOrdersSearch',
                 'ccAddOrder',
                 'ccEditOrder',
                 'ccOrdersImport',
@@ -254,13 +257,24 @@ export default {
       q = trim(q); // eslint-disable-line no-param-reassign
 
       if (q) {
-        this.$router.push({
-          name: this.isLMA() ? 'lmaOrdersList' : 'ccOrders',
-          params: { type: 'search' },
-          query: { q },
-        });
+        this.$router.push(
+          this.isLMA()
+            ? {
+                name: 'lmaOrdersList',
+                params: { type: 'search' },
+                query: { q },
+              }
+            : {
+                name: 'ccOrdersSearch',
+                query: { q },
+              },
+        );
       } else {
-        this.$router.push({ name: this.homeName });
+        this.$router.push(
+          this.isLMA()
+            ? { name: 'lmaOrdersList', params: { type: 'courier' } }
+            : { name: 'ccOrders' },
+        );
       }
     },
     // Возвращает текущее состояние сайдбара, сохраненное в браузере

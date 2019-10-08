@@ -33,7 +33,7 @@ export default {
   computed: {
     ...mapState('auth', ['currentUser']),
     legalPersons() {
-      return get(this.currentUser.permissions, 'legalPersonIds', []);
+      return get(this.currentUser, 'permissions.legalPersonIds', []);
     },
   },
   methods: {

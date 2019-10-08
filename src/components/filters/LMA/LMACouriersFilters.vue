@@ -1,21 +1,23 @@
 <template>
-  <el-form class="filters">
-    <div class="filter hidden-xs-only">
-      <el-form-item :label="$t('fullName')">
-        <el-input v-model="filters.fullname" clearable />
-      </el-form-item>
-    </div>
-    <div class="filter">
-      <el-form-item :label="$t('inArchive')">
-        <el-switch v-model="filters.inArchive" />
-      </el-form-item>
+  <el-form>
+    <div class="filters">
+      <div class="filter hidden-xs-only">
+        <el-form-item :label="$t('fullName')">
+          <el-input v-model="filters.fullname" clearable />
+        </el-form-item>
+      </div>
+      <div class="filter">
+        <el-form-item :label="$t('inArchive')">
+          <el-switch v-model="filters.inArchive" />
+        </el-form-item>
+      </div>
     </div>
     <el-button @click.prevent native-type="submit" class="hidden" />
   </el-form>
 </template>
 
 <script>
-import { debounce, pick } from 'lodash';
+import { debounce } from 'lodash';
 
 import { str2Bool } from 'Common/js/helpers';
 import mixins from 'Common/js/mixins';
@@ -34,11 +36,9 @@ export default {
   watch: {
     '$route.query': {
       handler(query) {
-        const { fullname, inArchive } = pick(query, ['fullname', 'inArchive']);
-
         this.filters = {
-          fullname,
-          inArchive: str2Bool(inArchive),
+          fullname: query.fullname,
+          inArchive: str2Bool(query.inArchive),
         };
       },
       immediate: true,

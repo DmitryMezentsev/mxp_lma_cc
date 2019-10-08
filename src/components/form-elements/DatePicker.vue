@@ -14,6 +14,7 @@
     :range-separator="rangeSeparator"
     :picker-options="{ ...options, firstDayOfWeek: 1 }"
     :style="{ width }"
+    :prefix-icon="hideIcon ? 'none' : null"
   />
 </template>
 
@@ -37,6 +38,7 @@ export default {
     placeholder: { type: String },
     rangeSeparator: { type: String, default: '—' },
     options: { type: Object },
+    hideIcon: { type: Boolean },
   },
   data() {
     return {

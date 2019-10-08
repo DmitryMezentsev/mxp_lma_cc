@@ -1,14 +1,16 @@
 <template>
-  <el-form class="filters">
-    <div class="filter">
-      <el-form-item :label="$t('courier')">
-        <CourierSelect name="courier" :model="filters.courier" @change="change" />
-      </el-form-item>
-    </div>
-    <div class="filter">
-      <el-form-item :label="$t('date')">
-        <DatePicker name="date" :model="filters.date" :clearable="false" @change="change" />
-      </el-form-item>
+  <el-form>
+    <div class="filters">
+      <div class="filter">
+        <el-form-item :label="$t('courier')">
+          <CourierSelect name="courier" :model="filters.courier" @change="change" />
+        </el-form-item>
+      </div>
+      <div class="filter">
+        <el-form-item :label="$t('date')">
+          <DatePicker name="date" :model="filters.date" :clearable="false" @change="change" />
+        </el-form-item>
+      </div>
     </div>
     <el-button @click.prevent native-type="submit" class="hidden" />
   </el-form>

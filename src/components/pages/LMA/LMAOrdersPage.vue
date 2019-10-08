@@ -1,6 +1,9 @@
 <template>
   <div>
-    <LMAOrdersFilters v-if="$route.params.type === 'courier' || $route.params.type === 'point'" />
+    <LMAOrdersFilters
+      v-if="$route.params.type === 'courier' || $route.params.type === 'point'"
+      :type="$route.params.type"
+    />
     <br />
     <LMAOrdersTable :data="list.data" :mode="$route.params.type" :key="$route.params.type" />
     <div
@@ -32,6 +35,9 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 import { get } from 'lodash';
 
 import { PER_PAGE_DEFAULT } from 'Constants/config';
+import { COURIER, POINT } from 'Constants/delivery-types';
+import { number, currency } from 'Common/js/filters';
+import { value2Array } from 'Common/js/helpers';
 import LMAOrdersFilters from 'Components/filters/LMA/LMAOrdersFilters';
 import LMAOrdersTable from 'Components/tables/LMA/LMAOrdersTable';
 import Pagination from 'Components/Pagination';
@@ -39,8 +45,6 @@ import LMAOrderDialog from 'Components/dialog/LMA/LMAOrderDialog';
 import SelectCourierDialog from 'Components/dialog/SelectCourierDialog';
 import ActionsPanel from 'Components/ActionsPanel';
 import OrderStatusesHistoryDialog from 'Components/dialog/OrderStatusesHistoryDialog';
-import { number, currency } from 'Common/js/filters';
-import { value2Array } from 'Common/js/helpers';
 
 export default {
   name: 'LMAOrdersPage',
@@ -91,20 +95,24 @@ export default {
       this.loadList({
         perPage: PER_PAGE_DEFAULT,
         page: query.page,
+        // Поиск
+        search: params.type === 'search' ? query.q : null,
+        // Тип списка
         serviceType: (() => {
           switch (params.type) {
             case 'courier':
-              return 0;
+              return COURIER;
             case 'point':
-              return 1;
+              return POINT;
             default:
               return null;
           }
         })(),
-        search: params.type === 'search' ? query.q : null,
+        // Фильтры
         deliveryDateFrom: get(query, 'deliveryDate[0]'),
         deliveryDateTo: get(query, 'deliveryDate[1]'),
         statusId: value2Array(query.status),
+        courierId: value2Array(query.courier),
       });
     },
     setCourierToOrders(courierId) {
