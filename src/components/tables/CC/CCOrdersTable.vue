@@ -21,12 +21,9 @@
     <el-table-column :label="$t('type')" width="100" key="col-type" v-if="clientWidth > 639">
       <template slot-scope="scope">{{ scope.row.serviceType | deliveryType }}</template>
     </el-table-column>
-    <el-table-column
-      :label="$t('address')"
-      prop="recipient.address.value"
-      key="col-address"
-      v-if="clientWidth > 719"
-    />
+    <el-table-column :label="$t('address')" key="col-address" v-if="clientWidth > 719">
+      <template slot-scope="scope">{{ scope.row.recipient.address.value || '&mdash;' }}</template>
+    </el-table-column>
     <el-table-column width="155" key="col-delivery-date" v-if="clientWidth > 419">
       <template slot="header" slot-scope="scope">
         {{ $t('deliveryDate') }}&nbsp;
