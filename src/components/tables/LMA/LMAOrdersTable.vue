@@ -17,7 +17,7 @@
     </el-table-column>
     <el-table-column v-if="clientWidth > 719" :label="$t('recipient')" key="col-contacts">
       <template slot-scope="scope">
-        {{ scope.row.recipient.contacts.name }}<br />
+        <div>{{ scope.row.recipient.contacts.name }}</div>
         <small>{{ scope.row.recipient.contacts.phone }}</small>
       </template>
     </el-table-column>
@@ -26,9 +26,9 @@
         {{ $t('cod') }}&nbsp;/<br />{{ $t('proceeds') }}
       </template>
       <template slot-scope="scope">
-        {{ scope.row.cashOnDelivery.priceDeclared | currency }}<br />
-        {{ 0 | currency }}</template
-      >
+        <div>{{ scope.row.cashOnDelivery.priceDeclared | currency }}</div>
+        <div>{{ 0 | currency }}</div>
+      </template>
     </el-table-column>
     <el-table-column v-if="clientWidth > 1149" :label="$t('shop')" key="col-shop">
       <template slot-scope="scope">
@@ -55,13 +55,12 @@
       :label="$t('deliveryAddress')"
       key="col-delivery-courier-or-zone"
     >
-      <template slot="header">
-        {{ $t('courier') }}&nbsp;/<br />
-        {{ $t('zone') }}</template
+      <template slot="header"
+        >{{ $t('courier') }}&nbsp;/<br />{{ $t('zone') }}</template
       >
       <template slot-scope="scope">
-        {{ scope.row.serviceInfo.courierName || '—' }}<br />
-        {{ scope.row.serviceInfo.deliveryZoneName || '—' }}
+        <div>{{ scope.row.serviceInfo.courierName || '—' }}</div>
+        <div>{{ scope.row.serviceInfo.deliveryZoneName || '—' }}</div>
       </template>
     </el-table-column>
     <el-table-column
@@ -116,9 +115,7 @@
       key="col-delivery-address-or-issue-point"
     >
       <template slot-scope="scope">
-        <div v-if="scope.row.serviceType === COURIER">
-          {{ scope.row.recipient.address.value }}
-        </div>
+        <div v-if="scope.row.serviceType === COURIER">{{ scope.row.recipient.address.value }}</div>
         <div v-else-if="scope.row.serviceType === POINT"></div>
       </template>
     </el-table-column>

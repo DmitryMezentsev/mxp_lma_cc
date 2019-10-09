@@ -57,6 +57,7 @@ export default {
   dimensions: 'Dimensions',
   cm: 'cm',
   estimatedCost: 'Estimated cost',
+  estimatedCostShort: 'Est. cost',
   comment: 'Comment',
   recipientComment: 'Recipient comment',
   delivererComment: 'Deliverer comment',

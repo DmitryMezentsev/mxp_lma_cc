@@ -57,6 +57,7 @@ export default {
   dimensions: 'Габариты',
   cm: 'см',
   estimatedCost: 'Оценочная стоимость',
+  estimatedCostShort: 'Оцен. стоимость',
   comment: 'Комментарий',
   recipientComment: 'Комментарий получателя',
   delivererComment: 'Комментарий доставщика',

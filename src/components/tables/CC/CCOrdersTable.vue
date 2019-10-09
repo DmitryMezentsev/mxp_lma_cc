@@ -44,6 +44,15 @@
         <small>{{ scope.row.recipient.contacts.phone }}</small>
       </template>
     </el-table-column>
+    <el-table-column key="col-cost" v-if="clientWidth > 1359">
+      <template slot="header">
+        {{ $t('cod') }}&nbsp;/<br />{{ $t('estimatedCostShort') }}
+      </template>
+      <template slot-scope="scope">
+        <div>{{ scope.row.cashOnDelivery.priceFact | currency }}</div>
+        <div>{{ scope.row.cashOnDelivery.estimatedCost | currency }}</div>
+      </template>
+    </el-table-column>
     <el-table-column :label="$t('status')" key="col-status" v-if="clientWidth > 479">
       <template slot-scope="scope">
         <div>{{ scope.row.currentStatus.statusInfo.name }}</div>
@@ -57,13 +66,13 @@
 import { mapState, mapMutations } from 'vuex';
 
 import mixins from 'Common/js/mixins';
-import { deliveryType, formatDate } from 'Common/js/filters';
+import { deliveryType, formatDate, currency } from 'Common/js/filters';
 import OrderDeliveryDate from 'Components/OrderDeliveryDate';
 
 export default {
   name: 'CCOrdersTable',
   mixins: [mixins],
-  filters: { deliveryType, formatDate },
+  filters: { deliveryType, formatDate, currency },
   components: { OrderDeliveryDate },
   props: {
     data: { type: Array },
