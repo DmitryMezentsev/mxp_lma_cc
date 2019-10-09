@@ -2,7 +2,7 @@
   <el-select
     class="custom-disabled"
     v-model="value"
-    :no-data-text="$t('noData')"
+    :no-data-text="$t('noLegalPersons')"
     :placeholder="$tc('noSelect', 0)"
     :clearable="clearable"
     :disabled="disabled"

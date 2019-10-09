@@ -297,4 +297,7 @@ export default {
   clearFilters: '',
   showFilters: '',
   dron: '',
+  noContracts: '',
+  noWarehouses: '',
+  noLegalPersons: '',
 };

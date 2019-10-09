@@ -2,7 +2,7 @@
   <el-select
     class="custom-disabled"
     v-model="value"
-    :no-data-text="$t('noData')"
+    :no-data-text="$t('noWarehouses')"
     :placeholder="noSelectPlaceholder || $tc('noSelect', 1)"
     :clearable="clearable"
     :multiple="multiple"

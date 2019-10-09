@@ -300,4 +300,7 @@ export default {
   clearFilters: 'Сбросить фильтры',
   showFilters: 'Показать фильтры',
   dron: 'Дрон',
+  noContracts: 'Нет договоров',
+  noWarehouses: 'Нет складов',
+  noLegalPersons: 'Нет юр. лиц',
 };

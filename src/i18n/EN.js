@@ -299,4 +299,7 @@ export default {
   clearFilters: 'Clear filters',
   showFilters: 'Show filters',
   dron: 'Dron',
+  noContracts: 'No contracts',
+  noWarehouses: 'No warehouses',
+  noLegalPersons: 'No legal persons',
 };
