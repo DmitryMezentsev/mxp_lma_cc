@@ -8,6 +8,16 @@
         </a>
       </template>
     </el-table-column>
+    <el-table-column
+      :label="$t('creatingDate')"
+      width="100"
+      key="col-creation-date"
+      v-if="clientWidth > 799"
+    >
+      <template slot-scope="scope">{{
+        scope.row.serviceInfo.createdAt | formatDate(true)
+      }}</template>
+    </el-table-column>
     <el-table-column :label="$t('type')" width="100" key="col-type" v-if="clientWidth > 639">
       <template slot-scope="scope">{{ scope.row.serviceType | deliveryType }}</template>
     </el-table-column>
@@ -28,29 +38,17 @@
         <OrderDeliveryDate :date-time-interval="scope.row.deliveryOrder.dateTimeInterval" />
       </template>
     </el-table-column>
-    <el-table-column :label="$t('warehouse')" key="col-warehouse" v-if="clientWidth > 1159">
-      <template slot-scope="scope">{{ scope.row.sender.warehouseId | warehouseName }}</template>
+    <el-table-column :label="$t('recipient')" key="col-recipient" v-if="clientWidth > 1199">
+      <template slot-scope="scope">
+        <div>{{ scope.row.recipient.contacts.name }}</div>
+        <small>{{ scope.row.recipient.contacts.phone }}</small>
+      </template>
     </el-table-column>
-    <el-table-column :label="$t('contract')" key="col-contract" v-if="clientWidth > 1359">
-      <template slot-scope="scope">{{
-        scope.row.contracts.senderPrincipalContractId | contractName
-      }}</template>
-    </el-table-column>
-    <el-table-column
-      :label="$t('status')"
-      prop="currentStatus.statusInfo.name"
-      key="col-status"
-      v-if="clientWidth > 479"
-    />
-    <el-table-column
-      :label="$t('creatingDate')"
-      width="100"
-      key="col-creation-date"
-      v-if="clientWidth > 799"
-    >
-      <template slot-scope="scope">{{
-        scope.row.serviceInfo.createdAt | formatDate(true)
-      }}</template>
+    <el-table-column :label="$t('status')" key="col-status" v-if="clientWidth > 479">
+      <template slot-scope="scope">
+        <div>{{ scope.row.currentStatus.statusInfo.name }}</div>
+        <small>{{ scope.row.currentStatus.sourceCreatedAt | formatDate(true) }}</small>
+      </template>
     </el-table-column>
   </el-table>
 </template>
@@ -59,13 +57,13 @@
 import { mapState, mapMutations } from 'vuex';
 
 import mixins from 'Common/js/mixins';
-import { deliveryType, formatDate, warehouseName, contractName } from 'Common/js/filters';
+import { deliveryType, formatDate } from 'Common/js/filters';
 import OrderDeliveryDate from 'Components/OrderDeliveryDate';
 
 export default {
   name: 'CCOrdersTable',
   mixins: [mixins],
-  filters: { deliveryType, formatDate, warehouseName, contractName },
+  filters: { deliveryType, formatDate },
   components: { OrderDeliveryDate },
   props: {
     data: { type: Array },
