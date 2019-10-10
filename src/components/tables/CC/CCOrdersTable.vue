@@ -1,9 +1,9 @@
 <template>
   <el-table v-loading="loading" :data="data" :empty-text="$t(loading ? 'pleaseWait' : 'noOrders')">
-    <el-table-column :label="$t('orderNumberInCompanyOrShop')" key="col-number">
+    <el-table-column :label="$t('orderNumberInDeliveryOrShop')" key="col-number">
       <template slot-scope="scope">
         <a @click.prevent="setOpened(scope.$index)">
-          {{ scope.row.internalNumber }}<br />
+          {{ scope.row.principal.internalNumber || '&mdash;' }}<br />
           {{ scope.row.sender.internalNumber }}
         </a>
       </template>

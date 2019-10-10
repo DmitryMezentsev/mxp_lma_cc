@@ -78,7 +78,7 @@
           <el-col :span="8" :xs="24">
             <h4>{{ $t('carData') }}</h4>
             <el-form-item
-              :label="$t('brand')"
+              :label="$tc('brand', 1)"
               prop="transport.brand"
               class="autocomplete-form-item"
             >

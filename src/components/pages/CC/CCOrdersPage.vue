@@ -20,6 +20,7 @@
       <Pagination :max-page="list.pages" />
 
       <CCOrderDialog />
+      <OrderStatusesHistoryDialog />
     </div>
 
     <router-view />
@@ -36,10 +37,17 @@ import CCOrdersFilters from 'Components/filters/CC/CCOrdersFilters';
 import CCOrdersTable from 'Components/tables/CC/CCOrdersTable';
 import Pagination from 'Components/Pagination';
 import CCOrderDialog from 'Components/dialog/CC/CCOrderDialog';
+import OrderStatusesHistoryDialog from 'Components/dialog/OrderStatusesHistoryDialog';
 
 export default {
   name: 'CCOrdersPage',
-  components: { CCOrderDialog, CCOrdersTable, CCOrdersFilters, Pagination },
+  components: {
+    OrderStatusesHistoryDialog,
+    CCOrderDialog,
+    CCOrdersTable,
+    CCOrdersFilters,
+    Pagination,
+  },
   computed: {
     ...mapState('orders', ['list']),
   },

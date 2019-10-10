@@ -28,9 +28,10 @@
             <Value :name="$t('issuePoint')" :value="''" v-if="order.serviceType === POINT" />
           </div>
           <div class="values-section">
-            <Value :name="$t('estimatedCost')" inner>
-              {{ order.cashOnDelivery.estimatedCost | currency }}</Value
-            >
+            <Value
+              :name="$t('estimatedCost')"
+              :value="order.cashOnDelivery.estimatedCost | currency"
+            />
           </div>
         </el-col>
         <el-col :span="12" :xs="24">
@@ -210,30 +211,8 @@
         </el-col>
       </el-row>
       <hr class="margin-bottom-x2" />
-      <div class="services">
-        <h4>{{ $t('services') }}:</h4>
-        <div class="services-list">
-          <div v-if="services">
-            <div class="tags-wrap">
-              <TagChecked
-                v-for="(service, i) in services"
-                :key="i"
-                :label="service.name"
-                :checked="service.completed"
-              />
-            </div>
-            <div v-show="!services.length">{{ $t('noServices') }}.</div>
-          </div>
-          <div v-else>
-            <el-alert
-              type="error"
-              :title="$t('deliveryServicesLoadingError')"
-              :closable="false"
-              show-icon
-            />
-          </div>
-        </div>
-      </div>
+      <h4>{{ $t('services') }}:</h4>
+      <OrderServices :order="order" />
       <hr class="margin-top-x2 margin-bottom-x2" />
       <div class="places">
         <h4>{{ $t('orderPlaces') }}:</h4>
@@ -315,7 +294,7 @@
           </el-table-column>
         </el-table>
         <br />
-        <Value :name="$t('totalGoodsPrice')" inner>{{ goodsSum | currency }}</Value>
+        <Value :name="$t('totalGoodsPrice')" :value="goodsSum | currency" />
       </div>
       <el-button class="hidden" native-type="submit" @click.prevent="save" :disabled="!!lock" />
     </el-form>
@@ -371,7 +350,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapGetters, mapActions } from 'vuex';
+import { mapState, mapMutations, mapGetters } from 'vuex';
 import { cloneDeep, get } from 'lodash';
 import { parallel } from 'async';
 import moment from 'moment';
@@ -390,12 +369,14 @@ import CourierSelect from 'Components/form-elements/CourierSelect';
 import RoutingZoneSelect from 'Components/form-elements/RoutingZoneSelect';
 import DatePicker from 'Components/form-elements/DatePicker';
 import LMAOrderEndDialog from 'Components/dialog/LMA/LMAOrderEndDialog';
+import OrderServices from 'Components/OrderServices';
 
 export default {
   name: 'LMAOrderDialog',
   mixins: [mixins],
   filters: { currency },
   components: {
+    OrderServices,
     LMAOrderEndDialog,
     DatePicker,
     RoutingZoneSelect,
@@ -428,7 +409,7 @@ export default {
   },
   computed: {
     ...mapState('auth', ['currentUser']),
-    ...mapState('common', ['clientWidth', 'deliveryServices']),
+    ...mapState('common', ['clientWidth']),
     ...mapState('orders', {
       orders: 'list',
       opened: 'opened',
@@ -441,25 +422,6 @@ export default {
       set() {
         this.setOpened(null);
       },
-    },
-    // Список услуг для раздела "Услуги"
-    services() {
-      if (!this.deliveryServices) return null;
-
-      const services = [];
-
-      this.order.additionalDeliveryServices.forEach(({ deliveryServiceId }) => {
-        let checked = false;
-        const { name } = this.deliveryServices[deliveryServiceId];
-
-        this.order.completedAdditionalDeliveryServices.forEach(completedService => {
-          if (completedService.deliveryServiceId === deliveryServiceId) checked = true;
-        });
-
-        services.push({ checked, name });
-      });
-
-      return services;
     },
     // Максимальные значения количества товаров
     maxGoodsCounts() {
@@ -522,7 +484,6 @@ export default {
   },
   methods: {
     ...mapMutations('orders', ['setOpened', 'setStatusesHistory']),
-    ...mapActions('common', ['loadDeliveryServices']),
     // Отмена заказа
     cancel() {
       this.confirm(this.$t('orderCancelConfirmation'), ok => {
@@ -662,9 +623,6 @@ export default {
         });
     },
   },
-  created() {
-    this.loadDeliveryServices();
-  },
   destroyed() {
     this.setOpened(null);
   },
@@ -700,16 +658,6 @@ h4 {
 
 .el-date-editor {
   width: 100%;
-}
-
-.services {
-  .services-list {
-    margin-top: 0.5em;
-
-    .tags-wrap {
-      font-size: 0;
-    }
-  }
 }
 
 .places {

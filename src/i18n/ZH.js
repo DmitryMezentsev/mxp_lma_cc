@@ -301,4 +301,10 @@ export default {
   noContracts: '',
   noWarehouses: '',
   noLegalPersons: '',
+  deliveryServiceNumber: '',
+  orderNumberInDeliveryOrShop: '',
+  trackNumber: '',
+  email: '',
+  vat: '',
+  vendorCode: '',
 };
