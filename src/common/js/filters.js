@@ -110,3 +110,21 @@ export const contractName = id => {
   const { permissions } = getStore().getters['auth/getCurrentUser'];
   return permissions.contracts[id] || '—';
 };
+
+// Выводит НДС
+export const VAT = val => {
+  switch (val) {
+    case 1:
+      return window.app.$t('noVat');
+    case 2:
+      return '0%';
+    case 3:
+      return '10%';
+    case 4:
+      return '18%';
+    case 5:
+      return '20%';
+    default:
+      return '—';
+  }
+};

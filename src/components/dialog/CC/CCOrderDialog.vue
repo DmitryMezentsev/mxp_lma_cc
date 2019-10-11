@@ -91,10 +91,7 @@
       <el-table :data="order.goods" :empty-text="$t('noGoods')">
         <el-table-column :label="$tc('name', 3)" prop="name" key="col-name" />
         <el-table-column :label="$t('vat')" key="col-vat" width="65" v-if="clientWidth > 599">
-          <template slot-scope="scope">
-            <span v-if="scope.row.tax || scope.row.tax === 0">{{ scope.row.tax }}%</span>
-            <span v-else>&mdash;</span>
-          </template>
+          <template slot-scope="scope">{{ scope.row.tax | VAT }}</template>
         </el-table-column>
         <el-table-column key="col-vendor-code" v-if="clientWidth > 799">
           <template slot="header">
@@ -155,14 +152,14 @@ import { mapState, mapMutations } from 'vuex';
 import { cloneDeep } from 'lodash';
 
 import { COURIER, POST, DRON } from 'Constants/delivery-types';
-import { deliveryType, warehouseName, currency } from 'Common/js/filters';
+import { deliveryType, warehouseName, currency, VAT } from 'Common/js/filters';
 import Value from 'Components/Value';
 import Dimensions from 'Components/Dimensions';
 import OrderServices from 'Components/OrderServices';
 
 export default {
   name: 'CCOrderDialog',
-  filters: { deliveryType, warehouseName, currency },
+  filters: { deliveryType, warehouseName, currency, VAT },
   components: { OrderServices, Value, Dimensions },
   data() {
     return {

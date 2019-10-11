@@ -310,4 +310,5 @@ export default {
   email: 'E-mail',
   vat: 'НДС',
   vendorCode: 'Артикул',
+  noVat: 'Без НДС',
 };

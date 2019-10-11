@@ -309,4 +309,5 @@ export default {
   email: 'E-mail',
   vat: 'VAT',
   vendorCode: 'Vendor code',
+  noVat: 'No VAT',
 };
