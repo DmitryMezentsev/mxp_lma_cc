@@ -13,7 +13,7 @@
     "LMA",
     "CC"
   ],
-  "author": "Dmitry Mezentsev",
+  "author": "Dmitry Mezentsev <mezentsevdmitry51@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.19",

@@ -21,7 +21,6 @@ export default {
   codReports: 'COD Reports',
   serviceActs: 'Service acts',
   settings: 'Settings',
-  accountSettings: 'Settings',
   logout: 'Logout',
   from: 'From | from | From',
   to: 'To | to | To',

@@ -21,7 +21,6 @@ export default {
   codReports: 'Отчеты о перечислении НП',
   serviceActs: 'Акты об оказании услуг',
   settings: 'Настройки',
-  accountSettings: 'Настройки',
   logout: 'Выйти',
   from: 'От | от | С',
   to: 'До | до | До',

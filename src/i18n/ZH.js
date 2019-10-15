@@ -21,7 +21,6 @@ export default {
   codReports: '',
   serviceActs: '',
   settings: '',
-  accountSettings: '',
   logout: '',
   from: '',
   to: '',
