@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import { get } from 'lodash';
 
 import api from 'Common/js/api';
 import { getParam, redirectToAuth } from 'Common/js/helpers';
@@ -39,14 +40,15 @@ export default {
     loadCurrentUser({ commit }) {
       api
         .post('token/decode')
-        .then(({ data: { data: { locale, permissions, roles }, sub } }) => {
+        .then(({ data: { data: { locale, permissions, roles, userData } } }) => {
           commit('setCurrentUser', {
             locale: locale.language,
             currency: locale.currency,
             timezone: locale.timeZone,
             permissions,
             roles,
-            login: sub,
+            name: userData.name,
+            email: userData.email,
           });
         })
         .catch(() => {});
@@ -54,6 +56,6 @@ export default {
   },
   getters: {
     getCurrentUser: state => state.currentUser,
-    isAdmin: state => state.currentUser && state.currentUser.roles.includes('admin'),
+    isAdminLMA: state => get(state, 'currentUser.roles.lma') === 'admin',
   },
 };

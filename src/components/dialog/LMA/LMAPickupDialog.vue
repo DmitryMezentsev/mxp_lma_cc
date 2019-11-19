@@ -177,7 +177,7 @@
         :width.sync="pickup.dimensions.widthFact"
         :height.sync="pickup.dimensions.heightFact"
         :length.sync="pickup.dimensions.lengthFact"
-        :readonly="!isAdmin"
+        :readonly="!isAdminLMA"
       />
       <el-row :gutter="10">
         <el-col :span="8" :xs="24">
@@ -186,7 +186,7 @@
               name="weightFact"
               className="custom-readonly"
               :model.sync="pickup.dimensions.weightFact"
-              :readonly="!isAdmin"
+              :readonly="!isAdminLMA"
             />
           </el-form-item>
         </el-col>
@@ -257,7 +257,7 @@ export default {
       pickups: 'list',
       opened: 'opened',
     }),
-    ...mapGetters('auth', ['isAdmin']),
+    ...mapGetters('auth', ['isAdminLMA']),
     visible: {
       get() {
         return !!this.pickup;

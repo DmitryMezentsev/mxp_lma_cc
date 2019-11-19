@@ -93,7 +93,7 @@
               <RoutingZoneSelect
                 v-if="
                   editAllowed &&
-                    (isAdmin ||
+                    (isAdminLMA ||
                       (!order.recipient.address.longitude || !order.recipient.address.longitude))
                 "
                 :model.sync="order.serviceInfo.deliveryZoneId"
@@ -162,7 +162,7 @@
             <el-input
               class="custom-readonly"
               v-model="order.recipient.contacts.name"
-              :readonly="!isAdmin || !editAllowed"
+              :readonly="!isAdminLMA || !editAllowed"
             />
           </el-form-item>
           <el-form-item
@@ -173,7 +173,7 @@
             <el-input
               class="custom-readonly"
               v-model="order.recipient.address.city"
-              :readonly="!isAdmin || !editAllowed"
+              :readonly="!isAdminLMA || !editAllowed"
             />
           </el-form-item>
         </el-col>
@@ -184,7 +184,7 @@
               class="custom-readonly"
               v-model="order.recipient.contacts.phone"
               v-inputmask
-              :readonly="!isAdmin || !editAllowed"
+              :readonly="!isAdminLMA || !editAllowed"
             />
           </el-form-item>
         </el-col>
@@ -205,7 +205,7 @@
               type="textarea"
               class="custom-readonly"
               v-model="order.deliverer.notes"
-              :readonly="!isAdmin || !editAllowed"
+              :readonly="!isAdminLMA || !editAllowed"
             />
           </el-form-item>
         </el-col>
@@ -414,7 +414,7 @@ export default {
       orders: 'list',
       opened: 'opened',
     }),
-    ...mapGetters('auth', ['isAdmin']),
+    ...mapGetters('auth', ['isAdminLMA']),
     visible: {
       get() {
         return !!this.order;
@@ -471,7 +471,7 @@ export default {
     },
     // Показывать кнопку "Отмена"
     showCancelBtn() {
-      return this.endAllowed && this.isAdmin && !this.partialIssueMode;
+      return this.endAllowed && this.isAdminLMA && !this.partialIssueMode;
     },
     // Показывать кнопку "Возврат"
     showReturnBtn() {

@@ -1,6 +1,8 @@
 <template>
   <el-alert type="info" :closable="false"
-    >{{ $t('youAreLoggedInAs') }} {{ currentUser.login }}</el-alert
+    >{{ $t('youAreLoggedInAs') }} <b class="email">{{ currentUser.email }}</b> ({{
+      currentUser.name
+    }}).</el-alert
   >
 </template>
 
